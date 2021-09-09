@@ -10,7 +10,7 @@ public class UserComparison {
         Comparator<User> sortByNumberComparator = new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                return o1.getNumber() - o2.getNumber();
+                return o1.getId() - o2.getId();
             }
         };
         return sortByNumberComparator;
@@ -28,6 +28,7 @@ public class UserComparison {
 
     public Map<String, Comparator<User>> getComparatorMap() {
         Map<String, Comparator<User>> sorByMap = new HashMap<>();
+
         sorByMap.put("sortByNumber", sortByNumber());
         sorByMap.put("sortByName", sortByName());
         return sorByMap;

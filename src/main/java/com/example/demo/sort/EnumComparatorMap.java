@@ -2,7 +2,7 @@ package com.example.demo.sort;
 
 public enum EnumComparatorMap {
 
-    SORTBYNUMBER("sortByNumber"), SORTBYNAME("sortByName");
+    SORT_BY_NUMBER("sortByNumber"), SORT_BY_NAME("sortByName");
 
     private final String value;
 
