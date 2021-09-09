@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserService {
-
+    SortUsers sortUsers = new SortUsers();
     private final Scanner in = new Scanner(System.in);
     List<com.example.demo.sort.User> userList = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class UserService {
             userList.add(new com.example.demo.sort.User(userId, userName));
         }
         while (choiceAddUser.equals("y"));
-        SortUsers sortUsers = new SortUsers();
+
         sortUsers.startTwo(userList);
     }
 
