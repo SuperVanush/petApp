@@ -4,7 +4,7 @@ import java.util.*;
 
 public class SortUsers {
 
-   private UserComparison sortUser = new UserComparison();
+    private UserComparison sortUser = new UserComparison();
     private final Scanner in = new Scanner(System.in);
 
     public void startTwo(List<User> userList) {
