@@ -2,7 +2,6 @@ package com.example.demo.sort;
 
 import com.example.demo.dao.Storage;
 import com.example.demo.dao.UserStorage;
-import com.example.demo.exception.UserListException;
 
 import java.util.Scanner;
 
@@ -24,11 +23,7 @@ public class UserService {
 
             //TODO Сделать логику по обработке исключений. addUser горит красненьким, обрати внимание)
 
-            try {
-                userStorage.add(new User(userId, userName));
-            } catch (UserListException e) {
-                e.printStackTrace();
-            }
+            userStorage.add(new User(userId, userName));
 
             System.out.println("Do you want add next user? y/n");
             choiceAddUser = in.next();
