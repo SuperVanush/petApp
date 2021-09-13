@@ -11,7 +11,6 @@ public class SortUsers {
         int choiceNumberSort;
         String continueChoice;
         Map<String, Comparator<User>> getMap = sortUser.getComparatorMap();
-
         do {
             System.out.println("Add sort metod");
             System.out.println("1. Sort by name of users");

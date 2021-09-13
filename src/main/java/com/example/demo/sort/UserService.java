@@ -2,6 +2,7 @@ package com.example.demo.sort;
 
 import com.example.demo.dao.Storage;
 import com.example.demo.dao.UserStorage;
+import com.example.demo.exception.UserListException;
 
 import java.util.Scanner;
 
@@ -20,10 +21,15 @@ public class UserService {
 
             System.out.println("Input ID of user");
             userId = in.nextInt();
-
+            try {
+                userStorage.add(new User(userId, userName));
+            }
+            catch (UserListException e){
+            System.out.println("The User with ID is already in List");
+            }
             //TODO Сделать логику по обработке исключений. addUser горит красненьким, обрати внимание)
 
-            userStorage.add(new User(userId, userName));
+
 
             System.out.println("Do you want add next user? y/n");
             choiceAddUser = in.next();
