@@ -25,17 +25,13 @@ public class UserService {
                 userStorage.add(new User(userId, userName));
             }
             catch (UserListException e){
-            System.out.println("The User with ID is already in List");
+            System.out.println(e.getMessage());
             }
-            //TODO Сделать логику по обработке исключений. addUser горит красненьким, обрати внимание)
-
-
-
             System.out.println("Do you want add next user? y/n");
             choiceAddUser = in.next();
         }
         while (choiceAddUser.equals("y"));
-        sortUsers.startTwo(userStorage.getListOfElements());
+        sortUsers.startSortUsers(userStorage.getListOfElements());
     }
 }
 
