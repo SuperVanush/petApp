@@ -1,13 +1,16 @@
-package com.example.demo.sort;
+package com.example.demo.service;
 
-import com.example.demo.dao.Storage;
-import com.example.demo.dao.UserStorage;
+import com.example.demo.model.User;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
-public class SortUsers {
+public class SortService {
 
-    private UserComparison sortUser = new UserComparison();
+    private final UserComparison sortUser = new UserComparison();
     private final Scanner in = new Scanner(System.in);
 
     public void startSortUsers(List<User> userList) {

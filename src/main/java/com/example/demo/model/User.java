@@ -1,5 +1,4 @@
-package com.example.demo.sort;
-
+package com.example.demo.model;
 
 public class User implements Comparable<User> {
 
@@ -9,14 +8,6 @@ public class User implements Comparable<User> {
     public User(int id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", number=" + id +
-                '}';
     }
 
     public String getName() {
@@ -37,16 +28,16 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User o) {
-
-        if (id == o.getId())
-            return 0;
-        else {
-            if (id > o.getId())
-                return 1;
-            else return -1;
-        }
+        return Integer.compare(id, o.getId());
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
 
 

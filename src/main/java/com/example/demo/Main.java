@@ -1,7 +1,7 @@
 package com.example.demo;
 
 
-import com.example.demo.sort.UserService;
+import com.example.demo.service.UserService;
 
 public class Main {
 

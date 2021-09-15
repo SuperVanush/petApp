@@ -1,4 +1,6 @@
-package com.example.demo.sort;
+package com.example.demo.service;
+
+import com.example.demo.model.User;
 
 import java.util.Comparator;
 import java.util.HashMap;

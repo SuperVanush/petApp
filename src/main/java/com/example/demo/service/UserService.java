@@ -1,13 +1,14 @@
-package com.example.demo.sort;
+package com.example.demo.service;
 
 import com.example.demo.dao.Storage;
 import com.example.demo.dao.UserStorage;
 import com.example.demo.exception.UserListException;
+import com.example.demo.model.User;
 
 import java.util.Scanner;
 
 public class UserService {
-    private SortUsers sortUsers = new SortUsers();
+    private final SortService sortService = new SortService();
     private final Scanner in = new Scanner(System.in);
     private final Storage<User> userStorage = new UserStorage();
 
@@ -31,7 +32,7 @@ public class UserService {
             choiceAddUser = in.next();
         }
         while (choiceAddUser.equals("y"));
-        sortUsers.startSortUsers(userStorage.getListOfElements());
+        sortService.startSortUsers(userStorage.getListOfElements());
     }
 }
 
