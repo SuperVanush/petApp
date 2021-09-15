@@ -1,16 +1,17 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.Storage;
-import com.example.demo.dao.UserStorage;
 import com.example.demo.exception.UserListException;
+import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
 
 import java.util.Scanner;
 
 public class UserService {
-    private final SortService sortService = new SortService();
+
     private final Scanner in = new Scanner(System.in);
-    private final Storage<User> userStorage = new UserStorage();
+    private final SortService sortService = new SortService();
+    private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
     public void startApp() {
         String choiceAddUser;
@@ -24,15 +25,14 @@ public class UserService {
             userId = in.nextInt();
             try {
                 userStorage.add(new User(userId, userName));
-            }
-            catch (UserListException e){
-            System.out.println(e.getMessage());
+            } catch (UserListException e) {
+                System.out.println(e.getMessage());
             }
             System.out.println("Do you want add next user? y/n");
             choiceAddUser = in.next();
         }
         while (choiceAddUser.equals("y"));
-        sortService.startSortUsers(userStorage.getListOfElements());
+        sortService.startSortUsers();
     }
 }
 

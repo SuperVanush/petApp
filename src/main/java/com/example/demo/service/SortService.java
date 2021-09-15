@@ -1,19 +1,21 @@
 package com.example.demo.service;
 
+import com.example.demo.dao.Storage;
+import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class SortService {
 
-    private final UserComparison sortUser = new UserComparison();
     private final Scanner in = new Scanner(System.in);
+    private final UserComparison sortUser = new UserComparison();
+    private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
-    public void startSortUsers(List<User> userList) {
+    public void startSortUsers() {
         int choiceNumberSort;
         String continueChoice;
         Map<String, Comparator<User>> getMap = sortUser.getComparatorMap();
@@ -30,12 +32,12 @@ public class SortService {
 
                 choiceNumberSort = in.nextInt();
                 if (choiceNumberSort == 1) {
-                    Collections.sort(userList, getMap.get(EnumComparatorMap.SORT_BY_NAME.getValue()));
-                    System.out.println(userList);
+                    Collections.sort(userStorage.getListOfElements(), getMap.get(EnumComparatorMap.SORT_BY_NAME.getValue()));
+                    System.out.println(userStorage.getListOfElements());
                 }
                 if (choiceNumberSort == 2) {
-                    Collections.sort(userList, getMap.get(EnumComparatorMap.SORT_BY_NUMBER.getValue()));
-                    System.out.println(userList);
+                    Collections.sort(userStorage.getListOfElements(), getMap.get(EnumComparatorMap.SORT_BY_NUMBER.getValue()));
+                    System.out.println(userStorage.getListOfElements());
                 }
                 System.out.println("Do you want to continiue ?   y/n");
                 continueChoice = in.next();
