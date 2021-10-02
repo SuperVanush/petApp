@@ -1,12 +1,11 @@
 package com.example.demo;
 
-
-import com.example.demo.service.UserService;
+import com.example.demo.view.StartProgramm;
 
 public class Main {
 
     public static void main(String[] args) {
-        UserService startUserService = new UserService();
-        startUserService.startApp();
+        StartProgramm startProgramm = new StartProgramm();
+        startProgramm.startApp();
     }
 }
