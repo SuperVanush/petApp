@@ -10,9 +10,8 @@ import java.util.Scanner;
 public class UserService {
    private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
-         public void makeSearchID (int id,String name) {
+         public void makeAddUser (int id,String name) {
             try {
-                StartProgramm startProgramm = new StartProgramm();
                userStorage.add(new User (id,name));
             } catch (UserListException e) {
                 System.out.println(e.getMessage());

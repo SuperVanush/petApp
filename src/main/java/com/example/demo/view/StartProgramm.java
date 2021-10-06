@@ -1,5 +1,6 @@
 package com.example.demo.view;
 
+import com.example.demo.dao.UserStorage;
 import com.example.demo.service.EnumComparatorMap;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 public class StartProgramm {
     private final SortService sortService = new SortService();
     private final UserService userServise = new UserService();
+    private final UserStorage userStorage = new UserStorage();
     String choiceAddUser;
     String name;
     int id;
@@ -23,7 +25,7 @@ public class StartProgramm {
             name = in.next();
             System.out.println("Input ID of user");
             id = in.nextInt();
-            userServise.makeSearchID(id, name);
+            userServise.makeAddUser(id, name);
 
             System.out.println("Do you want add next user? y/n");
             choiceAddUser = in.next();
@@ -32,7 +34,6 @@ public class StartProgramm {
        sortMenu();
       }
     public void sortMenu (){
-              SortService menuSort = new SortService();
         System.out.println("MENU");
         System.out.println("1. Sort users");
         System.out.println("2. Other action");
@@ -45,12 +46,13 @@ public class StartProgramm {
                 System.out.println("2. Sort by ID of users");
                 choiceNumberSort = in.nextInt();
                 if (choiceNumberSort == 1) {
-                  menuSort.startSortUsersByName();
+                  System.out.println(sortService.startSortUsersByName());
                                   }
                 if (choiceNumberSort == 2) {
-                  menuSort.startSortUsersByNumber();
+                  sortService.startSortUsersByNumber();
+                    System.out.println(userStorage.getListOfElements());
                 }
-                System.out.println("Do you want to continiue ?   y/n");
+                System.out.println("Do you want to continue ?   y/n");
                 continueChoice = in.next();
             }
             while (continueChoice.equals("y"));
