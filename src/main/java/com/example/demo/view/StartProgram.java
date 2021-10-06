@@ -48,8 +48,7 @@ public class StartProgram {
                     System.out.println(sortService.startSortUsersByName());
                 }
                 if (choiceNumberSort == 2) {
-                    sortService.startSortUsersByNumber();
-                    System.out.println(userStorage.getListOfElements());
+                    System.out.println(sortService.startSortUsersByNumber());
                 }
                 System.out.println("Do you want to continue ?   y/n");
                 continueChoice = in.next();
