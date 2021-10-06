@@ -10,7 +10,6 @@ public class StartProgram {
 
     private final SortService sortService = new SortService();
     private final UserService userService = new UserService();
-    private final UserStorage userStorage = new UserStorage();
     public static final Scanner in = new Scanner(System.in);
 
     public void startApp() {
