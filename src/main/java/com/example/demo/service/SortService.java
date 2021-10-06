@@ -15,11 +15,11 @@ public class SortService {
         Map<String, Comparator<User>> getMap = sortUser.getComparatorMap();
         Collections.sort(userStorage.getListOfElements(), getMap.get(EnumComparatorMap.SORT_BY_NAME.getValue()));
         return userStorage.getListOfElements();
-                }
+    }
 
     public List<User> startSortUsersByNumber() {
         Map<String, Comparator<User>> getMap = sortUser.getComparatorMap();
         Collections.sort(userStorage.getListOfElements(), getMap.get(EnumComparatorMap.SORT_BY_NUMBER.getValue()));
         return userStorage.getListOfElements();
     }
-    }
+}

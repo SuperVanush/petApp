@@ -1,11 +1,11 @@
 package com.example.demo;
 
-import com.example.demo.view.StartProgramm;
+import com.example.demo.view.StartProgram;
 
 public class Main {
 
     public static void main(String[] args) {
-        StartProgramm startProgramm = new StartProgramm();
-        startProgramm.startApp();
+        StartProgram startProgram = new StartProgram();
+        startProgram.startApp();
     }
 }
