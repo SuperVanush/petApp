@@ -1,6 +1,5 @@
 package com.example.demo.view;
 
-import com.example.demo.dao.UserStorage;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
 
@@ -13,14 +12,12 @@ public class StartProgram {
     public static final Scanner in = new Scanner(System.in);
 
     public void startApp() {
-        int id;
         String choiceAddUser;
         String name;
+        int id=0;
         do {
             System.out.println("Input name of user");
             name = in.next();
-            System.out.println("Input ID of user");
-            id = in.nextInt();
             userService.makeAddUser(id, name);
             System.out.println("Do you want add next user? y/n");
             choiceAddUser = in.next();

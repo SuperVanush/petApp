@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface Storage<T> {
 
-    void add(T t) throws UserListException;
+  void add(T t) ;
 
-    void remove(int i) throws UserListException;
+   // void remove(int i) throws UserListException;
 
     void printAll();
 
