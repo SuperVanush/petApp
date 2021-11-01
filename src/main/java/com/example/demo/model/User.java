@@ -4,9 +4,9 @@ public class User implements Comparable<User> {
 
     private int id;
     private String name;
-    private static int idSequence = 1;
+ //  private static int idSequence = 1;
     public User(int id, String name) {
-        this.id = idSequence++;
+        this.id = id;
         this.name = name;
     }
 

@@ -18,10 +18,11 @@ public class UserStorage implements Storage<User> {
     }
 
     @Override
-    public void add(User user)  { // throws UserListException {
-     ///   for (User userInList : userList) {
-     //       if (userInList.getId() == user.getId()) {
-      //          throw new UserListException("The User with ID is already in List");
+    public void add(User user)  {
+        int idSequence = 1;
+      for (User userInList : userList) {
+          userInList.setId(idSequence++);
+      }
         userList.add(user);  }
 
     @Override
