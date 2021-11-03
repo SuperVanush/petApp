@@ -15,13 +15,10 @@ public class UserStorage implements Storage<User> {
         userList.add(new User(3, "Loki"));
         userList.add(new User(4, "Thor"));
     }
-
     @Override
     public void add(User user) {
-        int idSequence = 1;
-        for (User userInList : userList) {
-            userInList.setId(idSequence++);
-        }
+        int idSequence = userList.size();
+        user.setId(idSequence++);
         userList.add(user);
     }
 
