@@ -3,6 +3,7 @@ package com.example.demo.dao;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserStorage implements Storage<User> {
@@ -11,14 +12,15 @@ public class UserStorage implements Storage<User> {
 
     public UserStorage() {
         userList.add(new User(1, "John"));
-        userList.add(new User(2, "Mary"));
+      //  userList.add(new User(2, "Mary"));
         userList.add(new User(3, "Loki"));
         userList.add(new User(4, "Thor"));
+
     }
     @Override
     public void add(User user) {
-        int idSequence = userList.size();
-        user.setId(idSequence++);
+        int idSequence = Collections.max(userList).getId();
+        user.setId(idSequence+1);
         userList.add(user);
     }
 

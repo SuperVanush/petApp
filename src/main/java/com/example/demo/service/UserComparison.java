@@ -6,7 +6,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserComparison {
+public class
+UserComparison {
 
     private Comparator<User> sortByNumber() {
         Comparator<User> sortByNumberComparator = new Comparator<User>() {
