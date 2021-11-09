@@ -12,18 +12,21 @@ public class UserStorage implements Storage<User> {
 
     public UserStorage() {
         userList.add(new User(1, "John"));
-      //  userList.add(new User(2, "Mary"));
+        userList.add(new User(2, "Mary"));
         userList.add(new User(3, "Loki"));
-        userList.add(new User(4, "Thor"));
+        userList.add(new User(77, "Thor"));
+        }
 
-    }
     @Override
     public void add(User user) {
-        int idSequence = Collections.max(userList).getId();
-        user.setId(idSequence+1);
+        int maxId = userList.get(0).getId();
+        for (int i = 1; i < userList.size(); i++) {
+            int maxNextId = userList.get(userList.listIterator(i).nextIndex()).getId();
+            if (maxNextId > maxId)
+            maxId = maxNextId;
+            user.setId(maxId+1);  }
         userList.add(user);
     }
-
     @Override
     public void printAll() {
         userList.forEach(System.out::println);
