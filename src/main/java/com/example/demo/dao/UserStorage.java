@@ -43,10 +43,12 @@ public class UserStorage implements Storage<User> {
 
     @Override
     public void remove(int id) {
+        int indexOfDeleteUser = 0;
         for (User userInList : userList) {
-            userList.remove(userInList.getId());
-            break;
-        }
+        if (userInList.getId()==id) {
+          indexOfDeleteUser= userList.indexOf(userInList);
+           }
+        } userList.remove(indexOfDeleteUser);
         System.out.println(userList);
     }
 }
