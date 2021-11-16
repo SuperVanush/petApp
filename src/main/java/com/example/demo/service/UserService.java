@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.Storage;
+import com.example.demo.dao.UserStorage;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
 import lombok.SneakyThrows;
@@ -12,6 +13,7 @@ public class UserService {
     public void makeAddUser(String name) {
         userStorage.add(new User(name));
        }
+       public void removeUserById (int id){userStorage.remove(id); }
     }
 
 

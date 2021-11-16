@@ -31,7 +31,8 @@ public class StartProgram {
         String continueChoice;
         System.out.println("MENU");
         System.out.println("1. Sort users");
-        System.out.println("2. Other action");
+        System.out.println("2. Delete user");
+        System.out.println("3. Other action");
         System.out.println("Make your choice");
         int actionChoice = in.nextInt();
         if (actionChoice == 1) {
@@ -50,7 +51,17 @@ public class StartProgram {
                 continueChoice = in.next();
             }
             while (continueChoice.equals("y"));
-        } else {
+        }
+        if (actionChoice ==2) {
+            do {
+                System.out.println("Input ID of user to delete");
+                int id = in.nextInt();
+                userService.removeUserById(id);
+            System.out.println("Do you want to continue ?   y/n");
+            continueChoice = in.next();}
+            while (continueChoice.equals("y"));
+        }
+        else {
             System.out.println("other choice is wrong");
         }
     }

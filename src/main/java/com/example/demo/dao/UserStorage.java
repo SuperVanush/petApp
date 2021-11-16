@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
@@ -15,18 +16,20 @@ public class UserStorage implements Storage<User> {
         userList.add(new User(2, "Mary"));
         userList.add(new User(3, "Loki"));
         userList.add(new User(77, "Thor"));
-        }
+    }
 
     @Override
     public void add(User user) {
         int maxId = userList.get(0).getId();
-        for (int i = 1; i < userList.size(); i++) {
-            int maxNextId = userList.get(userList.listIterator(i).nextIndex()).getId();
+        for (User userInList : userList) {
+            int maxNextId = userInList.getId();
             if (maxNextId > maxId)
-            maxId = maxNextId;
-            user.setId(maxId+1);  }
+                maxId = maxNextId;
+            user.setId(maxId + 1);
+        }
         userList.add(user);
     }
+
     @Override
     public void printAll() {
         userList.forEach(System.out::println);
@@ -36,4 +39,16 @@ public class UserStorage implements Storage<User> {
     public List<User> getListOfElements() {
         return userList;
     }
+
+
+    @Override
+    public void remove(int id) {
+        for (User userInList : userList) {
+            userList.remove(userInList.getId());
+            break;
+        }
+        System.out.println(userList);
+    }
 }
+
+
