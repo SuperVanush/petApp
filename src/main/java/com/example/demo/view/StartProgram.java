@@ -1,9 +1,12 @@
 package com.example.demo.view;
 
 import com.example.demo.dao.UserStorage;
+import com.example.demo.exception.UserListException;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
+import lombok.SneakyThrows;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class StartProgram {
@@ -12,7 +15,7 @@ public class StartProgram {
     private final UserService userService = new UserService();
     public static final Scanner in = new Scanner(System.in);
 
-    public void startApp() {
+    public void startApp(){
         String choiceAddUser;
         String name;
         do {
@@ -26,6 +29,7 @@ public class StartProgram {
         sortMenu();
     }
 
+    @SneakyThrows
     public void sortMenu() {
         int choiceNumberSort;
         String continueChoice;
