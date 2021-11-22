@@ -1,8 +1,6 @@
 package com.example.demo.dao;
-
 import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +46,10 @@ public class UserStorage implements Storage<User> {
                 indexOfDeleteUser = userList.indexOf(userInList);
                 userList.remove(indexOfDeleteUser);
                 System.out.println(userList);
+            }}
+        for (User userInList : userList)
+            if (userInList.getId() != id) {
+                throw new UserListException ();
             }
-        }
+                    }
     }
-}
