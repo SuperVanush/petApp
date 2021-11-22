@@ -1,12 +1,8 @@
 package com.example.demo.view;
 
-import com.example.demo.dao.UserStorage;
-import com.example.demo.exception.UserListException;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
-import lombok.SneakyThrows;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class StartProgram {
@@ -29,7 +25,6 @@ public class StartProgram {
         sortMenu();
     }
 
-    @SneakyThrows
     public void sortMenu() {
         int choiceNumberSort;
         String continueChoice;
