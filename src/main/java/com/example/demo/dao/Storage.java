@@ -8,7 +8,7 @@ public interface Storage<T> {
 
    void remove(int id) throws UserListException;
 
-    void printAll();
+   void printAll();
 
     List<T> getListOfElements();
 

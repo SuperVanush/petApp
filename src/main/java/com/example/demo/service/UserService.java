@@ -3,8 +3,7 @@ import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
-
-import java.io.IOException;
+import com.example.demo.view.StartProgram;
 
 public class UserService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
@@ -19,9 +18,15 @@ public class UserService {
 
         } catch (UserListException e) {
 
-            System.err.println("not found ID");
+            System.err.println(e.getMessage());
+                   }
+        finally {
+            StartProgram goBackToMainMenu = new StartProgram();
+            goBackToMainMenu.startApp();
         }
     }
+    public void printUserList (){
+       userStorage.printAll();}
 }
 
 
