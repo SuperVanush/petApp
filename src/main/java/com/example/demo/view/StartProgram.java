@@ -11,7 +11,6 @@ public class StartProgram {
 
     public void startApp() {
         int numberOfChoice;
-        String choiceOfPointMenu;
         do {
             System.out.println("MENU");
             System.out.println("Select action");
@@ -46,26 +45,36 @@ public class StartProgram {
         while (numberOfChoice!=9);
     }
     public void setChoiceAddUser() {
-        String choiceToBackToMainMenu;
+        int numberOfChoiseAddUser;
         do {
-            String name;
-            System.out.println("Input name of user");
-            name = in.next();
-            userService.makeAddUser(name);
-            System.out.println("The User was Added");
-            System.out.println("To continue press y  ");
-            System.out.println("Any key is return to main menu");
-            choiceToBackToMainMenu = in.next();
-                    }
-        while (choiceToBackToMainMenu.equals("y"));
+            System.out.println("1. ADD USER");
+            System.out.println("2. Return to main menu");
+            numberOfChoiseAddUser = in.nextInt();
+                   if (numberOfChoiseAddUser == 1) {
+                String name;
+                System.out.println("Input name of user");
+                name = in.next();
+                userService.makeAddUser(name);
+                System.out.println("The User was Added");
+            }
+                   if (numberOfChoiseAddUser==2){
+               break;
+                   }
+                   if (numberOfChoiseAddUser!=1 && numberOfChoiseAddUser!=2)
+                   {
+                       System.err.println("Error");
+                       numberOfChoiseAddUser =1;
+                   }
+        }
+        while (numberOfChoiseAddUser==1);
     }
     public void sortMenu() {
         int choiceNumberSort;
-       String sortChoiceContinue;
-       do {
+           do {
            System.out.println("Add sort metod");
            System.out.println("1. Sort by name of users");
            System.out.println("2. Sort by ID of users");
+           System.out.println("3. Return to main menu");
            choiceNumberSort = in.nextInt();
            if (choiceNumberSort == 1) {
                System.out.println(sortService.startSortUsersByName());
@@ -73,15 +82,38 @@ public class StartProgram {
            if (choiceNumberSort == 2) {
                System.out.println(sortService.startSortUsersByNumber());
            }
-           System.out.println("Doyou want to choice next sort?     y/n  ");
-           sortChoiceContinue=in.next();
+           if (choiceNumberSort ==3)
+               {
+                   break;
+               }
+           if (choiceNumberSort!=1&&choiceNumberSort!=2&&choiceNumberSort!=3)
+           {
+               System.err.println("ERROR");
+               choiceNumberSort=1;
+           }
        }
-       while (sortChoiceContinue.equals("y"));
+       while (choiceNumberSort==1 || choiceNumberSort==2 || choiceNumberSort==3);
     }
     public void removeUserById() {
-        System.out.println("Input ID of user to delete");
-        int id = in.nextInt();
-        userService.removeUserById(id);
+        int removeMenuChoice;
+        do {
+            System.out.println("1. Remove User");
+            System.out.println("2. Return to main menu");
+            removeMenuChoice = in.nextInt();
+            if (removeMenuChoice == 1) {
+                System.out.println("Input ID of user to delete");
+                int id = in.nextInt();
+                userService.removeUserById(id);
+            }
+            if (removeMenuChoice==2){
+                break;
+            }
+            if (removeMenuChoice !=1&& removeMenuChoice!=2){
+                System.err.println("ERROR");
+                removeMenuChoice=1;
+            }
+        }
+        while (removeMenuChoice==1||removeMenuChoice==2);
     }
     public void printUserList() {
         userService.printUserList();
