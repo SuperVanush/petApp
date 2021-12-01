@@ -53,7 +53,8 @@ public class StartProgram {
             name = in.next();
             userService.makeAddUser(name);
             System.out.println("The User was Added");
-            System.out.println("Input next name?      y/n   ");
+            System.out.println("To continue press y  ");
+            System.out.println("Any key is return to main menu");
             choiceToBackToMainMenu = in.next();
                     }
         while (choiceToBackToMainMenu.equals("y"));
