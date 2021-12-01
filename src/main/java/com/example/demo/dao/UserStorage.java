@@ -26,8 +26,7 @@ public class UserStorage implements Storage<User> {
             user.setId(maxId + 1);
         }
         userList.add(user);
-        System.out.println(userList);
-    }
+           }
     @Override
     public void printAll() {
         userList.forEach(System.out::println);

@@ -20,10 +20,7 @@ public class UserService {
 
             System.err.println(e.getMessage());
                    }
-        finally {
-            StartProgram goBackToMainMenu = new StartProgram();
-            goBackToMainMenu.startApp();
-        }
+
     }
     public void printUserList (){
        userStorage.printAll();}
