@@ -24,7 +24,7 @@ public class UserService {
                    }
 
     }
-    public List<User> printUserList (){
+    public List<User> getUserList (){
     return userStorage.getListOfElements();}
 }
 
