@@ -1,5 +1,4 @@
 package com.example.demo.view;
-
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
 import java.util.Scanner;
@@ -8,6 +7,8 @@ public class StartProgram {
     public static final Scanner in = new Scanner(System.in);
     private final UserService userService = new UserService();
     private final SortService sortService = new SortService();
+    String printMainMenu = "0. Return to main menu";
+    String messageErrorByChoiceMenu =  "ERROR";
 
     public void startApp() {
         int numberOfChoice;
@@ -42,31 +43,29 @@ public class StartProgram {
                 break;
             }
                     }
-        while (numberOfChoice!=9);
+        while (numberOfChoice!=0);
     }
     public void setChoiceAddUser() {
-        int numberOfChoiseAddUser;
+        int numberOfChoice;
         do {
             System.out.println("1. ADD USER");
-            System.out.println("2. Return to main menu");
-            numberOfChoiseAddUser = in.nextInt();
-                   if (numberOfChoiseAddUser == 1) {
+            System.out.println(printMainMenu);
+            numberOfChoice = in.nextInt();
+                   if (numberOfChoice == 1) {
                 String name;
                 System.out.println("Input name of user");
                 name = in.next();
                 userService.makeAddUser(name);
                 System.out.println("The User was Added");
             }
-                   if (numberOfChoiseAddUser==2){
+                   if (numberOfChoice==0){
                break;
                    }
-                   if (numberOfChoiseAddUser!=1 && numberOfChoiseAddUser!=2)
-                   {
-                       System.err.println("Error");
-                       numberOfChoiseAddUser =1;
+                   if (numberOfChoice!=1){
+                       System.err.println(messageErrorByChoiceMenu);
                    }
-        }
-        while (numberOfChoiseAddUser==1);
+                 }
+        while (numberOfChoice!=0);
     }
     public void sortMenu() {
         int choiceNumberSort;
@@ -74,7 +73,7 @@ public class StartProgram {
            System.out.println("Add sort metod");
            System.out.println("1. Sort by name of users");
            System.out.println("2. Sort by ID of users");
-           System.out.println("3. Return to main menu");
+           System.out.println(printMainMenu);
            choiceNumberSort = in.nextInt();
            if (choiceNumberSort == 1) {
                System.out.println(sortService.startSortUsersByName());
@@ -82,41 +81,41 @@ public class StartProgram {
            if (choiceNumberSort == 2) {
                System.out.println(sortService.startSortUsersByNumber());
            }
-           if (choiceNumberSort ==3)
+           if (choiceNumberSort ==0)
                {
                    break;
-               }
-           if (choiceNumberSort!=1&&choiceNumberSort!=2&&choiceNumberSort!=3)
+                     }
+           if (choiceNumberSort!=1&&choiceNumberSort!=2)
            {
-               System.err.println("ERROR");
-               choiceNumberSort=1;
+               System.err.println(messageErrorByChoiceMenu);
            }
        }
-       while (choiceNumberSort==1 || choiceNumberSort==2 || choiceNumberSort==3);
+       while (choiceNumberSort!=0);
     }
     public void removeUserById() {
-        int removeMenuChoice;
+        int choiceNumberSort;
         do {
             System.out.println("1. Remove User");
-            System.out.println("2. Return to main menu");
-            removeMenuChoice = in.nextInt();
-            if (removeMenuChoice == 1) {
+            System.out.println(printMainMenu);
+            choiceNumberSort = in.nextInt();
+            if (choiceNumberSort == 1) {
                 System.out.println("Input ID of user to delete");
                 int id = in.nextInt();
                 userService.removeUserById(id);
+                System.out.println("The User was removed");
             }
-            if (removeMenuChoice==2){
+                     if (choiceNumberSort==0){
                 break;
-            }
-            if (removeMenuChoice !=1&& removeMenuChoice!=2){
-                System.err.println("ERROR");
-                removeMenuChoice=1;
+                        }
+            if (choiceNumberSort!=1) {
+                System.err.println(messageErrorByChoiceMenu);
+
             }
         }
-        while (removeMenuChoice==1||removeMenuChoice==2);
+        while (choiceNumberSort!=0);
     }
     public void printUserList() {
-        userService.printUserList();
+        System.out.println(userService.printUserList());
     }
 }
 

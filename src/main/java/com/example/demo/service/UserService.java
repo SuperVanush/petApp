@@ -3,8 +3,10 @@ import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
-import com.example.demo.view.StartProgram;
-3
+
+
+import java.util.List;
+
 public class UserService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
@@ -22,8 +24,8 @@ public class UserService {
                    }
 
     }
-    public void printUserList (){
-       userStorage.printAll();}
+    public List<User> printUserList (){
+    return userStorage.getListOfElements();}
 }
 
 
