@@ -7,8 +7,8 @@ public class StartProgram {
     public static final Scanner in = new Scanner(System.in);
     private final UserService userService = new UserService();
     private final SortService sortService = new SortService();
-    private final String PRINTMAILMENU = "0. Return to main menu";
-   private final String MESSAGEERRORBYCHOICEMENU =  "ERROR";
+    private final String PRINT_MAIL_MENU = "0. Return to main menu";
+   private final String MESSAGE_ERROR_BY_CHOICE_MENU =  "ERROR";
 
     public void startApp() {
         int numberOfChoice;
@@ -38,18 +38,14 @@ public class StartProgram {
             if (numberOfChoice == 5) {
                 System.out.println("The action not defined yet");
             }
-            if (numberOfChoice == 0)
-            {
-                break;
             }
-                    }
         while (numberOfChoice!=0);
     }
     public void setChoiceAddUser() {
         int numberOfChoice;
         do {
             System.out.println("1. ADD USER");
-            System.out.println(PRINTMAILMENU);
+            System.out.println(PRINT_MAIL_MENU);
             numberOfChoice = in.nextInt();
                    if (numberOfChoice == 1) {
                 String name;
@@ -59,7 +55,7 @@ public class StartProgram {
                 System.out.println("The User was Added");
             }
                    if (numberOfChoice!=1&&numberOfChoice!=0){
-                       System.err.println(MESSAGEERRORBYCHOICEMENU);
+                       System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
                    }
                  }
         while (numberOfChoice!=0);
@@ -70,7 +66,7 @@ public class StartProgram {
            System.out.println("Add sort metod");
            System.out.println("1. Sort by name of users");
            System.out.println("2. Sort by ID of users");
-           System.out.println(PRINTMAILMENU);
+           System.out.println(PRINT_MAIL_MENU);
            choiceNumberSort = in.nextInt();
            if (choiceNumberSort == 1) {
                System.out.println(sortService.startSortUsersByName());
@@ -80,7 +76,7 @@ public class StartProgram {
            }
            if (choiceNumberSort!=1&&choiceNumberSort!=2&&choiceNumberSort!=0)
            {
-               System.err.println(MESSAGEERRORBYCHOICEMENU);
+               System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
            }
        }
        while (choiceNumberSort!=0);
@@ -89,7 +85,7 @@ public class StartProgram {
         int choiceNumberSort;
         do {
             System.out.println("1. Remove User");
-            System.out.println(PRINTMAILMENU);
+            System.out.println(PRINT_MAIL_MENU);
             choiceNumberSort = in.nextInt();
             if (choiceNumberSort == 1) {
                 System.out.println("Input ID of user to delete");
@@ -98,7 +94,7 @@ public class StartProgram {
                 System.out.println("The User was removed");
             }
             if (choiceNumberSort!=1&& choiceNumberSort!=0) {
-                System.err.println(MESSAGEERRORBYCHOICEMENU);
+                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
 
             }
         }
