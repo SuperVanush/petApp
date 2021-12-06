@@ -1,11 +1,12 @@
 package com.example.demo.dao;
+
 import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserStorage implements Storage<User> {
+public final class UserStorage implements Storage<User> {
 
     private final List<User> userList = new ArrayList<>();
 
@@ -15,6 +16,7 @@ public class UserStorage implements Storage<User> {
         userList.add(new User(3, "Loki"));
         userList.add(new User(77, "Thor"));
     }
+
     @Override
     public void add(User user) {
         int maxId = userList.get(0).getId();
@@ -25,7 +27,8 @@ public class UserStorage implements Storage<User> {
             user.setId(maxId + 1);
         }
         userList.add(user);
-           }
+    }
+
     @Override
     public void printAll() {
         userList.forEach(System.out::println);
@@ -37,21 +40,19 @@ public class UserStorage implements Storage<User> {
     }
 
     @Override
-    public void remove(int id) throws UserListException
-    {
+    public void remove(int id) throws UserListException {
         int indexOfDeleteUser;
-        boolean isUserDeleted=false;
+        boolean isUserDeleted = false;
         for (User userInList : userList) {
             if (userInList.getId() == id) {
                 indexOfDeleteUser = userList.indexOf(userInList);
                 userList.remove(indexOfDeleteUser);
                 isUserDeleted = true;
                 break;
-                }
-                }
-            if (!isUserDeleted)
-            {
-                throw new UserListException ("Id is not found");
-                            }
-          }
+            }
         }
+        if (!isUserDeleted) {
+            throw new UserListException("Id is not found");
+        }
+    }
+}

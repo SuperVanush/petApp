@@ -1,14 +1,16 @@
 package com.example.demo.view;
+
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
+
 import java.util.Scanner;
 
 public class StartProgram {
     public static final Scanner in = new Scanner(System.in);
     private final UserService userService = new UserService();
     private final SortService sortService = new SortService();
-    private final String PRINT_MAIL_MENU = "0. Return to main menu";
-   private final String MESSAGE_ERROR_BY_CHOICE_MENU =  "ERROR";
+    private static final String PRINT_MAIL_MENU = "0. Return to main menu";
+    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public void startApp() {
         int numberOfChoice;
@@ -38,49 +40,51 @@ public class StartProgram {
             if (numberOfChoice == 5) {
                 System.out.println("The action not defined yet");
             }
-            }
-        while (numberOfChoice!=0);
+        }
+        while (numberOfChoice != 0);
     }
+
     public void setChoiceAddUser() {
         int numberOfChoice;
         do {
             System.out.println("1. ADD USER");
             System.out.println(PRINT_MAIL_MENU);
             numberOfChoice = in.nextInt();
-                   if (numberOfChoice == 1) {
+            if (numberOfChoice == 1) {
                 String name;
                 System.out.println("Input name of user");
                 name = in.next();
                 userService.makeAddUser(name);
                 System.out.println("The User was Added");
             }
-                   if (numberOfChoice!=1&&numberOfChoice!=0){
-                       System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-                   }
-                 }
-        while (numberOfChoice!=0);
+            if (numberOfChoice != 1 && numberOfChoice != 0) {
+                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+            }
+        }
+        while (numberOfChoice != 0);
     }
+
     public void sortMenu() {
         int choiceNumberSort;
-           do {
-           System.out.println("Add sort metod");
-           System.out.println("1. Sort by name of users");
-           System.out.println("2. Sort by ID of users");
-           System.out.println(PRINT_MAIL_MENU);
-           choiceNumberSort = in.nextInt();
-           if (choiceNumberSort == 1) {
-               System.out.println(sortService.startSortUsersByName());
-           }
-           if (choiceNumberSort == 2) {
-               System.out.println(sortService.startSortUsersByNumber());
-           }
-           if (choiceNumberSort!=1&&choiceNumberSort!=2&&choiceNumberSort!=0)
-           {
-               System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-           }
-       }
-       while (choiceNumberSort!=0);
+        do {
+            System.out.println("Add sort method");
+            System.out.println("1. Sort by name of users");
+            System.out.println("2. Sort by ID of users");
+            System.out.println(PRINT_MAIL_MENU);
+            choiceNumberSort = in.nextInt();
+            if (choiceNumberSort == 1) {
+                System.out.println(sortService.startSortUsersByName());
+            }
+            if (choiceNumberSort == 2) {
+                System.out.println(sortService.startSortUsersByNumber());
+            }
+            if (choiceNumberSort != 1 && choiceNumberSort != 2 && choiceNumberSort != 0) {
+                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+            }
+        }
+        while (choiceNumberSort != 0);
     }
+
     public void removeUserById() {
         int choiceNumberSort;
         do {
@@ -93,13 +97,13 @@ public class StartProgram {
                 userService.removeUserById(id);
                 System.out.println("The User was removed");
             }
-            if (choiceNumberSort!=1&& choiceNumberSort!=0) {
+            if (choiceNumberSort != 1 && choiceNumberSort != 0) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-
             }
         }
-        while (choiceNumberSort!=0);
+        while (choiceNumberSort != 0);
     }
+
     public void getUserList() {
         System.out.println(userService.getUserList());
     }
