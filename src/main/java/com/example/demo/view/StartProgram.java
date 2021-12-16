@@ -58,14 +58,14 @@ public class StartProgram {
                 userService.makeAddUser(name);
                 System.out.println("The User was Added");
             }
-            if (numberOfChoice ==2){
+            if (numberOfChoice == 2) {
                 String severalNames;
                 System.out.println("Input names of users");
-                severalNames= in.next();
+                severalNames = in.next();
                 userService.addSeveralUsers(severalNames);
                 System.out.println("The Users were Added");
             }
-            if (numberOfChoice != 1 && numberOfChoice!=2 && numberOfChoice != 0) {
+            if (numberOfChoice != 1 && numberOfChoice != 2 && numberOfChoice != 0) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
         }

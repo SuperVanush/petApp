@@ -1,4 +1,5 @@
 package com.example.demo.service;
+
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
@@ -14,26 +15,29 @@ public class UserService {
     public void makeAddUser(String name) {
         userStorage.add(new User(name));
     }
-    public void addSeveralUsers (String severalUsers){
-        String [] arraySeveralUsers = severalUsers.split(",") ;
+
+    public void addSeveralUsers(String severalUsers) {
+        String[] arraySeveralUsers = severalUsers.split(",");
         List<String> listSeveralUsers = Arrays.asList(arraySeveralUsers);
-       for (String name:listSeveralUsers){
-           userStorage.add(new User(name));
-       }
+        for (String name : listSeveralUsers) {
+            userStorage.add(new User(name));
+        }
     }
 
     public void removeUserById(int id) {
         try {
-            userStorage.remove(id) ;
+            userStorage.remove(id);
 
         } catch (UserListException e) {
 
             System.err.println(e.getMessage());
-                   }
+        }
 
     }
-    public List<User> getUserList (){
-    return userStorage.getListOfElements();}
+
+    public List<User> getUserList() {
+        return userStorage.getListOfElements();
+    }
 }
 
 
