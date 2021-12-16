@@ -5,6 +5,7 @@ import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 public class UserService {
@@ -12,6 +13,13 @@ public class UserService {
 
     public void makeAddUser(String name) {
         userStorage.add(new User(name));
+    }
+    public void addSeveralUsers (String severalUsers){
+        String [] arraySeveralUsers = severalUsers.split(",") ;
+        List<String> listSeveralUsers = Arrays.asList(arraySeveralUsers);
+       for (String name:listSeveralUsers){
+           userStorage.add(new User(name));
+       }
     }
 
     public void removeUserById(int id) {

@@ -48,6 +48,7 @@ public class StartProgram {
         int numberOfChoice;
         do {
             System.out.println("1. ADD USER");
+            System.out.println("2. ADD SEVERAL USERS");
             System.out.println(PRINT_MAIL_MENU);
             numberOfChoice = in.nextInt();
             if (numberOfChoice == 1) {
@@ -57,7 +58,14 @@ public class StartProgram {
                 userService.makeAddUser(name);
                 System.out.println("The User was Added");
             }
-            if (numberOfChoice != 1 && numberOfChoice != 0) {
+            if (numberOfChoice ==2){
+                String severalNames;
+                System.out.println("Input names of users");
+                severalNames= in.next();
+                userService.addSeveralUsers(severalNames);
+                System.out.println("The Users were Added");
+            }
+            if (numberOfChoice != 1 && numberOfChoice!=2 && numberOfChoice != 0) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
         }
