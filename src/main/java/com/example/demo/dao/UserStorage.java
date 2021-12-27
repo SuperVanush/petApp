@@ -11,10 +11,10 @@ public final class UserStorage implements Storage<User> {
     private final List<User> userList = new ArrayList<>();
 
     public UserStorage() {
-        userList.add(new User(1, "John"));
-        userList.add(new User(2, "Mary"));
-        userList.add(new User(3, "Loki"));
-        userList.add(new User(77, "Thor"));
+        userList.add(new User(1, "John","Standartbill",000,001));
+        userList.add(new User(2, "Mary","Standartbill",000,002));
+        userList.add(new User(3, "Loki","Standartbill",000,003));
+        userList.add(new User(77, "Thor","Standartbill",000,004));
     }
 
     @Override

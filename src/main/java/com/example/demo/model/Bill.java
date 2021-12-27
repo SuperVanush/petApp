@@ -2,23 +2,23 @@ package com.example.demo.model;
 
 public class Bill {
 
-    private String nbillName;
+    private String billName;
     private int billId;
+    private int billBalance;
 
-    public Bill(String nbillName, int billId, int billBalance) {
-        this.nbillName = nbillName;
+
+    public Bill() {
+        this.billName = billName;
         this.billId = billId;
         this.billBalance = billBalance;
     }
 
-    private int billBalance;
-
-    public String getNbillName() {
-        return nbillName;
+    public String getbillName() {
+        return billName;
     }
 
-    public void setNbillName(String nbillName) {
-        this.nbillName = nbillName;
+    public void setbillName(String billName) {
+        this.billName = billName;
     }
 
     public int getBillId() {
