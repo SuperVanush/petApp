@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 public class Bill {
-
+private User user;
     private String billName;
     private int billId;
     private int billBalance;
@@ -21,9 +21,7 @@ public class Bill {
         this.billName = billName;
     }
 
-    public int getBillId() {
-        return billId;
-    }
+    public int getBillId() {return billId;}
 
     public void setBillId(int billId) {
         this.billId = billId;
