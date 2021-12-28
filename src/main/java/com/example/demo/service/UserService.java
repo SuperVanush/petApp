@@ -8,9 +8,10 @@ import com.example.demo.model.User;
 import java.util.List;
 
 public class UserService {
+
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
-    public void makeAddUser(String name) {
+    public void addUser(String name) {
         userStorage.add(new User(name));
     }
 
