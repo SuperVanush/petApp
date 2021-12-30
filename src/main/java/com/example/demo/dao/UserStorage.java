@@ -15,7 +15,6 @@ public final class UserStorage implements Storage<User> {
         userList.add(new User(2, "Mary"));
         userList.add(new User(3, "Loki"));
         userList.add(new User(77, "Thor"));
-        userList.add(new User(44,"Mark","StandartBill",001,000));
     }
 
     @Override

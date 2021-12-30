@@ -4,9 +4,7 @@ public class User implements Comparable<User> {
     private Bill bill;
     private int id;
     private String name;
-    private String billName=bill.getBillName();
-    private int billId = bill.getBillId();
-    private int billBalance = bill.getBillBalance();
+
 
     public User(String name) {
         this.name = name;
@@ -17,12 +15,18 @@ public class User implements Comparable<User> {
         this.name = name;
     }
 
-    public User(int id, String name, String billName, int billId, int billBalance) {
+    public User(int id, String name, Bill bill) {
         this.id = id;
         this.name = name;
-        this.billName = billName;
-        this.billId = billId;
-        this.billBalance = billBalance;
+        this.bill = bill;
+    }
+
+    public Bill getBill() {
+        return bill;
+    }
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
     }
 
     public String getName() {
