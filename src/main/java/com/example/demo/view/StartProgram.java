@@ -2,6 +2,7 @@ package com.example.demo.view;
 
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
+import com.sun.source.tree.IfTree;
 
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ public class StartProgram {
     private static final String TWO = "2. %s";
     private static final String THREE = "3. %s";
     private static final String FOUR = "4. %s";
+    private static final String FIVE = "5. %s";
     private static final String ZERO = "0. %s";
     private static final String RETURN_TO_MAIN_MENU = "Return to main menu";
     private static final String ERROR_MESSAGE_MENU = "ERROR";
@@ -42,7 +44,7 @@ public class StartProgram {
             if (choiceNumber == 4) {
                 printUserList();
             }
-            if (choiceNumber == 5) {
+            if (choiceNumber == 6) {
                 System.out.println("The action not defined yet");
             }
         }
@@ -62,7 +64,20 @@ public class StartProgram {
                 name = in.next();
                 userService.addUser(name);
                 System.out.println("The User was Added");
-            }
+                do {
+                    System.out.println(String.format(ONE, "Add Bill"));
+                    System.out.println(String.format(ZERO, RETURN_TO_MAIN_MENU));
+                    choiceNumber = in.nextInt();
+                    if (choiceNumber == 1) {
+                        String billName;
+                        int billNumber;
+                        System.out.println("Input name of bill");
+                        billName = in.next();
+                                           }
+                }
+                while (choiceNumber!=0);
+                }
+
             if (choiceNumber == 2) {
                 String severalNames;
                 System.out.println("Input names of users");

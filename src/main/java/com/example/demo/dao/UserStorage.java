@@ -11,10 +11,10 @@ public final class UserStorage implements Storage<User> {
     private final List<User> userList = new ArrayList<>();
 
     public UserStorage() {
-        userList.add(new User(1, "John"));
-        userList.add(new User(2, "Mary"));
-        userList.add(new User(3, "Loki"));
-        userList.add(new User(77, "Thor"));
+//        userList.add(new User(1, "John"));
+//        userList.add(new User(2, "Mary"));
+//        userList.add(new User(3, "Loki"));
+//        userList.add(new User(77, "Thor"));
     }
 
     @Override
@@ -25,9 +25,9 @@ public final class UserStorage implements Storage<User> {
             if (maxNextId > maxId)
                 maxId = maxNextId;
             user.setId(maxId + 1);
-        }
+                    }
         userList.add(user);
-    }
+           }
 
     @Override
     public void printAll() {

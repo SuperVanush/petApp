@@ -54,8 +54,7 @@ public class User implements Comparable<User> {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+                ", name='" + name + " billid = " + bill.getBillId() + ", billname =' "+ bill.getBillName()+ ", billbalance ="+ bill.getBillBalance() +'\'' + '}';
     }
 }
 
