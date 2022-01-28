@@ -19,6 +19,10 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public void add(User user) {
+        if (userList.isEmpty()){
+            userList.add(user);
+        }
+        else {
         int maxId = userList.get(0).getId();
         for (User userInList : userList) {
             int maxNextId = userInList.getId();
@@ -27,8 +31,7 @@ public final class UserStorage implements Storage<User> {
             user.setId(maxId + 1);
                     }
         userList.add(user);
-           }
-
+           }}
     @Override
     public void printAll() {
         userList.forEach(System.out::println);
