@@ -14,7 +14,12 @@ public class UserService {
 
     public void addUser(String name, String billName, int billBalance) {
         Bill bill = new Bill();
+        bill.setBillName(billName);
+        bill.setBillBalance(billBalance);
+
         User user = new User();
+        user.setName(name);
+        user.setBill(bill);
         userStorage.add(user);
     }
       public void addSeveralUsers(String severalUsers) {
