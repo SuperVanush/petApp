@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.Storage;
-import com.example.demo.dao.UserStorage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
@@ -16,12 +15,13 @@ public class UserService {
     public void addUser(String name, String billName, int billBalance) {
         Bill bill = new Bill(billName,billBalance);
         User user = new User(name);
-        userStorage.add(user);
+        userStorage.add(user,bill);
     }
       public void addSeveralUsers(String severalUsers) {
         String[] listSeveralUsers = severalUsers.split(",");
         for (String name : listSeveralUsers) {
-            userStorage.add(new User(name));
+            User user = new User(name);
+            userStorage.add(user,new Bill(billName,billBalance));
         }
     }
     public void removeUserById(int id) {

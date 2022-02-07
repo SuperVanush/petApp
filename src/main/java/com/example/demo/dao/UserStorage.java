@@ -19,7 +19,7 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public void add(User user) {
+    public void add(User user, Bill bill) {
         if (userList.isEmpty()){
            user.setId(1);
            userList.add(user);
