@@ -6,6 +6,7 @@ import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
@@ -16,9 +17,11 @@ public class UserService {
         Bill bill = new Bill();
         bill.setBillName(billName);
         bill.setBillBalance(billBalance);
+        List <Bill> billList= new ArrayList<>();
         User user = new User();
         user.setName(name);
-        user.setBill(bill);
+        user.setBillList(billList);
+
         userStorage.add(user);
     }
       public void addSeveralUsers(String severalUsers) {
