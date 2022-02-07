@@ -53,30 +53,34 @@ public class StartProgram {
 
     public void addUserChoice() {
         int choiceNumber;
+
         do {
             System.out.println(String.format(ONE, "Add User"));
             System.out.println(String.format(TWO, "Add several Users"));
             System.out.println(String.format(ZERO, RETURN_TO_MAIN_MENU));
             choiceNumber = in.nextInt();
             if (choiceNumber == 1) {
-                String name;
+               String name;
+                String billName;
+                int billBalance;
                 System.out.println("Input name of user");
                 name = in.next();
-                userService.addUser(name);
-                System.out.println("The User was Added");
                 do {
                     System.out.println(String.format(ONE, "Add Bill"));
                     System.out.println(String.format(ZERO, RETURN_TO_MAIN_MENU));
                     choiceNumber = in.nextInt();
                     if (choiceNumber == 1) {
-                        String billName;
-                        int billNumber;
                         System.out.println("Input name of bill");
                         billName = in.next();
-                                           }
+                        System.out.println("Input balance");
+                        billBalance= in.nextInt();
+                        userService.addUser(name,billName,billBalance);
+                        System.out.println("The User was Added"); }
                 }
                 while (choiceNumber!=0);
-                }
+
+            }
+
 
             if (choiceNumber == 2) {
                 String severalNames;

@@ -10,16 +10,17 @@ public class User implements Comparable<User> {
         this.name = name;
     }
 
+    public User(String name, Bill bill) {
+        this.name = name;
+        this.bill = bill;
+
+    }
+
     public User(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public User(int id, String name, Bill bill) {
-        this.id = id;
-        this.name = name;
-        this.bill = bill;
-    }
 
     public Bill getBill() {
         return bill;
@@ -45,6 +46,12 @@ public class User implements Comparable<User> {
         this.id = id;
     }
 
+    public String toString(User name) {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' + '}';
+    }
+
     @Override
     public int compareTo(User o) {
         return Integer.compare(id, o.getId());
@@ -53,9 +60,12 @@ public class User implements Comparable<User> {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + " billid = " + bill.getBillId() + ", billname =' "+ bill.getBillName()+ ", billbalance ="+ bill.getBillBalance() +'\'' + '}';
+                "bill=" + bill +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
+
 
 

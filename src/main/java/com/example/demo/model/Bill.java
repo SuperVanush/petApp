@@ -5,7 +5,7 @@ public class Bill {
     private int billId;
     private int billBalance;
 
-    public Bill(String billName, int billId, int billBalance) {
+    public Bill(String billName, int billId) {
         this.billName = billName;
         this.billId = billId;
         this.billBalance = billBalance;
@@ -35,5 +35,12 @@ public class Bill {
         this.billBalance = billBalance;
     }
 
-
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "billName='" + billName + '\'' +
+                ", billId=" + billId +
+                ", billBalance=" + billBalance +
+                '}';
+    }
 }

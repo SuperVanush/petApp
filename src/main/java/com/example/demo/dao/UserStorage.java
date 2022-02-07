@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.exception.UserListException;
+import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ public final class UserStorage implements Storage<User> {
     @Override
     public void add(User user) {
         if (userList.isEmpty()){
-            userList.add(user);
+           user.setId(1);
+           userList.add(user);
         }
         else {
         int maxId = userList.get(0).getId();
@@ -32,6 +34,8 @@ public final class UserStorage implements Storage<User> {
                     }
         userList.add(user);
            }}
+
+
     @Override
     public void printAll() {
         userList.forEach(System.out::println);
