@@ -5,12 +5,6 @@ public class Bill {
     private int billId;
     private int billBalance;
 
-    public Bill(String billName, int billId) {
-        this.billName = billName;
-        this.billId = billId;
-        this.billBalance = billBalance;
-    }
-
     public String getBillName() {
         return billName;
     }

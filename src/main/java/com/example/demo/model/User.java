@@ -5,23 +5,6 @@ public class User implements Comparable<User> {
     private int id;
     private String name;
 
-
-    public User(String name) {
-        this.name = name;
-    }
-
-    public User(String name, Bill bill) {
-        this.name = name;
-        this.bill = bill;
-
-    }
-
-    public User(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-
     public Bill getBill() {
         return bill;
     }
@@ -56,6 +39,7 @@ public class User implements Comparable<User> {
     public int compareTo(User o) {
         return Integer.compare(id, o.getId());
     }
+
 
     @Override
     public String toString() {

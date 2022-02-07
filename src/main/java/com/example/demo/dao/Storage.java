@@ -1,7 +1,6 @@
 package com.example.demo.dao;
 
 import com.example.demo.exception.UserListException;
-import com.example.demo.model.Bill;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 
 public interface Storage<T> {
 
-    void add(T t, Bill bill);
+    void add(T t);
 
     void remove(int id) throws UserListException;
 

@@ -13,15 +13,15 @@ public class UserService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
     public void addUser(String name, String billName, int billBalance) {
-        Bill bill = new Bill(billName,billBalance);
-        User user = new User(name);
-        userStorage.add(user,bill);
+        Bill bill = new Bill();
+        User user = new User();
+        userStorage.add(user);
     }
       public void addSeveralUsers(String severalUsers) {
         String[] listSeveralUsers = severalUsers.split(",");
         for (String name : listSeveralUsers) {
-            User user = new User(name);
-            userStorage.add(user,new Bill(billName,billBalance));
+            User user = new User();
+            userStorage.add(user);
         }
     }
     public void removeUserById(int id) {

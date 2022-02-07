@@ -19,10 +19,9 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public void add(User user, Bill bill) {
+    public void add(User user) {
         if (userList.isEmpty()){
            user.setId(1);
-           userList.add(user);
         }
         else {
         int maxId = userList.get(0).getId();
@@ -32,8 +31,9 @@ public final class UserStorage implements Storage<User> {
                 maxId = maxNextId;
             user.setId(maxId + 1);
                     }
+        }
         userList.add(user);
-           }}
+    }
 
 
     @Override
