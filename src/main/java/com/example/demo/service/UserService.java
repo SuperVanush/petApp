@@ -26,7 +26,8 @@ public class UserService {
         String[] listSeveralUsers = severalUsers.split(",");
         for (String name : listSeveralUsers) {
             User user = new User();
-            userStorage.add(user);
+            user.setName(name);
+             userStorage.add(user);
         }
     }
     public void removeUserById(int id) {
