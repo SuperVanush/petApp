@@ -61,8 +61,8 @@ public class StartProgram {
             choiceNumber = in.nextInt();
             if (choiceNumber == 1) {
                String name;
-                String billName;
-                int billBalance;
+                String billName="name";
+                int billBalance = 0;
                 System.out.println("Input name of user");
                 name = in.next();
                 do {
@@ -73,12 +73,12 @@ public class StartProgram {
                         System.out.println("Input name of bill");
                         billName = in.next();
                         System.out.println("Input balance");
-                        billBalance= in.nextInt();
-                        userService.addUser(name,billName,billBalance);
-                        System.out.println("The User was Added"); }
-                }
-                while (choiceNumber!=0);
-
+                        billBalance = in.nextInt();
+                    }
+                                    }
+                    while (choiceNumber != 0) ;
+                userService.addUser(name, billName, billBalance);
+                System.out.println("The User was Added");
             }
 
 

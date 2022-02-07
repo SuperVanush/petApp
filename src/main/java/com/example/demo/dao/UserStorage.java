@@ -32,6 +32,7 @@ public final class UserStorage implements Storage<User> {
             user.setId(maxId + 1);
                     }
         }
+
         userList.add(user);
     }
 

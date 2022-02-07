@@ -16,7 +16,6 @@ public class UserService {
         Bill bill = new Bill();
         bill.setBillName(billName);
         bill.setBillBalance(billBalance);
-
         User user = new User();
         user.setName(name);
         user.setBill(bill);
