@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dao.BillStorage;
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
@@ -14,14 +15,10 @@ public class UserService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
     public void addUser(String name, String billName, int billBalance) {
-        Bill bill = new Bill();
-        bill.setBillName(billName);
-        bill.setBillBalance(billBalance);
-        List <Bill> billList= new ArrayList<>();
+        BillStorage billStorage = new BillStorage();
         User user = new User();
         user.setName(name);
-        user.setBillList(billList);
-
+        user.getBillList();
         userStorage.add(user);
     }
       public void addSeveralUsers(String severalUsers) {
