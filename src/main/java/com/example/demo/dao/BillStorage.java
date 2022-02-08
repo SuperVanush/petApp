@@ -1,25 +1,29 @@
 package com.example.demo.dao;
 
+import com.example.demo.exception.UserListException;
 import com.example.demo.model.Bill;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class BillStorage {
-    List<Bill> billList;
+public final class BillStorage implements Storage <Bill>{
+    @Override
+    public void add(Bill bill) {
 
-    public void add (Bill bill){
-        billList.add(bill);
     }
 
     @Override
-    public String toString() {
-        return "BillStorage{" +
-                "billList=" + billList +
-                '}';
+    public void remove(int id) throws UserListException {
+
     }
 
-    public List<Bill> getBillList() {
-        return billList;
+    @Override
+    public void printAll() {
+
+    }
+
+    @Override
+    public List<Bill> getListOfElements() {
+        return null;
     }
 }
+

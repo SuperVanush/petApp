@@ -17,3 +17,4 @@ public class Factory {
         return (UserStorage) userStorageInstance;
     }
 }
+
