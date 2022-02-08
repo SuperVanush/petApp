@@ -1,7 +1,9 @@
 package com.example.demo.factory;
 
+import com.example.demo.dao.BillStorage;
 import com.example.demo.dao.Storage;
 import com.example.demo.dao.UserStorage;
+import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
 public class Factory {
@@ -15,6 +17,16 @@ public class Factory {
             userStorageInstance = new UserStorage();
         }
         return (UserStorage) userStorageInstance;
+    }
+
+
+    private static Storage <Bill> billStorageInstance;
+
+    public static BillStorage getBillStorageInstance (){
+        if (billStorageInstance == null){
+            billStorageInstance= new BillStorage();
+        }
+        return (BillStorage) billStorageInstance;
     }
 }
 
