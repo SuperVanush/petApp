@@ -11,6 +11,7 @@ public class Factory {
     }
 
     private static Storage<User> userStorageInstance;
+    private static Storage<Bill> billStorageInstance;
 
     public static UserStorage getUserStorageInstance() {
         if (userStorageInstance == null) {
@@ -19,12 +20,9 @@ public class Factory {
         return (UserStorage) userStorageInstance;
     }
 
-
-    private static Storage <Bill> billStorageInstance;
-
-    public static BillStorage getBillStorageInstance (){
-        if (billStorageInstance == null){
-            billStorageInstance= new BillStorage();
+    public static BillStorage getBillStorageInstance() {
+        if (billStorageInstance == null) {
+            billStorageInstance = new BillStorage();
         }
         return (BillStorage) billStorageInstance;
     }

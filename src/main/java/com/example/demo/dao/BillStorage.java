@@ -6,6 +6,8 @@ import com.example.demo.model.Bill;
 import java.util.List;
 
 public final class BillStorage implements Storage <Bill>{
+
+
     @Override
     public void add(Bill bill) {
 
