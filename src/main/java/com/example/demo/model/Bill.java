@@ -6,6 +6,14 @@ public class Bill {
     private int billId;
     private int billBalance;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String getBillName() {
         return billName;
     }

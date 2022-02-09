@@ -1,5 +1,6 @@
 package com.example.demo.view;
 
+import com.example.demo.factory.Factory;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
 import com.sun.source.tree.IfTree;
@@ -18,7 +19,7 @@ public class StartProgram {
     private static final String ERROR_MESSAGE_MENU = "ERROR";
 
     public static final Scanner in = new Scanner(System.in);
-    private final UserService userService = new UserService();
+    private final UserService userService = Factory.getUserServiceInstance();
     private final SortService sortService = new SortService();
 
     public void startApp() {
