@@ -5,6 +5,8 @@ import com.example.demo.dao.Storage;
 import com.example.demo.dao.UserStorage;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.service.BillService;
+import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
 
 public class Factory {
@@ -13,7 +15,10 @@ public class Factory {
 
     private static Storage<User> userStorageInstance;
     private static Storage<Bill> billStorageInstance;
-    public static UserService userServiceInstance;
+    private static UserService userServiceInstance;
+    private static SortService sortServiceInstance;
+    private static BillService billServiceInstance;
+
 
     public static UserStorage getUserStorageInstance() {
         if (userStorageInstance == null) {
@@ -28,11 +33,26 @@ public class Factory {
         }
         return (BillStorage) billStorageInstance;
     }
-    public static UserService getUserServiceInstance(){
-        if (userServiceInstance== null){
+
+    public static UserService getUserServiceInstance() {
+        if (userServiceInstance == null) {
             userServiceInstance = new UserService();
         }
-        return (UserService) userServiceInstance;
+        return userServiceInstance;
+    }
+
+    public static SortService getSortServiceInstance() {
+        if (sortServiceInstance == null) {
+            sortServiceInstance = new SortService();
+        }
+        return sortServiceInstance;
+    }
+
+    public static BillService getBillServiceInstance() {
+        if (billServiceInstance ==null) {
+            billServiceInstance= new BillService();
+        }
+        return billServiceInstance;
     }
 }
 

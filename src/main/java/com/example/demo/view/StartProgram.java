@@ -20,7 +20,7 @@ public class StartProgram {
 
     public static final Scanner in = new Scanner(System.in);
     private final UserService userService = Factory.getUserServiceInstance();
-    private final SortService sortService = new SortService();
+    private final SortService sortService = Factory.getSortServiceInstance();
 
     public void startApp() {
         int choiceNumber;
