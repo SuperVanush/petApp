@@ -60,8 +60,8 @@ public class StartProgram {
             System.out.println(String.format(ZERO, RETURN_TO_MAIN_MENU));
             choiceNumber = in.nextInt();
             if (choiceNumber == 1) {
-               String name;
-                String billName="name";
+                String name;
+                String billName = "name";
                 int billBalance = 0;
                 System.out.println("Input name of user");
                 name = in.next();
@@ -75,8 +75,8 @@ public class StartProgram {
                         System.out.println("Input balance");
                         billBalance = in.nextInt();
                     }
-                                    }
-                    while (choiceNumber != 0) ;
+                }
+                while (choiceNumber != 0);
                 userService.addUser(name, billName, billBalance);
                 System.out.println("The User was Added");
             }

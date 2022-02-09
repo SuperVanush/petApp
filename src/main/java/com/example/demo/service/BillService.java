@@ -9,7 +9,7 @@ public class BillService {
 
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
 
-    public void addBill(String billName, int billBalance, int billId) {
+    public void addBill(String billName, int billBalance) {
         Bill bill = new Bill();
         bill.setBillName(billName);
         bill.setBillBalance(billBalance);

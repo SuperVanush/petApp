@@ -1,10 +1,11 @@
 package com.example.demo.model;
+
 import java.util.List;
 
 public class User implements Comparable<User> {
-        private int id;
+    private int id;
     private String name;
-    private List <Bill> billList;
+    private List<Bill> billList;
 
     public List<Bill> getBillList() {
         return billList;
@@ -43,7 +44,6 @@ public class User implements Comparable<User> {
     public int compareTo(User o) {
         return Integer.compare(id, o.getId());
     }
-
 
 
 }

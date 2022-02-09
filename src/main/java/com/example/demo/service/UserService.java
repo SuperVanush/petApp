@@ -19,14 +19,16 @@ public class UserService {
         user.getBillList();
         userStorage.add(user);
     }
-      public void addSeveralUsers(String severalUsers) {
+
+    public void addSeveralUsers(String severalUsers) {
         String[] listSeveralUsers = severalUsers.split(",");
         for (String name : listSeveralUsers) {
             User user = new User();
             user.setName(name);
-             userStorage.add(user);
+            userStorage.add(user);
         }
     }
+
     public void removeUserById(int id) {
         try {
             userStorage.remove(id);
@@ -34,6 +36,7 @@ public class UserService {
             System.err.println(e.getMessage());
         }
     }
+
     public List<User> getUserList() {
         return userStorage.getListOfElements();
     }

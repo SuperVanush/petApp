@@ -19,17 +19,16 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public void add(User user) {
-        if (userList.isEmpty()){
-           user.setId(1);
-        }
-        else {
-        int maxId = userList.get(0).getId();
-        for (User userInList : userList) {
-            int maxNextId = userInList.getId();
-            if (maxNextId > maxId)
-                maxId = maxNextId;
-            user.setId(maxId + 1);
-                    }
+        if (userList.isEmpty()) {
+            user.setId(1);
+        } else {
+            int maxId = userList.get(0).getId();
+            for (User userInList : userList) {
+                int maxNextId = userInList.getId();
+                if (maxNextId > maxId)
+                    maxId = maxNextId;
+                user.setId(maxId + 1);
+            }
         }
 
         userList.add(user);
