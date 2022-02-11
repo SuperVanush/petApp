@@ -5,6 +5,9 @@ import com.example.demo.dao.Storage;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 
+
+import java.util.List;
+
 public class BillService {
 
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
@@ -14,5 +17,7 @@ public class BillService {
         bill.setBillName(billName);
         bill.setBillBalance(billBalance);
         billStorage.add(bill);
+    }
+    public List<Bill> getBillList (){return billStorage.getListOfElements();
     }
 }
