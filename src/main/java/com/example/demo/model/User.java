@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.dao.BillStorage;
+
 import java.util.List;
 
 public class User implements Comparable<User> {

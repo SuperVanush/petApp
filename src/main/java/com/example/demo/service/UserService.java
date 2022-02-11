@@ -4,6 +4,7 @@ import com.example.demo.dao.BillStorage;
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
+import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
 import java.util.List;
@@ -11,12 +12,15 @@ import java.util.List;
 public class UserService {
 
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
+    private final BillService billService = Factory.getBillServiceInstance();
+
 
     public void addUser(String name, String billName, int billBalance) {
         BillStorage billStorage = new BillStorage();
         User user = new User();
         user.setName(name);
-        user.getBillList();
+        billService.addBill(billName, billBalance);
+        billStorage.getListOfElements();
         userStorage.add(user);
     }
 

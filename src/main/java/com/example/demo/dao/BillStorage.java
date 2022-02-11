@@ -2,7 +2,6 @@ package com.example.demo.dao;
 
 import com.example.demo.exception.UserListException;
 import com.example.demo.model.Bill;
-import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +22,7 @@ public final class BillStorage implements Storage <Bill>{
                 bill.setBillId(maxId + 1);
             }
         }
-
         billList.add(bill);
-
     }
 
     @Override
