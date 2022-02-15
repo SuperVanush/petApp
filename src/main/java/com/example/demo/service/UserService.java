@@ -4,6 +4,7 @@ package com.example.demo.service;
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
+import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
 import java.util.List;
@@ -15,10 +16,11 @@ public class UserService {
 
 
     public void addUser(String name, String billName, int billBalance) {
-        billService.getBillList();
         User user = new User();
         user.setName(name);
-       user.getBillList();
+        billService.addBill(billName,billBalance,user);
+        List <Bill> billListCollection = billService.getBillList();
+        user.setBillList(billListCollection);
         userStorage.add(user);
     }
 

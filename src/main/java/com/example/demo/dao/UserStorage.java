@@ -4,6 +4,7 @@ import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
 
 public final class UserStorage implements Storage<User> {
@@ -18,7 +19,7 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public void add(User user) {
+    public int add(User user) {
         if (userList.isEmpty()) {
             user.setId(1);
         } else {
@@ -30,10 +31,9 @@ public final class UserStorage implements Storage<User> {
                 user.setId(maxId + 1);
             }
         }
-
         userList.add(user);
+        return user.getId();
     }
-
 
     @Override
     public void printAll() {

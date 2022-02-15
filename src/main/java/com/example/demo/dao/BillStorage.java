@@ -6,11 +6,11 @@ import com.example.demo.model.Bill;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class BillStorage implements Storage <Bill>{
-    private final List <Bill> billList = new ArrayList<>();
+public final class BillStorage implements Storage<Bill> {
+    private final List<Bill> billList = new ArrayList<>();
 
     @Override
-    public void add(Bill bill) {
+    public int add(Bill bill) {
         if (billList.isEmpty()) {
             bill.setBillId(1);
         } else {
@@ -23,6 +23,7 @@ public final class BillStorage implements Storage <Bill>{
             }
         }
         billList.add(bill);
+        return bill.getBillId();
     }
 
     @Override
@@ -37,7 +38,7 @@ public final class BillStorage implements Storage <Bill>{
 
     @Override
     public List<Bill> getListOfElements() {
-        return null;
+        return billList;
     }
 }
 

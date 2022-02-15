@@ -22,6 +22,7 @@ public class StartProgram {
     public static final Scanner in = new Scanner(System.in);
     private final UserService userService = Factory.getUserServiceInstance();
     private final SortService sortService = Factory.getSortServiceInstance();
+    private final BillService billService = Factory.getBillServiceInstance();
 
 
     public void startApp() {
@@ -77,7 +78,7 @@ public class StartProgram {
                         billName = in.next();
                         System.out.println("Input balance");
                         billBalance = in.nextInt();
-                    }
+                                           }
                 }
                 while (choiceNumber != 0);
                 userService.addUser(name, billName, billBalance);
