@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.exception.UserListException;
 import com.example.demo.model.Bill;
+import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +11,30 @@ public final class BillStorage implements Storage<Bill> {
     private final List<Bill> billList = new ArrayList<>();
 
     @Override
+    public Bill findById(int id) throws UserListException {
+        for (Bill billInList : billList) {
+            if (billInList.getId() == id) {
+                return billInList;
+            }
+        }
+        throw new UserListException("Bill is not found");
+    }
+
+    @Override
     public int add(Bill bill) {
         if (billList.isEmpty()) {
-            bill.setBillId(1);
+            bill.setId(1);
         } else {
-            int maxId = billList.get(0).getBillId();
+            int maxId = billList.get(0).getId();
             for (Bill billInList : billList) {
-                int maxNextId = billInList.getBillId();
+                int maxNextId = billInList.getId();
                 if (maxNextId > maxId)
                     maxId = maxNextId;
-                bill.setBillId(maxId + 1);
+                bill.setId(maxId + 1);
             }
         }
         billList.add(bill);
-        return bill.getBillId();
+        return bill.getId();
     }
 
     @Override

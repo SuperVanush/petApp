@@ -2,48 +2,49 @@ package com.example.demo.model;
 
 public class Bill {
     private User user;
-    private String billName;
-    private int billId;
-    private int billBalance;
+    private String name;
+    private int id;
+    private int balance;
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(User userStorageById) {
         this.user = user;
     }
 
-    public String getBillName() {
-        return billName;
+    public String getName() {
+        return name;
     }
 
-    public void setBillName(String billName) {
-        this.billName = billName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getBillId() {
-        return billId;
+    public int getId() {
+        return id;
     }
 
-    public void setBillId(int billId) {
-        this.billId = billId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getBillBalance() {
-        return billBalance;
+    public int getBalance() {
+        return balance;
     }
 
-    public void setBillBalance(int billBalance) {
-        this.billBalance = billBalance;
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     @Override
     public String toString() {
         return "Bill{" +
-                "billName='" + billName + '\'' +
-                ", billId=" + billId +
-                ", billBalance=" + billBalance +
+                "user=" + user +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                ", balance=" + balance +
                 '}';
     }
 }

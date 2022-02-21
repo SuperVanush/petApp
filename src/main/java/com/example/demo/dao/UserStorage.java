@@ -19,6 +19,16 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
+    public User findById(int id) throws UserListException {
+        for (User userInList : userList) {
+            if (userInList.getId() == id) {
+                return userInList;
+            }
+                       }
+         throw new UserListException("User is not found");
+    }
+
+    @Override
     public int add(User user) {
         if (userList.isEmpty()) {
             user.setId(1);

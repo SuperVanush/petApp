@@ -14,6 +14,8 @@ public interface Storage<T> {
 
     int add(T t);
 
+    T findById (int id) throws UserListException;
+
     void remove(int id) throws UserListException;
 
     void printAll();
