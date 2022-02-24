@@ -1,10 +1,12 @@
 package com.example.demo.view;
 
+import com.example.demo.dao.BillStorage;
+import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
 import com.example.demo.service.BillService;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
-import com.sun.source.tree.IfTree;
+
 
 import java.util.Scanner;
 
@@ -66,9 +68,10 @@ public class StartProgram {
             if (choiceNumber == 1) {
                 String name;
                 String billName = "name";
-                int billBalance = 0;
+                int balance = 0;
                 System.out.println("Input name of user");
                 name = in.next();
+                int id = 0;
                 do {
                     System.out.println(String.format(ONE, "Add Bill"));
                     System.out.println(String.format(ZERO, RETURN_TO_MAIN_MENU));
@@ -77,11 +80,11 @@ public class StartProgram {
                         System.out.println("Input name of bill");
                         billName = in.next();
                         System.out.println("Input balance");
-                        billBalance = in.nextInt();
+                        balance = in.nextInt();
                                            }
                 }
                 while (choiceNumber != 0);
-                userService.addUser(name, billName, billBalance);
+                userService.addUser(name, billName, id, balance);
                 System.out.println("The User was Added");
             }
 

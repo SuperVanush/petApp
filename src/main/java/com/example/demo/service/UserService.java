@@ -15,10 +15,10 @@ public class UserService {
     private final BillService billService = Factory.getBillServiceInstance();
 
 
-    public void addUser(String name, int id, int balance) {
+    public void addUser(String name, String billName, int id, int balance) {
         User user = new User();
         user.setName(name);
-        billService.addBill(name, balance, id, user) ;
+        billService.addBill(billName,balance,id, user);
         List <Bill> billListCollection = billService.getBillList();
         user.setBillList(billListCollection);
         userStorage.add(user);
@@ -29,7 +29,7 @@ public class UserService {
         for (String name : listSeveralUsers) {
             User user = new User();
             user.setName(name);
-            userStorage.add(user);
+            userStorage.add(user) ;
         }
     }
 

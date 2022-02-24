@@ -15,17 +15,22 @@ import java.util.List;
 public class BillService {
 
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
-    UserStorage userStorage = new UserStorage();
+    private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
 
-
-    public void addBill(String name, int balance,int id, User user) throws BillListExсeption,UserListException{
+    public void addBill(String billname, int balance,int id, User user) {
         Bill bill = new Bill();
-        User userStorageById = userStorage.findById(id);
-        bill.setUser(userStorageById);
-        bill.setName(name);
+        User userStorageById = null;
+        try {
+            userStorageById = userStorage.findById(id);
+        } catch (UserListException e) {
+           System.out.println(e.getMessage());
+        }
+           bill.setUser(userStorageById);
+        bill.setName(billname);
         bill.setBalance(balance);
         billStorage.add(bill);
+
     }
     public List<Bill> getBillList (){return billStorage.getListOfElements();
     }
