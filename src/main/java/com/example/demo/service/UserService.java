@@ -12,16 +12,21 @@ import java.util.List;
 public class UserService {
 
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
-    private final BillService billService = Factory.getBillServiceInstance();
 
-
-    public void addUser(String name, String billName, int id, int balance) {
+    public void addUser(String name) {
         User user = new User();
         user.setName(name);
-        billService.addBill(billName,balance,id, user);
-        List <Bill> billListCollection = billService.getBillList();
-        user.setBillList(billListCollection);
         userStorage.add(user);
+
+    }
+    public void rewriteUser (User user){
+    User lastUser = new User();
+        try {
+        lastUser =  userStorage.takeLastUser(user);
+    }
+    catch (UserListException e){
+        System.out.println(e.getMessage());
+    }
     }
 
     public void addSeveralUsers(String severalUsers) {

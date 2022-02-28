@@ -1,8 +1,7 @@
 package com.example.demo.view;
 
-import com.example.demo.dao.BillStorage;
-import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
+import com.example.demo.model.User;
 import com.example.demo.service.BillService;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
@@ -25,6 +24,7 @@ public class StartProgram {
     private final UserService userService = Factory.getUserServiceInstance();
     private final SortService sortService = Factory.getSortServiceInstance();
     private final BillService billService = Factory.getBillServiceInstance();
+    private User user;
 
 
     public void startApp() {
@@ -72,6 +72,7 @@ public class StartProgram {
                 System.out.println("Input name of user");
                 name = in.next();
                 int id = 0;
+                userService.addUser(name);
                 do {
                     System.out.println(String.format(ONE, "Add Bill"));
                     System.out.println(String.format(ZERO, RETURN_TO_MAIN_MENU));
@@ -81,10 +82,11 @@ public class StartProgram {
                         billName = in.next();
                         System.out.println("Input balance");
                         balance = in.nextInt();
-                                           }
+                    }
+                    billService.addBill(billName, balance, id, user);
                 }
                 while (choiceNumber != 0);
-                userService.addUser(name, billName, id, balance);
+                userService.rewriteUser(user);
                 System.out.println("The User was Added");
             }
 

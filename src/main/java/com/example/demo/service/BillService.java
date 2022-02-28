@@ -20,17 +20,16 @@ public class BillService {
 
     public void addBill(String billname, int balance,int id, User user) {
         Bill bill = new Bill();
-        User userStorageById = null;
+        User lastUser = user;
         try {
-            userStorageById = userStorage.findById(id);
+            lastUser = userStorage.takeLastUser(user);
         } catch (UserListException e) {
            System.out.println(e.getMessage());
         }
-           bill.setUser(userStorageById);
+           bill.setUser(lastUser);
         bill.setName(billname);
         bill.setBalance(balance);
         billStorage.add(bill);
-
     }
     public List<Bill> getBillList (){return billStorage.getListOfElements();
     }

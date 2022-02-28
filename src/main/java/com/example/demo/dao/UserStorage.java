@@ -29,7 +29,17 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public int add(User user) {
+    public User takeLastUser(User user) throws UserListException {
+        for (User userInList : userList){
+            int lastUserId = userList.lastIndexOf(user);
+            userInList = getListOfElements().get(lastUserId);
+            return userInList;
+        }
+        throw new UserListException("User is not found");
+    }
+
+    @Override
+    public void add(User user) {
         if (userList.isEmpty()) {
             user.setId(1);
         } else {
@@ -42,8 +52,7 @@ public final class UserStorage implements Storage<User> {
             }
         }
         userList.add(user);
-        return user.getId();
-    }
+           }
 
     @Override
     public void printAll() {

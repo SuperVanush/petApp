@@ -21,7 +21,12 @@ public final class BillStorage implements Storage<Bill> {
     }
 
     @Override
-    public int add(Bill bill) {
+    public Bill takeLastUser(Bill bill) {
+        return null;
+    }
+
+    @Override
+    public void add(Bill bill) {
         if (billList.isEmpty()) {
             bill.setId(1);
         } else {
@@ -34,8 +39,7 @@ public final class BillStorage implements Storage<Bill> {
             }
         }
         billList.add(bill);
-        return bill.getId();
-    }
+           }
 
     @Override
     public void remove(int id) throws UserListException {
