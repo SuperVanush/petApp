@@ -9,7 +9,10 @@ public class StartCalculator {
     private final List<Integer> listResult = new ArrayList<Integer>();
 
     int nextResult;
-
+    int firstOperand;
+    String action;
+    int secondOperand;
+    int nextOperand;
 
     public void StartCalculator() {
         System.out.println("Calculator");
@@ -18,10 +21,7 @@ public class StartCalculator {
     }
 
     public void FirstAction() {
-        int firstOperand;
-        String action;
-        int secondOperand;
-        int firstResult = 0;
+               int firstResult = 0;
         System.out.println("Input number");
         firstOperand = in.nextInt();
         System.out.println("Input action");
@@ -32,29 +32,29 @@ public class StartCalculator {
             firstResult = firstOperand + secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(firstResult, secondOperand);
+            NextAction(nextResult);
         }
         if (action.equals("-")) {
             firstResult = firstOperand - secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(firstResult, secondOperand);
+            NextAction(nextResult);
         }
         if (action.equals("*")) {
             firstResult = firstOperand * secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(firstResult, secondOperand);
+            NextAction(nextResult);
         }
         if (action.equals("/")) {
             firstResult = firstOperand / secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(firstResult, secondOperand);
+            NextAction(nextResult);
         }
     }
 
-    public void NextAction(int nextResult, int nextOperand) {
+    public void NextAction(int nextResult) {
         String nextAction;
         do {
             System.out.println("Input action or 'q' for Exit");
