@@ -22,8 +22,11 @@ public class StartCalculator {
         String action;
         int secondOperand;
         int firstResult = 0;
+        System.out.println("Input number");
         firstOperand = in.nextInt();
+        System.out.println("Input action");
         action = in.next();
+        System.out.println("Input next number");
         secondOperand = in.nextInt();
         if (action.equals("+")) {
             firstResult = firstOperand + secondOperand;
@@ -49,42 +52,41 @@ public class StartCalculator {
             System.out.println(firstResult);
             NextAction(firstResult, secondOperand);
         }
-        if (action.equals("Q")) {
-            System.out.println("Exit");
-            System.out.println("Result=" + firstResult);
-
-        }
     }
 
-      public void NextAction(int nextResult, int nextOperand) {
+    public void NextAction(int nextResult, int nextOperand) {
         String nextAction;
-               do {
-               nextAction= in.next();
-               nextOperand = in.nextInt();
-            if (nextAction.equals("+")) {
-                nextResult = listResult.get(listResult.size() - 1) + nextOperand;
-                listResult.add(nextResult);
-                System.out.println(nextResult);
-            }
-            if (nextAction.equals("-")) {
-                nextResult = listResult.get(listResult.size() - 1) - nextOperand;
-                listResult.add(nextResult);
-                System.out.println(nextResult);
-            }
-            if (nextAction.equals("*")) {
-                nextResult = listResult.get(listResult.size() - 1) * nextOperand;
-                listResult.add(nextResult);
-                System.out.println(nextResult);
-            }
-            if (nextAction.equals("/")) {
-                nextResult = listResult.get(listResult.size() - 1) / nextOperand;
-                listResult.add(nextResult);
-                System.out.println(nextResult);
+        do {
+            System.out.println("Input action or 'q' for Exit");
+            nextAction = in.next();
+            if (nextAction.equals("q")) {
+                System.out.println("Exit");
+                System.out.println(("Result =" + nextResult));
+            } else {
+                System.out.println("Input next number");
+                nextOperand = in.nextInt();
+                if (nextAction.equals("+")) {
+                    nextResult = listResult.get(listResult.size() - 1) + nextOperand;
+                    listResult.add(nextResult);
+                    System.out.println(nextResult);
+                }
+                if (nextAction.equals("-")) {
+                    nextResult = listResult.get(listResult.size() - 1) - nextOperand;
+                    listResult.add(nextResult);
+                    System.out.println(nextResult);
+                }
+                if (nextAction.equals("*")) {
+                    nextResult = listResult.get(listResult.size() - 1) * nextOperand;
+                    listResult.add(nextResult);
+                    System.out.println(nextResult);
+                }
+                if (nextAction.equals("/")) {
+                    nextResult = listResult.get(listResult.size() - 1) / nextOperand;
+                    listResult.add(nextResult);
+                    System.out.println(nextResult);
+                }
             }
         }
-        while (!nextAction.equals("Q"))||(nextOperand!=);
-        System.out.println("Exit");
-        System.out.println(("Result =" + nextResult));
+        while (!nextAction.equals("q"));
     }
-
 }
