@@ -8,20 +8,19 @@ public class StartCalculator {
     public static final Scanner in = new Scanner(System.in);
     private final List<Integer> listResult = new ArrayList<Integer>();
 
-    int nextResult;
-    int firstOperand;
-    String action;
-    int secondOperand;
-    int nextOperand;
 
-    public void StartCalculator() {
+    public void startCalculator() {
         System.out.println("Calculator");
         System.out.println("Q = Exit");
-        FirstAction();
+        firstAction();
     }
 
-    public void FirstAction() {
-               int firstResult = 0;
+    public void firstAction() {
+        int nextResult = 0;
+        int firstOperand;
+        String action;
+        int secondOperand;
+        int firstResult = 0;
         System.out.println("Input number");
         firstOperand = in.nextInt();
         System.out.println("Input action");
@@ -32,29 +31,31 @@ public class StartCalculator {
             firstResult = firstOperand + secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(nextResult);
+            nextAction(nextResult);
         }
         if (action.equals("-")) {
             firstResult = firstOperand - secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(nextResult);
+            nextAction(nextResult);
         }
         if (action.equals("*")) {
             firstResult = firstOperand * secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(nextResult);
+            nextAction(nextResult);
         }
         if (action.equals("/")) {
             firstResult = firstOperand / secondOperand;
             listResult.add(firstResult);
             System.out.println(firstResult);
-            NextAction(nextResult);
+            nextAction(nextResult);
         }
     }
 
-    public void NextAction(int nextResult) {
+    public void nextAction(int nextResult) {
+
+        int nextOperand;
         String nextAction;
         do {
             System.out.println("Input action or 'q' for Exit");
