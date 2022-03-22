@@ -1,11 +1,9 @@
 package NewCalculator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class StartCalculator {
-    Servise servise = new Servise();
+    ServiceCalculator serviceCalculator = new ServiceCalculator();
 
     public static final Scanner in = new Scanner(System.in);
 
@@ -17,21 +15,17 @@ public class StartCalculator {
     }
 
     public void firstAction() {
-        int nextResult = 0;
-        int firstOperand;
-        String action;
-        int secondOperand;
         System.out.println("Input number");
-        firstOperand = in.nextInt();
+        int firstOperand = in.nextInt();
         System.out.println("Input action");
-        action = in.next();
+        String action = in.next();
         System.out.println("Input next number");
-        secondOperand = in.nextInt();
-        servise.firstMathCalculation(int firstOperand,int secondOperand, String action);
+        int secondOperand = in.nextInt();
+        serviceCalculator.firstMathCalculation(firstOperand, secondOperand, action);
     }
 
-    public void nextAction(int nextResult) {
-        int nextOperand;
+    public void nextAction() {
+        int nextResult = 0;
         String nextAction;
         do {
             System.out.println("Input action or 'q' for Exit");
@@ -41,7 +35,8 @@ public class StartCalculator {
                 System.out.println(("Result =" + nextResult));
             } else {
                 System.out.println("Input next number");
-                nextOperand = in.nextInt();
+                int nextOperand = in.nextInt();
+                serviceCalculator.nextMathCalculation(nextResult, nextOperand, nextAction);
 
             }
         }
