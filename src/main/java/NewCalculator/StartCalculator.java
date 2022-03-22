@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class StartCalculator {
+    Servise servise = new Servise();
+
     public static final Scanner in = new Scanner(System.in);
-    private final List<Integer> listResult = new ArrayList<Integer>();
 
 
     public void startCalculator() {
@@ -20,41 +21,16 @@ public class StartCalculator {
         int firstOperand;
         String action;
         int secondOperand;
-        int firstResult = 0;
         System.out.println("Input number");
         firstOperand = in.nextInt();
         System.out.println("Input action");
         action = in.next();
         System.out.println("Input next number");
         secondOperand = in.nextInt();
-        if (action.equals("+")) {
-            firstResult = firstOperand + secondOperand;
-            listResult.add(firstResult);
-            System.out.println(firstResult);
-            nextAction(nextResult);
-        }
-        if (action.equals("-")) {
-            firstResult = firstOperand - secondOperand;
-            listResult.add(firstResult);
-            System.out.println(firstResult);
-            nextAction(nextResult);
-        }
-        if (action.equals("*")) {
-            firstResult = firstOperand * secondOperand;
-            listResult.add(firstResult);
-            System.out.println(firstResult);
-            nextAction(nextResult);
-        }
-        if (action.equals("/")) {
-            firstResult = firstOperand / secondOperand;
-            listResult.add(firstResult);
-            System.out.println(firstResult);
-            nextAction(nextResult);
-        }
+        servise.firstMathCalculation(int firstOperand,int secondOperand, String action);
     }
 
     public void nextAction(int nextResult) {
-
         int nextOperand;
         String nextAction;
         do {
@@ -66,26 +42,7 @@ public class StartCalculator {
             } else {
                 System.out.println("Input next number");
                 nextOperand = in.nextInt();
-                if (nextAction.equals("+")) {
-                    nextResult = listResult.get(listResult.size() - 1) + nextOperand;
-                    listResult.add(nextResult);
-                    System.out.println(nextResult);
-                }
-                if (nextAction.equals("-")) {
-                    nextResult = listResult.get(listResult.size() - 1) - nextOperand;
-                    listResult.add(nextResult);
-                    System.out.println(nextResult);
-                }
-                if (nextAction.equals("*")) {
-                    nextResult = listResult.get(listResult.size() - 1) * nextOperand;
-                    listResult.add(nextResult);
-                    System.out.println(nextResult);
-                }
-                if (nextAction.equals("/")) {
-                    nextResult = listResult.get(listResult.size() - 1) / nextOperand;
-                    listResult.add(nextResult);
-                    System.out.println(nextResult);
-                }
+
             }
         }
         while (!nextAction.equals("q"));
