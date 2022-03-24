@@ -24,6 +24,7 @@ public class StartCalculator {
         nextAction();
     }
 
+
     public void nextAction() {
         int nextOperand;
         String nextAction;
