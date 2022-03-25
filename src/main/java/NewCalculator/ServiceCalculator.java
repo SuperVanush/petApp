@@ -7,7 +7,7 @@ public class ServiceCalculator {
     private final List<Integer> listResult = new ArrayList<>();
 
 
-    public int MathCalculation(int firstOperand, int secondOperand, String action) {
+    public int mathCalculation(int firstOperand, int secondOperand, String action) {
         int firstResult;
         if (action.equals("+")) {
             firstResult = firstOperand + secondOperand;
@@ -28,7 +28,7 @@ public class ServiceCalculator {
         return listResult.get(listResult.size() - 1);
     }
 
-    public int MathCalculation(String nextAction, int nextOperand) {
+    public int mathCalculation(String nextAction, int nextOperand) {
         int nextResult;
         if (nextAction.equals("+")) {
             nextResult = listResult.get(listResult.size() - 1) + nextOperand;
@@ -49,4 +49,10 @@ public class ServiceCalculator {
         return listResult.get(listResult.size() - 1);
     }
 
+    @Override
+    public String toString() {
+        return "ServiceCalculator{" +
+                "listResult=" + listResult +
+                '}';
+    }
 }
