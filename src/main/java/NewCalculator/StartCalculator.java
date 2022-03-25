@@ -19,7 +19,7 @@ public class StartCalculator {
         String action = in.next();
         System.out.println("Input next number");
         int secondOperand = in.nextInt();
-        int firstActionResult = serviceCalculator.firstMathCalculation(firstOperand, secondOperand, action);
+        int firstActionResult = serviceCalculator.MathCalculation(firstOperand, secondOperand, action);
         System.out.println(firstActionResult);
         nextAction();
     }
@@ -28,19 +28,17 @@ public class StartCalculator {
     public void nextAction() {
         int nextOperand;
         String nextAction;
-        System.out.println("Input action or 'q' for Exit");
-        nextAction = in.next();
-        if (!nextAction.equals("q")) {
-            System.out.println("Input next number");
-            nextOperand = in.nextInt();
-            int actionResult = serviceCalculator.nextMathCalculation(nextAction, nextOperand);
-            System.out.println(("Result =" + actionResult));
-            nextAction();
-        } else {
-
-
-            System.out.println("EXIT");
-
+        do {
+            System.out.println("Input action or 'q' for Exit");
+            nextAction = in.next();
+            if (!nextAction.equals("q")) {
+                System.out.println("Input next number");
+                nextOperand = in.nextInt();
+                int actionResult = serviceCalculator.MathCalculation(nextAction, nextOperand);
+                System.out.println(("Result =" + actionResult));
+                           }
         }
+        while (!nextAction.equals("q"));
+        System.out.println("EXIT");
     }
 }
