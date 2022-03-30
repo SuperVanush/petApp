@@ -1,5 +1,6 @@
 package NewCalculator;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class StartCalculator {
@@ -40,6 +41,7 @@ public class StartCalculator {
         }
         while (!nextAction.equals("q"));
         System.out.println("EXIT");
-        System.out.println(serviceCalculator.printResults());
+        List<Integer> listResultForPrint = serviceCalculator.resultForPrint();
+        System.out.println(listResultForPrint);
     }
 }

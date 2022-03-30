@@ -49,7 +49,7 @@ public class ServiceCalculator {
         return listResult.get(listResult.size() - 1);
     }
 
-    public List printResults() {
+    public List<Integer> resultForPrint() {
 
         return listResult;
     }
