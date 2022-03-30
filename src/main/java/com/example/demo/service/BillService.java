@@ -1,9 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.BillStorage;
+
 import com.example.demo.dao.Storage;
-import com.example.demo.dao.UserStorage;
-import com.example.demo.exception.BillListExсeption;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
@@ -18,18 +16,19 @@ public class BillService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
 
-    public void addBill(String billname, int balance,int id, User user) {
+
+    public void addBill(String billname, int balance,int id,User user, int idLastUser) {
         Bill bill = new Bill();
-        User lastUser = user;
-        try {
-            lastUser = userStorage.takeLastUser(user);
-        } catch (UserListException e) {
-           System.out.println(e.getMessage());
-        }
-           bill.setUser(lastUser);
         bill.setName(billname);
         bill.setBalance(balance);
+        try {
+            userStorage.findById(idLastUser);
+        } catch (UserListException e){
+            System.err.println(e.getMessage());
+        }
+        bill.setUser(user);
         billStorage.add(bill);
+
     }
     public List<Bill> getBillList (){return billStorage.getListOfElements();
     }

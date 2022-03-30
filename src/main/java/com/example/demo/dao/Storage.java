@@ -12,11 +12,9 @@ import java.util.stream.Collectors;
 
 public interface Storage<T> {
 
-    void add(T t) ;
+    int add(T t) ;
 
     T findById (int id) throws UserListException;
-
-    T takeLastUser (T t) throws UserListException;
 
     void remove(int id) throws UserListException;
 

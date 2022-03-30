@@ -1,13 +1,14 @@
 package com.example.demo.dao;
-
 import com.example.demo.exception.UserListException;
+import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
 
 public final class UserStorage implements Storage<User> {
+    private final UserService userService = Factory.getUserServiceInstance();
 
     private final List<User> userList = new ArrayList<>();
 
@@ -19,27 +20,19 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public User findById(int id) throws UserListException {
+    public User findById(int idLastUser) throws UserListException {
+        String name= "name";
+        idLastUser = userService.addUser(name);
         for (User userInList : userList) {
-            if (userInList.getId() == id) {
+            if (userInList.getId() == idLastUser) {
                 return userInList;
             }
-        }
-                throw new UserListException("User is not found");
-    }
-
-    @Override
-    public User takeLastUser(User user) throws UserListException {
-        for (User userInList : userList){
-            int lastUserId = userList.lastIndexOf(user);
-            userInList = getListOfElements().get(lastUserId);
-            return userInList;
         }
         throw new UserListException("User is not found");
     }
 
     @Override
-    public void add(User user) {
+    public int add(User user) {
         if (userList.isEmpty()) {
             user.setId(1);
         } else {
@@ -52,7 +45,8 @@ public final class UserStorage implements Storage<User> {
             }
         }
         userList.add(user);
-           }
+        return user.getId();
+    }
 
     @Override
     public void printAll() {
