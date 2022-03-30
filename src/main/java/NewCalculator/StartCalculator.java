@@ -41,6 +41,10 @@ public class StartCalculator {
         }
         while (!nextAction.equals("q"));
         System.out.println("EXIT");
+        printListResult();
+    }
+
+    public void printListResult() {
         List<Integer> listResultForPrint = serviceCalculator.resultForPrint();
         System.out.println(listResultForPrint);
     }

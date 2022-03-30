@@ -50,8 +50,6 @@ public class ServiceCalculator {
     }
 
     public List<Integer> resultForPrint() {
-
         return listResult;
     }
-
 }
