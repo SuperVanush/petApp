@@ -49,10 +49,9 @@ public class ServiceCalculator {
         return listResult.get(listResult.size() - 1);
     }
 
-    @Override
-    public String toString() {
-        return "ServiceCalculator{" +
-                "listResult=" + listResult +
-                '}';
+    public List printResults() {
+
+        return listResult;
     }
+
 }

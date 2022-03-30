@@ -40,6 +40,6 @@ public class StartCalculator {
         }
         while (!nextAction.equals("q"));
         System.out.println("EXIT");
-        System.out.println(serviceCalculator.toString());
+        System.out.println(serviceCalculator.printResults());
     }
 }
