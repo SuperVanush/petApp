@@ -11,6 +11,8 @@ public class StartCalculator {
     public void startCalculator() {
         System.out.println("Calculator");
         firstAction();
+        List<Integer> listResultForPrint = serviceCalculator.resultForPrint();
+        System.out.println(listResultForPrint);
     }
 
     public void firstAction() {
@@ -41,11 +43,5 @@ public class StartCalculator {
         }
         while (!nextAction.equals("q"));
         System.out.println("EXIT");
-        printListResult();
-    }
-
-    public void printListResult() {
-        List<Integer> listResultForPrint = serviceCalculator.resultForPrint();
-        System.out.println(listResultForPrint);
     }
 }
