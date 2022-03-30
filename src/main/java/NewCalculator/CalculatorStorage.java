@@ -6,15 +6,15 @@ import com.example.demo.exception.UserListException;
 import java.util.List;
 
 
-public class CalculatorStorage implements Storage <List <Integer>> {
+public class CalculatorStorage implements Storage<Integer> {
 
     @Override
-    public int add(List<Integer> integers) {
+    public int add(Integer integer) {
         return 0;
     }
 
     @Override
-    public List<Integer> findById(int id) throws UserListException {
+    public Integer findById(int id) throws UserListException {
         return null;
     }
 
@@ -29,7 +29,7 @@ public class CalculatorStorage implements Storage <List <Integer>> {
     }
 
     @Override
-    public List<List<Integer>> getListOfElements() {
+    public List<Integer> getListOfElements() {
         return null;
     }
 }
