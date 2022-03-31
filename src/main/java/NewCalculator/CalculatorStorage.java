@@ -8,12 +8,17 @@ import java.util.List;
 
 
 public class CalculatorStorage implements Storage<Integer> {
-       private final List<Integer> listResult = new ArrayList<>();
+    private final List<Integer> listResult = new ArrayList<>();
 
     @Override
     public int add(Integer result) {
         listResult.add(result);
         return listResult.get(listResult.size() - 1);
+    }
+
+    public int returnLatsResult() {
+        int lastResult = listResult.get(listResult.size() - 1);
+        return lastResult;
     }
 
     @Override
@@ -23,7 +28,6 @@ public class CalculatorStorage implements Storage<Integer> {
 
     @Override
     public void remove(int id) throws UserListException {
-
     }
 
     @Override
@@ -33,6 +37,6 @@ public class CalculatorStorage implements Storage<Integer> {
 
     @Override
     public List<Integer> getListOfElements() {
-        return null;
+        return listResult;
     }
 }
