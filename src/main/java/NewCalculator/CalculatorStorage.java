@@ -3,14 +3,17 @@ package NewCalculator;
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class CalculatorStorage implements Storage<Integer> {
+       private final List<Integer> listResult = new ArrayList<>();
 
     @Override
-    public int add(Integer integer) {
-        return 0;
+    public int add(Integer result) {
+        listResult.add(result);
+        return listResult.get(listResult.size() - 1);
     }
 
     @Override
@@ -25,7 +28,7 @@ public class CalculatorStorage implements Storage<Integer> {
 
     @Override
     public void printAll() {
-
+        listResult.forEach(System.out::println);
     }
 
     @Override

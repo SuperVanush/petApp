@@ -1,55 +1,46 @@
 package NewCalculator;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceCalculator {
-    private final List<Integer> listResult = new ArrayList<>();
-
+    CalculatorStorage calculatorStorage = new CalculatorStorage();
 
     public int mathCalculation(int firstOperand, int secondOperand, String action) {
-        int firstResult;
+        int result=0;
         if (action.equals("+")) {
-            firstResult = firstOperand + secondOperand;
-            listResult.add(firstResult);
-        }
+            result = firstOperand + secondOperand;
+                   }
         if (action.equals("-")) {
-            firstResult = firstOperand - secondOperand;
-            listResult.add(firstResult);
-        }
+            result = firstOperand - secondOperand;
+                   }
         if (action.equals("*")) {
-            firstResult = firstOperand * secondOperand;
-            listResult.add(firstResult);
-        }
+            result = firstOperand * secondOperand;
+                    }
         if (action.equals("/")) {
-            firstResult = firstOperand / secondOperand;
-            listResult.add(firstResult);
-        }
-        return listResult.get(listResult.size() - 1);
+            result = firstOperand / secondOperand;
+                   }
+        calculatorStorage.add(result);
+        return result;
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
-        int nextResult;
+        int result=0;
         if (nextAction.equals("+")) {
-            nextResult = listResult.get(listResult.size() - 1) + nextOperand;
-            listResult.add(nextResult);
-        }
+            result = calculatorStorage.add(result) + nextOperand;
+                              }
         if (nextAction.equals("-")) {
-            nextResult = listResult.get(listResult.size() - 1) - nextOperand;
-            listResult.add(nextResult);
-        }
+            result =  calculatorStorage.add(result) - nextOperand;
+            }
         if (nextAction.equals("*")) {
-            nextResult = listResult.get(listResult.size() - 1) * nextOperand;
-            listResult.add(nextResult);
-        }
+            result =  calculatorStorage.add(result)  * nextOperand;
+                   }
         if (nextAction.equals("/")) {
-            nextResult = listResult.get(listResult.size() - 1) / nextOperand;
-            listResult.add(nextResult);
-        }
-        return listResult.get(listResult.size() - 1);
+            result =  calculatorStorage.add(result) / nextOperand;
+                 }
+        calculatorStorage.add(result);
+        return result;
     }
 
     public List<Integer> resultForPrint() {
-        return listResult;
+        return calculatorStorage.getListOfElements();
     }
 }
