@@ -33,9 +33,9 @@ public class ServiceCalculator {
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
-        int lastResalt=0;
-              if (nextAction.equals("+")) {
-            result = resultReturn+nextOperand;
+        int lastResult = 0;
+        if (nextAction.equals("+")) {
+            result = resultReturn + nextOperand;
         }
         if (nextAction.equals("-")) {
             result = resultReturn - nextOperand;
@@ -48,11 +48,11 @@ public class ServiceCalculator {
         }
         calculatorStorage.add(result);
         try {
-        lastResalt=    resultReturn = calculatorStorage.findById(idLastReturn);
+            lastResult = calculatorStorage.findById(idLastReturn);
         } catch (UserListException e) {
             System.err.println(e.getMessage());
         }
-        return lastResalt;
+        return lastResult;
     }
 
     public List<Integer> resultForPrint() {
