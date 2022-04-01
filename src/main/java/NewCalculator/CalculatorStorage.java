@@ -13,10 +13,6 @@ public class CalculatorStorage implements Storage<Integer> {
     @Override
     public int add(Integer result) {
         listResult.add(result);
-        return listResult.get(listResult.size() - 1);
-    }
-
-    public int returnLatsResult() {
         int lastResult = listResult.get(listResult.size() - 1);
         return lastResult;
     }

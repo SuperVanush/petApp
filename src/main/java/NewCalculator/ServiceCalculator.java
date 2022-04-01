@@ -26,16 +26,16 @@ public class ServiceCalculator {
     public int mathCalculation(String nextAction, int nextOperand) {
         int result = 0;
         if (nextAction.equals("+")) {
-            result = calculatorStorage.returnLatsResult() + nextOperand;
+            result = (calculatorStorage.getListOfElements().size()-1) + nextOperand;
         }
         if (nextAction.equals("-")) {
-            result = calculatorStorage.returnLatsResult() - nextOperand;
+            result = (calculatorStorage.getListOfElements().size()-1) - nextOperand;
         }
         if (nextAction.equals("*")) {
-            result = calculatorStorage.returnLatsResult() * nextOperand;
+            result = (calculatorStorage.getListOfElements().size()-1) * nextOperand;
         }
         if (nextAction.equals("/")) {
-            result = calculatorStorage.returnLatsResult() / nextOperand;
+            result = (calculatorStorage.getListOfElements().size()-1) / nextOperand;
         }
         int resultReturn = calculatorStorage.add(result);
         return resultReturn;
