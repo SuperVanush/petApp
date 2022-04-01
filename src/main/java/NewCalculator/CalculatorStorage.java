@@ -2,6 +2,7 @@ package NewCalculator;
 
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
+import com.example.demo.model.Bill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,18 @@ public class CalculatorStorage implements Storage<Integer> {
     @Override
     public int add(Integer result) {
         listResult.add(result);
-        int lastResult = listResult.get(listResult.size() - 1);
-        return lastResult;
+        int idLastResult = listResult.lastIndexOf(result);
+        return idLastResult;
     }
 
     @Override
-    public Integer findById(int id) throws UserListException {
-        return null;
+    public Integer findById(int idLastResult) throws UserListException {
+        for (Integer resultInList : listResult) {
+            resultInList = listResult.get(idLastResult);
+            return resultInList;
+
+        }
+        throw new UserListException("Id is not found");
     }
 
     @Override

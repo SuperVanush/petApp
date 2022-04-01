@@ -1,12 +1,16 @@
 package NewCalculator;
 
+import com.example.demo.exception.UserListException;
+
 import java.util.List;
 
 public class ServiceCalculator {
     private CalculatorStorage calculatorStorage = new CalculatorStorage();
+    int result = 0;
+    int idLastReturn = 0;
+    int resultReturn = 0;
 
     public int mathCalculation(int firstOperand, int secondOperand, String action) {
-        int result = 0;
         if (action.equals("+")) {
             result = firstOperand + secondOperand;
         }
@@ -19,26 +23,36 @@ public class ServiceCalculator {
         if (action.equals("/")) {
             result = firstOperand / secondOperand;
         }
-        int resultReturn = calculatorStorage.add(result);
+        calculatorStorage.add(result);
+        try {
+            resultReturn = calculatorStorage.findById(idLastReturn);
+        } catch (UserListException e) {
+            System.err.println(e.getMessage());
+        }
         return resultReturn;
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
-        int result = 0;
-        if (nextAction.equals("+")) {
-            result = (calculatorStorage.getListOfElements().size()-1) + nextOperand;
+        int lastResalt=0;
+              if (nextAction.equals("+")) {
+            result = resultReturn+nextOperand;
         }
         if (nextAction.equals("-")) {
-            result = (calculatorStorage.getListOfElements().size()-1) - nextOperand;
+            result = resultReturn - nextOperand;
         }
         if (nextAction.equals("*")) {
-            result = (calculatorStorage.getListOfElements().size()-1) * nextOperand;
+            result = resultReturn * nextOperand;
         }
         if (nextAction.equals("/")) {
-            result = (calculatorStorage.getListOfElements().size()-1) / nextOperand;
+            result = resultReturn / nextOperand;
         }
-        int resultReturn = calculatorStorage.add(result);
-        return resultReturn;
+        calculatorStorage.add(result);
+        try {
+        lastResalt=    resultReturn = calculatorStorage.findById(idLastReturn);
+        } catch (UserListException e) {
+            System.err.println(e.getMessage());
+        }
+        return lastResalt;
     }
 
     public List<Integer> resultForPrint() {

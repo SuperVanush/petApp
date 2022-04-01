@@ -1,4 +1,5 @@
 package com.example.demo.dao;
+
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
@@ -21,7 +22,7 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public User findById(int idLastUser) throws UserListException {
-        String name= "name";
+        String name = "name";
         idLastUser = userService.addUser(name);
         for (User userInList : userList) {
             if (userInList.getId() == idLastUser) {
