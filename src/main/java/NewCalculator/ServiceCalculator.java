@@ -55,7 +55,7 @@ public class ServiceCalculator {
         return lastResult;
     }
 
-    public List<Integer> resultForPrint() {
+        public List<Integer> resultForPrint() {
         return calculatorStorage.getListOfElements();
     }
 }
