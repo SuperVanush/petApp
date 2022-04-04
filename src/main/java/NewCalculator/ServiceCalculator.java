@@ -33,7 +33,11 @@ public class ServiceCalculator {
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
-        int lastResult = 0;
+               try {
+            resultReturn = calculatorStorage.findById(idLastReturn);
+        } catch (UserListException e) {
+            System.err.println(e.getMessage());
+        }
         if (nextAction.equals("+")) {
             result = resultReturn + nextOperand;
         }
@@ -46,16 +50,16 @@ public class ServiceCalculator {
         if (nextAction.equals("/")) {
             result = resultReturn / nextOperand;
         }
-        calculatorStorage.add(result);
+        idLastReturn = calculatorStorage.add(result);
         try {
-            lastResult = calculatorStorage.findById(idLastReturn);
+            resultReturn = calculatorStorage.findById(idLastReturn);
         } catch (UserListException e) {
             System.err.println(e.getMessage());
         }
-        return lastResult;
+        return resultReturn;
     }
 
-        public List<Integer> resultForPrint() {
+    public List<Integer> resultForPrint() {
         return calculatorStorage.getListOfElements();
     }
 }
