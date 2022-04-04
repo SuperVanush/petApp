@@ -25,8 +25,8 @@ public class CalculatorStorage implements Storage<Integer> {
     }
 
     @Override
-    public void remove(int id) throws UserListException {
-    }
+    public void remove(int id)  {
+           }
 
     @Override
     public void printAll() {

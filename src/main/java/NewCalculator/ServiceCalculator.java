@@ -4,11 +4,10 @@ import java.util.List;
 
 public class ServiceCalculator {
     private CalculatorStorage calculatorStorage = new CalculatorStorage();
-    int result = 0;
-    int idLastReturn = 0;
-    int resultReturn = 0;
 
     public int mathCalculation(int firstOperand, int secondOperand, String action) {
+        int result = 0;
+        int idLastReturn = 0;
         if (action.equals("+")) {
             result = firstOperand + secondOperand;
         }
@@ -22,12 +21,13 @@ public class ServiceCalculator {
             result = firstOperand / secondOperand;
         }
         calculatorStorage.add(result);
-        resultReturn = calculatorStorage.findById(idLastReturn);
+        int resultReturn = calculatorStorage.findById(idLastReturn);
         return resultReturn;
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
-        resultReturn = calculatorStorage.findById(idLastReturn);
+        int result = 0;
+        int resultReturn = calculatorStorage.getListOfElements().get((calculatorStorage.getListOfElements().size()-1));
         if (nextAction.equals("+")) {
             result = resultReturn + nextOperand;
         }
@@ -40,7 +40,7 @@ public class ServiceCalculator {
         if (nextAction.equals("/")) {
             result = resultReturn / nextOperand;
         }
-        idLastReturn = calculatorStorage.add(result);
+        int idLastReturn = calculatorStorage.add(result);
         resultReturn = calculatorStorage.findById(idLastReturn);
         return resultReturn;
     }
