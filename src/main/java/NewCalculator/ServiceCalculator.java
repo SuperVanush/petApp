@@ -1,7 +1,5 @@
 package NewCalculator;
 
-import com.example.demo.exception.UserListException;
-
 import java.util.List;
 
 public class ServiceCalculator {
@@ -24,20 +22,12 @@ public class ServiceCalculator {
             result = firstOperand / secondOperand;
         }
         calculatorStorage.add(result);
-        try {
-            resultReturn = calculatorStorage.findById(idLastReturn);
-        } catch (UserListException e) {
-            System.err.println(e.getMessage());
-        }
+        resultReturn = calculatorStorage.findById(idLastReturn);
         return resultReturn;
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
-               try {
-            resultReturn = calculatorStorage.findById(idLastReturn);
-        } catch (UserListException e) {
-            System.err.println(e.getMessage());
-        }
+        resultReturn = calculatorStorage.findById(idLastReturn);
         if (nextAction.equals("+")) {
             result = resultReturn + nextOperand;
         }
@@ -51,11 +41,7 @@ public class ServiceCalculator {
             result = resultReturn / nextOperand;
         }
         idLastReturn = calculatorStorage.add(result);
-        try {
-            resultReturn = calculatorStorage.findById(idLastReturn);
-        } catch (UserListException e) {
-            System.err.println(e.getMessage());
-        }
+        resultReturn = calculatorStorage.findById(idLastReturn);
         return resultReturn;
     }
 

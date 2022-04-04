@@ -19,13 +19,9 @@ public class CalculatorStorage implements Storage<Integer> {
     }
 
     @Override
-    public Integer findById(int idLastResult) throws UserListException {
-        for (Integer resultInList : listResult) {
-            resultInList = listResult.get(idLastResult);
-            return resultInList;
-
-        }
-        throw new UserListException("Id is not found");
+    public Integer findById(int idLastResult) {
+        int resultInList = listResult.get(idLastResult);
+        return resultInList;
     }
 
     @Override
