@@ -27,7 +27,7 @@ public class ServiceCalculator {
 
     public int mathCalculation(String nextAction, int nextOperand) {
         int result = 0;
-        int resultReturn = calculatorStorage.getListOfElements().get((calculatorStorage.getListOfElements().size()-1));
+        int resultReturn = calculatorStorage.getListOfElements().get((calculatorStorage.getListOfElements().size() - 1));
         if (nextAction.equals("+")) {
             result = resultReturn + nextOperand;
         }
