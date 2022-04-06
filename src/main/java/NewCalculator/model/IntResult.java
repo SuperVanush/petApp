@@ -1,13 +1,8 @@
-package NewCalculator;
+package NewCalculator.model;
 
 public class IntResult {
     private int id;
     private int value;
-
-    public IntResult(int id, int value) {
-        this.id = id;
-        this.value = value;
-    }
 
     public int getId() {
         return id;

@@ -1,4 +1,6 @@
-package NewCalculator;
+package NewCalculator.service;
+
+import NewCalculator.dao.CalculatorStorage;
 
 import java.util.List;
 

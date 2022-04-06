@@ -1,4 +1,4 @@
-package NewCalculator;
+package NewCalculator.dao;
 
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;

@@ -24,13 +24,13 @@ public interface Storage<T> {
 
     static <T> T of(String classNameForGet) {
         InputStream stream = ClassLoader.getSystemClassLoader()
-                .getResourceAsStream("com.example.demo.dao".replaceAll("[.]", "/"));
+                .getResourceAsStream("com.example.demo.NewCalculator.dao".replaceAll("[.]", "/"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         Set<? extends Class<?>> collect = reader.lines()
                 .filter(line -> line.endsWith(".class"))
                 .map(className -> {
                     try {
-                        return Class.forName("com.example.demo.dao" + "."
+                        return Class.forName("com.example.demo.NewCalculator.dao" + "."
                                 + className.substring(0, className.lastIndexOf('.')));
                     } catch (ClassNotFoundException e) {
                         // handle the exception
