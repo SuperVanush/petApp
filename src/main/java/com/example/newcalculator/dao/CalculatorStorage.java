@@ -1,4 +1,4 @@
-package NewCalculator.dao;
+package com.example.newcalculator.dao;
 
 import com.example.demo.dao.Storage;
 

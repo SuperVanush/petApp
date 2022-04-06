@@ -1,4 +1,4 @@
-package NewCalculator.model;
+package com.example.newcalculator.model;
 
 public class IntResult {
     private int id;

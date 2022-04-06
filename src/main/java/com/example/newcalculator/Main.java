@@ -1,6 +1,6 @@
-package NewCalculator;
+package com.example.newcalculator;
 
-import NewCalculator.view.StartCalculator;
+import com.example.newcalculator.view.StartCalculator;
 
 public class Main {
    public static void main (String[] args){

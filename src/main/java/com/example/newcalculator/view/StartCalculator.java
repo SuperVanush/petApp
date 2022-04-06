@@ -1,6 +1,6 @@
-package NewCalculator.view;
+package com.example.newcalculator.view;
 
-import NewCalculator.service.ServiceCalculator;
+import com.example.newcalculator.service.ServiceCalculator;
 
 import java.util.List;
 import java.util.Scanner;
