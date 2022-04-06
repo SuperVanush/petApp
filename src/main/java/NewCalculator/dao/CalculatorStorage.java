@@ -1,8 +1,6 @@
 package NewCalculator.dao;
 
 import com.example.demo.dao.Storage;
-import com.example.demo.exception.UserListException;
-import com.example.demo.model.Bill;
 
 import java.util.ArrayList;
 import java.util.List;
