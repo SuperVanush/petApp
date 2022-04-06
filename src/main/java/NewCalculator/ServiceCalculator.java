@@ -28,7 +28,7 @@ public class ServiceCalculator {
     public int mathCalculation(String nextAction, int nextOperand) {
         int result = 0;
         List<Integer> listForLastIndex = calculatorStorage.getListOfElements();
-        int indexLastElement = calculatorStorage.getListOfElements().size() - 1;
+        int indexLastElement = listForLastIndex.size() - 1;
         int lastResultReturn = listForLastIndex.get(indexLastElement);
         if (nextAction.equals("+")) {
             result = lastResultReturn + nextOperand;
