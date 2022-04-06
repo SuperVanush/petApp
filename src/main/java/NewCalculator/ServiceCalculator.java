@@ -27,22 +27,24 @@ public class ServiceCalculator {
 
     public int mathCalculation(String nextAction, int nextOperand) {
         int result = 0;
-        int resultReturn = calculatorStorage.getListOfElements().get((calculatorStorage.getListOfElements().size() - 1));
+        List<Integer> listForLastIndex = calculatorStorage.getListOfElements();
+        int indexLastElement = calculatorStorage.getListOfElements().size() - 1;
+        int lastResultReturn = listForLastIndex.get(indexLastElement);
         if (nextAction.equals("+")) {
-            result = resultReturn + nextOperand;
+            result = lastResultReturn + nextOperand;
         }
         if (nextAction.equals("-")) {
-            result = resultReturn - nextOperand;
+            result = lastResultReturn - nextOperand;
         }
         if (nextAction.equals("*")) {
-            result = resultReturn * nextOperand;
+            result = lastResultReturn * nextOperand;
         }
         if (nextAction.equals("/")) {
-            result = resultReturn / nextOperand;
+            result = lastResultReturn / nextOperand;
         }
         int idLastReturn = calculatorStorage.add(result);
-        resultReturn = calculatorStorage.findById(idLastReturn);
-        return resultReturn;
+        lastResultReturn = calculatorStorage.findById(idLastReturn);
+        return lastResultReturn;
     }
 
     public List<Integer> resultForPrint() {
