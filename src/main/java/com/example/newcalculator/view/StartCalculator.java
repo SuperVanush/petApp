@@ -1,5 +1,6 @@
 package com.example.newcalculator.view;
 
+import com.example.newcalculator.model.IntResult;
 import com.example.newcalculator.service.ServiceCalculator;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class StartCalculator {
     }
 
     public void printListResult() {
-        List<Integer> listResultForPrint = serviceCalculator.resultForPrint();
+        List<IntResult> listResultForPrint = serviceCalculator.resultForPrint();
         System.out.println(listResultForPrint);
     }
 }

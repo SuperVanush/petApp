@@ -1,24 +1,39 @@
 package com.example.newcalculator.dao;
 
 import com.example.demo.dao.Storage;
+import com.example.newcalculator.model.IntResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class CalculatorStorage implements Storage<Integer> {
-    private final List<Integer> listResult = new ArrayList<>();
+public class CalculatorStorage implements Storage<IntResult> {
+    private final List<IntResult> listResult = new ArrayList<>();
 
     @Override
-    public int add(Integer result) {
-        listResult.add(result);
-        int idLastResult = listResult.lastIndexOf(result);
-        return idLastResult;
+    public int add(IntResult intResult) {
+        if (listResult.isEmpty()) {
+            intResult.setId(1);
+        } else {
+            int maxId = intResult.getId();
+            for (IntResult resultInList : listResult) {
+                int maxNextId = resultInList.getId();
+                if (maxNextId > maxId)
+                    maxId = maxNextId;
+                intResult.setId(maxId + 1);
+            }
+        }
+        listResult.add(intResult);
+        return intResult.getId();
     }
 
     @Override
-    public Integer findById(int idLastResult) {
-        int resultInList = listResult.get(idLastResult);
+    public IntResult findById(int idLastReturn) {
+        int idLastResult = 0;
+        for (IntResult resultInList : listResult) {
+            if (resultInList.getId() == idLastResult)
+                resultInList = listResult.get(idLastResult);
+        }
         return resultInList;
     }
 
@@ -32,7 +47,7 @@ public class CalculatorStorage implements Storage<Integer> {
     }
 
     @Override
-    public List<Integer> getListOfElements() {
+    public List<IntResult> getListOfElements() {
         return listResult;
     }
 }
