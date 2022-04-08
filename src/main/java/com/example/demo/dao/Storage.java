@@ -1,7 +1,5 @@
 package com.example.demo.dao;
 
-import com.example.demo.exception.UserListException;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,11 +10,11 @@ import java.util.stream.Collectors;
 
 public interface Storage<T> {
 
-    int add(T t) ;
+    int add(T t);
 
-    T findById (int id) throws Exception;
+    T findById (int id);
 
-    void remove(int id) ;
+    void remove(int id);
 
     void printAll();
 

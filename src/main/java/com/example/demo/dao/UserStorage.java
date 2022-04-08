@@ -21,7 +21,7 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public User findById(int idLastUser) throws UserListException {
+    public User findById(int idLastUser) {
         String name = "name";
         idLastUser = userService.addUser(name);
         for (User userInList : userList) {

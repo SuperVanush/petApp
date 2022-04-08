@@ -16,7 +16,7 @@ public class BillService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
 
-    public void addBill(String billname, int balance, int id, User user, int idLastUser) throws Exception {
+    public void addBill(String billname, int balance, int id, User user, int idLastUser) {
         Bill bill = new Bill();
         bill.setName(billname);
         bill.setBalance(balance);

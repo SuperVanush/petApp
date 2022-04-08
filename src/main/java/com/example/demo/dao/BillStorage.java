@@ -11,7 +11,7 @@ public final class BillStorage implements Storage<Bill> {
     private final List<Bill> billList = new ArrayList<>();
 
     @Override
-    public Bill findById(int id) throws BillListException {
+    public Bill findById(int id) {
         for (Bill billInList : billList) {
             if (billInList.getId() == id) {
                 return billInList;
