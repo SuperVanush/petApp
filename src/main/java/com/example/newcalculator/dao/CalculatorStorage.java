@@ -30,10 +30,9 @@ public class CalculatorStorage implements Storage<IntResult> {
 
     @Override
     public IntResult findById(int idLastReturn) {
-        int idLastResult = 0;
-        for (IntResult resultInList : listResult) {
-            if (resultInList.getId() == idLastResult)
-                resultInList = listResult.get(idLastResult);
+                for (IntResult resultInList : listResult) {
+            if (resultInList.getId() == idLastReturn)
+                resultInList = listResult.get(idLastReturn);
             return resultInList;
         }
         throw new CalculatorListException("Result not found");

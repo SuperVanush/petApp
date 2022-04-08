@@ -19,4 +19,12 @@ public class IntResult {
     public void setValue(int value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "IntResult{" +
+                "id=" + id +
+                ", value=" + value +
+                '}';
+    }
 }

@@ -48,12 +48,13 @@ public class ServiceCalculator {
         if (nextAction.equals("/")) {
             result = lastResultReturn / nextOperand;
         }
+        intResult.setValue(result);
         int idLastReturn = calculatorStorage.add(intResult);
-        lastResultReturn = calculatorStorage.findById(idLastReturn).getValue();
+        lastResultReturn = calculatorStorage.findById(idLastReturn).getValue();// из метода в сторадже правильно передается, а тут id правильный как быдто, а value старый
         return lastResultReturn;
     }
 
     public List<IntResult> resultForPrint() {
-        return calculatorStorage.getListOfElements();
+        return calculatorStorage.getListOfElements(); // здесь выводит сами объекты, но пока не поля объектов
     }
 }
