@@ -14,7 +14,7 @@ public interface Storage<T> {
 
     int add(T t) ;
 
-    T findById (int id);
+    T findById (int id) throws Exception;
 
     void remove(int id) ;
 

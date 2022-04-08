@@ -1,6 +1,6 @@
 package com.example.demo.dao;
 
-import com.example.demo.exception.UserListException;
+import com.example.demo.exception.BillListException;
 import com.example.demo.model.Bill;
 
 
@@ -11,13 +11,13 @@ public final class BillStorage implements Storage<Bill> {
     private final List<Bill> billList = new ArrayList<>();
 
     @Override
-    public Bill findById(int id) throws UserListException {
+    public Bill findById(int id) throws BillListException {
         for (Bill billInList : billList) {
             if (billInList.getId() == id) {
                 return billInList;
             }
         }
-        throw new UserListException("Bill is not found");
+        throw new BillListException("Bill is not found");
     }
 
 
@@ -36,10 +36,10 @@ public final class BillStorage implements Storage<Bill> {
         }
         billList.add(bill);
         return bill.getId();
-           }
+    }
 
     @Override
-    public void remove(int id) throws UserListException {
+    public void remove(int id) {
 
     }
 

@@ -31,6 +31,7 @@ public class ServiceCalculator {
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
+        IntResult intResult = new IntResult();
         int result = 0;
         List<IntResult> listForLastIndex = calculatorStorage.getListOfElements();
         int indexLastElement = listForLastIndex.size() - 1;
@@ -48,7 +49,7 @@ public class ServiceCalculator {
             result = lastResultReturn / nextOperand;
         }
         int idLastReturn = calculatorStorage.add(intResult);
-        lastResultReturn = calculatorStorage.findById(idLastReturn);
+        lastResultReturn = calculatorStorage.findById(idLastReturn).getValue();
         return lastResultReturn;
     }
 

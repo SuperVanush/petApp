@@ -16,21 +16,22 @@ public class BillService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
 
-
-    public void addBill(String billname, int balance,int id,User user, int idLastUser) {
+    public void addBill(String billname, int balance, int id, User user, int idLastUser) throws Exception {
         Bill bill = new Bill();
         bill.setName(billname);
         bill.setBalance(balance);
         try {
             userStorage.findById(idLastUser);
-        } catch (UserListException e){
+        } catch (UserListException e) {
             System.err.println(e.getMessage());
         }
         bill.setUser(user);
         billStorage.add(bill);
 
     }
-    public List<Bill> getBillList (){return billStorage.getListOfElements();
+
+    public List<Bill> getBillList() {
+        return billStorage.getListOfElements();
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.newcalculator.dao;
 
 import com.example.demo.dao.Storage;
+import com.example.newcalculator.exсeption.CalculatorListException;
 import com.example.newcalculator.model.IntResult;
 
 import java.util.ArrayList;
@@ -28,13 +29,14 @@ public class CalculatorStorage implements Storage<IntResult> {
     }
 
     @Override
-    public IntResult findById(int idLastReturn) {
+    public IntResult findById(int idLastReturn) throws CalculatorListException {
         int idLastResult = 0;
         for (IntResult resultInList : listResult) {
             if (resultInList.getId() == idLastResult)
                 resultInList = listResult.get(idLastResult);
+            return resultInList;
         }
-        return resultInList;
+        throw new CalculatorListException("Result not found");
     }
 
     @Override
