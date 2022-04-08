@@ -30,7 +30,7 @@ public class CalculatorStorage implements Storage<IntResult> {
 
     @Override
     public IntResult findById(int idLastReturn) {
-                for (IntResult resultInList : listResult) {
+        for (IntResult resultInList : listResult) {
             if (resultInList.getId() == idLastReturn)
                 resultInList = listResult.get(idLastReturn);
             return resultInList;

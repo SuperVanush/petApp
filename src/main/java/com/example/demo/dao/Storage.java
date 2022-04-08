@@ -12,7 +12,7 @@ public interface Storage<T> {
 
     int add(T t);
 
-    T findById (int id);
+    T findById(int id);
 
     void remove(int id);
 
