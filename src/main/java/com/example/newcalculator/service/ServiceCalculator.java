@@ -11,7 +11,6 @@ public class ServiceCalculator {
     public int mathCalculation(int firstOperand, int secondOperand, String action) {
         IntResult intResult = new IntResult();
         int result = 0;
-        int idLastReturn = 0;
         if (action.equals("+")) {
             result = firstOperand + secondOperand;
         }
@@ -25,8 +24,8 @@ public class ServiceCalculator {
             result = firstOperand / secondOperand;
         }
         intResult.setValue(result);
-        calculatorStorage.add(intResult);
-        int resultReturn = calculatorStorage.findById(idLastReturn).getValue();
+        int idReturn = calculatorStorage.add(intResult);
+        int resultReturn = calculatorStorage.findById(idReturn).getValue();
         return resultReturn;
     }
 
@@ -50,11 +49,11 @@ public class ServiceCalculator {
         }
         intResult.setValue(result);
         int idLastReturn = calculatorStorage.add(intResult);
-        lastResultReturn = calculatorStorage.findById(idLastReturn).getValue();// из метода в сторадже правильно передается, а тут id правильный как быдто, а value старый
+        lastResultReturn = calculatorStorage.findById(idLastReturn).getValue();
         return lastResultReturn;
     }
 
     public List<IntResult> resultForPrint() {
-        return calculatorStorage.getListOfElements(); // здесь выводит сами объекты, но пока не поля объектов
+        return calculatorStorage.getListOfElements();
     }
 }

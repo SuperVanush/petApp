@@ -19,9 +19,10 @@ public class CalculatorStorage implements Storage<IntResult> {
             int maxId = intResult.getId();
             for (IntResult resultInList : listResult) {
                 int maxNextId = resultInList.getId();
-                if (maxNextId > maxId)
+                if (maxNextId > maxId) {
                     maxId = maxNextId;
-                intResult.setId(maxId + 1);
+                    intResult.setId(maxId + 1);
+                }
             }
         }
         listResult.add(intResult);
@@ -29,11 +30,11 @@ public class CalculatorStorage implements Storage<IntResult> {
     }
 
     @Override
-    public IntResult findById(int idLastReturn) {
+    public IntResult findById(int idReturn) {
         for (IntResult resultInList : listResult) {
-            if (resultInList.getId() == idLastReturn)
-                resultInList = listResult.get(idLastReturn);
-            return resultInList;
+            if (resultInList.getId() == idReturn) {
+                return resultInList;
+            }
         }
         throw new CalculatorListException("Result not found");
     }
