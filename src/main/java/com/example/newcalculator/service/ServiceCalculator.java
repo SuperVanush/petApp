@@ -49,7 +49,8 @@ public class ServiceCalculator {
         }
         intResult.setValue(result);
         int idLastReturn = calculatorStorage.add(intResult);
-        lastResultReturn = calculatorStorage.findById(idLastReturn).getValue();
+        IntResult lastIntResult = calculatorStorage.findById(idLastReturn);
+        lastResultReturn = lastIntResult.getValue();
         return lastResultReturn;
     }
 
