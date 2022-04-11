@@ -9,7 +9,6 @@ public class ServiceCalculator {
     private CalculatorStorage calculatorStorage = new CalculatorStorage();
 
     public int mathCalculation(int firstOperand, int secondOperand, String action) {
-        IntResult intResult = new IntResult();
         int result = 0;
         if (action.equals("+")) {
             result = firstOperand + secondOperand;
@@ -23,6 +22,7 @@ public class ServiceCalculator {
         if (action.equals("/")) {
             result = firstOperand / secondOperand;
         }
+        IntResult intResult = new IntResult();
         intResult.setValue(result);
         int idReturn = calculatorStorage.add(intResult);
         int resultReturn = calculatorStorage.findById(idReturn).getValue();
@@ -30,7 +30,6 @@ public class ServiceCalculator {
     }
 
     public int mathCalculation(String nextAction, int nextOperand) {
-        IntResult intResult = new IntResult();
         int result = 0;
         List<IntResult> listForLastIndex = calculatorStorage.getListOfElements();
         int indexLastElement = listForLastIndex.size() - 1;
@@ -47,6 +46,7 @@ public class ServiceCalculator {
         if (nextAction.equals("/")) {
             result = lastResultReturn / nextOperand;
         }
+        IntResult intResult = new IntResult();
         intResult.setValue(result);
         int idLastReturn = calculatorStorage.add(intResult);
         IntResult lastIntResult = calculatorStorage.findById(idLastReturn);
