@@ -16,14 +16,9 @@ public class CalculatorStorage implements Storage<IntResult> {
         if (listResult.isEmpty()) {
             intResult.setId(1);
         } else {
-            int maxId = intResult.getId();
-            for (IntResult resultInList : listResult) {
-                int maxNextId = resultInList.getId();
-                if (maxNextId > maxId) {
-                    maxId = maxNextId;
-                    intResult.setId(maxId + 1);
-                }
-            }
+            IntResult streamResult = listResult.stream().max((o1, o2) -> o1.getId() - o2.getId()).get();
+            int maxId = streamResult.getId() + 1;
+            intResult.setId(maxId);
         }
         listResult.add(intResult);
         return intResult.getId();
@@ -31,12 +26,11 @@ public class CalculatorStorage implements Storage<IntResult> {
 
     @Override
     public IntResult findById(int idReturn) {
-        for (IntResult resultInList : listResult) {
-            if (resultInList.getId() == idReturn) {
-                return resultInList;
-            }
-        }
-        throw new CalculatorListException("Result not found");
+        IntResult resultInList = listResult.stream()
+                .filter(o -> o.getId() == idReturn)
+                .findAny()
+                .orElseThrow(() -> new CalculatorListException("Result not found"));
+        return resultInList;
     }
 
     @Override
