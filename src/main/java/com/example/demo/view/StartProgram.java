@@ -54,7 +54,7 @@ public class StartProgram {
                 String name;
                 System.out.println("Input name of user");
                 name = in.next();
-                userService.makeAddUser(name);
+                userService.addUser(name);
                 System.out.println("The User was Added");
             }
             if (numberOfChoice != 1 && numberOfChoice != 0) {

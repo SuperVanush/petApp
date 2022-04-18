@@ -1,32 +1,50 @@
 package com.example.demo.dao;
 
 import com.example.demo.exception.UserListException;
+import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class UserStorage implements Storage<User> {
-
     private final List<User> userList = new ArrayList<>();
 
     public UserStorage() {
-        userList.add(new User(1, "John"));
-        userList.add(new User(2, "Mary"));
-        userList.add(new User(3, "Loki"));
-        userList.add(new User(77, "Thor"));
+//        userList.add(new User(1, "John"));
+//        userList.add(new User(2, "Mary"));
+//        userList.add(new User(3, "Loki"));
+//        userList.add(new User(77, "Thor"));
     }
 
     @Override
-    public void add(User user) {
-        int maxId = userList.get(0).getId();
-        for (User userInList : userList) {
-            int maxNextId = userInList.getId();
-            if (maxNextId > maxId)
-                maxId = maxNextId;
-            user.setId(maxId + 1);
+    public int add(User user) {
+        if (userList.isEmpty()) {
+            user.setId(1);
+        } else {
+            int maxId = userList.get(0).getId();
+            for (User userInList : userList) {
+                int maxNextId = userInList.getId();
+                if (maxNextId > maxId)
+                    maxId = maxNextId;
+                user.setId(maxId + 1);
+            }
         }
         userList.add(user);
+        int idLastUser = user.getId();
+        return idLastUser;
+    }
+
+    @Override
+    public User findById(int idLastUser) {
+        String name = "name";
+        for (User userInList : userList) {
+            if (userInList.getId() == idLastUser) {
+                return userInList;
+            }
+        }
+        throw new UserListException("User is not found");
     }
 
     @Override
@@ -52,7 +70,8 @@ public final class UserStorage implements Storage<User> {
             }
         }
         if (!isUserDeleted) {
-            throw new UserListException("Id is not found");
+
         }
+        throw new UserListException("User is not found");
     }
 }
