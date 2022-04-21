@@ -56,9 +56,21 @@ public class StartProgram {
                 name = in.next();
                 userService.addUser(name);
                 System.out.println("The User was Added");
-            }
-            if (numberOfChoice != 1 && numberOfChoice != 0) {
-                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+                String choice;
+                do {
+                    System.out.println("Add bill y/n");
+                    choice = in.next();
+                    System.out.println("Input name of bill");
+                    String billName = in.next();
+                    System.out.println("Input bill");
+                    String billBalance = in.next();
+                    int idLastUser = 0;
+                    userService.rewriteUser(idLastUser);
+                }
+                while (choice.equals("y"));
+                if (numberOfChoice != 1 && numberOfChoice != 0) {
+                    System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+                }
             }
         }
         while (numberOfChoice != 0);

@@ -19,9 +19,9 @@ public class UserService {
         return idLastUser;
     }
 
-    public void rewriteUser(User user) {
-
-
+    public void rewriteUser(int idLastUser) {
+        User user;
+        
     }
 
     public void addSeveralUsers(String severalUsers) {

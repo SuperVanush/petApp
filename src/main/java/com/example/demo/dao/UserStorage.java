@@ -32,15 +32,14 @@ public final class UserStorage implements Storage<User> {
             }
         }
         userList.add(user);
-        int idLastUser = user.getId();
-        return idLastUser;
+        int Id = user.getId();
+        return Id;
     }
 
     @Override
-    public User findById(int idLastUser) {
-        String name = "name";
+    public User findById(int Id) {
         for (User userInList : userList) {
-            if (userInList.getId() == idLastUser) {
+            if (userInList.getId() == Id) {
                 return userInList;
             }
         }
@@ -70,8 +69,7 @@ public final class UserStorage implements Storage<User> {
             }
         }
         if (!isUserDeleted) {
-
+            throw new UserListException("User is not found");
         }
-        throw new UserListException("User is not found");
     }
 }

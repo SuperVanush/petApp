@@ -1,9 +1,12 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 public class User implements Comparable<User> {
 
     private int id;
     private String name;
+    private List<Bill> billList;
 
     public User(String name) {
         this.name = name;
@@ -12,6 +15,15 @@ public class User implements Comparable<User> {
     public User(int id, String name) {
         this.id = id;
         this.name = name;
+
+    }
+
+    public List<Bill> getBillList() {
+        return billList;
+    }
+
+    public void setBillList(List<Bill> billList) {
+        this.billList = billList;
     }
 
     public String getName() {
@@ -40,6 +52,7 @@ public class User implements Comparable<User> {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", billList=" + billList +
                 '}';
     }
 }
