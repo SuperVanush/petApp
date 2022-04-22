@@ -6,7 +6,7 @@ public class User implements Comparable<User> {
 
     private int id;
     private String name;
-    private List<Bill> billList;
+    private Bill bill;
 
     public User(String name) {
         this.name = name;
@@ -18,12 +18,12 @@ public class User implements Comparable<User> {
 
     }
 
-    public List<Bill> getBillList() {
-        return billList;
+    public Bill getBill() {
+        return bill;
     }
 
-    public void setBillList(List<Bill> billList) {
-        this.billList = billList;
+    public void setBill(Bill bill) {
+        this.bill = bill;
     }
 
     public String getName() {
@@ -52,7 +52,7 @@ public class User implements Comparable<User> {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", billList=" + billList +
+                ", bill=" + bill +
                 '}';
     }
 }

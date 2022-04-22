@@ -4,6 +4,7 @@ package com.example.demo.service;
 import com.example.demo.dao.Storage;
 import com.example.demo.exception.UserListException;
 import com.example.demo.factory.Factory;
+import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
 import java.util.List;
@@ -19,9 +20,12 @@ public class UserService {
         return idLastUser;
     }
 
-    public void rewriteUser(int idLastUser) {
-        User user;
-        
+    public void rewriteUser(int idLastUser, String billName, int billBalance) {
+        Bill bill = new Bill();
+        bill.setName(billName);
+        bill.setBalance(billBalance);
+        bill.setUser(userStorage.findById(
+                idLastUser));
     }
 
     public void addSeveralUsers(String severalUsers) {

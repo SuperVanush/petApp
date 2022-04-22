@@ -32,14 +32,14 @@ public final class UserStorage implements Storage<User> {
             }
         }
         userList.add(user);
-        int Id = user.getId();
-        return Id;
+        int id = user.getId();
+        return id;
     }
 
     @Override
-    public User findById(int Id) {
+    public User findById(int id) {
         for (User userInList : userList) {
-            if (userInList.getId() == Id) {
+            if (userInList.getId() == id) {
                 return userInList;
             }
         }

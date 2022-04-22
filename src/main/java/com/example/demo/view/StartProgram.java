@@ -63,9 +63,9 @@ public class StartProgram {
                     System.out.println("Input name of bill");
                     String billName = in.next();
                     System.out.println("Input bill");
-                    String billBalance = in.next();
+                    int billBalance = in.nextInt();
                     int idLastUser = 0;
-                    userService.rewriteUser(idLastUser);
+                    userService.rewriteUser(idLastUser, billName, billBalance);
                 }
                 while (choice.equals("y"));
                 if (numberOfChoice != 1 && numberOfChoice != 0) {
