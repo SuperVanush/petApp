@@ -11,18 +11,17 @@ import java.util.List;
 public class UserService {
 
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
-    private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
-    BillService billService;
 
-    public int addUser(String name) {
+
+    public User addUser(String name) {
         User user = new User(name);
         user.setName(name);
         int idLastUser = userStorage.add(user);
-        return idLastUser;
+        User lastUser = userStorage.findById(idLastUser);
+        return lastUser;
     }
 
-    public void rewriteUser(Bill lastBill, int idLastUser) {
-        User lastUser = userStorage.findById(idLastUser);
+    public void rewriteUser(Bill lastBill, User lastUser) {
         lastUser.setBill(lastBill);
     }
 

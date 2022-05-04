@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.model.Bill;
+import com.example.demo.model.User;
 import com.example.demo.service.BillService;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
@@ -57,7 +58,7 @@ public class StartProgram {
                 String name;
                 System.out.println("Input name of user");
                 name = in.next();
-                int idLastUser = userService.addUser(name);
+                User lastUser = userService.addUser(name);
                 System.out.println("The User was Added");
                 int billChoice;
                 do {
@@ -69,8 +70,8 @@ public class StartProgram {
                         String billName = in.next();
                         System.out.println("Input bill balance");
                         int billBalance = in.nextInt();
-                        Bill lastBill = billService.addBill(billName, billBalance, idLastUser);
-                        userService.rewriteUser(lastBill,idLastUser);
+                        Bill lastBill = billService.addBill(billName, billBalance, lastUser);
+                        userService.rewriteUser(lastBill,lastUser);
                     }
                     if (billChoice != 1 && billChoice != 0) {
                         System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
