@@ -12,6 +12,7 @@ public class UserService {
 
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
+    BillService billService;
 
     public int addUser(String name) {
         User user = new User(name);
@@ -20,14 +21,9 @@ public class UserService {
         return idLastUser;
     }
 
-    public void rewriteUser(int idLastUser, String billName, int billBalance) {
-        Bill bill = new Bill();
-        bill.setName(billName);
-        bill.setBalance(billBalance);
-        bill.setUser(userStorage.findById(idLastUser));
-        int id = billStorage.add(bill);
+    public void rewriteUser(Bill lastBill, int idLastUser) {
         User lastUser = userStorage.findById(idLastUser);
-        lastUser.setBill(billStorage.findById(id));
+        lastUser.setBill(lastBill);
     }
 
     public void addSeveralUsers(String severalUsers) {

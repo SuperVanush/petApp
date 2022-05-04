@@ -1,5 +1,7 @@
 package com.example.demo.view;
 
+import com.example.demo.model.Bill;
+import com.example.demo.service.BillService;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
 
@@ -9,6 +11,7 @@ public class StartProgram {
     public static final Scanner in = new Scanner(System.in);
     private final UserService userService = new UserService();
     private final SortService sortService = new SortService();
+    private final BillService billService = new BillService();
     private static final String PRINT_MAIL_MENU = "0. Return to main menu";
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
@@ -66,7 +69,8 @@ public class StartProgram {
                         String billName = in.next();
                         System.out.println("Input bill balance");
                         int billBalance = in.nextInt();
-                        userService.rewriteUser(idLastUser, billName, billBalance);
+                        Bill lastBill = billService.addBill(billName, billBalance, idLastUser);
+                        userService.rewriteUser(lastBill,idLastUser);
                     }
                     if (billChoice != 1 && billChoice != 0) {
                         System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
