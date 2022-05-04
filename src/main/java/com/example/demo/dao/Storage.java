@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public interface Storage<T> {
 
-    int add(T t);
+    T add(T t);
 
     T findById(int id) throws UserListException;
 

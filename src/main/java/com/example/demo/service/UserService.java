@@ -16,8 +16,7 @@ public class UserService {
     public User addUser(String name) {
         User user = new User(name);
         user.setName(name);
-        int idLastUser = userStorage.add(user);
-        User lastUser = userStorage.findById(idLastUser);
+        User lastUser = userStorage.add(user);
         return lastUser;
     }
 

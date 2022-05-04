@@ -9,7 +9,7 @@ public class BillStorage implements Storage<Bill> {
 
 
     @Override
-    public int add(Bill bill) {
+    public Bill add(Bill bill) {
         if (billList.isEmpty()) {
             bill.setId(1);
         } else {
@@ -21,9 +21,10 @@ public class BillStorage implements Storage<Bill> {
                 bill.setId(maxId + 1);
             }
         }
-        billList.add(bill);
-        int Id = bill.getId();
-        return Id;
+       billList.add(bill);
+        int id = billList.get(billList.size()-1).getId();
+        Bill lastbill = billList.get(id);
+              return   lastbill;
     }
 
     @Override

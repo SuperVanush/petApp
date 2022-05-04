@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public int add(User user) {
+    public User add(User user) {
         if (userList.isEmpty()) {
             user.setId(1);
         } else {
@@ -29,8 +30,9 @@ public final class UserStorage implements Storage<User> {
             }
         }
         userList.add(user);
-        int id = user.getId();
-        return id;
+        int id = userList.get(userList.size() - 1).getId();
+        User lastUser = userList.get(id);
+        return lastUser;
     }
 
     @Override

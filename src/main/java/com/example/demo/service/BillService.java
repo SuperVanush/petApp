@@ -12,9 +12,8 @@ public class BillService {
         Bill bill = new Bill();
         bill.setName(billName);
         bill.setBalance(billBalance);
-        int idLastBill = billStorage.add(bill);
         bill.setUser(lastUser);
-        Bill lastBill = billStorage.findById(idLastBill);
+        Bill lastBill = billStorage.add(bill);
         return lastBill;
     }
 
