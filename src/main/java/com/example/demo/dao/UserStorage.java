@@ -1,10 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.exception.UserListException;
-import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
-import com.example.demo.service.UserService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +35,6 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public User findById(int id) {
-        id = userList.get(userList.size() - 1).getId();
         for (User userInList : userList) {
             if (userInList.getId() == id) {
                 return userInList;
