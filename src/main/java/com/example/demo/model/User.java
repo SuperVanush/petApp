@@ -18,6 +18,9 @@ public class User implements Comparable<User> {
 
     }
 
+    public User() {
+    }
+
     public Bill getBill() {
         return bill;
     }

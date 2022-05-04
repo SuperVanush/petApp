@@ -1,38 +1,36 @@
 package com.example.demo.dao;
 
 import com.example.demo.exception.BillListException;
-import com.example.demo.exception.UserListException;
 import com.example.demo.model.Bill;
-import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BillStorage implements Storage<Bill> {
-    private final List<Bill> biilList = new ArrayList<>();
+    private final List<Bill> billList = new ArrayList<>();
 
 
     @Override
     public int add(Bill bill) {
-        if (biilList.isEmpty()) {
+        if (billList.isEmpty()) {
             bill.setId(1);
         } else {
-            int maxId = biilList.get(0).getId();
-            for (Bill billInList : biilList) {
+            int maxId = billList.get(0).getId();
+            for (Bill billInList : billList) {
                 int maxNextId = billInList.getId();
                 if (maxNextId > maxId)
                     maxId = maxNextId;
                 bill.setId(maxId + 1);
             }
         }
-        biilList.add(bill);
+        billList.add(bill);
         int Id = bill.getId();
         return Id;
     }
 
     @Override
     public Bill findById(int id) throws BillListException {
-        for (Bill billInList : biilList) {
+        for (Bill billInList : billList) {
             if (billInList.getId() == id) {
                 return billInList;
             }
@@ -52,6 +50,8 @@ public class BillStorage implements Storage<Bill> {
 
     @Override
     public List<Bill> getListOfElements() {
-        return biilList;
+        return billList;
     }
+
 }
+

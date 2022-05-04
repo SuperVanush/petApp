@@ -38,6 +38,7 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public User findById(int id) {
+        id = userList.get(userList.size() - 1).getId();
         for (User userInList : userList) {
             if (userInList.getId() == id) {
                 return userInList;
