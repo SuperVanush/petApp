@@ -20,9 +20,10 @@ public class BillService {
         return lastBill;
     }
 
-    public List<Bill> findBillByUser(User lastUser) {
+    public List<Bill> findBillsByUser(User lastUser) {
         List<Bill> billsList = new ArrayList<>();
-        for (Bill billInList : billStorage.getListOfElements()) {
+        List<Bill> billList = billStorage.getListOfElements();
+        for (Bill billInList : billList) {
             if (billInList.getUser().equals(lastUser)) {
                 billsList.add(billInList);
             }

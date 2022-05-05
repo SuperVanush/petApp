@@ -15,6 +15,16 @@ public class Bill {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", balance=" + balance +
+                ", user=" + user +
+                '}';
+    }
+
     public String getName() {
         return name;
     }
