@@ -72,8 +72,9 @@ public class StartProgram {
                         System.out.println("Input bill balance");
                         int billBalance = in.nextInt();
                         Bill lastBill = billService.addBill(billName, billBalance, lastUser);
-                        List<Bill>bills= billService.addBills(lastBill);
-                        userService.rewriteUser(bills,lastUser);             }
+                        List<Bill> bills = billService.findBillByUser(lastUser);
+                        userService.rewriteUser(bills, lastUser);
+                    }
                     if (billChoice != 1 && billChoice != 0) {
                         System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
                     }

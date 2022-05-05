@@ -1,6 +1,8 @@
 package com.example.demo.dao;
+
 import com.example.demo.exception.BillListException;
 import com.example.demo.model.Bill;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +20,11 @@ public class BillStorage implements Storage<Bill> {
                 int maxNextId = billInList.getId();
                 if (maxNextId > maxId)
                     maxId = maxNextId;
-               bill.setId(maxId + 1);
+                bill.setId(maxId + 1);
             }
         }
-       billList.add(bill);
-        return   bill;
+        billList.add(bill);
+        return bill;
     }
 
     @Override
