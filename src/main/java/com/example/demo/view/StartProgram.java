@@ -6,6 +6,7 @@ import com.example.demo.service.BillService;
 import com.example.demo.service.SortService;
 import com.example.demo.service.UserService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class StartProgram {
@@ -71,11 +72,12 @@ public class StartProgram {
                         System.out.println("Input bill balance");
                         int billBalance = in.nextInt();
                         Bill lastBill = billService.addBill(billName, billBalance, lastUser);
-                        userService.rewriteUser(lastBill,lastUser);
-                    }
+                        List<Bill>bills= billService.addBills(lastBill);
+                        userService.rewriteUser(bills,lastUser);             }
                     if (billChoice != 1 && billChoice != 0) {
                         System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
                     }
+
                 }
                 while (billChoice != 0);
                 if (numberOfChoice != 1 && numberOfChoice != 0) {

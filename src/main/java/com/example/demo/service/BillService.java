@@ -5,8 +5,12 @@ import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BillService {
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
+    List<Bill> bills = new ArrayList<>();
 
     public Bill addBill(String billName, int billBalance, User lastUser) {
         Bill bill = new Bill();
@@ -17,5 +21,8 @@ public class BillService {
         return lastBill;
     }
 
-
+    public List<Bill> addBills(Bill lastBill) {
+        bills.add(lastBill);
+        return bills;
+    }
 }

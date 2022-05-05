@@ -18,13 +18,11 @@ public class BillStorage implements Storage<Bill> {
                 int maxNextId = billInList.getId();
                 if (maxNextId > maxId)
                     maxId = maxNextId;
-                bill.setId(maxId + 1);
+               bill.setId(maxId + 1);
             }
         }
        billList.add(bill);
-        int id = billList.get(billList.size()-1).getId();
-        Bill lastbill = billList.get(id);
-              return   lastbill;
+        return   bill;
     }
 
     @Override

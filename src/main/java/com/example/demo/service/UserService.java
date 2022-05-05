@@ -20,8 +20,8 @@ public class UserService {
         return lastUser;
     }
 
-    public void rewriteUser(Bill lastBill, User lastUser) {
-        lastUser.setBill(lastBill);
+    public void rewriteUser(List <Bill> bills, User lastUser) {
+        lastUser.setBills(bills);
     }
 
     public void addSeveralUsers(String severalUsers) {

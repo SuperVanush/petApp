@@ -30,9 +30,7 @@ public final class UserStorage implements Storage<User> {
             }
         }
         userList.add(user);
-        int id = userList.get(userList.size() - 1).getId();
-        User lastUser = userList.get(id);
-        return lastUser;
+        return user;
     }
 
     @Override
