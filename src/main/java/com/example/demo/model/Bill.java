@@ -1,40 +1,51 @@
 package com.example.demo.model;
 
 public class Bill {
-    private String billName;
-    private int billId;
-    private int billBalance;
+    private String name;
+    private int id;
+    private int balance;
 
-    public String getBillName() {
-        return billName;
+    private User user;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setBillName(String billName) {
-        this.billName = billName;
-    }
-
-    public int getBillId() {
-        return billId;
-    }
-
-    public void setBillId(int billId) {
-        this.billId = billId;
-    }
-
-    public int getBillBalance() {
-        return billBalance;
-    }
-
-    public void setBillBalance(int billBalance) {
-        this.billBalance = billBalance;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Bill{" +
-                "billName='" + billName + '\'' +
-                ", billId=" + billId +
-                ", billBalance=" + billBalance +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", balance=" + balance +
+                ", user=" + user +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 }

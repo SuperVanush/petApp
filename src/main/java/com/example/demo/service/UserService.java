@@ -12,24 +12,27 @@ public class UserService {
 
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
-    public void addUser(String name, String billName, int billBalance) {
-        Bill bill = new Bill();
-        bill.setBillName(billName);
-        bill.setBillBalance(billBalance);
 
-        User user = new User();
+    public User addUser(String name) {
+        User user = new User(name);
         user.setName(name);
-        user.setBill(bill);
-        userStorage.add(user);
+        User lastUser = userStorage.add(user);
+        return lastUser;
     }
-      public void addSeveralUsers(String severalUsers) {
+
+    public void rewriteUser(List<Bill> bills, User lastUser) {
+        lastUser.setBills(bills);
+    }
+
+    public void addSeveralUsers(String severalUsers) {
         String[] listSeveralUsers = severalUsers.split(",");
         for (String name : listSeveralUsers) {
-            User user = new User();
+            User user = new User(name);
             user.setName(name);
-             userStorage.add(user);
+            userStorage.add(user);
         }
     }
+
     public void removeUserById(int id) {
         try {
             userStorage.remove(id);
@@ -37,6 +40,7 @@ public class UserService {
             System.err.println(e.getMessage());
         }
     }
+
     public List<User> getUserList() {
         return userStorage.getListOfElements();
     }

@@ -1,9 +1,34 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 public class User implements Comparable<User> {
-    private Bill bill;
+
     private int id;
     private String name;
+    private Bill bill;
+    private List<Bill> bills;
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+
+    }
+
+    public User() {
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
+    }
 
     public Bill getBill() {
         return bill;
@@ -29,27 +54,19 @@ public class User implements Comparable<User> {
         this.id = id;
     }
 
-    public String toString(User name) {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' + '}';
-    }
-
     @Override
     public int compareTo(User o) {
         return Integer.compare(id, o.getId());
     }
 
-
     @Override
     public String toString() {
         return "User{" +
-                "bill=" + bill +
-                ", id=" + id +
+                "id=" + id +
                 ", name='" + name + '\'' +
+                ",  bills=" + bills +
                 '}';
     }
 }
-
 
 
