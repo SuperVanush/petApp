@@ -10,10 +10,10 @@ public final class UserStorage implements Storage<User> {
     private final List<User> userList = new ArrayList<>();
 
     public UserStorage() {
-//        userList.add(new User(1, "John"));
-//        userList.add(new User(2, "Mary"));
-//        userList.add(new User(3, "Loki"));
-//        userList.add(new User(77, "Thor"));
+        // userList.add(new User(1, "John"));
+        // userList.add(new User(2, "Mary"));
+        // userList.add(new User(3, "Loki"));
+        // userList.add(new User(4, "Thor"));
     }
 
     @Override
@@ -37,6 +37,16 @@ public final class UserStorage implements Storage<User> {
     public User findById(int id) {
         for (User userInList : userList) {
             if (userInList.getId() == id) {
+                return userInList;
+            }
+        }
+        throw new UserListException("User is not found");
+    }
+
+    @Override
+    public User findByName(String name) {
+        for (User userInList : userList) {
+            if (userInList.getName().equals(name)) {
                 return userInList;
             }
         }

@@ -24,6 +24,11 @@ public class UserService {
         lastUser.setBills(bills);
     }
 
+    public User findUserByName(String name) {
+        User findUser = userStorage.findByName(name);
+        return findUser;
+    }
+
     public void addSeveralUsers(String severalUsers) {
         String[] listSeveralUsers = severalUsers.split(",");
         for (String name : listSeveralUsers) {

@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.exception.BillListException;
+import com.example.demo.exception.UserListException;
 import com.example.demo.model.Bill;
 
 import java.util.ArrayList;
@@ -52,5 +53,10 @@ public class BillStorage implements Storage<Bill> {
         return billList;
     }
 
+    @Override
+    public Bill findByName(String name) throws BillListException {
+        return null;
+    }
 }
+
 
