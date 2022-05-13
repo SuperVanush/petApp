@@ -54,10 +54,6 @@ public class BillStorage implements Storage<Bill> {
         return billList;
     }
 
-    @Override
-    public Bill findByElement(String element) {
-        return null;
-    }
 }
 
 

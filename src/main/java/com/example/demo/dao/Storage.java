@@ -17,8 +17,6 @@ public interface Storage<T> {
 
     T findById(int id) throws UserListException;
 
-   T findByElement(String t);
-
     void remove(int id) throws UserListException;
 
     void printAll();
