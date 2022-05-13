@@ -13,9 +13,10 @@ public class UserService {
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
 
-    public User addUser(String name) {
-        User user = new User(name);
+    public User addUser(String name, String login) {
+        User user = new User();
         user.setName(name);
+        user.setLogin(login);
         User lastUser = userStorage.add(user);
         return lastUser;
     }
@@ -24,10 +25,11 @@ public class UserService {
         lastUser.setBills(bills);
     }
 
-    public User findUserByName(String name) {
-        User findUser = userStorage.findByName(name);
+    public User findUserByElement(String login) {
+        User findUser = userStorage.findByElement(login);
         return findUser;
     }
+
 
     public void addSeveralUsers(String severalUsers) {
         String[] listSeveralUsers = severalUsers.split(",");

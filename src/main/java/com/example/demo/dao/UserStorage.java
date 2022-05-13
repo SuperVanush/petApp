@@ -4,7 +4,9 @@ import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public final class UserStorage implements Storage<User> {
     private final List<User> userList = new ArrayList<>();
@@ -44,13 +46,13 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public User findByName(String name) {
+    public User findByElement(String login) {
         for (User userInList : userList) {
-            if (userInList.getName().equals(name)) {
+            if (userInList.getLogin().equals(login)) {
                 return userInList;
             }
         }
-        throw new UserListException("User is not found");
+        return null;
     }
 
     @Override

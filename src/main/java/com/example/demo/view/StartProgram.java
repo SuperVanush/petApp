@@ -37,50 +37,67 @@ public class StartProgram {
 
     public void setRegistration() {
         String name;
+        String login;
         System.out.println("Input name of user");
         name = in.next();
-        User findUser = userService.findUserByName(name);
-        String findUserName = findUser.getName();
-        if (!name.equals(findUserName)) {
-            userService.addUser(name);
+        System.out.println("Enter User login");
+        login = in.next();
+        if (userService.getUserList().isEmpty()) {
+            userService.addUser(name, login);
             System.out.println("The User was Added");
-        }
-        if (name.equals(findUserName)) {
-            System.out.println("The user exists. Choose another name");
+        } else {
+            User findUser = userService.findUserByElement(login);
+            String findUserLogin = findUser.getLogin();
+            if (!login.equals(findUserLogin)) {
+                userService.addUser(name, login);
+                System.out.println("The User was Added");
+            }
+            if (login.equals(findUserLogin)) {
+                System.out.println("The user exists. Choose another name");
+            }
         }
     }
 
     public void setWorkInCabinet() {
-        String name;
-        System.out.println("Input name of user");
-        name = in.next();
-        User findUser = userService.findUserByName(name);
-        String findUserName = findUser.getName();
-        if (!name.equals(findUserName)) {
+        String login;
+        System.out.println("Enter User login");
+        login = in.next();
+        if (userService.getUserList().isEmpty()) {
             System.out.println("User not found. Please go to Registration");
             startApp();
-        }
-        if (name.equals(findUserName)) {
-            int billChoice;
-            do {
-                System.out.println("1. Add bill ");
-                System.out.println(PRINT_MAIL_MENU);
-                billChoice = in.nextInt();
-                if (billChoice == 1) {
-                    System.out.println("Input name of bill");
-                    String billName = in.next();
-                    System.out.println("Input bill balance");
-                    int billBalance = in.nextInt();
-                    Bill lastBill = billService.addBill(billName, billBalance, findUser);
-                    List<Bill> bills = billService.findBillsByUser(findUser);
-                    userService.rewriteUser(bills, findUser);
-                }
-                if (billChoice != 1 && billChoice != 0) {
-                    System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-                }
-
+        } else {
+            User findUser = userService.findUserByElement(login);
+            if (findUser == null) {
+                System.out.println("User not found. Please go to Registration");
+                startApp();
             }
-            while (billChoice != 0);
+            String findUserLogin = findUser.getLogin();
+            if (!login.equals(findUserLogin)) {
+                System.out.println("User not found. Please go to Registration");
+                startApp();
+            }
+            if (login.equals(findUserLogin)) {
+                int billChoice;
+                do {
+                    System.out.println("1. Add bill ");
+                    System.out.println(PRINT_MAIL_MENU);
+                    billChoice = in.nextInt();
+                    if (billChoice == 1) {
+                        System.out.println("Input name of bill");
+                        String billName = in.next();
+                        System.out.println("Input bill balance");
+                        int billBalance = in.nextInt();
+                        Bill lastBill = billService.addBill(billName, billBalance, findUser);
+                        List<Bill> bills = billService.findBillsByUser(findUser);
+                        userService.rewriteUser(bills, findUser);
+                    }
+                    if (billChoice != 1 && billChoice != 0) {
+                        System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+                    }
+
+                }
+                while (billChoice != 0);
+            }
         }
     }
 }

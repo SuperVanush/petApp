@@ -6,6 +6,7 @@ import com.example.demo.model.Bill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BillStorage implements Storage<Bill> {
     private final List<Bill> billList = new ArrayList<>();
@@ -54,7 +55,7 @@ public class BillStorage implements Storage<Bill> {
     }
 
     @Override
-    public Bill findByName(String name) throws BillListException {
+    public Bill findByElement(String element) {
         return null;
     }
 }
