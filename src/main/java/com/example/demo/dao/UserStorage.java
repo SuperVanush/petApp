@@ -1,8 +1,6 @@
 package com.example.demo.dao;
-
 import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 

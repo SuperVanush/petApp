@@ -1,12 +1,8 @@
 package com.example.demo.dao;
-
 import com.example.demo.exception.BillListException;
-import com.example.demo.exception.UserListException;
 import com.example.demo.model.Bill;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class BillStorage implements Storage<Bill> {
     private final List<Bill> billList = new ArrayList<>();

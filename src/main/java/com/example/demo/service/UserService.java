@@ -26,7 +26,8 @@ public class UserService {
     }
 
     public User findUserByElement(String login) {
-        for (User userInList : getUserList()) {
+        List<User> userList = getUserList();
+        for (User userInList : userList) {
             if (userInList.getLogin().equals(login)) {
                 return userInList;
             }

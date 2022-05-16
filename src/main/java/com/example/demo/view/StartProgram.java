@@ -61,38 +61,39 @@ public class StartProgram {
     public void setWorkInCabinet() {
         String login;
         System.out.println("Enter User login");
+        System.out.println(PRINT_MAIL_MENU);
         login = in.next();
-        User findUser = userService.findUserByElement(login);
-        if (findUser == null) {
-            System.out.println("User not found. Please go to Registration");
-            startApp();
-        }
-        String findUserLogin = findUser.getLogin();
-        if (!login.equals(findUserLogin)) {
-            System.out.println("User not found. Please go to Registration");
-            startApp();
-        }
-        if (login.equals(findUserLogin)) {
-            int billChoice;
-            do {
-                System.out.println("1. Add bill ");
-                System.out.println(PRINT_MAIL_MENU);
-                billChoice = in.nextInt();
-                if (billChoice == 1) {
-                    System.out.println("Input name of bill");
-                    String billName = in.next();
-                    System.out.println("Input bill balance");
-                    int billBalance = in.nextInt();
-                    Bill lastBill = billService.addBill(billName, billBalance, findUser);
-                    List<Bill> bills = billService.findBillsByUser(findUser);
-                    userService.rewriteUser(bills, findUser);
-                }
-                if (billChoice != 1 && billChoice != 0) {
-                    System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-                }
-
+        do {
+            User findUser = userService.findUserByElement(login);
+            if (findUser == null) {
+                System.out.println("User not found. Please go to Registration");
+                break;
             }
-            while (billChoice != 0);
+            else {
+            String findUserLogin = findUser.getLogin();
+            if (login.equals(findUserLogin)) {
+                int billChoice;
+                do {
+                    System.out.println("1. Add bill ");
+                    System.out.println(PRINT_MAIL_MENU);
+                    billChoice = in.nextInt();
+                    if (billChoice == 1) {
+                        System.out.println("Input name of bill");
+                        String billName = in.next();
+                        System.out.println("Input bill balance");
+                        int billBalance = in.nextInt();
+                        billService.addBill(billName, billBalance, findUser);
+                        List<Bill> bills = billService.findBillsByUser(findUser);
+                        userService.rewriteUser(bills, findUser);
+                    }
+                    if (billChoice != 1 && billChoice != 0) {
+                        System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+                    }
+
+                }
+                while (billChoice != 0);
+            }
         }
-    }
+    } while(!login.equals("0"));
+}
 }
