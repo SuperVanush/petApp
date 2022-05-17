@@ -14,12 +14,12 @@ public class StartProgram {
     private final UserService userService = new UserService();
     private final SortService sortService = new SortService();
     private final BillService billService = new BillService();
-    private static final String PRINT_MAIL_MENU = "0. Return to main menu";
+    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public void startApp() {
         int numberOfChoice;
-        do {
+       do {
             System.out.println("MENU");
             System.out.println("1. Registration");
             System.out.println("2. Entrance to the cabinet");
@@ -29,7 +29,9 @@ public class StartProgram {
                 setRegistration();
             }
             if (numberOfChoice == 2) {
-                setWorkInCabinet();
+                String login = getLogin();
+                User findUser = getFindedUser(login);
+               setWorkInCabinet(login, findUser);
             }
         }
         while (numberOfChoice != 0);
@@ -58,42 +60,59 @@ public class StartProgram {
         }
     }
 
-    public void setWorkInCabinet() {
-        String login;
-        System.out.println("Enter User login");
-        System.out.println(PRINT_MAIL_MENU);
-        login = in.next();
+     public void setWorkInCabinet(String login, User findUser) {
         do {
-            User findUser = userService.findUserByElement(login);
+            if (login.equals("0")) {
+                break;
+            }
             if (findUser == null) {
                 System.out.println("User not found. Please go to Registration");
                 break;
-            }
-            else {
-            String findUserLogin = findUser.getLogin();
-            if (login.equals(findUserLogin)) {
-                int billChoice;
-                do {
-                    System.out.println("1. Add bill ");
-                    System.out.println(PRINT_MAIL_MENU);
-                    billChoice = in.nextInt();
-                    if (billChoice == 1) {
-                        System.out.println("Input name of bill");
-                        String billName = in.next();
-                        System.out.println("Input bill balance");
-                        int billBalance = in.nextInt();
-                        billService.addBill(billName, billBalance, findUser);
-                        List<Bill> bills = billService.findBillsByUser(findUser);
-                        userService.rewriteUser(bills, findUser);
-                    }
-                    if (billChoice != 1 && billChoice != 0) {
-                        System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-                    }
-
+            } else {
+                String findUserLogin = findUser.getLogin();
+                if (login.equals(findUserLogin)) {
+                    enterBill(findUser);
+                    break;
                 }
-                while (billChoice != 0);
+            }
+        } while (!login.equals("0"));
+    }
+
+    public void enterBill(User findUser) {
+        int billChoice;
+        do {
+            System.out.println("1. Add bill ");
+            System.out.println(PRINT_MAIN_MENU);
+            billChoice = in.nextInt();
+            if (billChoice == 1) {
+                System.out.println("Input name of bill");
+                String billName = in.next();
+                System.out.println("Input bill balance");
+                int billBalance = in.nextInt();
+                billService.addBill(billName, billBalance, findUser);
+                List<Bill> bills = billService.findBillsByUser(findUser);
+                userService.rewriteUser(bills, findUser);
+            }
+            if (billChoice == 0){
+                break;
+            }
+            if (billChoice != 1 && billChoice != 0) {
+                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
         }
-    } while(!login.equals("0"));
-}
+        while (billChoice != 0);
+            }
+
+    public String getLogin() {
+        String login;
+        System.out.println("Enter User login");
+        System.out.println(PRINT_MAIN_MENU);
+        login = in.next();
+        return login;
+    }
+
+    public User getFindedUser(String login) {
+        User findUser = userService.findUserByElement(login);
+        return findUser;
+    }
 }
