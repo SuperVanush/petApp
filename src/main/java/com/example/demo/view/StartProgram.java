@@ -19,7 +19,7 @@ public class StartProgram {
 
     public void startApp() {
         int numberOfChoice;
-       do {
+        do {
             System.out.println("MENU");
             System.out.println("1. Registration");
             System.out.println("2. Entrance to the cabinet");
@@ -29,9 +29,7 @@ public class StartProgram {
                 setRegistration();
             }
             if (numberOfChoice == 2) {
-                String login = getLogin();
-                User findUser = getFindedUser(login);
-               setWorkInCabinet(login, findUser);
+                setWorkFirstMenuCabinet();
             }
         }
         while (numberOfChoice != 0);
@@ -60,7 +58,26 @@ public class StartProgram {
         }
     }
 
-     public void setWorkInCabinet(String login, User findUser) {
+    public void setWorkFirstMenuCabinet() {
+        int menuChoice;
+        do {
+            System.out.println("1. Enter in Cabinet");
+            System.out.println("0. EXIT");
+            menuChoice = in.nextInt();
+            if (menuChoice == 0) {
+                break;
+            }
+            if (menuChoice == 1) {
+                String login = getLogin();
+                User findUser = getFindedUser(login);
+                setWorkInCabinet(login, findUser);
+            }
+        }
+        while (menuChoice != 0);
+    }
+
+
+    public void setWorkInCabinet(String login, User findUser) {
         do {
             if (login.equals("0")) {
                 break;
@@ -93,7 +110,7 @@ public class StartProgram {
                 List<Bill> bills = billService.findBillsByUser(findUser);
                 userService.rewriteUser(bills, findUser);
             }
-            if (billChoice == 0){
+            if (billChoice == 0) {
                 break;
             }
             if (billChoice != 1 && billChoice != 0) {
@@ -101,7 +118,7 @@ public class StartProgram {
             }
         }
         while (billChoice != 0);
-            }
+    }
 
     public String getLogin() {
         String login;
