@@ -70,29 +70,19 @@ public class StartProgram {
             if (menuChoice == 1) {
                 String login = getLogin();
                 User findUser = getFindedUser(login);
-                setWorkInCabinet(login, findUser);
+                setWorkInCabinet(findUser);
             }
         }
         while (menuChoice != 0);
     }
 
 
-    public void setWorkInCabinet(String login, User findUser) {
-        do {
-            if (login.equals("0")) {
-                break;
-            }
-            if (findUser == null) {
-                System.out.println("User not found. Please go to Registration");
-                break;
-            } else {
-                String findUserLogin = findUser.getLogin();
-                if (login.equals(findUserLogin)) {
-                    enterBill(findUser);
-                    break;
-                }
-            }
-        } while (!login.equals("0"));
+    public void setWorkInCabinet(User findUser) {
+        if (findUser == null) {
+            System.out.println("User not found. Please go to Registration");
+        } else {
+            enterBill(findUser);
+        }
     }
 
     public void enterBill(User findUser) {
