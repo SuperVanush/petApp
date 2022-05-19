@@ -46,7 +46,7 @@ public class StartProgram {
             userService.addUser(name, login);
             System.out.println("The User was Added");
         } else {
-            User findUser = userService.findUserByElement(login);
+            User findUser = userService.findUserByLogin(login);
             String findUserLogin = findUser.getLogin();
             if (!login.equals(findUserLogin)) {
                 userService.addUser(name, login);
@@ -64,12 +64,10 @@ public class StartProgram {
             System.out.println("1. Enter in Cabinet");
             System.out.println("0. EXIT");
             menuChoice = in.nextInt();
-            if (menuChoice == 0) {
-                break;
-            }
+
             if (menuChoice == 1) {
                 String login = getLogin();
-                User findUser = getFindedUser(login);
+                User findUser = userService.findUserByLogin(login);
                 setWorkInCabinet(findUser);
             }
         }
@@ -100,9 +98,6 @@ public class StartProgram {
                 List<Bill> bills = billService.findBillsByUser(findUser);
                 userService.rewriteUser(bills, findUser);
             }
-            if (billChoice == 0) {
-                break;
-            }
             if (billChoice != 1 && billChoice != 0) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
@@ -116,10 +111,5 @@ public class StartProgram {
         System.out.println(PRINT_MAIN_MENU);
         login = in.next();
         return login;
-    }
-
-    public User getFindedUser(String login) {
-        User findUser = userService.findUserByElement(login);
-        return findUser;
     }
 }

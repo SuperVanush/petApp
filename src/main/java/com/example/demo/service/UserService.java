@@ -25,7 +25,7 @@ public class UserService {
         lastUser.setBills(bills);
     }
 
-    public User findUserByElement(String login) {
+    public User findUserByLogin(String login) {
         List<User> userList = getUserList();
         for (User userInList : userList) {
             if (userInList.getLogin().equals(login)) {
