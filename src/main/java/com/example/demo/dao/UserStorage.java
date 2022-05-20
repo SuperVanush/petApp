@@ -8,14 +8,7 @@ import java.util.List;
 public final class UserStorage implements Storage<User> {
     private final List<User> userList = new ArrayList<>();
 
-    public UserStorage() {
-        // userList.add(new User(1, "John"));
-        // userList.add(new User(2, "Mary"));
-        // userList.add(new User(3, "Loki"));
-        // userList.add(new User(4, "Thor"));
-    }
-
-    @Override
+      @Override
     public User add(User user) {
         if (userList.isEmpty()) {
             user.setId(1);
