@@ -42,19 +42,12 @@ public class StartProgram {
         name = in.next();
         System.out.println("Enter User login");
         login = in.next();
-        if (userService.getUserList().isEmpty()) {
+        User findUser = userService.findUserByLogin(login);
+        if (findUser == null) {
             userService.addUser(name, login);
             System.out.println("The User was Added");
         } else {
-            User findUser = userService.findUserByLogin(login);
-            String findUserLogin = findUser.getLogin();
-            if (!login.equals(findUserLogin)) {
-                userService.addUser(name, login);
-                System.out.println("The User was Added");
-            }
-            if (login.equals(findUserLogin)) {
-                System.out.println("The user exists. Choose another name");
-            }
+            System.out.println("The user exists. Choose another name");
         }
     }
 
@@ -73,7 +66,6 @@ public class StartProgram {
         }
         while (menuChoice != 0);
     }
-
 
     public void setWorkInCabinet(User findUser) {
         if (findUser == null) {
