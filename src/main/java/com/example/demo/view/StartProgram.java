@@ -71,17 +71,27 @@ public class StartProgram {
         if (findUser == null) {
             System.out.println("User not found. Please go to Registration");
         } else {
-            enterBill(findUser);
+            enterBillMenu(findUser);
         }
     }
 
-    public void enterBill(User findUser) {
+    public void enterBillMenu(User findUser) {
         int billChoice;
         do {
             System.out.println("1. Add bill ");
             System.out.println(PRINT_MAIN_MENU);
             billChoice = in.nextInt();
             if (billChoice == 1) {
+            enterBill(findUser);
+            }
+            if (billChoice != 1 && billChoice != 0) {
+                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+            }
+        }
+            while (billChoice != 0) ;
+        }
+
+    public void enterBill(User findUser) {
                 System.out.println("Input name of bill");
                 String billName = in.next();
                 System.out.println("Input bill balance");
@@ -90,12 +100,6 @@ public class StartProgram {
                 List<Bill> bills = billService.findBillsByUser(findUser);
                 userService.rewriteUser(bills, findUser);
             }
-            if (billChoice != 1 && billChoice != 0) {
-                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-            }
-        }
-        while (billChoice != 0);
-    }
 
     public String getLogin() {
         String login;
