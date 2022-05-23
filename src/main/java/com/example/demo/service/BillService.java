@@ -7,6 +7,7 @@ import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BillService {
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
@@ -32,7 +33,15 @@ public class BillService {
         }
         return billsList;
     }
-    public List <Bill> getBillList () {
-        return billStorage.getListOfElements();
+
+    public List<Bill> getBillList(User lastUser) {
+        List<Bill> billListForAloneUser = new ArrayList<>();
+        List<Bill> billList = billStorage.getListOfElements();
+        for (Bill billInList : billList) {
+            if (billInList.getUser().equals(lastUser)) {
+                billListForAloneUser.add(billInList);
+            }
+        }
+        return billListForAloneUser;
     }
 }

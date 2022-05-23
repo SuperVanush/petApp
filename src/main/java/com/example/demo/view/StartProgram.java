@@ -69,6 +69,7 @@ public class StartProgram {
     public void enterBillMenu(User lastUser) {
         int billChoice;
         do {
+            System.out.println("Hello   " + lastUser.getName());
             System.out.println("1. Add bill ");
             System.out.println("2. Print User");
             System.out.println("3. Print Bills");
@@ -78,10 +79,10 @@ public class StartProgram {
                 enterBill(lastUser);
             }
             if (billChoice == 2) {
-                System.out.println(userService.getUserList());
+                System.out.println(userService.getAloneUserList(lastUser));
             }
             if (billChoice == 3) {
-                System.out.println(billService.getBillList());
+                System.out.println(billService.getBillList(lastUser));
             }
             if (billChoice != 1 && billChoice != 0 && billChoice != 2 && billChoice != 3) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);

@@ -5,6 +5,7 @@ import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
@@ -35,6 +36,17 @@ public class UserService {
 
     public List<User> getUserList() {
         return userStorage.getListOfElements();
+    }
+
+    public List<User> getAloneUserList(User lastUser) {
+        List<User> listForAloneUser = new ArrayList<>();
+        List<User> userList = userStorage.getListOfElements();
+        for (User userInList : userList) {
+            if (userInList.equals(lastUser)) {
+                listForAloneUser.add(userInList);
+            }
+        }
+        return listForAloneUser;
     }
 }
 
