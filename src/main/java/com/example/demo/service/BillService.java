@@ -13,35 +13,24 @@ public class BillService {
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
     UserService userService = new UserService();
 
-    public void addBill(String billName, int billBalance, User lastUser) {
+    public void addBill(String billName, int billBalance, User findUser) {
         Bill bill = new Bill();
         bill.setName(billName);
         bill.setBalance(billBalance);
-        bill.setUser(lastUser);
+        bill.setUser(findUser);
         billStorage.add(bill);
-        List<Bill> bills = findBillsByUser(lastUser);
-        userService.rewriteUser(bills, lastUser);
+        List<Bill> bills = findBillsByUser(findUser);
+        userService.rewriteUser(bills, findUser);
     }
 
-    public List<Bill> findBillsByUser(User lastUser) {
+    public List<Bill> findBillsByUser(User findUser) {
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
         for (Bill billInList : billList) {
-            if (billInList.getUser().equals(lastUser)) {
+            if (billInList.getUser().equals(findUser)) {
                 billsList.add(billInList);
             }
         }
         return billsList;
-    }
-
-    public List<Bill> getBillList(User lastUser) {
-        List<Bill> billListForAloneUser = new ArrayList<>();
-        List<Bill> billList = billStorage.getListOfElements();
-        for (Bill billInList : billList) {
-            if (billInList.getUser().equals(lastUser)) {
-                billListForAloneUser.add(billInList);
-            }
-        }
-        return billListForAloneUser;
     }
 }

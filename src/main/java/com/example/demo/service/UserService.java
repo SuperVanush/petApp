@@ -5,7 +5,6 @@ import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
@@ -16,12 +15,12 @@ public class UserService {
         User user = new User();
         user.setName(name);
         user.setLogin(login);
-        User lastUser = userStorage.add(user);
-        return lastUser;
+        User findUser = userStorage.add(user);
+        return findUser;
     }
 
-    public void rewriteUser(List<Bill> bills, User lastUser) {
-        lastUser.setBills(bills);
+    public void rewriteUser(List<Bill> bills, User findUser) {
+        findUser.setBills(bills);
     }
 
     public User findUserByLogin(String login) {
@@ -36,17 +35,6 @@ public class UserService {
 
     public List<User> getUserList() {
         return userStorage.getListOfElements();
-    }
-
-    public List<User> getAloneUserList(User lastUser) {
-        List<User> listForAloneUser = new ArrayList<>();
-        List<User> userList = userStorage.getListOfElements();
-        for (User userInList : userList) {
-            if (userInList.equals(lastUser)) {
-                listForAloneUser.add(userInList);
-            }
-        }
-        return listForAloneUser;
     }
 }
 

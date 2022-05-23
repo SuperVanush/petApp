@@ -39,8 +39,8 @@ public class StartProgram {
         name = in.next();
         System.out.println("Enter User login");
         login = in.next();
-        User findUser = userService.findUserByLogin(login);
-        if (findUser == null) {
+        User user = userService.findUserByLogin(login);
+        if (user == null) {
             userService.addUser(name, login);
             System.out.println("The User was Added");
         } else {
@@ -57,16 +57,16 @@ public class StartProgram {
 
     public User setWorkInCabinet() {
         String login = getLogin();
-        User lastUser = userService.findUserByLogin(login);
-        if (lastUser == null) {
+        User user = userService.findUserByLogin(login);
+        if (user == null) {
             System.out.println("User not found. Please go to Registration");
         } else {
-            enterBillMenu(lastUser);
+            enterBillMenu(user, login);
         }
-        return lastUser;
+        return user;
     }
 
-    public void enterBillMenu(User lastUser) {
+    public void enterBillMenu(User lastUser, String login) {
         int billChoice;
         do {
             System.out.println("Hello   " + lastUser.getName());
@@ -79,10 +79,10 @@ public class StartProgram {
                 enterBill(lastUser);
             }
             if (billChoice == 2) {
-                System.out.println(userService.getAloneUserList(lastUser));
+                System.out.println(userService.findUserByLogin(login));
             }
             if (billChoice == 3) {
-                System.out.println(billService.getBillList(lastUser));
+                System.out.println(billService.findBillsByUser(lastUser));
             }
             if (billChoice != 1 && billChoice != 0 && billChoice != 2 && billChoice != 3) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
@@ -91,11 +91,11 @@ public class StartProgram {
         while (billChoice != 0);
     }
 
-    public void enterBill(User lastUser) {
+    public void enterBill(User user) {
         System.out.println("Input name of bill");
         String billName = in.next();
         System.out.println("Input bill balance");
         int billBalance = in.nextInt();
-        billService.addBill(billName, billBalance, lastUser);
+        billService.addBill(billName, billBalance, user);
     }
 }
