@@ -32,4 +32,7 @@ public class BillService {
         }
         return billsList;
     }
+    public List <Bill> getBillList () {
+        return billStorage.getListOfElements();
+    }
 }

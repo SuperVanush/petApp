@@ -70,15 +70,20 @@ public class StartProgram {
         int billChoice;
         do {
             System.out.println("1. Add bill ");
+            System.out.println("2. Print User");
+            System.out.println("3. Print Bills");
             System.out.println(PRINT_MAIN_MENU);
             billChoice = in.nextInt();
-            if (billChoice == 0) {
-                break;
-            }
             if (billChoice == 1) {
                 enterBill(lastUser);
             }
-            if (billChoice != 1 && billChoice != 0) {
+            if (billChoice == 2) {
+                System.out.println(userService.getUserList());
+            }
+            if (billChoice == 3) {
+                System.out.println(billService.getBillList());
+            }
+            if (billChoice != 1 && billChoice != 0 && billChoice != 2 && billChoice != 3) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
         }

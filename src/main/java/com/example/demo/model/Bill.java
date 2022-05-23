@@ -4,7 +4,6 @@ public class Bill {
     private String name;
     private int id;
     private int balance;
-
     private User user;
 
     public User getUser() {
@@ -21,7 +20,6 @@ public class Bill {
                 "name='" + name + '\'' +
                 ", id=" + id +
                 ", balance=" + balance +
-                ", user=" + user +
                 '}';
     }
 
