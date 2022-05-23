@@ -10,14 +10,16 @@ import java.util.List;
 
 public class BillService {
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
+    UserService userService = new UserService();
 
-    public Bill addBill(String billName, int billBalance, User lastUser) {
+    public void addBill(String billName, int billBalance, User lastUser) {
         Bill bill = new Bill();
         bill.setName(billName);
         bill.setBalance(billBalance);
         bill.setUser(lastUser);
-        Bill lastBill = billStorage.add(bill);
-        return lastBill;
+        billStorage.add(bill);
+        List<Bill> bills = findBillsByUser(lastUser);
+        userService.rewriteUser(bills, lastUser);
     }
 
     public List<Bill> findBillsByUser(User lastUser) {

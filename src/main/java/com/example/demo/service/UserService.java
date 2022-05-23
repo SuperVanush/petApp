@@ -11,7 +11,6 @@ public class UserService {
 
     private final Storage<User> userStorage = Factory.getUserStorageInstance();
 
-
     public User addUser(String name, String login) {
         User user = new User();
         user.setName(name);

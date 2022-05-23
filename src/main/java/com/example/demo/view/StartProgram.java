@@ -1,11 +1,10 @@
 package com.example.demo.view;
 
-import com.example.demo.model.Bill;
+import com.example.demo.dao.UserStorage;
 import com.example.demo.model.User;
 import com.example.demo.service.BillService;
 import com.example.demo.service.UserService;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class StartProgram {
@@ -49,19 +48,25 @@ public class StartProgram {
         }
     }
 
-    public void setWorkInCabinet() {
+    public String getLogin() {
         String login;
         System.out.println("Enter User login");
         login = in.next();
-        User findUser = userService.findUserByLogin(login);
-        if (findUser == null) {
-            System.out.println("User not found. Please go to Registration");
-        } else {
-            enterBillMenu(findUser);
-        }
+        return login;
     }
 
-    public void enterBillMenu(User findUser) {
+    public User setWorkInCabinet() {
+        String login = getLogin();
+        User lastUser = userService.findUserByLogin(login);
+        if (lastUser == null) {
+            System.out.println("User not found. Please go to Registration");
+        } else {
+            enterBillMenu(lastUser);
+        }
+        return lastUser;
+    }
+
+    public void enterBillMenu(User lastUser) {
         int billChoice;
         do {
             System.out.println("1. Add bill ");
@@ -71,7 +76,7 @@ public class StartProgram {
                 break;
             }
             if (billChoice == 1) {
-                enterBill(findUser);
+                enterBill(lastUser);
             }
             if (billChoice != 1 && billChoice != 0) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
@@ -80,13 +85,11 @@ public class StartProgram {
         while (billChoice != 0);
     }
 
-    public void enterBill(User findUser) {
+    public void enterBill(User lastUser) {
         System.out.println("Input name of bill");
         String billName = in.next();
         System.out.println("Input bill balance");
         int billBalance = in.nextInt();
-        billService.addBill(billName, billBalance, findUser);
-        List<Bill> bills = billService.findBillsByUser(findUser);
-        userService.rewriteUser(bills, findUser);
+        billService.addBill(billName, billBalance, lastUser);
     }
 }
