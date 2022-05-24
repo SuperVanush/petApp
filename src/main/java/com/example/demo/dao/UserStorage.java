@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UserStorage implements Storage<User> {
+
     private final List<User> userList = new ArrayList<>();
 
     @Override

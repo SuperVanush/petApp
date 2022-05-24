@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 public class Bill {
+
     private String name;
     private int id;
     private int balance;

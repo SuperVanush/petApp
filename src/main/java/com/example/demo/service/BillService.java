@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillService {
+
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
     private final UserService userService = Factory.getUserServiceInstance();
 

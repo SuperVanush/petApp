@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillStorage implements Storage<Bill> {
+
     private final List<Bill> billList = new ArrayList<>();
 
     @Override

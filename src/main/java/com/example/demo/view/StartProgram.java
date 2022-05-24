@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class StartProgram {
+
     public static final Scanner in = new Scanner(System.in);
     private final UserService userService = Factory.getUserServiceInstance();
     private final BillService billService = Factory.getBillServiceInstance();
@@ -34,7 +35,7 @@ public class StartProgram {
         while (numberOfChoice != 0);
     }
 
-    public void setRegistration() {
+    private void setRegistration() {
         String name;
         String login;
         System.out.println("Input name of user");
@@ -50,7 +51,7 @@ public class StartProgram {
         }
     }
 
-    public void setWorkInCabinet() {
+    private void setWorkInCabinet() {
         String login = getLogin();
         User user = userService.findUserByLogin(login);
         if (user == null) {
@@ -60,14 +61,14 @@ public class StartProgram {
         }
     }
 
-    public String getLogin() {
+    private String getLogin() {
         String login;
         System.out.println("Enter User login");
         login = in.next();
         return login;
     }
 
-    public void enterBillMenu(User lastUser) {
+    private void enterBillMenu(User lastUser) {
         int billChoice;
         do {
             System.out.println("Hello   " + lastUser.getName());
@@ -95,7 +96,7 @@ public class StartProgram {
         while (billChoice != 0);
     }
 
-    public void enterBill(User user) {
+    private void enterBill(User user) {
         System.out.println("Input name of bill");
         String billName = in.next();
         System.out.println("Input bill balance");
