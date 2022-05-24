@@ -31,21 +31,21 @@ public class Factory {
         return (BillStorage) billStorageInstance;
     }
 
-    public static UserService userServiceinstance;
+    private static UserService userServiceInstance;
 
     public static UserService getUserServiceInstance() {
-        if (userServiceinstance == null) {
-            userServiceinstance = new UserService();
+        if (userServiceInstance == null) {
+            userServiceInstance = new UserService();
         }
-        return (UserService) userServiceinstance;
+        return userServiceInstance;
     }
 
-    public static BillService billServiceinstance;
+    private static BillService billServiceInstance;
 
     public static BillService getBillServiceInstance() {
-        if (billServiceinstance == null) {
-            billServiceinstance = new BillService();
+        if (billServiceInstance == null) {
+            billServiceInstance = new BillService();
         }
-        return (BillService) billServiceinstance;
+        return billServiceInstance;
     }
 }
