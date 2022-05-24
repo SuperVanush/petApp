@@ -14,15 +14,6 @@ public class Bill {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", balance=" + balance +
-                '}';
-    }
-
     public String getName() {
         return name;
     }
@@ -45,5 +36,14 @@ public class Bill {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", balance=" + balance +
+                '}';
     }
 }

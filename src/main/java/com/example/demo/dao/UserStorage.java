@@ -1,14 +1,15 @@
 package com.example.demo.dao;
+
 import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 public final class UserStorage implements Storage<User> {
     private final List<User> userList = new ArrayList<>();
 
-      @Override
+    @Override
     public User add(User user) {
         if (userList.isEmpty()) {
             user.setId(1);

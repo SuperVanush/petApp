@@ -8,7 +8,6 @@ import com.example.demo.model.User;
 import com.example.demo.service.BillService;
 import com.example.demo.service.UserService;
 
-
 public class Factory {
     private Factory() {
     }

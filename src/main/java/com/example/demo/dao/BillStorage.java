@@ -1,12 +1,13 @@
 package com.example.demo.dao;
+
 import com.example.demo.exception.BillListException;
 import com.example.demo.model.Bill;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BillStorage implements Storage<Bill> {
     private final List<Bill> billList = new ArrayList<>();
-
 
     @Override
     public Bill add(Bill bill) {
@@ -37,19 +38,16 @@ public class BillStorage implements Storage<Bill> {
 
     @Override
     public void remove(int id) throws BillListException {
-
     }
 
     @Override
     public void printAll() {
-
     }
 
     @Override
     public List<Bill> getListOfElements() {
         return billList;
     }
-
 }
 
 

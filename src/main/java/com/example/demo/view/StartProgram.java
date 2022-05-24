@@ -1,6 +1,5 @@
 package com.example.demo.view;
 
-
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
@@ -51,13 +50,6 @@ public class StartProgram {
         }
     }
 
-    public String getLogin() {
-        String login;
-        System.out.println("Enter User login");
-        login = in.next();
-        return login;
-    }
-
     public void setWorkInCabinet() {
         String login = getLogin();
         User user = userService.findUserByLogin(login);
@@ -66,6 +58,13 @@ public class StartProgram {
         } else {
             enterBillMenu(user);
         }
+    }
+
+    public String getLogin() {
+        String login;
+        System.out.println("Enter User login");
+        login = in.next();
+        return login;
     }
 
     public void enterBillMenu(User lastUser) {
