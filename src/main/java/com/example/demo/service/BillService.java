@@ -7,11 +7,10 @@ import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class BillService {
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
-    UserService userService = new UserService();
+    private final UserService userService = Factory.getUserServiceInstance();
 
     public void addBill(String billName, int billBalance, User findUser) {
         Bill bill = new Bill();
