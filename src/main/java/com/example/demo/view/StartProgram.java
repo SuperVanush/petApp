@@ -5,7 +5,6 @@ import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.BillService;
 import com.example.demo.service.UserService;
-
 import java.util.List;
 import java.util.Scanner;
 
