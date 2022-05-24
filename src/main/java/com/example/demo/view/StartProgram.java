@@ -1,10 +1,12 @@
 package com.example.demo.view;
 
-import com.example.demo.dao.UserStorage;
+
+import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.BillService;
 import com.example.demo.service.UserService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class StartProgram {
@@ -55,18 +57,17 @@ public class StartProgram {
         return login;
     }
 
-    public User setWorkInCabinet() {
+    public void setWorkInCabinet() {
         String login = getLogin();
         User user = userService.findUserByLogin(login);
         if (user == null) {
             System.out.println("User not found. Please go to Registration");
         } else {
-            enterBillMenu(user, login);
+            enterBillMenu(user);
         }
-        return user;
     }
 
-    public void enterBillMenu(User lastUser, String login) {
+    public void enterBillMenu(User lastUser) {
         int billChoice;
         do {
             System.out.println("Hello   " + lastUser.getName());
@@ -79,10 +80,13 @@ public class StartProgram {
                 enterBill(lastUser);
             }
             if (billChoice == 2) {
-                System.out.println(userService.findUserByLogin(login));
+                String login = lastUser.getLogin();
+                User user = userService.findUserByLogin(login);
+                System.out.println(user);
             }
             if (billChoice == 3) {
-                System.out.println(billService.findBillsByUser(lastUser));
+                List<Bill> billList = billService.findBillsByUser(lastUser);
+                System.out.println(billList);
             }
             if (billChoice != 1 && billChoice != 0 && billChoice != 2 && billChoice != 3) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);

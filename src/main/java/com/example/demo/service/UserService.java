@@ -15,12 +15,12 @@ public class UserService {
         User user = new User();
         user.setName(name);
         user.setLogin(login);
-        User findUser = userStorage.add(user);
-        return findUser;
+        User lastUser = userStorage.add(user);
+        return lastUser;
     }
 
-    public void rewriteUser(List<Bill> bills, User findUser) {
-        findUser.setBills(bills);
+    public void rewriteUser(List<Bill> bills, User lastUser) {
+        lastUser.setBills(bills);
     }
 
     public User findUserByLogin(String login) {
