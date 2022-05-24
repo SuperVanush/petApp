@@ -1,10 +1,10 @@
 package com.example.demo.model;
 
 public class Bill {
+
     private String name;
     private int id;
     private int balance;
-
     private User user;
 
     public User getUser() {
@@ -13,16 +13,6 @@ public class Bill {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", balance=" + balance +
-                ", user=" + user +
-                '}';
     }
 
     public String getName() {
@@ -47,5 +37,14 @@ public class Bill {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", balance=" + balance +
+                '}';
     }
 }

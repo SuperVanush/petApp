@@ -9,22 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillService {
-    private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
 
-    public Bill addBill(String billName, int billBalance, User lastUser) {
+    private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
+    private final UserService userService = Factory.getUserServiceInstance();
+
+    public void addBill(String billName, int billBalance, User findUser) {
         Bill bill = new Bill();
         bill.setName(billName);
         bill.setBalance(billBalance);
-        bill.setUser(lastUser);
-        Bill lastBill = billStorage.add(bill);
-        return lastBill;
+        bill.setUser(findUser);
+        billStorage.add(bill);
+        List<Bill> bills = findBillsByUser(findUser);
+        userService.rewriteUser(bills, findUser);
     }
 
-    public List<Bill> findBillsByUser(User lastUser) {
+    public List<Bill> findBillsByUser(User findUser) {
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
         for (Bill billInList : billList) {
-            if (billInList.getUser().equals(lastUser)) {
+            if (billInList.getUser().equals(findUser)) {
                 billsList.add(billInList);
             }
         }
