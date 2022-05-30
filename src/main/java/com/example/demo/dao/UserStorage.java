@@ -24,11 +24,10 @@ public final class UserStorage implements Storage<User> {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Driver is not found");
-        }
-catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("SQL ERROR");
-}
+        }
         if (userList.isEmpty()) {
             user.setId(1);
         } else {
