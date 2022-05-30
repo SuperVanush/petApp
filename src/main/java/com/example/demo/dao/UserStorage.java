@@ -5,13 +5,30 @@ import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
 public final class UserStorage implements Storage<User> {
+    public static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
+    public static final String DB_Drivers = "DB_Drivers";
 
     private final List<User> userList = new ArrayList<>();
 
     @Override
     public User add(User user) {
+        try {
+            Class.forName(DB_Drivers);
+            Connection connection = DriverManager.getConnection(DB_URL);
+            System.out.println("Connected");
+            connection.close();
+            System.out.println("Disconnected");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Driver is not found");
+        }
+catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("SQL ERROR");
+}
         if (userList.isEmpty()) {
             user.setId(1);
         } else {
