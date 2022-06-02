@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UserStorage implements Storage<User> {
-    private PreparedStatement psmt = null;
 
     private final List<User> userList = new ArrayList<>();
 
@@ -19,14 +18,11 @@ public final class UserStorage implements Storage<User> {
                 "postgres",
                 "5577166")) {
             Statement statement = connect.createStatement();
-            String sql = ("insert into users (user_name, login) VALUES (?,?)");
-            psmt = connect.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery("select * from users");
-            while (resultSet.next()) {
-                System.out.println(
-                        resultSet.getInt("user_id" + "user_name")
-                );
-            }
+            String sql = "insert into users ( user_name, login) VALUES (?,?)";
+            PreparedStatement psmt = connect.prepareStatement(sql);
+            psmt.setString(1, user.getName());
+            psmt.setString(2, user.getLogin());
+            int rows = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
