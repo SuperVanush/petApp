@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UserStorage implements Storage<User> {
-
+List <User> userList = new ArrayList<>();
     @Override
     public User add(User user) {
         try (Connection connect = DriverManager.getConnection(
