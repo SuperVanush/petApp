@@ -36,12 +36,12 @@ public class UserService {
             try (PreparedStatement preparedStatement = connect.prepareStatement(sql)) {
                 preparedStatement.setString(1, login);
 
-                try (ResultSet resultSet = statement.executeQuery()) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         user = new User();
                         user.setId(resultSet.getInt("user_id"));
                         user.setName(resultSet.getString("user_name"));
-                        user.setLogin(resultSet.getString(login));
+                        user.setLogin(resultSet.getString("login"));
                         connect.close();
                     }
                 }
@@ -49,6 +49,6 @@ public class UserService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
 }

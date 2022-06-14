@@ -47,7 +47,7 @@ public class StartProgram {
             userService.addUser(name, login);
             System.out.println("The User was Added");
         } else {
-            System.out.println("The user exists. Choose another name");
+            System.out.println("The user exists. Choose another login");
         }
     }
 
