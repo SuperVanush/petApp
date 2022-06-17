@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UserStorage implements Storage<User> {
-    List<User> userList = new ArrayList<>();
 
     @Override
     public User add(User user) {
@@ -36,35 +35,6 @@ public final class UserStorage implements Storage<User> {
             }
         }
         throw new UserListException("User is not found");
-    }
-
-    @Override
-    public User findByLogin(String login) {
-        String sql = "select * from users where login = ? ";
-        User user = null;
-        try {
-            Connection connect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-                    "postgres",
-                    "5577166");
-            Statement statement = connect.createStatement();
-
-            try (PreparedStatement preparedStatement = connect.prepareStatement(sql)) {
-                preparedStatement.setString(1, login);
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        user = new User();
-                        user.setId(resultSet.getInt("user_id"));
-                        user.setName(resultSet.getString("user_name"));
-                        user.setLogin(resultSet.getString("login"));
-                        connect.close();
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return user;
     }
 
     @Override

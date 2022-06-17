@@ -24,7 +24,12 @@ public class UserService {
     }
 
     public User findUserByLogin(String login) {
-        User user = userStorage.findByLogin(login);
-        return user;
+        List<User> userList = userStorage.getListOfElements();
+        for (User userInList : userList) {
+            if (userInList.getLogin().equals(login)) {
+                return userInList;
+            }
+        }
+        return null;
     }
 }
