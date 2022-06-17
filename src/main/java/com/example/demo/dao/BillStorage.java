@@ -29,6 +29,11 @@ public class BillStorage implements Storage<Bill> {
     }
 
     @Override
+    public Bill findByLogin(String login) {
+        return null;
+    }
+
+    @Override
     public Bill findById(int id) throws BillListException {
         for (Bill billInList : billList) {
             if (billInList.getId() == id) {
