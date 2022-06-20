@@ -29,6 +29,7 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public User findById(int id) {
+        List<User> userList = new ArrayList<>();
         for (User userInList : userList) {
             if (userInList.getId() == id) {
                 return userInList;
@@ -39,16 +40,36 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public void printAll() {
+        List<User> userList = new ArrayList<>();
         userList.forEach(System.out::println);
     }
 
     @Override
     public List<User> getListOfElements() {
+        List<User> userList = new ArrayList<>();
+        try (Connection connect = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/postgres",
+                "postgres",
+                "5577166")) {
+            Statement statement = connect.createStatement();
+            String sql = "select * from users";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String name = resultSet.getString("user_name");
+                String login = resultSet.getString("login");
+                User user = new User(id, name, login);
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return userList;
     }
 
     @Override
     public void remove(int id) throws UserListException {
+        List<User> userList = new ArrayList<>();
         int indexOfDeleteUser;
         boolean isUserDeleted = false;
         for (User userInList : userList) {
