@@ -22,6 +22,9 @@ public class User implements Comparable<User> {
     public User() {
     }
     public User (int id, String name, String login){
+        this.id = id;
+        this.name=name;
+        this.login = login;
     }
 
     public List<Bill> getBills() {

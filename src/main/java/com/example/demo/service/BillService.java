@@ -13,14 +13,14 @@ public class BillService {
     private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
     private final UserService userService = Factory.getUserServiceInstance();
 
-    public void addBill(String billName, int billBalance, User findUser) {
+    public void addBill(String billName, int billBalance, User user) {
         Bill bill = new Bill();
         bill.setName(billName);
         bill.setBalance(billBalance);
-        bill.setUser(findUser);
+        bill.setUser(user);
         billStorage.add(bill);
-        List<Bill> bills = findBillsByUser(findUser);
-        userService.rewriteUser(bills, findUser);
+        List<Bill> bills = findBillsByUser(user);
+        userService.rewriteUser(bills, user);
     }
 
     public List<Bill> findBillsByUser(User findUser) {

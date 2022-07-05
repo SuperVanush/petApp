@@ -7,6 +7,22 @@ public class Bill {
     private int balance;
     private User user;
 
+    public Bill() {
+    }
+
+    public Bill(String name, int id, int balance, User user) {
+        this.name = name;
+        this.id = id;
+        this.balance = balance;
+        this.user = user;
+    }
+
+    public Bill(int id, String name, int balance) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+    }
+
     public User getUser() {
         return user;
     }

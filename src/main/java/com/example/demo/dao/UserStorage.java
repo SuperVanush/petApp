@@ -29,19 +29,31 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public User findById(int id) {
-        List<User> userList = new ArrayList<>();
-        for (User userInList : userList) {
-            if (userInList.getId() == id) {
-                return userInList;
+        User user = null;
+        try (Connection connect = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/postgres",
+                "postgres",
+                "5577166")) {
+            String sql = "select * from users where user_id = ?";
+            PreparedStatement psmt = connect.prepareStatement(sql);
+            psmt.setInt(1, id);
+            ResultSet resultSet = psmt.executeQuery(sql);
+            while (resultSet.next()) {
+                id = resultSet.getInt("user_id");
+                String name = resultSet.getString("user_name");
+                String login = resultSet.getString("login");
+                user = new User(id, name, login);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        throw new UserListException("User is not found");
+        return user;
     }
 
     @Override
     public void printAll() {
         List<User> userList = new ArrayList<>();
-        userList.forEach(System.out::println);
+        userList = getListOfElements();
     }
 
     @Override
@@ -69,7 +81,7 @@ public final class UserStorage implements Storage<User> {
 
     @Override
     public void remove(int id) throws UserListException {
-        List<User> userList = new ArrayList<>();
+        List<User> userList = getListOfElements();
         int indexOfDeleteUser;
         boolean isUserDeleted = false;
         for (User userInList : userList) {
