@@ -1,17 +1,16 @@
 package com.example.demo.dao;
 
-import com.example.demo.exception.UserListException;
 import com.example.demo.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class UserStorage implements Storage<User> {
+public final class UserStorage implements StorageUser<User> {
 
     @Override
     public User add(User user) {
-        try (Connection connect = DriverManager.getConnection(
+                try (Connection connect = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/postgres",
                 "postgres",
                 "5577166")) {
@@ -54,6 +53,7 @@ public final class UserStorage implements Storage<User> {
     public void printAll() {
         List<User> userList = new ArrayList<>();
         userList = getListOfElements();
+        System.out.println(userList);
     }
 
     @Override
@@ -64,7 +64,7 @@ public final class UserStorage implements Storage<User> {
                 "postgres",
                 "5577166")) {
             Statement statement = connect.createStatement();
-            String sql = "select * from users";
+            String sql = "select * from users left join bills b on users.user_id = b.user_id";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 int id = resultSet.getInt("user_id");
@@ -80,20 +80,26 @@ public final class UserStorage implements Storage<User> {
     }
 
     @Override
-    public void remove(int id) throws UserListException {
-        List<User> userList = getListOfElements();
-        int indexOfDeleteUser;
-        boolean isUserDeleted = false;
-        for (User userInList : userList) {
-            if (userInList.getId() == id) {
-                indexOfDeleteUser = userList.indexOf(userInList);
-                userList.remove(indexOfDeleteUser);
-                isUserDeleted = true;
-                break;
+    public void remove(int id) {
+        try (Connection connect = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/postgres",
+                "postgres",
+                "5577166")) {
+            Statement statement = connect.createStatement();
+            String sqlRequest = "select * from users";
+            ResultSet resultSet = statement.executeQuery(sqlRequest);
+            while ((resultSet.next())) {
+                int userId = resultSet.getInt("user_id");
+                User user = new User(userId);
+                if (userId == id) {
+                    String sqlRemoveRequest = "delete from users where user_id = ?";
+                    PreparedStatement psmt = connect.prepareStatement(sqlRemoveRequest);
+                    psmt.setInt(1, userId);
+                    psmt.executeUpdate();
+                }
             }
-        }
-        if (!isUserDeleted) {
-            throw new UserListException("User is not found");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

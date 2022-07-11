@@ -21,9 +21,21 @@ public class User implements Comparable<User> {
 
     public User() {
     }
-    public User (int id, String name, String login){
+
+    public User(int id, String name, String login, List<Bill> bills) {
         this.id = id;
-        this.name=name;
+        this.name = name;
+        this.login = login;
+        this.bills = bills;
+    }
+
+    public User(int id) {
+        this.id = id;
+    }
+
+    public User(int id, String name, String login) {
+        this.id = id;
+        this.name = name;
         this.login = login;
     }
 

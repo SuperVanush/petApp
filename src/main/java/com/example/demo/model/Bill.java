@@ -17,9 +17,9 @@ public class Bill {
         this.user = user;
     }
 
-    public Bill(int id, String name, int balance) {
-        this.id = id;
+    public Bill(String name, int id, int balance) {
         this.name = name;
+        this.id = id;
         this.balance = balance;
     }
 

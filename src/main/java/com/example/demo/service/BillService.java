@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.Storage;
+import com.example.demo.dao.StorageBill;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BillService {
 
-    private final Storage<Bill> billStorage = Factory.getBillStorageInstance();
+    private final StorageBill<Bill> billStorage = Factory.getBillStorageInstance();
     private final UserService userService = Factory.getUserServiceInstance();
 
     public void addBill(String billName, int billBalance, User user) {
@@ -27,7 +27,8 @@ public class BillService {
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
         for (Bill billInList : billList) {
-            if (billInList.getUser().equals(findUser)) {
+            int idUser = findUser.getId();
+            if (billInList.getUser().getId() == idUser) {
                 billsList.add(billInList);
             }
         }

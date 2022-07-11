@@ -1,18 +1,14 @@
 package com.example.demo.dao;
 
 import com.example.demo.exception.BillListException;
-import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.service.UserService;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillStorage implements Storage<Bill> {
-
-    private final UserService userService = Factory.getUserServiceInstance();
+public class BillStorage implements StorageBill<Bill> {
 
     @Override
     public Bill add(Bill bill) {
@@ -60,16 +56,14 @@ public class BillStorage implements Storage<Bill> {
                 "postgres",
                 "5577166")) {
             Statement statement = connection.createStatement();
-            String sql = "select * from bills right join users on bills.user_id = users.user_id";
+            String sql = "select * from bills left outer join users u on u.user_id = bills.user_id";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 int id = resultSet.getInt("bill_id");
                 String name = resultSet.getString("bill_name");
                 int balance = resultSet.getInt("bill_balance");
-                int user_id = resultSet.getInt("user_id");
-                String userName = resultSet.getString("user_name");
-                String login = resultSet.getString("login");
-                User user = new User(user_id, userName, login);
+                int userId = resultSet.getInt("user_id");
+                User user = new User(userId);
                 Bill bill = new Bill(name, id, balance, user);
                 billList.add(bill);
             }
