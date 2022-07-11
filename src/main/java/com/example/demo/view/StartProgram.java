@@ -33,7 +33,7 @@ public class StartProgram {
                 setWorkInCabinet();
             }
             if (numberOfChoice == 3) {
-                setRemoveUser();
+                removeUser();
             }
         }
         while (numberOfChoice != 0);
@@ -74,8 +74,8 @@ public class StartProgram {
 
     private void enterBillMenu(User lastUser) {
         int billChoice;
+        System.out.println("Hello   " + lastUser.getName());
         do {
-            System.out.println("Hello   " + lastUser.getName());
             System.out.println("1. Add bill ");
             System.out.println("2. Print User");
             System.out.println("3. Print Bills");
@@ -108,10 +108,10 @@ public class StartProgram {
         billService.addBill(billName, billBalance, user);
     }
 
-    private void setRemoveUser() {
+    private void removeUser() {
         System.out.println("Enter login of user to remove");
-        String removeUserlogin = in.next();
-        userService.removeUser(removeUserlogin);
+        String loginRemoveUser = in.next();
+        userService.removeUser(loginRemoveUser);
         System.out.println("User was removed");
     }
 }

@@ -52,8 +52,4 @@ public class UserService {
         userStorage.remove(idRemoveUser);
         return idRemoveUser;
     }
-
-    public void printAll() {
-        userStorage.printAll();
-    }
 }

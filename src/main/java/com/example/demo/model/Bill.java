@@ -17,12 +17,6 @@ public class Bill {
         this.user = user;
     }
 
-    public Bill(String name, int id, int balance) {
-        this.name = name;
-        this.id = id;
-        this.balance = balance;
-    }
-
     public User getUser() {
         return user;
     }

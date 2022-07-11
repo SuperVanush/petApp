@@ -10,11 +10,10 @@ public final class UserStorage implements StorageUser<User> {
 
     @Override
     public User add(User user) {
-                try (Connection connect = DriverManager.getConnection(
+        try (Connection connect = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/postgres",
                 "postgres",
                 "5577166")) {
-            Statement statement = connect.createStatement();
             String sql = "insert into users ( user_name, login) VALUES (?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql);
             psmt.setString(1, user.getName());
@@ -47,13 +46,6 @@ public final class UserStorage implements StorageUser<User> {
             e.printStackTrace();
         }
         return user;
-    }
-
-    @Override
-    public void printAll() {
-        List<User> userList = new ArrayList<>();
-        userList = getListOfElements();
-        System.out.println(userList);
     }
 
     @Override
@@ -90,7 +82,6 @@ public final class UserStorage implements StorageUser<User> {
             ResultSet resultSet = statement.executeQuery(sqlRequest);
             while ((resultSet.next())) {
                 int userId = resultSet.getInt("user_id");
-                User user = new User(userId);
                 if (userId == id) {
                     String sqlRemoveRequest = "delete from users where user_id = ?";
                     PreparedStatement psmt = connect.prepareStatement(sqlRemoveRequest);

@@ -1,6 +1,5 @@
 package com.example.demo.dao;
 
-import com.example.demo.exception.BillListException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
@@ -16,7 +15,6 @@ public class BillStorage implements StorageBill<Bill> {
                 "jdbc:postgresql://localhost:5432/postgres",
                 "postgres",
                 "5577166")) {
-            Statement statement = connect.createStatement();
             String sql = "insert into bills ( bill_name, bill_balance, user_id) VALUES (?,?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql);
             psmt.setString(1, bill.getName());
@@ -27,25 +25,6 @@ public class BillStorage implements StorageBill<Bill> {
             e.printStackTrace();
         }
         return bill;
-    }
-
-    @Override
-    public Bill findById(int id) throws BillListException {
-        List<Bill> billList = getListOfElements();
-        for (Bill billInList : billList) {
-            if (billInList.getId() == id) {
-                return billInList;
-            }
-        }
-        throw new BillListException("Bill is not found");
-    }
-
-    @Override
-    public void remove(int id) throws BillListException {
-    }
-
-    @Override
-    public void printAll() {
     }
 
     @Override

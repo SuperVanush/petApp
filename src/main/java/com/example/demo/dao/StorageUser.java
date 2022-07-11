@@ -7,10 +7,7 @@ public interface StorageUser<User> {
 
     User findById(int id);
 
-    void printAll();
-
     List<User> getListOfElements();
 
     void remove(int id);
-
 }
