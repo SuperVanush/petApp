@@ -7,6 +7,8 @@ public interface StorageUser<User> {
 
     User findById(int id);
 
+    User findByLogin (String login);
+
     List<User> getListOfElements();
 
     void remove(int id);

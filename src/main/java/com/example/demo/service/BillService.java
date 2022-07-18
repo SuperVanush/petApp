@@ -11,7 +11,7 @@ import java.util.List;
 public class BillService {
 
     private final StorageBill<Bill> billStorage = Factory.getBillStorageInstance();
-    private final UserService userService = Factory.getUserServiceInstance();
+    private UserService userService = Factory.getUserServiceInstance();
 
     public void addBill(String billName, int billBalance, User user) {
         Bill bill = new Bill();

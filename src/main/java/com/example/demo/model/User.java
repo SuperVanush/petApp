@@ -6,7 +6,6 @@ public class User implements Comparable<User> {
 
     private int id;
     private String name;
-    private Bill bill;
     private String login;
     private List<Bill> bills;
 
@@ -23,16 +22,12 @@ public class User implements Comparable<User> {
         this.login = login;
     }
 
-       public List<Bill> getBills() {
+    public List<Bill> getBills() {
         return bills;
     }
 
     public void setBills(List<Bill> bills) {
         this.bills = bills;
-    }
-
-    public Bill getBill() {
-        return bill;
     }
 
     public String getLogin() {
@@ -41,10 +36,6 @@ public class User implements Comparable<User> {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public void setBill(Bill bill) {
-        this.bill = bill;
     }
 
     public String getName() {

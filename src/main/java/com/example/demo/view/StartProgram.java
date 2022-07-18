@@ -86,7 +86,7 @@ public class StartProgram {
             }
             if (billChoice == 2) {
                 String login = lastUser.getLogin();
-                User user = userService.findUserByLogin(login);
+                User user = userService.printUser(login);
                 System.out.println(user);
             }
             if (billChoice == 3) {

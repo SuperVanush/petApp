@@ -1,18 +1,21 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.StorageBill;
 import com.example.demo.dao.StorageUser;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
 
     private final StorageUser<User> userStorage = Factory.getUserStorageInstance();
-    private final StorageBill<Bill> billStorage = Factory.getBillStorageInstance();
+    private BillService billService;
+
+    public BillService getBillService() {
+        billService = Factory.getBillServiceInstance();
+        return billService;
+    }
 
     public User addUser(String name, String login) {
         User user = new User();
@@ -28,18 +31,16 @@ public class UserService {
     }
 
     public User findUserByLogin(String login) {
+        User userByLogin = userStorage.findByLogin(login);
+        return userByLogin;
+    }
+
+    public User printUser(String login) {
         List<User> userList = userStorage.getListOfElements();
         for (User userInList : userList) {
             if (userInList.getLogin().equals(login)) {
-                int idUserInList = userInList.getId();
-                List<Bill> billsList = billStorage.getListOfElements();
-                List<Bill> newBillList = new ArrayList<>();
-                for (Bill billInList : billsList) {
-                    if (billInList.getUser().getId() == idUserInList) {
-                        newBillList.add(billInList);
-                    }
-                    userInList.setBills(newBillList);
-                }
+                List<Bill> bills = getBillService().findBillsByUser(userInList);
+                userInList.setBills(bills);
                 return userInList;
             }
         }
