@@ -10,12 +10,7 @@ import java.util.List;
 public class UserService {
 
     private final StorageUser<User> userStorage = Factory.getUserStorageInstance();
-    private BillService billService;
-
-    public BillService getBillService() {
-        billService = Factory.getBillServiceInstance();
-        return billService;
-    }
+    private final BillService billService = Factory.getBillServiceInstance();
 
     public User addUser(String name, String login) {
         User user = new User();
@@ -25,26 +20,16 @@ public class UserService {
         return user;
     }
 
-    public User rewriteUser(List<Bill> bills, User lastUser) {
-        lastUser.setBills(bills);
-        return lastUser;
-    }
-
     public User findUserByLogin(String login) {
         User userByLogin = userStorage.findByLogin(login);
-        return userByLogin;
-    }
-
-    public User printUser(String login) {
-        List<User> userList = userStorage.getListOfElements();
-        for (User userInList : userList) {
-            if (userInList.getLogin().equals(login)) {
-                List<Bill> bills = getBillService().findBillsByUser(userInList);
-                userInList.setBills(bills);
-                return userInList;
-            }
+        if (userByLogin == null){
+            return userByLogin;
         }
-        return null;
+       else {
+            List<Bill> bills = billService.findBillsByUser(userByLogin);
+            userByLogin.setBills(bills);
+            return userByLogin;
+        }
     }
 
     public int removeUser(String removeUserLogin) {
