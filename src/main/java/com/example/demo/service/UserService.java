@@ -22,14 +22,11 @@ public class UserService {
 
     public User findUserByLogin(String login) {
         User userByLogin = userStorage.findByLogin(login);
-        if (userByLogin == null){
-            return userByLogin;
-        }
-       else {
+        if (userByLogin != null) {
             List<Bill> bills = billService.findBillsByUser(userByLogin);
             userByLogin.setBills(bills);
-            return userByLogin;
         }
+        return userByLogin;
     }
 
     public int removeUser(String removeUserLogin) {
