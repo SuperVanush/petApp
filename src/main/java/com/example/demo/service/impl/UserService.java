@@ -1,4 +1,4 @@
-package com.example.demo.service.implservice;
+package com.example.demo.service.impl;
 
 import com.example.demo.dao.StorageUser;
 import com.example.demo.factory.Factory;

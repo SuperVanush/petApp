@@ -2,7 +2,7 @@ package com.example.demo.view;
 
 import com.example.demo.factory.Factory;
 import com.example.demo.model.User;
-import com.example.demo.service.implservice.UserService;
+import com.example.demo.service.impl.UserService;
 
 import java.util.Scanner;
 

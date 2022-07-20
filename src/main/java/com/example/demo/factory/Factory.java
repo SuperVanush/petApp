@@ -1,11 +1,11 @@
 package com.example.demo.factory;
 
-import com.example.demo.dao.implstorage.BillStorage;
 import com.example.demo.dao.StorageBill;
 import com.example.demo.dao.StorageUser;
-import com.example.demo.dao.implstorage.UserStorage;
-import com.example.demo.service.implservice.BillService;
-import com.example.demo.service.implservice.UserService;
+import com.example.demo.dao.impl.BillStorage;
+import com.example.demo.dao.impl.UserStorage;
+import com.example.demo.service.impl.BillService;
+import com.example.demo.service.impl.UserService;
 import com.example.demo.view.BillMenu;
 import com.example.demo.view.UserMenu;
 
@@ -21,18 +21,18 @@ public class Factory {
     private Factory() {
     }
 
-    public static UserStorage getUserStorageInstance() {
+    public static StorageUser getUserStorageInstance() {
         if (userStorageInstance == null) {
             userStorageInstance = new UserStorage();
         }
-        return (UserStorage) userStorageInstance;
+        return userStorageInstance;
     }
 
-    public static BillStorage getBillStorageInstance() {
+    public static StorageBill getBillStorageInstance() {
         if (billStorageInstance == null) {
             billStorageInstance = new BillStorage();
         }
-        return (BillStorage) billStorageInstance;
+        return billStorageInstance;
     }
 
     public static UserService getUserServiceInstance() {

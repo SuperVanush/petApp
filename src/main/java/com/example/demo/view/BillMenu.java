@@ -3,7 +3,7 @@ package com.example.demo.view;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.service.implservice.BillService;
+import com.example.demo.service.impl.BillService;
 
 import java.util.List;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package com.example.demo.dao.implstorage;
+package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageUser;
 import com.example.demo.model.User;
