@@ -1,12 +1,13 @@
-package com.example.demo.dao;
+package com.example.demo.dao.implstorage;
 
+import com.example.demo.dao.StorageUser;
 import com.example.demo.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class UserStorage implements StorageUser<User> {
+public final class UserStorage implements StorageUser {
 
     @Override
     public User add(User user) {

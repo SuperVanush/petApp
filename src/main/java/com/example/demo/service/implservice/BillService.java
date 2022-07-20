@@ -1,16 +1,17 @@
-package com.example.demo.service;
+package com.example.demo.service.implservice;
 
 import com.example.demo.dao.StorageBill;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.service.ServiceBill;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillService implements ServiceBill<Bill> {
+public class BillService implements ServiceBill {
 
-    private final StorageBill<Bill> billStorage = Factory.getBillStorageInstance();
+    private final StorageBill billStorage = Factory.getBillStorageInstance();
 
     @Override
     public void addBill(String billName, int billBalance, User user) {

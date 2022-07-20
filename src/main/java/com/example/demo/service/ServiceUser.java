@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
-public interface ServiceUser<User> {
+import com.example.demo.model.User;
+
+public interface ServiceUser {
 
     User addUser(String name, String login);
 

@@ -1,19 +1,25 @@
 package com.example.demo.factory;
 
-import com.example.demo.dao.*;
-import com.example.demo.model.Bill;
-import com.example.demo.model.User;
-import com.example.demo.service.BillService;
-import com.example.demo.service.UserService;
+import com.example.demo.dao.implstorage.BillStorage;
+import com.example.demo.dao.StorageBill;
+import com.example.demo.dao.StorageUser;
+import com.example.demo.dao.implstorage.UserStorage;
+import com.example.demo.service.implservice.BillService;
+import com.example.demo.service.implservice.UserService;
 import com.example.demo.view.BillMenu;
 import com.example.demo.view.UserMenu;
 
 public class Factory {
 
+    private static StorageUser userStorageInstance;
+    private static StorageBill billStorageInstance;
+    private static UserService userServiceInstance;
+    private static BillService billServiceInstance;
+    private static BillMenu billMenuInstance;
+    private static UserMenu userMenuInstance;
+
     private Factory() {
     }
-
-    private static StorageUser<User> userStorageInstance;
 
     public static UserStorage getUserStorageInstance() {
         if (userStorageInstance == null) {
@@ -22,16 +28,12 @@ public class Factory {
         return (UserStorage) userStorageInstance;
     }
 
-    private static StorageBill<Bill> billStorageInstance;
-
     public static BillStorage getBillStorageInstance() {
         if (billStorageInstance == null) {
             billStorageInstance = new BillStorage();
         }
         return (BillStorage) billStorageInstance;
     }
-
-    private static UserService userServiceInstance;
 
     public static UserService getUserServiceInstance() {
         if (userServiceInstance == null) {
@@ -40,8 +42,6 @@ public class Factory {
         return userServiceInstance;
     }
 
-    private static BillService billServiceInstance;
-
     public static BillService getBillServiceInstance() {
         if (billServiceInstance == null) {
             billServiceInstance = new BillService();
@@ -49,19 +49,15 @@ public class Factory {
         return billServiceInstance;
     }
 
-    private static BillMenu billMenuInstance;
-
-    public static BillMenu getBillMenuInstance (){
-        if (billMenuInstance == null){
-            billMenuInstance= new BillMenu();
+    public static BillMenu getBillMenuInstance() {
+        if (billMenuInstance == null) {
+            billMenuInstance = new BillMenu();
         }
         return billMenuInstance;
     }
 
-    private static UserMenu userMenuInstance;
-
-    public static UserMenu getUserMenuInstance (){
-        if (userMenuInstance == null){
+    public static UserMenu getUserMenuInstance() {
+        if (userMenuInstance == null) {
             userMenuInstance = new UserMenu();
         }
         return userMenuInstance;

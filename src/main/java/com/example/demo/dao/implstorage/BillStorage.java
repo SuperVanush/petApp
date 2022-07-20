@@ -1,5 +1,6 @@
-package com.example.demo.dao;
+package com.example.demo.dao.implstorage;
 
+import com.example.demo.dao.StorageBill;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 
@@ -7,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillStorage implements StorageBill<Bill> {
+public class BillStorage implements StorageBill {
 
     @Override
     public Bill add(Bill bill) {
@@ -52,5 +53,3 @@ public class BillStorage implements StorageBill<Bill> {
         return billList;
     }
 }
-
-

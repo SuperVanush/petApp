@@ -1,15 +1,16 @@
-package com.example.demo.service;
+package com.example.demo.service.implservice;
 
 import com.example.demo.dao.StorageUser;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.service.ServiceUser;
 
 import java.util.List;
 
-public class UserService implements ServiceUser<User> {
+public class UserService implements ServiceUser {
 
-    private final StorageUser<User> userStorage = Factory.getUserStorageInstance();
+    private final StorageUser userStorage = Factory.getUserStorageInstance();
     private final BillService billService = Factory.getBillServiceInstance();
 
     @Override

@@ -36,6 +36,3 @@ public class StartProgram {
         while (numberOfChoice != 0);
     }
 }
-
-
-

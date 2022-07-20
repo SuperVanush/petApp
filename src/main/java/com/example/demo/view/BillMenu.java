@@ -3,15 +3,15 @@ package com.example.demo.view;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.service.BillService;
+import com.example.demo.service.implservice.BillService;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class BillMenu {
 
-    private final String PRINT_MAIN_MENU = "0. Return to main menu";
-    private final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
+    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
+    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public final Scanner in = new Scanner(System.in);
     private final BillService billService = Factory.getBillServiceInstance();
