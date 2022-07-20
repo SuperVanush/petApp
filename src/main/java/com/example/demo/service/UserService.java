@@ -7,11 +7,12 @@ import com.example.demo.model.User;
 
 import java.util.List;
 
-public class UserService {
+public class UserService implements ServiceUser<User> {
 
     private final StorageUser<User> userStorage = Factory.getUserStorageInstance();
     private final BillService billService = Factory.getBillServiceInstance();
 
+    @Override
     public User addUser(String name, String login) {
         User user = new User();
         user.setName(name);
@@ -20,6 +21,7 @@ public class UserService {
         return user;
     }
 
+    @Override
     public User findUserByLogin(String login) {
         User userByLogin = userStorage.findByLogin(login);
         if (userByLogin != null) {
@@ -29,6 +31,7 @@ public class UserService {
         return userByLogin;
     }
 
+    @Override
     public int removeUser(String removeUserLogin) {
         User user = findUserByLogin(removeUserLogin);
         int idRemoveUser = user.getId();

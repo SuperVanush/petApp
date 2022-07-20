@@ -5,6 +5,8 @@ import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.BillService;
 import com.example.demo.service.UserService;
+import com.example.demo.view.BillMenu;
+import com.example.demo.view.UserMenu;
 
 public class Factory {
 
@@ -45,5 +47,23 @@ public class Factory {
             billServiceInstance = new BillService();
         }
         return billServiceInstance;
+    }
+
+    private static BillMenu billMenuInstance;
+
+    public static BillMenu getBillMenuInstance (){
+        if (billMenuInstance == null){
+            billMenuInstance= new BillMenu();
+        }
+        return billMenuInstance;
+    }
+
+    private static UserMenu userMenuInstance;
+
+    public static UserMenu getUserMenuInstance (){
+        if (userMenuInstance == null){
+            userMenuInstance = new UserMenu();
+        }
+        return userMenuInstance;
     }
 }

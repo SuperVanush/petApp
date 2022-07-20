@@ -8,10 +8,11 @@ import com.example.demo.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillService {
+public class BillService implements ServiceBill<Bill> {
 
     private final StorageBill<Bill> billStorage = Factory.getBillStorageInstance();
 
+    @Override
     public void addBill(String billName, int billBalance, User user) {
         Bill bill = new Bill();
         bill.setName(billName);
@@ -20,6 +21,7 @@ public class BillService {
         billStorage.add(bill);
     }
 
+    @Override
     public List<Bill> findBillsByUser(User findUser) {
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
