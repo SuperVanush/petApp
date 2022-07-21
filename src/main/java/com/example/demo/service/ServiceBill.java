@@ -15,4 +15,3 @@ public interface ServiceBill {
 
     Bill reduceBalance(int idBill, int reduceDigit);
 }
-

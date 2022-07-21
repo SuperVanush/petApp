@@ -10,7 +10,7 @@ public interface StorageBill {
 
     List<Bill> getListOfElements();
 
-    Bill sumBalanceTransaction(int idBill, int sumDigit);
+    Bill getBillFromId(int idBill);
 
-    Bill reduceBalanceTransaction(int idBill, int reduceDigit);
+    void balanceTransaction(int idBill, int balanceBill);
 }

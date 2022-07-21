@@ -37,13 +37,25 @@ public class BillService implements ServiceBill {
 
     @Override
     public Bill sumBalanceTransaction(int idBill, int sumDigit) {
-        Bill bill = billStorage.sumBalanceTransaction(idBill, sumDigit);
+        Bill bill = billStorage.getBillFromId(idBill);
+        int billBalance = bill.getBalance();
+        int sumBillBalance = billBalance + sumDigit;
+        bill.setBalance(sumBillBalance);
+        billStorage.balanceTransaction(idBill, sumBillBalance);
         return bill;
     }
 
     @Override
     public Bill reduceBalance(int idBill, int reduceDigit) {
-        Bill bill = billStorage.reduceBalanceTransaction(idBill, reduceDigit);
+        Bill bill = billStorage.getBillFromId(idBill);
+        int billBalance = bill.getBalance();
+        int reduceBillBalance = billBalance - reduceDigit;
+        if (reduceBillBalance < 0) {
+            System.out.println("Bill balance is minus. Reduce digit");
+        } else {
+            bill.setBalance(reduceBillBalance);
+            billStorage.balanceTransaction(idBill, reduceBillBalance);
+        }
         return bill;
     }
 }
