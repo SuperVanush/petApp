@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import java.util.List;
 
-public class User implements Comparable<User> {
+public class User  {
 
     private int id;
     private String name;
@@ -52,11 +52,6 @@ public class User implements Comparable<User> {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Override
-    public int compareTo(User o) {
-        return Integer.compare(id, o.getId());
     }
 
     @Override
