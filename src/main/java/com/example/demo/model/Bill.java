@@ -10,6 +10,12 @@ public class Bill {
     public Bill() {
     }
 
+    public Bill(int id, String name, int balance) {
+        this.name = name;
+        this.id = id;
+        this.balance = balance;
+    }
+
     public Bill(String name, int id, int balance, User user) {
         this.name = name;
         this.id = id;

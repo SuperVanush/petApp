@@ -34,4 +34,16 @@ public class BillService implements ServiceBill {
         }
         return billsList;
     }
+
+    @Override
+    public Bill sumBalanceTransaction(int idBill, int sumDigit) {
+        Bill bill = billStorage.sumBalanceTransaction(idBill, sumDigit);
+        return bill;
+    }
+
+    @Override
+    public Bill reduceBalance(int idBill, int reduceDigit) {
+        Bill bill = billStorage.reduceBalanceTransaction(idBill, reduceDigit);
+        return bill;
+    }
 }

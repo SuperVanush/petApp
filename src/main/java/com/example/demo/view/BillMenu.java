@@ -22,6 +22,7 @@ public class BillMenu {
         do {
             System.out.println("1. Add bill ");
             System.out.println("2. Print Bills");
+            System.out.println("3. Balance Transaction");
             System.out.println(PRINT_MAIN_MENU);
             billChoice = in.nextInt();
             if (billChoice == 1) {
@@ -30,6 +31,9 @@ public class BillMenu {
             if (billChoice == 2) {
                 List<Bill> billList = billService.findBillsByUser(lastUser);
                 System.out.println(billList);
+            }
+            if (billChoice == 3) {
+                balanceTransaction(lastUser);
             }
             if (billChoice != 1 && billChoice != 0 && billChoice != 2 && billChoice != 3) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
@@ -44,5 +48,37 @@ public class BillMenu {
         System.out.println("Input bill balance");
         int billBalance = in.nextInt();
         billService.addBill(billName, billBalance, user);
+    }
+
+    private void balanceTransaction(User lastUser) {
+        List<Bill> billList = billService.findBillsByUser(lastUser);
+        System.out.println(billList);
+        System.out.println("Choice the bill for transaction");
+        System.out.println("Enter bill id");
+        int billId = in.nextInt();
+        int choiceTransaction;
+        do {
+            System.out.println("Choice transaction type");
+            System.out.println("1. Increase Balance");
+            System.out.println("2. Reduce Balance");
+            System.out.println(PRINT_MAIN_MENU);
+            choiceTransaction = in.nextInt();
+            if (choiceTransaction == 1) {
+                System.out.println("Enter digit");
+                int sumDigit = in.nextInt();
+                Bill bill = billService.sumBalanceTransaction(billId, sumDigit);
+                System.out.println(bill);
+            }
+            if (choiceTransaction == 2) {
+                System.out.println("Enter digit");
+                int reduceDigit = in.nextInt();
+                Bill bill = billService.reduceBalance(billId, reduceDigit);
+                System.out.println(bill);
+            }
+            if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2) {
+                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+            }
+        }
+        while (choiceTransaction != 0);
     }
 }

@@ -52,4 +52,73 @@ public class BillStorage implements StorageBill {
         }
         return billList;
     }
+
+
+    @Override
+    public Bill sumBalanceTransaction(int idBill, int sumDigit) {
+        Bill bill = null;
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/postgres",
+                "postgres",
+                "5577166")) {
+            String sqlReqest = "update bills set bill_balance = ? + bill_balance where bill_id = ?";
+            PreparedStatement psmt = connection.prepareStatement(sqlReqest);
+            psmt.setInt(1, sumDigit);
+            psmt.setInt(2, idBill);
+            psmt.executeUpdate();
+            try {
+                String sglResultRequest = "select * from bills where bill_id = ?";
+                PreparedStatement psmtResult = connection.prepareStatement(sglResultRequest);
+                psmtResult.setInt(1, idBill);
+                ResultSet resultSet = psmtResult.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("bill_id");
+                    String billname = resultSet.getString("bill_name");
+                    int balance = resultSet.getInt("bill_balance");
+                    bill = new Bill(id, billname, balance);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bill;
+    }
+
+    @Override
+    public Bill reduceBalanceTransaction(int idBill, int reduceDigit) {
+        Bill bill = null;
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/postgres",
+                "postgres",
+                "5577166")) {
+            String sqlReqest = "update bills set bill_balance = bill_balance - ? where bill_id = ?";
+            PreparedStatement psmt = connection.prepareStatement(sqlReqest);
+            psmt.setInt(1, reduceDigit);
+            psmt.setInt(2, idBill);
+            psmt.executeUpdate(); // в создании таблицы я поставила ограничение, что баланс не может быть меньше 0,
+                                    // теперь если у баланса отнять сумму, больше остатка, он прописывает невозможность
+                                      // этой операции и операцию не проводит. Я хотела как-то это обраьотать,
+                                     // но пока не нашла как.
+                                     //  Программа работает после этого выброса дальше и можно вычесть другое число.
+            try {
+                String sglResultRequest = "select * from bills where bill_id = ?";
+                PreparedStatement psmtResult = connection.prepareStatement(sglResultRequest);
+                psmtResult.setInt(1, idBill);
+                ResultSet resultSet = psmtResult.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("bill_id");
+                    String billname = resultSet.getString("bill_name");
+                    int balance = resultSet.getInt("bill_balance");
+                    bill = new Bill(id, billname, balance);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bill;
+    }
 }

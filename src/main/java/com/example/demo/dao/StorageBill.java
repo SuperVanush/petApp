@@ -9,4 +9,8 @@ public interface StorageBill {
     Bill add(Bill bill);
 
     List<Bill> getListOfElements();
+
+    Bill sumBalanceTransaction(int idBill, int sumDigit);
+
+    Bill reduceBalanceTransaction(int idBill, int reduceDigit);
 }
