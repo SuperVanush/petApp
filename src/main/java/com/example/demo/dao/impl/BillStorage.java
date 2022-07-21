@@ -77,7 +77,9 @@ public class BillStorage implements StorageBill {
     }
 
     @Override
-    public void balanceTransaction(int idBill, int balanceBill) {
+    public void changeBalanсe(Bill bill) {
+        int balanceBill = bill.getBalance();
+        int idBill = bill.getId();
         try (Connection connection = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/postgres",
                 "postgres",

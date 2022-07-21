@@ -41,7 +41,7 @@ public class BillService implements ServiceBill {
         int billBalance = bill.getBalance();
         int sumBillBalance = billBalance + sumDigit;
         bill.setBalance(sumBillBalance);
-        billStorage.balanceTransaction(idBill, sumBillBalance);
+        billStorage.changeBalanсe(bill);
         return bill;
     }
 
@@ -51,10 +51,10 @@ public class BillService implements ServiceBill {
         int billBalance = bill.getBalance();
         int reduceBillBalance = billBalance - reduceDigit;
         if (reduceBillBalance < 0) {
-            System.out.println("Bill balance is minus. Reduce digit");
+            return null;
         } else {
             bill.setBalance(reduceBillBalance);
-            billStorage.balanceTransaction(idBill, reduceBillBalance);
+            billStorage.changeBalanсe(bill);
         }
         return bill;
     }

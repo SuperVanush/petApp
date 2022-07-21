@@ -73,10 +73,14 @@ public class BillMenu {
                 System.out.println("Enter digit");
                 int reduceDigit = in.nextInt();
                 Bill bill = billService.reduceBalance(billId, reduceDigit);
-                System.out.println(bill);
-            }
-            if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2) {
-                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+                if (bill == null) {
+                    System.out.println("Bill balance is minus. Reduce digit");
+                } else {
+                    System.out.println(bill);
+                }
+                if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2) {
+                    System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+                }
             }
         }
         while (choiceTransaction != 0);
