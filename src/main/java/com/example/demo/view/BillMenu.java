@@ -51,10 +51,12 @@ public class BillMenu {
     }
 
     private void balanceTransaction(User lastUser) {
-        List<Bill> billList = billService.findBillsByUser(lastUser);
-        System.out.println(billList);
         System.out.println("Choice the bill for transaction");
-        System.out.println("Enter bill id");
+        List<Bill> billList = billService.findBillsByUser(lastUser);
+        for (Bill billInList : billList) {
+            System.out.println(billInList.getId() + ". name of bill" + billInList.getName());
+        }
+        System.out.println("Choice bill");
         int billId = in.nextInt();
         int choiceTransaction;
         do {

@@ -18,6 +18,7 @@ public class Factory {
     private static BillMenu billMenuInstance;
     private static UserMenu userMenuInstance;
 
+
     private Factory() {
     }
 

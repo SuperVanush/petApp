@@ -32,6 +32,7 @@ public class BillService implements ServiceBill {
                 billsList.add(billInList);
             }
         }
+
         return billsList;
     }
 
@@ -41,7 +42,7 @@ public class BillService implements ServiceBill {
         int billBalance = bill.getBalance();
         int sumBillBalance = billBalance + sumDigit;
         bill.setBalance(sumBillBalance);
-        billStorage.changeBalanсe(bill);
+        billStorage.updateBill(bill);
         return bill;
     }
 
@@ -51,10 +52,10 @@ public class BillService implements ServiceBill {
         int billBalance = bill.getBalance();
         int reduceBillBalance = billBalance - reduceDigit;
         if (reduceBillBalance < 0) {
-            return null;
+            throw new RuntimeException();
         } else {
             bill.setBalance(reduceBillBalance);
-            billStorage.changeBalanсe(bill);
+            billStorage.updateBill(bill);
         }
         return bill;
     }
