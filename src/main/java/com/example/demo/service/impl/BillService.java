@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.MyException;
 import com.example.demo.dao.StorageBill;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
@@ -32,7 +33,6 @@ public class BillService implements ServiceBill {
                 billsList.add(billInList);
             }
         }
-
         return billsList;
     }
 
@@ -47,16 +47,17 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public Bill reduceBalance(int idBill, int reduceDigit) {
+    public Bill reduceBalance(int idBill, int reduceDigit) throws MyException{
         Bill bill = billStorage.getBillFromId(idBill);
         int billBalance = bill.getBalance();
         int reduceBillBalance = billBalance - reduceDigit;
-        if (reduceBillBalance < 0) {
-            throw new RuntimeException();
-        } else {
+        if (reduceBillBalance < 0){
+            throw new MyException();}
+        else {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
         }
+
         return bill;
     }
 }

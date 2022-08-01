@@ -8,23 +8,27 @@ import java.sql.SQLException;
 
 public class DaoFactory {
 
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String DB_USERNAME = "postgres";
+    private static final String DB_PASS = "5577166";
+
     private static DataSource dataSource;
 
     public static DataSource getDataSource() {
         if (dataSource == null) {
             HikariDataSource ds = new HikariDataSource();
-            ds.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-            ds.setUsername("postgres");
-            ds.setPassword("5577166");
+            ds.setJdbcUrl(DB_URL);
+            ds.setUsername(DB_USERNAME);
+            ds.setPassword(DB_PASS);
             dataSource = ds;
         }
         return dataSource;
     }
 
-    public static Connection getConnetion() throws SQLException {
+    public Connection getConnetion() throws SQLException {
         return getDataSource().getConnection();
     }
 
-    private DaoFactory() {
+    public DaoFactory() {
     }
 }
