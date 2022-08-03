@@ -55,10 +55,14 @@ public class BillMenu {
         System.out.println("Choice the bill for transaction");
         List<Bill> billList = billService.findBillsByUser(lastUser);
         for (Bill billInList : billList) {
-            System.out.println(billInList.getId() + ". name of bill" + billInList.getName());
+            int countNumberBill = billList.indexOf(billInList) + 1;
+            int countNameBill = billList.indexOf(billInList);
+            String nameBillInMenu = billList.get(countNameBill).getName();
+            System.out.println(countNumberBill + ". name of bill" + nameBillInMenu);
         }
         System.out.println("Choice bill");
-        int billId = in.nextInt();
+        int billIndex = in.nextInt() - 1;
+        int billId = billList.get(billIndex).getId();
         int choiceTransaction;
         do {
             System.out.println("Choice transaction type");
