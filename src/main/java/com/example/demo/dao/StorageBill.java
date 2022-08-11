@@ -10,7 +10,7 @@ public interface StorageBill {
 
     List<Bill> getListOfElements();
 
-    Bill getBillFromId(int idBill);
+    Bill findBillFromId(int idBill);
 
     void updateBill(Bill bill);
 }

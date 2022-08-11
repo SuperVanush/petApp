@@ -51,7 +51,7 @@ public class BillStorage implements StorageBill {
     }
 
     @Override
-    public Bill getBillFromId(int idBill) {
+    public Bill findBillFromId(int idBill) {
         Bill bill = null;
         try (Connection connection = daoFactory.getConnetion()) {
             String sglResultRequest = "select * from bills where bill_id = ?";

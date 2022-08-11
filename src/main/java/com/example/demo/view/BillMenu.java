@@ -56,9 +56,7 @@ public class BillMenu {
         List<Bill> billList = billService.findBillsByUser(lastUser);
         for (Bill billInList : billList) {
             int countNumberBill = billList.indexOf(billInList) + 1;
-            int countNameBill = billList.indexOf(billInList);
-            String nameBillInMenu = billList.get(countNameBill).getName();
-            System.out.println(countNumberBill + ". name of bill" + nameBillInMenu);
+            System.out.println(countNumberBill + ". name of bill" + billInList.getName());
         }
         System.out.println("Choice bill");
         int billIndex = in.nextInt() - 1;

@@ -11,9 +11,9 @@ import java.util.List;
 public class UserService implements ServiceUser {
 
     private final StorageUser userStorage = Factory.getUserStorageInstance();
-    private final BillService billService = Factory.getBillServiceInstance();
+    private final BillService billService  = Factory.getBillServiceInstance();
 
-    @Override
+      @Override
     public User addUser(String name, String login) {
         User user = new User();
         user.setName(name);

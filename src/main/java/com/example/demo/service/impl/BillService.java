@@ -38,7 +38,7 @@ public class BillService implements ServiceBill {
 
     @Override
     public Bill sumBalanceTransaction(int idBill, int sumDigit) {
-        Bill bill = billStorage.getBillFromId(idBill);
+        Bill bill = billStorage.findBillFromId(idBill);
         int billBalance = bill.getBalance();
         int sumBillBalance = billBalance + sumDigit;
         bill.setBalance(sumBillBalance);
@@ -48,7 +48,7 @@ public class BillService implements ServiceBill {
 
     @Override
     public Bill reduceBalance(int idBill, int reduceDigit) throws MyException{
-        Bill bill = billStorage.getBillFromId(idBill);
+        Bill bill = billStorage.findBillFromId(idBill);
         int billBalance = bill.getBalance();
         int reduceBillBalance = billBalance - reduceDigit;
         if (reduceBillBalance < 0){
