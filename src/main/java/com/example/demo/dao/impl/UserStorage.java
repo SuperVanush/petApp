@@ -8,8 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class UserStorage implements StorageUser {
-    DaoFactory daoFactory = new DaoFactory();
+public class UserStorage implements StorageUser {
+    DaoFactory daoFactory ;
 
     @Override
     public User add(User user) {

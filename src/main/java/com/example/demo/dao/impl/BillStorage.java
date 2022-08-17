@@ -11,7 +11,7 @@ import java.util.List;
 
 public class BillStorage implements StorageBill {
 
-    DaoFactory daoFactory = new DaoFactory();
+    DaoFactory daoFactory ;
 
     @Override
     public Bill add(Bill bill) {
