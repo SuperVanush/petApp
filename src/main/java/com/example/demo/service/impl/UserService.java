@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.StorageUser;
-import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceUser;
@@ -10,10 +9,15 @@ import java.util.List;
 
 public class UserService implements ServiceUser {
 
-    private final StorageUser userStorage = Factory.getUserStorageInstance();
-    private final BillService billService  = Factory.getBillServiceInstance();
+    private final StorageUser userStorage;
+    private final BillService billService;
 
-      @Override
+    public UserService(StorageUser userStorage, BillService billService) {
+        this.userStorage = userStorage;
+        this.billService = billService;
+    }
+
+    @Override
     public User addUser(String name, String login) {
         User user = new User();
         user.setName(name);

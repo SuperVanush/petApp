@@ -38,7 +38,7 @@ public class Factory {
 
     public static UserService getUserServiceInstance() {
         if (userServiceInstance == null) {
-            userServiceInstance = new UserService();
+            userServiceInstance = new UserService(getUserStorageInstance(),getBillServiceInstance());
         }
         return userServiceInstance;
     }
