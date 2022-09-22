@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import com.example.demo.MyException;
 import com.example.demo.dao.StorageBill;
-import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
@@ -12,7 +11,11 @@ import java.util.List;
 
 public class BillService implements ServiceBill {
 
-    private final StorageBill billStorage = Factory.getBillStorageInstance();
+    private final StorageBill billStorage;
+
+    public BillService(StorageBill billStorage) {
+        this.billStorage = billStorage;
+    }
 
     @Override
     public void addBill(String billName, int billBalance, User user) {
@@ -47,13 +50,13 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public Bill reduceBalance(int idBill, int reduceDigit) throws MyException{
+    public Bill reduceBalance(int idBill, int reduceDigit) throws MyException {
         Bill bill = billStorage.findBillFromId(idBill);
         int billBalance = bill.getBalance();
         int reduceBillBalance = billBalance - reduceDigit;
-        if (reduceBillBalance < 0){
-            throw new MyException();}
-        else {
+        if (reduceBillBalance < 0) {
+            throw new MyException();
+        } else {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
         }

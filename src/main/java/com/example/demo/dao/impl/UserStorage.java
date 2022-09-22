@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserStorage implements StorageUser {
-    DaoFactory daoFactory ;
+    DaoFactory daoFactory;
 
     @Override
     public User add(User user) {

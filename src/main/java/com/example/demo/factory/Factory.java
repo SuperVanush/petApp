@@ -45,7 +45,7 @@ public class Factory {
 
     public static BillService getBillServiceInstance() {
         if (billServiceInstance == null) {
-            billServiceInstance = new BillService();
+            billServiceInstance = new BillService(getBillStorageInstance());
         }
         return billServiceInstance;
     }
