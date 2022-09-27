@@ -31,6 +31,15 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void testAddUser() {
+        User user = new User();
+        user.setName("qqq");
+        user.setLogin("qqq");
+        User userService = new User();
+        userService.setLogin("qqq");
+        userService.setName("qqq");
+        when(userStorage.add(user)).thenReturn(userService);
+        User userFromService = subj.addUser("qqq", "qqq");
+        assertEquals(user, userFromService);
     }
 
     @Test
@@ -53,7 +62,6 @@ public class UserServiceTest extends TestCase {
         User userFromService = subj.findUserByLogin("qqq");
         assertEquals(userByLogin, userFromService);
     }
-
 
     @Test
     public void testRemoveUser() {
