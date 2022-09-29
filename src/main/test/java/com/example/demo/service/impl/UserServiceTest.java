@@ -12,8 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest extends TestCase {
@@ -30,27 +29,27 @@ public class UserServiceTest extends TestCase {
     }
 
     @Test
-    public void testAddUser() {
+    public void test_AddUser() {
         User user = new User();
         user.setName("qqq");
         user.setLogin("qqq");
-        User userService = new User();
-        userService.setLogin("qqq");
-        userService.setName("qqq");
-        when(userStorage.add(user)).thenReturn(userService);
+        User userFromDatabase = new User();
+        userFromDatabase.setLogin("qqq");
+        userFromDatabase.setName("qqq");
+        when(userStorage.add(user)).thenReturn(userFromDatabase);
         User userFromService = subj.addUser("qqq", "qqq");
         assertEquals(user, userFromService);
     }
 
     @Test
-    public void test_notFindUser() {
+    public void test_FindUserByLogin_notFindUser() {
         when(userStorage.findByLogin("rrr")).thenReturn(null);
         User user = subj.findUserByLogin("rrr");
         assertNull(user);
     }
 
     @Test
-    public void test_ok() {
+    public void test_FindUserByLogin_ok() {
         User userByLogin = new User();
         userByLogin.setId(1);
         userByLogin.setLogin("qqq");
@@ -64,6 +63,12 @@ public class UserServiceTest extends TestCase {
     }
 
     @Test
-    public void testRemoveUser() {
+    public void test_RemoveUser_Ok() {
+        User user = new User();
+        user.setLogin("ddd");
+        user.setId(1);
+        when(subj.findUserByLogin("ddd")).thenReturn(user);
+        userStorage.remove(1);
+        verify(userStorage).remove(1);
     }
 }
