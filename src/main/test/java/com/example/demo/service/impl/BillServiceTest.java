@@ -36,13 +36,31 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_notFindBills() {
-        User user = new User();
-        user.setId(5);
-        Bill bill = new Bill();
-        bill.setUser(user);
-        List<Bill> billsList = new ArrayList<>();
-        billsList.add(bill);
-        when(billStorage.findBillFromId(6)).thenReturn(null);
-        assertNotNull(billsList);
+        User userForBillFromDatabase = new User();
+        userForBillFromDatabase.setId(5);
+        User userNotBillInDatabase = new User();
+        userNotBillInDatabase.setId(2);
+        Bill billInCollectionFromDatabase = new Bill();
+        billInCollectionFromDatabase.setUser(userForBillFromDatabase);
+        List<Bill> listBillsFromDatabase = new ArrayList<>();
+        listBillsFromDatabase.add(billInCollectionFromDatabase);
+        when(billStorage.getListOfElements()).thenReturn(listBillsFromDatabase);
+        List<Bill> listNotInDatabase = subj.findBillsByUser(userNotBillInDatabase);
+        assertEquals(listNotInDatabase.size(),0);
+    }
+
+    @Test
+    public void test_FindBillsByUser_Ok() {
+        User userForBillFromDatabase = new User();
+        userForBillFromDatabase.setId(5);
+        User userNotBillInDatabase = new User();
+        userNotBillInDatabase.setId(5);
+        Bill billInCollectionFromDatabase = new Bill();
+        billInCollectionFromDatabase.setUser(userForBillFromDatabase);
+        List<Bill> listBillsFromDatabase = new ArrayList<>();
+        listBillsFromDatabase.add(billInCollectionFromDatabase);
+        when(billStorage.getListOfElements()).thenReturn(listBillsFromDatabase);
+        List<Bill> listNotInDatabase = subj.findBillsByUser(userNotBillInDatabase);
+        assertEquals(listNotInDatabase,listBillsFromDatabase);
     }
 }
