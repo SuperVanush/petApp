@@ -36,31 +36,67 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_notFindBills() {
-        User userForBillFromDatabase = new User();
-        userForBillFromDatabase.setId(5);
-        User userNotBillInDatabase = new User();
-        userNotBillInDatabase.setId(2);
-        Bill billInCollectionFromDatabase = new Bill();
-        billInCollectionFromDatabase.setUser(userForBillFromDatabase);
-        List<Bill> listBillsFromDatabase = new ArrayList<>();
-        listBillsFromDatabase.add(billInCollectionFromDatabase);
-        when(billStorage.getListOfElements()).thenReturn(listBillsFromDatabase);
-        List<Bill> listNotInDatabase = subj.findBillsByUser(userNotBillInDatabase);
-        assertEquals(listNotInDatabase.size(),0);
+        User firstUser = new User();
+        firstUser.setId(5);
+        Bill billForFirstUser = new Bill();
+        billForFirstUser.setUser(firstUser);
+
+        User secondUser = new User();
+        secondUser.setId(2);
+
+        List<Bill> listBillFirstUser = new ArrayList<>();
+        listBillFirstUser.add(billForFirstUser);
+        when(billStorage.getListOfElements()).thenReturn(listBillFirstUser);
+
+        List<Bill> listSecondUser = subj.findBillsByUser(secondUser);
+        assertEquals(listSecondUser.size(), 0);
     }
 
     @Test
     public void test_FindBillsByUser_Ok() {
-        User userForBillFromDatabase = new User();
-        userForBillFromDatabase.setId(5);
-        User userNotBillInDatabase = new User();
-        userNotBillInDatabase.setId(5);
-        Bill billInCollectionFromDatabase = new Bill();
-        billInCollectionFromDatabase.setUser(userForBillFromDatabase);
+        User firstUser = new User();
+        firstUser.setId(5);
+        Bill billForFirstUser = new Bill();
+        billForFirstUser.setUser(firstUser);
+
+        User secondUser = new User();
+        secondUser.setId(2);
+        Bill billForSecondUser = new Bill();
+        billForSecondUser.setUser(secondUser);
+
         List<Bill> listBillsFromDatabase = new ArrayList<>();
-        listBillsFromDatabase.add(billInCollectionFromDatabase);
+        listBillsFromDatabase.add(billForFirstUser);
+        listBillsFromDatabase.add(billForSecondUser);
+
+        List<Bill> listForComparison = new ArrayList<>();
+        listForComparison.add(billForSecondUser);
+
         when(billStorage.getListOfElements()).thenReturn(listBillsFromDatabase);
-        List<Bill> listNotInDatabase = subj.findBillsByUser(userNotBillInDatabase);
-        assertEquals(listNotInDatabase,listBillsFromDatabase);
+        List<Bill> listBillsSecondUser = subj.findBillsByUser(secondUser);
+        assertEquals(listBillsSecondUser, listForComparison);
+    }
+
+    @Test
+    public void test_sumBalanceTransaction_Ok() {
+        Bill bill = new Bill();
+        bill.setBalance(6);
+        bill.setId(2);
+        int sumDigit = 3;
+        when(billStorage.findBillFromId(6)).thenReturn(bill);
+        Bill returnBill = subj.sumBalanceTransaction(6, 3);
+        verify(billStorage).updateBill(returnBill);
+        assertEquals(bill.getBalance(), returnBill.getBalance());
+    }
+
+    @Test
+    public void test_reduceBalance_Ok() {
+        Bill bill = new Bill();
+        bill.setBalance(9);
+        bill.setId(2);
+        int reduceBalance = 2;
+        when(billStorage.findBillFromId(2)).thenReturn(bill);
+        Bill returnBill = subj.reduceBalance(2, reduceBalance);
+        verify(billStorage).updateBill(returnBill);
+        assertEquals(bill.getBalance(), returnBill.getBalance());
     }
 }
