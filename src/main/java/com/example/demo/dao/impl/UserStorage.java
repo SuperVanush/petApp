@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserStorage implements StorageUser {
-    DaoFactory daoFactory;
+    private final DaoFactory daoFactory;
+
+    public UserStorage(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     @Override
     public User add(User user) {
