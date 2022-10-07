@@ -1,6 +1,5 @@
 package com.example.demo.factory;
 
-import com.example.demo.dao.DaoFactory;
 import com.example.demo.dao.StorageBill;
 import com.example.demo.dao.StorageUser;
 import com.example.demo.dao.impl.BillStorage;
@@ -18,21 +17,20 @@ public class Factory {
     private static BillService billServiceInstance;
     private static BillMenu billMenuInstance;
     private static UserMenu userMenuInstance;
-    private static DaoFactory daoFactory;
 
     private Factory() {
     }
 
     public static StorageUser getUserStorageInstance() {
         if (userStorageInstance == null) {
-            userStorageInstance = new UserStorage(daoFactory);
+            userStorageInstance = new UserStorage();
         }
         return userStorageInstance;
     }
 
     public static StorageBill getBillStorageInstance() {
         if (billStorageInstance == null) {
-            billStorageInstance = new BillStorage(daoFactory);
+            billStorageInstance = new BillStorage();
         }
         return billStorageInstance;
     }

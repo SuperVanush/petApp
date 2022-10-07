@@ -25,10 +25,10 @@ public class DaoFactory {
         return dataSource;
     }
 
-    public Connection getConnetion() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return getDataSource().getConnection();
     }
 
-    public DaoFactory() {
+    private DaoFactory() {
     }
 }
