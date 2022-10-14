@@ -27,7 +27,7 @@ public class BillStorage implements StorageBill {
         return bill;
     }
 
-    @Override
+        @Override
     public List<Bill> getListOfElements() {
         List<Bill> billList = new ArrayList<>();
         try (Connection connection = getConnection()) {
