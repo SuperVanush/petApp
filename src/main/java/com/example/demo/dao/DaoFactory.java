@@ -47,7 +47,7 @@ public class DaoFactory {
             );
             liquibase.update(new Contexts());
         } catch (SQLException | LiquibaseException e) {
-            throw new MyException();
+            throw new MyException(e.getMessage());
         }
     }
 
