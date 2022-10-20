@@ -1,6 +1,6 @@
 package com.example.demo.dao;
 
-import com.example.demo.Ecxeption.MyException;
+import com.example.demo.exception.MyException;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.Contexts;
 import liquibase.Liquibase;

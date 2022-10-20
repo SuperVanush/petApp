@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.Ecxeption.MyException;
+import com.example.demo.exception.MyException;
 import com.example.demo.dao.StorageBill;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;

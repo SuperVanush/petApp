@@ -2,13 +2,13 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
-import junit.framework.TestCase;
+import com.example.demo.model.User;
 import org.junit.Before;
 import org.junit.Test;
 
 import static com.example.demo.factory.Factory.getUserStorageInstance;
 
-public class BillStorageTest extends TestCase {
+public class BillStorageTest {
 
     BillStorage subj;
     UserStorage userStorage;
@@ -24,10 +24,13 @@ public class BillStorageTest extends TestCase {
     }
 
     @Test
-    public void addBill (){
+    public void addBill() {
         Bill bill = new Bill();
+        User user = new User();
+        user.setId(1);
         bill.setName("qqq");
         bill.setBalance(55);
+        bill.setUser(user);
         subj.add(bill);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.view;
 
-import com.example.demo.Ecxeption.MyException;
+import com.example.demo.exception.MyException;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
