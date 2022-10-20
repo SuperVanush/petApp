@@ -3,12 +3,14 @@ package com.example.demo.dao.impl;
 import com.example.demo.factory.Factory;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static com.example.demo.factory.Factory.getUserStorageInstance;
-
-public class BillStorageTest {
+@RunWith(MockitoJUnitRunner.class)
+public class BillStorageTest extends TestCase {
 
     BillStorage subj;
     UserStorage userStorage;
@@ -20,7 +22,7 @@ public class BillStorageTest {
         System.setProperty("jdbcPassword", "");
 
         subj = (BillStorage) Factory.getBillStorageInstance();
-        userStorage = (UserStorage) getUserStorageInstance();
+        userStorage = (UserStorage) Factory.getUserStorageInstance();
     }
 
     @Test
@@ -28,9 +30,13 @@ public class BillStorageTest {
         Bill bill = new Bill();
         User user = new User();
         user.setId(1);
-        bill.setName("qqq");
+        user.setName("qqq");
+        user.setLogin("qqq");
+        bill.setName("bill_qqq");
         bill.setBalance(55);
         bill.setUser(user);
-        subj.add(bill);
+        userStorage.add(user);
+        Bill billFromBd = subj.add(bill);
+        assertEquals(bill, billFromBd);
     }
 }
