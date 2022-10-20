@@ -1,30 +1,33 @@
 package com.example.demo.dao.impl;
 
 import com.example.demo.factory.Factory;
+import com.example.demo.model.Bill;
 import junit.framework.TestCase;
 import org.junit.Before;
+import org.junit.Test;
+
+import static com.example.demo.factory.Factory.getUserStorageInstance;
 
 public class BillStorageTest extends TestCase {
 
-    BillStorageTest subj;
+    BillStorage subj;
+    UserStorage userStorage;
 
-@Before
-public void setUp () throws Exception{
-        System.setProperty("jdbcUrl","jdbc:h2:mem:testDatabase");
-        System.setProperty("jdbcUserName","sa");
-        System.setProperty("jdbcPassword","");
-        subj = (BillStorageTest) Factory.getBillStorageInstance();
-    }
-    public void testAdd() {
+    @Before
+    public void setUp() throws Exception {
+        System.setProperty("jdbcUrl", "jdbc:h2:mem:testDatabase");
+        System.setProperty("jdbcUserName", "sa");
+        System.setProperty("jdbcPassword", "");
 
-    }
-
-    public void testGetListOfElements() {
+        subj = (BillStorage) Factory.getBillStorageInstance();
+        userStorage = (UserStorage) getUserStorageInstance();
     }
 
-    public void testFindBillFromId() {
-    }
-
-    public void testUpdateBill() {
+    @Test
+    public void addBill (){
+        Bill bill = new Bill();
+        bill.setName("qqq");
+        bill.setBalance(55);
+        subj.add(bill);
     }
 }

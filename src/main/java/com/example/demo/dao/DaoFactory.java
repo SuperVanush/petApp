@@ -1,6 +1,6 @@
 package com.example.demo.dao;
 
-import com.example.demo.MyException;
+import com.example.demo.Ecxeption.MyException;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.Contexts;
 import liquibase.Liquibase;
@@ -41,7 +41,7 @@ public class DaoFactory {
             DatabaseConnection connection = new JdbcConnection(dataSource.getConnection());
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
             Liquibase liquibase = new Liquibase(
-                    "liqiubase.xml",
+                    "liquibase.xml",
                     new ClassLoaderResourceAccessor(),
                     database
             );
