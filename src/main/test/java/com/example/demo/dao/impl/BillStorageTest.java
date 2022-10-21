@@ -36,7 +36,8 @@ public class BillStorageTest extends TestCase {
         bill.setBalance(55);
         bill.setUser(user);
         userStorage.add(user);
-        Bill billFromBd = subj.add(bill);
+        subj.add(bill);
+        Bill billFromBd = subj.findBillFromId(bill.getId());
         assertEquals(bill, billFromBd);
     }
 }
