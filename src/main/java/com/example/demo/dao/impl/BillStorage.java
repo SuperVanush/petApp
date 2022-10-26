@@ -15,7 +15,7 @@ public class BillStorage implements StorageBill {
     @Override
     public Bill add(Bill bill) {
         try (Connection connect = getConnection()) {
-            String sql = "insert into bills ( bill_name, bill_balance, user_id) VALUES (?,?,?)";
+            String sql = "insert into bills (bill_id, bill_name, bill_balance, user_id) VALUES (Statement.RETURN_GENERATED_KEYS,?,?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql);
             psmt.setString(1, bill.getName());
             psmt.setInt(2, bill.getBalance());
