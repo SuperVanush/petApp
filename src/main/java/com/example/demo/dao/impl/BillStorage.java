@@ -15,12 +15,22 @@ public class BillStorage implements StorageBill {
     @Override
     public Bill add(Bill bill) {
         try (Connection connect = getConnection()) {
-            String sql = "insert into bills (bill_id, bill_name, bill_balance, user_id) VALUES (Statement.RETURN_GENERATED_KEYS,?,?,?)";
-            PreparedStatement psmt = connect.prepareStatement(sql);
+            String sql = "insert into bills (bill_name, bill_balance, user_id) VALUES (?,?,?)";
+            Statement stmt = connect.createStatement();
+            PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, bill.getName());
             psmt.setInt(2, bill.getBalance());
             psmt.setInt(3, bill.getUser().getId());
             psmt.executeUpdate();
+            ResultSet resultSet = stmt.getGeneratedKeys();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("bill_id");
+                int balance = resultSet.getInt("bill_balance");
+                int userId = resultSet.getInt("user_id");
+                String name = resultSet.getString("bill_name");
+                User user = new User(userId);
+               bill = new Bill(name, id, balance, user);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
