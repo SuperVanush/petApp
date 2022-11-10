@@ -16,20 +16,19 @@ public class BillStorage implements StorageBill {
     public Bill add(Bill bill) {
         try (Connection connect = getConnection()) {
             String sql = "insert into bills (bill_name, bill_balance, user_id) VALUES (?,?,?)";
-            Statement stmt = connect.createStatement();
             PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, bill.getName());
             psmt.setInt(2, bill.getBalance());
             psmt.setInt(3, bill.getUser().getId());
-            psmt.executeUpdate();
-            ResultSet resultSet = stmt.getGeneratedKeys();
-            while (resultSet.next()) {
+            int count = psmt.executeUpdate();
+            if (count == 0) {
+                ResultSet resultSet = psmt.getGeneratedKeys();
                 int id = resultSet.getInt("bill_id");
                 int balance = resultSet.getInt("bill_balance");
                 int userId = resultSet.getInt("user_id");
                 String name = resultSet.getString("bill_name");
                 User user = new User(userId);
-               bill = new Bill(name, id, balance, user);
+                bill = new Bill(name, id, balance, user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
