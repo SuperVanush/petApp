@@ -38,6 +38,6 @@ public class BillStorageTest extends TestCase {
         userStorage.add(user);
         subj.add(bill);
         Bill billFromBd = subj.findBillFromId(bill.getId());
-        assertEquals(bill, billFromBd);
+        assertEquals(bill.getId(), billFromBd);
     }
 }

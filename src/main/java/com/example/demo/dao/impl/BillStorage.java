@@ -22,13 +22,12 @@ public class BillStorage implements StorageBill {
             psmt.setInt(3, bill.getUser().getId());
             int count = psmt.executeUpdate();
             if (count == 0) {
-                ResultSet resultSet = psmt.getGeneratedKeys();
-                int id = resultSet.getInt("bill_id");
-                int balance = resultSet.getInt("bill_balance");
-                int userId = resultSet.getInt("user_id");
-                String name = resultSet.getString("bill_name");
-                User user = new User(userId);
-                bill = new Bill(name, id, balance, user);
+                try (ResultSet resultSet = psmt.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        bill.setId(resultSet.getInt(1));
+                    }
+                }
+                bill = new Bill();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,7 +59,7 @@ public class BillStorage implements StorageBill {
 
     @Override
     public Bill findBillFromId(int idBill) {
-        Bill bill = null;
+        Bill bill= null;
         try (Connection connection = getConnection()) {
             String sglResultRequest = "select * from bills where bill_id = ?";
             PreparedStatement psmtResult = connection.prepareStatement(sglResultRequest);
@@ -70,7 +69,7 @@ public class BillStorage implements StorageBill {
                 int id = resultSet.getInt("bill_id");
                 String billname = resultSet.getString("bill_name");
                 int balance = resultSet.getInt("bill_balance");
-                bill = new Bill(id, billname, balance);
+                bill = new Bill();
             }
         } catch (SQLException e) {
             e.printStackTrace();
