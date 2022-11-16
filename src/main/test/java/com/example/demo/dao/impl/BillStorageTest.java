@@ -9,8 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.List;
-
 @RunWith(MockitoJUnitRunner.class)
 public class BillStorageTest extends TestCase {
 
@@ -31,6 +29,7 @@ public class BillStorageTest extends TestCase {
     public void addBill() {
         Bill bill = new Bill();
         User user = new User();
+        user.setId(1);
         user.setName("qqq");
         user.setLogin("qqq");
         bill.setName("bill_qqq");
@@ -38,8 +37,7 @@ public class BillStorageTest extends TestCase {
         bill.setUser(user);
         userStorage.add(user);
         subj.add(bill);
-        List <Bill> billListFromBD = subj.getListOfElements();
-        Bill billFromBd = billListFromBD.get(bill.getId());
-        assertEquals(bill.getId(), billFromBd);
+        Bill billFromBd = subj.findBillFromId(bill.getId());
+        assertEquals(bill.getId(), billFromBd.getId());
     }
 }
