@@ -20,14 +20,18 @@ public class BillStorage implements StorageBill {
             psmt.setString(1, bill.getName());
             psmt.setInt(2, bill.getBalance());
             psmt.setInt(3, bill.getUser().getId());
-            int count = psmt.executeUpdate();
-            if (count == 0) {
-                try (ResultSet resultSet = psmt.getGeneratedKeys()) {
-                    if (resultSet.next()) {
-                        bill.setId(resultSet.getInt(1));
-                    }
+            int affectedRows = psmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating bill failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = psmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    bill.setId(Math.toIntExact(generatedKeys.getLong(1)));
+                } else {
+                    throw new SQLException("Creating bill failed, no ID obtained.");
                 }
-                bill = new Bill();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,7 +63,7 @@ public class BillStorage implements StorageBill {
 
     @Override
     public Bill findBillFromId(int idBill) {
-        Bill bill= null;
+        Bill bill = null;
         try (Connection connection = getConnection()) {
             String sglResultRequest = "select * from bills where bill_id = ?";
             PreparedStatement psmtResult = connection.prepareStatement(sglResultRequest);
@@ -69,6 +73,8 @@ public class BillStorage implements StorageBill {
                 int id = resultSet.getInt("bill_id");
                 String billname = resultSet.getString("bill_name");
                 int balance = resultSet.getInt("bill_balance");
+                int userId = resultSet.getInt("user_id");
+                User user = new User(userId);
                 bill = new Bill();
             }
         } catch (SQLException e) {
