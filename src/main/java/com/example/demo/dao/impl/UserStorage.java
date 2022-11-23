@@ -16,10 +16,21 @@ public class UserStorage implements StorageUser {
     public User add(User user) {
         try (Connection connect = getConnection()) {
             String sql = "insert into users ( user_name, login) VALUES (?,?)";
-            PreparedStatement psmt = connect.prepareStatement(sql);
+            PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, user.getName());
             psmt.setString(2, user.getLogin());
-            psmt.executeUpdate();
+            int affectedRowsUser = psmt.executeUpdate();
+
+            if (affectedRowsUser == 0) {
+                throw new SQLException("Creating bill failed, no rows affected.");
+            }
+            try (ResultSet generatedKeysUser = psmt.getGeneratedKeys()) {
+                if (generatedKeysUser.next()) {
+                    user.setId(Math.toIntExact(generatedKeysUser.getLong(1)));
+                } else {
+                    throw new SQLException("Creating bill failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +76,6 @@ public class UserStorage implements StorageUser {
         }
         return user;
     }
-
 
 
     @Override

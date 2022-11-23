@@ -29,7 +29,6 @@ public class BillStorageTest extends TestCase {
     public void addBill() {
         Bill bill = new Bill();
         User user = new User();
-        user.setId(1);
         user.setName("qqq");
         user.setLogin("qqq");
         bill.setName("bill_qqq");
