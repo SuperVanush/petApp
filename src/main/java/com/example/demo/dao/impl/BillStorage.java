@@ -75,7 +75,7 @@ public class BillStorage implements StorageBill {
                 int balance = resultSet.getInt("bill_balance");
                 int userId = resultSet.getInt("user_id");
                 User user = new User(userId);
-                bill = new Bill(billname,id,balance,user);
+                bill = new Bill(billname, id, balance, user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
