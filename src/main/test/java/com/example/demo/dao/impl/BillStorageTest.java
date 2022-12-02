@@ -39,21 +39,8 @@ public class BillStorageTest extends TestCase {
         bill.setUser(addedUser);
 
         Bill addedBill = subj.add(bill);
-
-        Bill testedBill = new Bill();
-        testedBill.setId(addedBill.getId());
-        testedBill.setName(addedBill.getName());
-        testedBill.setBalance(addedBill.getBalance()); // создала счет без пользователя,
-                                                        // но с остальными полями, что бы пользователь был null
-
         Bill billFromBd = subj.findBillFromId(addedBill.getId());
 
-        Bill testedBillFromBd = new Bill();
-        testedBillFromBd.setId(billFromBd.getId());
-        testedBillFromBd.setName(billFromBd.getName());
-        testedBillFromBd.setBalance(billFromBd.getBalance()); // создала еще один счет с данными от счета из БД, но без пользователя.
-
-        assertEquals(testedBill,testedBillFromBd);   // сравнила двух этих пользователей.
-                                                    // НО не работает тест. все поля одинаковые, а пользователи - null -это меня смущает -вот сверка лажает как будто
+        assertEquals(addedBill, billFromBd);
     }
 }
