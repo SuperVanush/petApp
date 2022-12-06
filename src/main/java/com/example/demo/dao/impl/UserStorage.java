@@ -2,13 +2,13 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageUser;
 import com.example.demo.model.User;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.demo.dao.DaoFactory.getConnection;
-
+@Service
 public class UserStorage implements StorageUser {
 
 

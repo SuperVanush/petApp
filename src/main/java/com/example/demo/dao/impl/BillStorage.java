@@ -3,13 +3,13 @@ package com.example.demo.dao.impl;
 import com.example.demo.dao.StorageBill;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.demo.dao.DaoFactory.getConnection;
-
+@Service
 public class BillStorage implements StorageBill {
 
     @Override
