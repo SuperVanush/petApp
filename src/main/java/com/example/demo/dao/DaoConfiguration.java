@@ -11,7 +11,6 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
 
@@ -23,7 +22,7 @@ public class DaoConfiguration {
     private static final String DB_PASS = System.getProperty("jdbcPassword", "5577166");
 
     @Bean
-    public DataSource dataSource(Environment environment) {
+    public DataSource dataSource() {
         HikariDataSource ds = new HikariDataSource();
         ds.setJdbcUrl(DB_URL);
         ds.setUsername(DB_USERNAME);

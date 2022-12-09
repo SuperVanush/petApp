@@ -1,21 +1,21 @@
 package com.example.demo.dao.impl;
 
+import com.example.demo.dao.DaoConfiguration;
 import com.example.demo.dao.StorageUser;
 import com.example.demo.model.User;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserStorage implements StorageUser {
-    DataSource dataSource;
+    DaoConfiguration daoConfiguration;
 
     @Override
     public User add(User user) {
-        try (Connection connect = dataSource.getConnection()) {
+        try (Connection connect = daoConfiguration.dataSource().getConnection()) {
             String sql = "insert into users ( user_name, login) VALUES (?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, user.getName());
@@ -41,7 +41,7 @@ public class UserStorage implements StorageUser {
     @Override
     public User findById(int id) {
         User user = null;
-        try (Connection connect = dataSource.getConnection()) {
+        try (Connection connect = daoConfiguration.dataSource().getConnection()) {
             String sql = "select * from users where user_id = ?";
             PreparedStatement psmt = connect.prepareStatement(sql);
             psmt.setInt(1, id);
@@ -61,7 +61,7 @@ public class UserStorage implements StorageUser {
     @Override
     public User findByLogin(String login) {
         User user = null;
-        try (Connection connect = dataSource.getConnection()) {
+        try (Connection connect = daoConfiguration.dataSource().getConnection()) {
             String sqlRequest = "select * from users where login = ?";
             PreparedStatement psmt = connect.prepareStatement(sqlRequest);
             psmt.setString(1, login);
@@ -82,7 +82,7 @@ public class UserStorage implements StorageUser {
     @Override
     public List<User> getListOfElements() {
         List<User> userList = new ArrayList<>();
-        try (Connection connect = dataSource.getConnection()) {
+        try (Connection connect = daoConfiguration.dataSource().getConnection()) {
             Statement statement = connect.createStatement();
             String sql = "select * from users left join bills b on users.user_id = b.user_id";
             ResultSet resultSet = statement.executeQuery(sql);
@@ -101,7 +101,7 @@ public class UserStorage implements StorageUser {
 
     @Override
     public void remove(int id) {
-        try (Connection connect = dataSource.getConnection()) {
+        try (Connection connect = daoConfiguration.dataSource().getConnection()) {
             Statement statement = connect.createStatement();
             String sqlRequest = "select * from users";
             ResultSet resultSet = statement.executeQuery(sqlRequest);
