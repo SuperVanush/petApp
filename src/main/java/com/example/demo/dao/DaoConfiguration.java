@@ -17,16 +17,13 @@ import javax.sql.DataSource;
 @ComponentScan
 @Configuration
 public class DaoConfiguration {
-    private static final String DB_URL = System.getProperty("jdbcUrl", "jdbc:postgresql://localhost:5432/postgres");
-    private static final String DB_USERNAME = System.getProperty("jdbcUserName", "postgres");
-    private static final String DB_PASS = System.getProperty("jdbcPassword", "5577166");
 
     @Bean
     public DataSource dataSource() {
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(DB_URL);
-        ds.setUsername(DB_USERNAME);
-        ds.setPassword(DB_PASS);
+        ds.setJdbcUrl(System.getProperty("jdbcUrl", "jdbc:postgresql://localhost:5432/postgres"));
+        ds.setUsername(System.getProperty("jdbcUserName", "postgres"));
+        ds.setPassword(System.getProperty("jdbcPassword", "5577166"));
         return ds;
     }
 

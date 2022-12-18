@@ -5,10 +5,11 @@ import com.example.demo.exception.MyException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class BillService implements ServiceBill {
 
     private final StorageBill billStorage;

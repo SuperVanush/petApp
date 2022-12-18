@@ -1,7 +1,7 @@
 package com.example.demo.view;
 
 import com.example.demo.exception.MyException;
-import com.example.demo.factory.Factory;
+import com.example.demo.factory.ServiceConfiguration;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.BillService;
@@ -15,7 +15,7 @@ public class BillMenu {
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public final Scanner in = new Scanner(System.in);
-    private final BillService billService = Factory.getBillServiceInstance();
+    private final BillService billService = ServiceConfiguration.getBillServiceInstance();
 
     public void enterBillMenu(User lastUser) {
         int billChoice;

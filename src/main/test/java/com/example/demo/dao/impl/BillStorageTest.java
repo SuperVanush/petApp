@@ -1,6 +1,6 @@
 package com.example.demo.dao.impl;
 
-import com.example.demo.factory.Factory;
+import com.example.demo.factory.ServiceConfiguration;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import junit.framework.TestCase;
@@ -24,8 +24,8 @@ public class BillStorageTest extends TestCase {
         System.setProperty("jdbcUserName", "sa");
         System.setProperty("jdbcPassword", "");
 
-        subj = (BillStorage) Factory.getBillStorageInstance();
-        userStorage = (UserStorage) Factory.getUserStorageInstance();
+        subj = (BillStorage) ServiceConfiguration.getBillStorageInstance();
+        userStorage = (UserStorage) ServiceConfiguration.getUserStorageInstance();
     }
 
     @Test

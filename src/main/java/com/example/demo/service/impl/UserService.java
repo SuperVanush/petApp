@@ -4,9 +4,10 @@ import com.example.demo.dao.StorageUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceUser;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class UserService implements ServiceUser {
 
     private final StorageUser userStorage;

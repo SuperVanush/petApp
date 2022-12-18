@@ -1,5 +1,6 @@
 package com.example.demo.factory;
 
+import com.example.demo.dao.DaoConfiguration;
 import com.example.demo.dao.StorageBill;
 import com.example.demo.dao.StorageUser;
 import com.example.demo.dao.impl.BillStorage;
@@ -8,8 +9,14 @@ import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.view.BillMenu;
 import com.example.demo.view.UserMenu;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
-public class Factory {
+@ComponentScan
+@Import(DaoConfiguration.class)
+@Configuration
+public class ServiceConfiguration {
 
     private static StorageUser userStorageInstance;
     private static StorageBill billStorageInstance;
@@ -18,7 +25,7 @@ public class Factory {
     private static BillMenu billMenuInstance;
     private static UserMenu userMenuInstance;
 
-    private Factory() {
+    private ServiceConfiguration() {
     }
 
     public static StorageUser getUserStorageInstance() {

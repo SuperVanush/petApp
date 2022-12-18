@@ -1,6 +1,6 @@
 package com.example.demo.view;
 
-import com.example.demo.factory.Factory;
+import com.example.demo.factory.ServiceConfiguration;
 
 import java.util.Scanner;
 
@@ -9,7 +9,7 @@ public class StartProgram {
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public final Scanner in = new Scanner(System.in);
-    private final UserMenu userMenu = Factory.getUserMenuInstance();
+    private final UserMenu userMenu = ServiceConfiguration.getUserMenuInstance();
 
     public void startApp() {
         int numberOfChoice;

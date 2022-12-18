@@ -11,7 +11,12 @@ import java.util.List;
 
 @Service
 public class UserStorage implements StorageUser {
-    DaoConfiguration daoConfiguration;
+
+    private final DaoConfiguration daoConfiguration;
+
+    public UserStorage() {
+        daoConfiguration = new DaoConfiguration();
+    }
 
     @Override
     public User add(User user) {

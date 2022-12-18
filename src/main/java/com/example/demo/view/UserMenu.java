@@ -1,6 +1,6 @@
 package com.example.demo.view;
 
-import com.example.demo.factory.Factory;
+import com.example.demo.factory.ServiceConfiguration;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.UserService;
 
@@ -12,8 +12,8 @@ public class UserMenu {
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     private final Scanner in = new Scanner(System.in);
-    private final UserService userService = Factory.getUserServiceInstance();
-    private final BillMenu billMenu = Factory.getBillMenuInstance();
+    private final UserService userService = ServiceConfiguration.getUserServiceInstance();
+    private final BillMenu billMenu = ServiceConfiguration.getBillMenuInstance();
 
     public void setRegistration() {
         String name;

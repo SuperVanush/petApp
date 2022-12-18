@@ -11,8 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BillStorage implements StorageBill{
-    DaoConfiguration daoConfiguration;
+public class BillStorage implements StorageBill {
+    private final DaoConfiguration daoConfiguration;
+
+    public BillStorage() {
+        daoConfiguration = new DaoConfiguration();
+    }
 
     @Override
     public Bill add(Bill bill) {
