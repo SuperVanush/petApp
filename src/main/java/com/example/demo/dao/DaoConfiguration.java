@@ -11,6 +11,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
 
@@ -19,12 +20,12 @@ import javax.sql.DataSource;
 public class DaoConfiguration {
 
     @Bean
-    public DataSource dataSource() {
-        HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(System.getProperty("jdbcUrl", "jdbc:postgresql://localhost:5432/postgres"));
-        ds.setUsername(System.getProperty("jdbcUserName", "postgres"));
-        ds.setPassword(System.getProperty("jdbcPassword", "5577166"));
-        return ds;
+    public DataSource dataSource(Environment env) {
+        HikariDataSource hikariDataSource = new HikariDataSource();
+        hikariDataSource.setJdbcUrl(env.getProperty("jdbcUrl", "jdbc:postgresql://localhost:5432/postgres"));
+        hikariDataSource.setUsername(env.getProperty("jdbcUserName", "postgres"));
+        hikariDataSource.setPassword(env.getProperty("jdbcPassword", "5577166"));
+        return hikariDataSource;
     }
 
     @Bean
