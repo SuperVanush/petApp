@@ -3,8 +3,6 @@ package com.example.demo.factory;
 import com.example.demo.dao.DaoConfiguration;
 import com.example.demo.dao.StorageBill;
 import com.example.demo.dao.StorageUser;
-import com.example.demo.dao.impl.BillStorage;
-import com.example.demo.dao.impl.UserStorage;
 import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.view.BillMenu;
@@ -28,7 +26,7 @@ public class ServiceConfiguration {
     private ServiceConfiguration() {
     }
 
-    public static StorageUser getUserStorageInstance() {
+  /*  public static StorageUser getUserStorageInstance() {
         if (userStorageInstance == null) {
             userStorageInstance = new UserStorage();
         }
@@ -69,4 +67,4 @@ public class ServiceConfiguration {
         }
         return userMenuInstance;
     }
-}
+*/}

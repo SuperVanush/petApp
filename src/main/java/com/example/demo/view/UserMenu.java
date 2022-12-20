@@ -3,6 +3,8 @@ package com.example.demo.view;
 import com.example.demo.factory.ServiceConfiguration;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.UserService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
 
@@ -12,8 +14,9 @@ public class UserMenu {
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     private final Scanner in = new Scanner(System.in);
-    private final UserService userService = ServiceConfiguration.getUserServiceInstance();
-    private final BillMenu billMenu = ServiceConfiguration.getBillMenuInstance();
+    ApplicationContext context = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
+    private final UserService userService = context.getBean(UserService.class);
+    private final BillMenu billMenu = context.getBean(BillMenu.class);
 
     public void setRegistration() {
         String name;

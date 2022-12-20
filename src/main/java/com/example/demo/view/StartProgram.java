@@ -1,6 +1,8 @@
 package com.example.demo.view;
 
 import com.example.demo.factory.ServiceConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
 
@@ -9,7 +11,8 @@ public class StartProgram {
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public final Scanner in = new Scanner(System.in);
-    private final UserMenu userMenu = ServiceConfiguration.getUserMenuInstance();
+    ApplicationContext context = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
+    private final UserMenu userMenu = context.getBean(UserMenu.class);
 
     public void startApp() {
         int numberOfChoice;
