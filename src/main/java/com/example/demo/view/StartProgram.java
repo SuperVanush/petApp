@@ -1,14 +1,16 @@
 package com.example.demo.view;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
+@Service
 public class StartProgram {
-    ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
+    private UserMenu userMenu;
 
-    UserMenu userMenu = context.getBean(UserMenu.class);
+    public StartProgram(UserMenu userMenu) {
+        this.userMenu = userMenu;
+    }
 
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
     public final Scanner in = new Scanner(System.in);

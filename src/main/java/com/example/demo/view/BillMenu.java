@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class BillMenu {
     private BillService billService;
 
-    public BillMenu( BillService billService) {
+    public BillMenu(BillService billService) {
         this.billService = billService;
     }
 

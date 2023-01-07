@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.impl.UserStorage;
+import com.example.demo.dao.StorageUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceUser;
@@ -10,10 +10,10 @@ import java.util.List;
 
 @Service
 public class UserService implements ServiceUser {
-    private UserStorage userStorage;
+    private StorageUser userStorage;
     private BillService billService;
 
-    public UserService(UserStorage userStorage, BillService billService) {
+    public UserService(StorageUser userStorage, BillService billService) {
         this.userStorage = userStorage;
         this.billService = billService;
     }
