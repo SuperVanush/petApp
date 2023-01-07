@@ -1,22 +1,25 @@
 package com.example.demo.view;
 
-import com.example.demo.factory.ServiceConfiguration;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.UserService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
+@Service
 public class UserMenu {
+    private BillMenu billMenu;
+    private UserService userService;
+
+    public UserMenu(BillMenu billMenu, UserService userService) {
+        this.billMenu = billMenu;
+        this.userService = userService;
+    }
 
     private static final String PRINT_MAIN_MENU = "0. Return to main menu";
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     private final Scanner in = new Scanner(System.in);
-    ApplicationContext context = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
-    private final UserService userService = context.getBean(UserService.class);
-    private final BillMenu billMenu = context.getBean(BillMenu.class);
 
     public void setRegistration() {
         String name;

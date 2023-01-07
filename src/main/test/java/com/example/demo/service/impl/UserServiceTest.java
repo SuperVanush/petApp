@@ -25,7 +25,7 @@ public class UserServiceTest extends TestCase {
     public void setUp() throws Exception {
         userStorage = mock(StorageUser.class);
         billService = mock(BillService.class);
-        subj = new UserService(userStorage, billService);
+      //  subj = new UserService((UserStorage) userStorage, billService);
     }
 
     @Test
