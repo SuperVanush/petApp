@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.impl.BillStorage;
+import com.example.demo.dao.StorageBill;
 import com.example.demo.exception.MyException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @Service
 public class BillService implements ServiceBill {
-    private BillStorage billStorage;
+    private StorageBill billStorage;
 
-    public BillService(BillStorage billStorage) {
+    public BillService(StorageBill billStorage) {
         this.billStorage = billStorage;
     }
 
