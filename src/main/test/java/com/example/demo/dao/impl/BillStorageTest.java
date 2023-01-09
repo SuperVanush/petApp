@@ -23,8 +23,8 @@ public class BillStorageTest extends TestCase {
         System.setProperty("jdbcUserName", "sa");
         System.setProperty("jdbcPassword", "");
 
-      //  subj = (BillStorage) ServiceConfiguration.getBillStorageInstance();
-       // userStorage = (UserStorage) ServiceConfiguration.getUserStorageInstance();
+        subj = (BillStorage) ServiceConfiguration.getBillStorageInstance();
+        userStorage = (UserStorage) ServiceConfiguration.getUserStorageInstance();
     }
 
     @Test
@@ -102,10 +102,10 @@ public class BillStorageTest extends TestCase {
 
         Bill addedBill1 = subj.add(bill1);
         Bill addedBill2 = subj.add(bill2);
-        Bill addedBill3= subj.add(bill3);
+        Bill addedBill3 = subj.add(bill3);
         Bill billFromBd1 = subj.findBillFromId(addedBill1.getId());
-        Bill billFromBd2= subj.findBillFromId(addedBill2.getId());
-        Bill billFromBd3=subj.findBillFromId(addedBill3.getId());
+        Bill billFromBd2 = subj.findBillFromId(addedBill2.getId());
+        Bill billFromBd3 = subj.findBillFromId(addedBill3.getId());
 
         assertEquals(addedBill3, billFromBd3);
     }
