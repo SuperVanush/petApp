@@ -22,7 +22,6 @@ public class UserServiceTest extends TestCase {
     UserService subj;
     StorageUser userStorage;
     BillService billService;
-
     ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
 
     @Before

@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.mockito.Mockito.*;
 
 public class BillServiceTest extends TestCase {

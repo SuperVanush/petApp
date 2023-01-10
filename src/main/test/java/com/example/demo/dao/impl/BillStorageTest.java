@@ -19,7 +19,6 @@ public class BillStorageTest extends TestCase {
     BillStorage subj;
     UserStorage userStorage;
 
-
     ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
 
     @Before
