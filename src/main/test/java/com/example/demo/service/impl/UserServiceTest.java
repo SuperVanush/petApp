@@ -3,11 +3,14 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.StorageUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.view.ViewConfig;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +19,17 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest extends TestCase {
-
     UserService subj;
     StorageUser userStorage;
     BillService billService;
+
+    ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
 
     @Before
     public void setUp() throws Exception {
         userStorage = mock(StorageUser.class);
         billService = mock(BillService.class);
-        subj = new UserService(userStorage, billService);
+        subj = context.getBean(UserService.class);
     }
 
     @Test

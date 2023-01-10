@@ -2,29 +2,34 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.view.ViewConfig;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BillStorageTest extends TestCase {
-
     BillStorage subj;
     UserStorage userStorage;
+
+
+    ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
 
     @Before
     public void setUp() throws Exception {
         System.setProperty("jdbcUrl", "jdbc:h2:mem:testDatabase");
         System.setProperty("jdbcUserName", "sa");
         System.setProperty("jdbcPassword", "");
+        subj = context.getBean(BillStorage.class);
+        userStorage = context.getBean(UserStorage.class);
 
-        subj = (BillStorage) ServiceConfiguration.getBillStorageInstance();
-        userStorage = (UserStorage) ServiceConfiguration.getUserStorageInstance();
     }
 
     @Test
