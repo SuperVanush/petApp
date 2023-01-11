@@ -21,10 +21,10 @@ public class BillStorageTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
         System.setProperty("jdbcUrl", "jdbc:h2:mem:testDatabase");
         System.setProperty("jdbcUserName", "sa");
         System.setProperty("jdbcPassword", "");
+        ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
         subj = context.getBean(BillStorage.class);
         userStorage = context.getBean(UserStorage.class);
     }
