@@ -3,7 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.StorageUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.service.ServiceBill;
 import com.example.demo.service.ServiceUser;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +11,9 @@ import java.util.List;
 @Service
 public class UserService implements ServiceUser {
     private StorageUser userStorage;
-    private ServiceBill billService;
+    private BillService billService;
 
-    public UserService(StorageUser userStorage, ServiceBill billService) {
+    public UserService(StorageUser userStorage, BillService billService) {
         this.userStorage = userStorage;
         this.billService = billService;
     }
@@ -37,6 +36,7 @@ public class UserService implements ServiceUser {
         }
         return userByLogin;
     }
+
     @Override
     public User findUserById(int idUser) {
         User userById = userStorage.findById(idUser);

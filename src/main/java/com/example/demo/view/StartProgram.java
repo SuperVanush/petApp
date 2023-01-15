@@ -15,7 +15,6 @@ public class StartProgram {
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
     public final Scanner in = new Scanner(System.in);
 
-
     public void startApp() {
         int numberOfChoice;
         do {
@@ -34,7 +33,8 @@ public class StartProgram {
             if (numberOfChoice == 3) {
                 userMenu.removeUser();
             }
-            if (numberOfChoice != 1 && numberOfChoice != 0 && numberOfChoice != 2 && numberOfChoice != 3) {
+            if (numberOfChoice != 1 && numberOfChoice != 0
+                    && numberOfChoice != 2 && numberOfChoice != 3) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
         }

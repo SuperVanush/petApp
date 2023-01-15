@@ -20,7 +20,8 @@ public class BillServiceTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         billStorage = mock(BillStorage.class);
-        subj = new BillService (billStorage, userService);
+        userService = mock(UserService.class);
+        subj = new BillService (billStorage,userService);
     }
 
     @Test

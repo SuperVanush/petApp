@@ -3,7 +3,7 @@ package com.example.demo.view;
 import com.example.demo.exception.MyException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.service.impl.BillService;
+import com.example.demo.service.ServiceBill;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.Scanner;
 
 @Service
 public class BillMenu {
-    private BillService billService;
+    private ServiceBill billService;
 
-    public BillMenu(BillService billService) {
+    public BillMenu(ServiceBill billService) {
         this.billService = billService;
     }
 

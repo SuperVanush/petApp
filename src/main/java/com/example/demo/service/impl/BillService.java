@@ -17,8 +17,8 @@ public class BillService implements ServiceBill {
 
     public BillService(StorageBill billStorage, UserService userService) {
         this.billStorage = billStorage;
-        this.userService = userService;
-    }
+        this.userService= userService;
+        }
 
     @Override
     public void addBill(String billName, int billBalance, User user) {
