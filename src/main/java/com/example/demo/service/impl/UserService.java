@@ -37,6 +37,15 @@ public class UserService implements ServiceUser {
         }
         return userByLogin;
     }
+    @Override
+    public User findUserById(int idUser) {
+        User userById = userStorage.findById(idUser);
+        if (userById != null) {
+            List<Bill> bills = billService.findBillsByUser(userById);
+            userById.setBills(bills);
+        }
+        return userById;
+    }
 
     @Override
     public int removeUser(String removeUserLogin) {

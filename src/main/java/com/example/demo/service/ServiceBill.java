@@ -14,5 +14,8 @@ public interface ServiceBill {
     Bill sumBalanceTransaction(int idBill, int sumDigit);
 
     Bill reduceBalance(int idBill, int reduceDigit);
-    
+
+    void transactionBetweenBills(int idFromBill, int idToBill, int transactionSumma);
+
+    void transactionBetweenUsers(User user, int idToUser, int idFromBill, int idToBill, int transactionSumma);
 }

@@ -16,7 +16,8 @@ public class BillStorage implements StorageBill {
     private final DataSource dataSource;
 
     public BillStorage(DataSource dataSource) {
-        this.dataSource = dataSource;}
+        this.dataSource = dataSource;
+    }
 
     @Override
     public Bill add(Bill bill) {

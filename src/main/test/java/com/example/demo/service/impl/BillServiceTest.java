@@ -9,16 +9,18 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.mockito.Mockito.*;
 
 public class BillServiceTest extends TestCase {
     BillService subj;
     BillStorage billStorage;
+    UserService userService;
 
     @Before
     public void setUp() throws Exception {
         billStorage = mock(BillStorage.class);
-        subj = new BillService(billStorage);
+        subj = new BillService (billStorage, userService);
     }
 
     @Test

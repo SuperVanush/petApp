@@ -10,4 +10,6 @@ public interface ServiceUser {
 
     int removeUser(String login);
 
+    User findUserById(int idUser);
+
 }
