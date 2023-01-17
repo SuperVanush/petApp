@@ -36,6 +36,4 @@
                                  constraintName="user_id_from_users"
                                  referencedTableName="users" referencedColumnNames="user_id"/>
     </changeSet>
-
-
 </databaseChangeLog>

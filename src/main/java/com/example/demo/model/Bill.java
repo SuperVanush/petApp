@@ -8,14 +8,9 @@ public class Bill {
     private int id;
     private int balance;
     private User user;
+    private boolean primaryMarker;
 
     public Bill() {
-    }
-
-    public Bill(int id, String name, int balance) {
-        this.name = name;
-        this.id = id;
-        this.balance = balance;
     }
 
     public Bill(String name, int id, int balance, User user) {
@@ -23,6 +18,12 @@ public class Bill {
         this.id = id;
         this.balance = balance;
         this.user = user;
+    }
+
+    public Bill(String name, int id, int balance) {
+        this.name = name;
+        this.id = id;
+        this.balance = balance;
     }
 
     public User getUser() {

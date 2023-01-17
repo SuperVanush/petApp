@@ -15,13 +15,11 @@ import static org.mockito.Mockito.*;
 public class BillServiceTest extends TestCase {
     BillService subj;
     BillStorage billStorage;
-    UserService userService;
 
     @Before
     public void setUp() throws Exception {
         billStorage = mock(BillStorage.class);
-        userService = mock(UserService.class);
-        subj = new BillService (billStorage,userService);
+        subj = new BillService(billStorage);
     }
 
     @Test

@@ -13,4 +13,5 @@ public interface StorageBill {
     Bill findBillFromId(int idBill);
 
     void updateBill(Bill bill);
+
 }
