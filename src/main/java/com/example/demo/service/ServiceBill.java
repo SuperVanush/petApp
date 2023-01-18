@@ -17,8 +17,6 @@ public interface ServiceBill {
 
     void transactionBetweenBills(int idFromBill, int idToBill, int transactionSumma);
 
-    void transactionBetweenUsers(int idFromBill, int idToBill, int transactionSumma);
-
     void transactionToRandomBill(int idFromBill, User toUser, int transactionSumma);
 
     void realizeTransaction(Bill fromBill, Bill toBill, int transactionSumma);

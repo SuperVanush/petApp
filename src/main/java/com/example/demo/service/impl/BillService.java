@@ -14,16 +14,6 @@ import java.util.List;
 public class BillService implements ServiceBill {
     private StorageBill billStorage;
 
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    private UserService userService;
-
     public BillService(StorageBill billStorage) {
         this.billStorage = billStorage;
     }
@@ -77,14 +67,6 @@ public class BillService implements ServiceBill {
 
     @Override
     public void transactionBetweenBills(int idFromBill, int idToBill, int transactionSumma) throws MyException {
-        Bill fromBill = billStorage.findBillFromId(idFromBill);
-        Bill toBill = billStorage.findBillFromId(idToBill);
-        realizeTransaction(fromBill, toBill, transactionSumma);
-    }
-
-    @Override
-    public void transactionBetweenUsers(int idFromBill, int idToBill, int transactionSumma)
-            throws MyException {
         Bill fromBill = billStorage.findBillFromId(idFromBill);
         Bill toBill = billStorage.findBillFromId(idToBill);
         realizeTransaction(fromBill, toBill, transactionSumma);
