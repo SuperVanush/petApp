@@ -66,34 +66,12 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public void transactionBetweenBills(int idFromBill, int idToBill, int transactionSumma) throws MyException {
-        Bill fromBill = billStorage.findBillFromId(idFromBill);
-        Bill toBill = billStorage.findBillFromId(idToBill);
-        realizeTransaction(fromBill, toBill, transactionSumma);
-    }
-
-    @Override
     public void transactionToRandomBill(int idFromBill, User toUser, int transactionSumma) throws MyException {
         Bill fromBill = billStorage.findBillFromId(idFromBill);
         List<Bill> billsToUser = findBillsByUser(toUser);
         Bill toBill = billsToUser.get((int) (billsToUser.size() * Math.random()));
-        realizeTransaction(fromBill, toBill, transactionSumma);
-    }
-
-    @Override
-    public void realizeTransaction(Bill fromBill, Bill toBill, int transactionSumma) throws MyException {
-        int fromBillBalance = fromBill.getBalance();
-        int toBillBalance = toBill.getBalance();
-        int sendBalance = fromBillBalance - transactionSumma;
-        int receiveBalance = toBillBalance + transactionSumma;
-        if (sendBalance < 0) {
-            throw new MyException();
-        } else {
-            fromBill.setBalance(sendBalance);
-            toBill.setBalance(receiveBalance);
-
-            billStorage.updateBill(fromBill);
-            billStorage.updateBill(toBill);
-        }
+        int idToBill = toBill.getId();
+        reduceBalance(idFromBill, transactionSumma);
+        sumBalanceTransaction(idToBill, transactionSumma);
     }
 }

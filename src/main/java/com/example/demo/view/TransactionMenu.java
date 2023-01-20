@@ -121,10 +121,11 @@ public class TransactionMenu {
         int idFromBill = billList.get(fromBillIndex).getId();
         int idToBill = billList.get(toBillIndex).getId();
         try {
-            billService.transactionBetweenBills(idFromBill, idToBill, transactionSumma);
+            billService.reduceBalance(idFromBill, transactionSumma);
+            billService.sumBalanceTransaction(idToBill, transactionSumma);
             List<Bill> transactionBillList = billService.findBillsByUser(lastUser);
             for (Bill billInList : transactionBillList) {
-                int countNumberBill = billList.indexOf(billInList) + 1;
+                int countNumberBill = transactionBillList.indexOf(billInList) + 1;
                 System.out.println(countNumberBill + ". name of bill:   " + billInList.getName() + ".   balance =  "
                         + billInList.getBalance());
             }
@@ -164,7 +165,8 @@ public class TransactionMenu {
                 int idFromBill = billListFromUser.get(fromBillIndex).getId();
                 int idToBill = billListToUser.get(toToBillIndex).getId();
                 try {
-                    billService.transactionBetweenBills(idFromBill, idToBill, transactionSumma);
+                    billService.reduceBalance(idFromBill, transactionSumma);
+                    billService.sumBalanceTransaction(idToBill, transactionSumma);
                     List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
                     for (Bill fromBillInList : lastFromBillList) {
                         System.out.println(lastUser.getName() + ". name of bill:   "
