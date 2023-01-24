@@ -61,7 +61,6 @@ public class BillService implements ServiceBill {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
         }
-
         return bill;
     }
 
