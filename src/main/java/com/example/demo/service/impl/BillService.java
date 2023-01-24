@@ -28,7 +28,7 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public List<Bill> findBillsByUser(User findUser) {
+    public List<Bill> findBillsByUser(User findUser){
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
         for (Bill billInList : billList) {
@@ -56,7 +56,7 @@ public class BillService implements ServiceBill {
         int billBalance = bill.getBalance();
         int reduceBillBalance = billBalance - reduceDigit;
         if (reduceBillBalance < 0) {
-            throw new MyException();
+            throw new MyException("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
         } else {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
@@ -67,7 +67,7 @@ public class BillService implements ServiceBill {
 
     @Override
     public void transactionToRandomBill(int idFromBill, User toUser, int transactionSumma) throws MyException {
-        Bill fromBill = billStorage.findBillFromId(idFromBill);
+        billStorage.findBillFromId(idFromBill);
         List<Bill> billsToUser = findBillsByUser(toUser);
         Bill toBill = billsToUser.get((int) (billsToUser.size() * Math.random()));
         int idToBill = toBill.getId();

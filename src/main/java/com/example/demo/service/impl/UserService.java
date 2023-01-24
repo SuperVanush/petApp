@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.StorageUser;
+import com.example.demo.exception.MyException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceUser;
@@ -28,9 +29,11 @@ public class UserService implements ServiceUser {
     }
 
     @Override
-    public User findUserByLogin(String login) {
+    public User findUserByLogin(String login) throws MyException {
         User userByLogin = userStorage.findByLogin(login);
-        if (userByLogin != null) {
+        if (userByLogin == null) {
+            throw new MyException("User not found. Please enter other User");
+        } else {
             List<Bill> bills = billService.findBillsByUser(userByLogin);
             userByLogin.setBills(bills);
         }
