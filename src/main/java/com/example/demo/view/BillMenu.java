@@ -10,6 +10,9 @@ import java.util.Scanner;
 
 @Service
 public class BillMenu {
+    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
+    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
+
     private ServiceBill billService;
     private TransactionMenu transactionMenu;
 
@@ -17,9 +20,6 @@ public class BillMenu {
         this.billService = billService;
         this.transactionMenu = transactionMenu;
     }
-
-    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
-    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public final Scanner in = new Scanner(System.in);
 

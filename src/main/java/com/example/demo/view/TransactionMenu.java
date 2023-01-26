@@ -12,6 +12,9 @@ import java.util.Scanner;
 
 @Service
 public class TransactionMenu {
+    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
+    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
+
     private BillService billService;
     private UserService userService;
 
@@ -19,9 +22,6 @@ public class TransactionMenu {
         this.billService = billService;
         this.userService = userService;
     }
-
-    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
-    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     public final Scanner in = new Scanner(System.in);
 
@@ -36,39 +36,12 @@ public class TransactionMenu {
             System.out.println(PRINT_MAIN_MENU);
             choiceTransaction = in.nextInt();
             if (choiceTransaction == 1) {
-                System.out.println("Choice the bill for transaction");
-                List<Bill> billList = billService.findBillsByUser(lastUser);
-                for (Bill billInList : billList) {
-                    int countNumberBill = billList.indexOf(billInList) + 1;
-                    System.out.println(countNumberBill + ". name of bill:     " + billInList.getName());
-                }
-                System.out.println("Choice bill");
-                int billIndex = in.nextInt() - 1;
-                int billId = billList.get(billIndex).getId();
-                System.out.println("Enter digit");
-                int sumDigit = in.nextInt();
-                Bill bill = billService.sumBalanceTransaction(billId, sumDigit);
-                System.out.println(bill);
+                sumBalance(lastUser);
             }
             if (choiceTransaction == 2) {
-                System.out.println("Choice the bill for transaction");
-                List<Bill> billList = billService.findBillsByUser(lastUser);
-                for (Bill billInList : billList) {
-                    int countNumberBill = billList.indexOf(billInList) + 1;
-                    System.out.println(countNumberBill + ". name of bill:     " + billInList.getName());
-                }
-                System.out.println("Choice bill");
-                int billIndex = in.nextInt() - 1;
-                int billId = billList.get(billIndex).getId();
-                System.out.println("Enter digit");
-                int reduceDigit = in.nextInt();
-                try {
-                    Bill bill = billService.reduceBalance(billId, reduceDigit);
-                    System.out.println(bill);
-                } catch (MyException e) {
-                    System.out.println(e.getMessage());
-                }
+                reduceBalance(lastUser);
             }
+
             if (choiceTransaction == 3) {
                 betweenBillTransaction(lastUser);
             }
@@ -82,7 +55,75 @@ public class TransactionMenu {
         } while (choiceTransaction != 0);
     }
 
+    private void sumBalance(User lastUser) {
+        int billId = getBillId(lastUser);
+        int sumDigit = in.nextInt();
+        Bill bill = billService.sumBalanceTransaction(billId, sumDigit);
+        System.out.println(bill);
+    }
+
+    private void reduceBalance(User lastUser) {
+        int billId = getBillId(lastUser);
+        int reduceDigit = in.nextInt();
+        try {
+            Bill bill = billService.reduceBalance(billId, reduceDigit);
+            System.out.println(bill);
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private int getBillId(User lastUser) {
+        System.out.println("Choice the bill for transaction");
+        List<Bill> billList = billService.findBillsByUser(lastUser);
+        printBills(billList);
+        System.out.println("Choice bill");
+        int billIndex = in.nextInt() - 1;
+        int billId = billList.get(billIndex).getId();
+        System.out.println("Enter digit");
+        return billId;
+    }
+
+    private void printBills(List<Bill> billList) {
+        for (Bill billInList : billList) {
+            int countNumberBill = billList.indexOf(billInList) + 1;
+            System.out.println(countNumberBill + ". name of bill:     " + billInList.getName());
+        }
+    }
+
+    private void betweenBillTransaction(User lastUser) {
+        List<Bill> billList = billService.findBillsByUser(lastUser);
+        printBillsWithBalance(billList);
+
+        System.out.println("Enter ID Bill for write off money");
+        int fromBillIndex = in.nextInt() - 1;
+        System.out.println("Enter ID Bill for add money");
+        int toBillIndex = in.nextInt() - 1;
+        System.out.println("Enter the transaction summa");
+
+        int transactionSumma = in.nextInt();
+        int idFromBill = billList.get(fromBillIndex).getId();
+        int idToBill = billList.get(toBillIndex).getId();
+        try {
+            billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+
+            List<Bill> transactionBillList = billService.findBillsByUser(lastUser);
+            printBillsWithBalance(transactionBillList);
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void printBillsWithBalance(List<Bill> billList) {
+        for (Bill billInList : billList) {
+            int countNumberBill = billList.indexOf(billInList) + 1;
+            System.out.println(countNumberBill + ". name of bill:   " + billInList.getName() +
+                    ".   balance =  " + billInList.getBalance());
+        }
+    }
+
     public void transactionToOtherUser(User lastUser) {
+        User toUser = choiceToUser();
         int choiceTransaction;
         do {
             System.out.println("1. Transaction to other User's Bill");
@@ -90,7 +131,7 @@ public class TransactionMenu {
             System.out.println(PRINT_MAIN_MENU);
             choiceTransaction = in.nextInt();
             if (choiceTransaction == 1) {
-                betweenUsersTransaction(lastUser);
+                betweenUsersTransaction(lastUser, toUser);
             }
             if (choiceTransaction == 2) {
                 transactionToRandomBill(lastUser);
@@ -101,88 +142,60 @@ public class TransactionMenu {
         } while (choiceTransaction != 0);
     }
 
-    private void betweenBillTransaction(User lastUser) {
-        List<Bill> billList = billService.findBillsByUser(lastUser);
-        for (Bill billInList : billList) {
-            int countNumberBill = billList.indexOf(billInList) + 1;
-            System.out.println(countNumberBill + ". name of bill:   " + billInList.getName() + ".   balance =  " + billInList.getBalance());
-        }
-        System.out.println("Enter ID Bill for write off money");
-        int fromBillIndex = in.nextInt() - 1;
-        System.out.println("Enter ID Bill for add money");
-        int toBillIndex = in.nextInt() - 1;
-        System.out.println("Enter the transaction summa");
-        int transactionSumma = in.nextInt();
-        int idFromBill = billList.get(fromBillIndex).getId();
-        int idToBill = billList.get(toBillIndex).getId();
-        try {
-            billService.reduceBalance(idFromBill, transactionSumma);
-            billService.sumBalanceTransaction(idToBill, transactionSumma);
-            List<Bill> transactionBillList = billService.findBillsByUser(lastUser);
-            for (Bill billInList : transactionBillList) {
-                int countNumberBill = transactionBillList.indexOf(billInList) + 1;
-                System.out.println(countNumberBill + ". name of bill:   " + billInList.getName() + ".   balance =  " + billInList.getBalance());
-            }
-        } catch (MyException e) {
-            System.out.println(e.getMessage());
-        }
+    private User choiceToUser() {
+        System.out.println("Enter login User for add money");
+        String loginToUser = in.next();
+        User userToUser = userService.findUserByLogin(loginToUser);
+        return userToUser;
     }
 
-    private void betweenUsersTransaction(User lastUser) {
-        int idFromBill = choiceFromBillId(lastUser);
-        User userToTransaction = choiceToUser();
+    private void betweenUsersTransaction(User lastUser, User toUser) {
         try {
-            List<Bill> billListToUser = billService.findBillsByUser(userToTransaction);
-            if (billListToUser.isEmpty()) throw new MyException("This user has not any bills");
-            for (Bill billInListToUser : billListToUser) {
-                int countNumberToBill = billListToUser.indexOf(billInListToUser) + 1;
-                System.out.println(countNumberToBill + ". name of bill:   " + billInListToUser.getName() + ".   balance =  " + billInListToUser.getBalance());
-            }
-            System.out.println("Enter Bill of ToUser for add money");
+            int idFromBill = choiceFromBillId(lastUser);
+            List<Bill> billListToUser = billService.findBillsByUser(toUser);
+            printBillsWithBalance(billListToUser);
+
+            System.out.println("Enter Bill of" + toUser.getLogin() + "  for add money");
             int toToBillIndex = in.nextInt() - 1;
+
             System.out.println("Enter the transaction summa");
             int transactionSumma = in.nextInt();
+
             int idToBill = billListToUser.get(toToBillIndex).getId();
-            try {
-                billService.reduceBalance(idFromBill, transactionSumma);
-                billService.sumBalanceTransaction(idToBill, transactionSumma);
-                List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
-                for (Bill fromBillInList : lastFromBillList) {
-                    System.out.println(lastUser.getName() + ". name of bill:   " + fromBillInList.getName() + ".   balance =  " + fromBillInList.getBalance());
-                }
-                List<Bill> lastToBillList = billService.findBillsByUser(userToTransaction);
-                for (Bill toBillInList : lastToBillList) {
-                    System.out.println(userToTransaction.getName() + ". name of bill:    " + toBillInList.getName() + "balance =  " + toBillInList.getBalance());
-                }
-            } catch (MyException e) {
-                System.out.println(e.getMessage());
-            }
+            billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+
+            List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
+            printBillWithUserAndBalance(lastFromBillList, lastUser);
+
+            List<Bill> lastToBillList = billService.findBillsByUser(toUser);
+            printBillWithUserAndBalance(lastToBillList, toUser);
         } catch (MyException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void transactionToRandomBill(User lastUser) {
-        int idFromBill = choiceFromBillId(lastUser);
-        User userToTransaction = choiceToUser();
+
+    private void printBillWithUserAndBalance(List<Bill> lastFromBillList, User lastUser) {
+        for (Bill fromBillInList : lastFromBillList) {
+            System.out.println(lastUser.getName() + ". name of bill:   " + fromBillInList.getName() +
+                    ".   balance =  " + fromBillInList.getBalance());
+        }
+    }
+
+
+    private void transactionToRandomBill(User lastUser, User toUser) {
         try {
-            List<Bill> billListToUser = billService.findBillsByUser(userToTransaction);
-            if (billListToUser.isEmpty()) throw new MyException("This user has not any bills");
+            int idFromBill = choiceFromBillId(lastUser);
             System.out.println("Enter the transaction summa");
             int transactionSumma = in.nextInt();
-            try {
-                billService.transactionToRandomBill(idFromBill, userToTransaction, transactionSumma);
-                List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
-                for (Bill fromBillInList : lastFromBillList) {
-                    System.out.println(lastUser.getName() + ". name of bill:   " + fromBillInList.getName() + ".   balance =  " + fromBillInList.getBalance());
-                }
-                List<Bill> lastToBillList = billService.findBillsByUser(userToTransaction);
-                for (Bill toBillInList : lastToBillList) {
-                    System.out.println(userToTransaction.getName() + ". name of bill:   " + toBillInList.getName() + ".   balance =  " + toBillInList.getBalance());
-                }
-            } catch (MyException e) {
-                System.out.println(e.getMessage());
-            }
+            List<Bill> billListToUser = billService.findBillsByUser(toUser);
+            int idToBill = billListToUser.get((int) (billListToUser.size() * Math.random())).getId();
+            billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+
+            List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
+            printBillWithUserAndBalance(lastFromBillList, lastUser);
+            List<Bill> lastToBillList = billService.findBillsByUser(toUser);
+            printBillWithUserAndBalance(lastToBillList, toUser);
         } catch (MyException e) {
             System.out.println(e.getMessage());
         }
@@ -192,27 +205,15 @@ public class TransactionMenu {
         int idFromBill = 0;
         try {
             List<Bill> billListFromUser = billService.findBillsByUser(lastUser);
-            if (billListFromUser.isEmpty()) {
-                throw new MyException("This user has not bills");
-            } else {
-                for (Bill billInList : billListFromUser) {
-                    int countNumberFromBill = billListFromUser.indexOf(billInList) + 1;
-                    System.out.println(countNumberFromBill + ". name of bill:   " + billInList.getName() + ".   balance =  " + billInList.getBalance());
-                }
-                System.out.println("Enter Bill for write off money");
-                int fromBillIndex = in.nextInt() - 1;
-                idFromBill = billListFromUser.get(fromBillIndex).getId();
-            }
-        } catch (MyException e) {
+            printBillsWithBalance(billListFromUser);
+
+            System.out.println("Enter Bill for write off money");
+            int fromBillIndex = in.nextInt() - 1;
+            idFromBill = billListFromUser.get(fromBillIndex).getId();
+        } catch (
+                MyException e) {
             System.out.println(e.getMessage());
         }
         return idFromBill;
-    }
-
-    private User choiceToUser() {
-        System.out.println("Enter login User for add money");
-        String loginToUser = in.next();
-        User userToTransaction = userService.findUserByLogin(loginToUser);
-        return userToTransaction;
     }
 }

@@ -31,6 +31,9 @@ public class BillService implements ServiceBill {
     public List<Bill> findBillsByUser(User findUser){
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
+        if (billList.isEmpty()){
+            throw new MyException("Bill list is empty");
+        }
         for (Bill billInList : billList) {
             int idUser = findUser.getId();
             if (billInList.getUser().getId() == idUser) {
@@ -65,12 +68,8 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public void transactionToRandomBill(int idFromBill, User toUser, int transactionSumma) throws MyException {
-        billStorage.findBillFromId(idFromBill);
-        List<Bill> billsToUser = findBillsByUser(toUser);
-        Bill toBill = billsToUser.get((int) (billsToUser.size() * Math.random()));
-        int idToBill = toBill.getId();
-        reduceBalance(idFromBill, transactionSumma);
+    public void transactionToBill(int idFromBill, int idToBill, int transactionSumma) throws MyException {
+               reduceBalance(idFromBill, transactionSumma);
         sumBalanceTransaction(idToBill, transactionSumma);
     }
 }

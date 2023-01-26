@@ -1,5 +1,6 @@
 package com.example.demo.view;
 
+import com.example.demo.exception.MyException;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.UserService;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,9 @@ import java.util.Scanner;
 
 @Service
 public class UserMenu {
+    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
+    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
+
     private BillMenu billMenu;
     private UserService userService;
 
@@ -15,9 +19,6 @@ public class UserMenu {
         this.billMenu = billMenu;
         this.userService = userService;
     }
-
-    private static final String PRINT_MAIN_MENU = "0. Return to main menu";
-    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
     private final Scanner in = new Scanner(System.in);
 
@@ -28,22 +29,20 @@ public class UserMenu {
         name = in.next();
         System.out.println("Enter User login");
         login = in.next();
-        User user = userService.findUserByLogin(login);
-        if (user == null) {
+        try {
+            userService.findUserByLogin(login);
+            System.out.println("The user exists. Choose another login");
+        } catch (MyException ex) {
             userService.addUser(name, login);
             System.out.println("The User was Added");
-        } else {
-            System.out.println("The user exists. Choose another login");
         }
     }
 
     public void setWorkInCabinet() {
         System.out.println("Enter User login");
         String login = in.next();
-        User user = userService.findUserByLogin(login);
-        if (user == null) {
-            System.out.println("User not found. Please go to Registration");
-        } else {
+        try {
+            User user = userService.findUserByLogin(login);
             int userMenuChouce;
             do {
                 System.out.println("1. Print User");
@@ -61,6 +60,8 @@ public class UserMenu {
                 }
             }
             while (userMenuChouce != 0);
+        } catch (MyException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 

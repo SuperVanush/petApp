@@ -15,6 +15,6 @@ public interface ServiceBill {
 
     Bill reduceBalance(int idBill, int reduceDigit);
 
-    void transactionToRandomBill(int idFromBill, User toUser, int transactionSumma);
+    void transactionToBill(int idFromBill, int idToBill, int transactionSumma);
 
 }
