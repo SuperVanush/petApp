@@ -1,6 +1,6 @@
 package com.example.demo.view;
 
-import com.example.demo.exception.MyException;
+import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.UserService;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 @Service
 public class UserMenu {
+
     private static final String PRINT_MAIN_MENU = "0. Return to main menu";
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
@@ -32,7 +33,7 @@ public class UserMenu {
         try {
             userService.findUserByLogin(login);
             System.out.println("The user exists. Choose another login");
-        } catch (MyException ex) {
+        } catch (MyExceptionUser ex) {
             userService.addUser(name, login);
             System.out.println("The User was Added");
         }
@@ -60,7 +61,7 @@ public class UserMenu {
                 }
             }
             while (userMenuChouce != 0);
-        } catch (MyException ex) {
+        } catch (MyExceptionUser ex) {
             System.out.println(ex.getMessage());
         }
     }

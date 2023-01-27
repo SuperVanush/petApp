@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class BillStorage implements StorageBill {
+
     private final DataSource dataSource;
 
     public BillStorage(DataSource dataSource) {

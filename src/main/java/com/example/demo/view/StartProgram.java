@@ -6,13 +6,14 @@ import java.util.Scanner;
 
 @Service
 public class StartProgram {
+    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
+
     private UserMenu userMenu;
 
     public StartProgram(UserMenu userMenu) {
         this.userMenu = userMenu;
     }
 
-    private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
     public final Scanner in = new Scanner(System.in);
 
     public void startApp() {

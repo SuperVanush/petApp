@@ -1,6 +1,7 @@
 package com.example.demo.view;
 
-import com.example.demo.exception.MyException;
+import com.example.demo.exception.MyExceptionBill;
+import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.BillService;
@@ -12,6 +13,7 @@ import java.util.Scanner;
 
 @Service
 public class TransactionMenu {
+
     private static final String PRINT_MAIN_MENU = "0. Return to main menu";
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
@@ -41,14 +43,12 @@ public class TransactionMenu {
             if (choiceTransaction == 2) {
                 reduceBalance(lastUser);
             }
-
             if (choiceTransaction == 3) {
                 betweenBillTransaction(lastUser);
             }
             if (choiceTransaction == 4) {
                 transactionToOtherUser(lastUser);
             }
-
             if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2 && choiceTransaction != 3 && choiceTransaction != 4) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
@@ -68,7 +68,7 @@ public class TransactionMenu {
         try {
             Bill bill = billService.reduceBalance(billId, reduceDigit);
             System.out.println(bill);
-        } catch (MyException e) {
+        } catch (MyExceptionBill e) {
             System.out.println(e.getMessage());
         }
     }
@@ -109,7 +109,7 @@ public class TransactionMenu {
 
             List<Bill> transactionBillList = billService.findBillsByUser(lastUser);
             printBillsWithBalance(transactionBillList);
-        } catch (MyException e) {
+        } catch (MyExceptionBill e) {
             System.out.println(e.getMessage());
         }
     }
@@ -117,36 +117,40 @@ public class TransactionMenu {
     private void printBillsWithBalance(List<Bill> billList) {
         for (Bill billInList : billList) {
             int countNumberBill = billList.indexOf(billInList) + 1;
-            System.out.println(countNumberBill + ". name of bill:   " + billInList.getName() +
-                    ".   balance =  " + billInList.getBalance());
+            System.out.println(countNumberBill + ". name of bill:   " + billInList.getName() + ".   balance =  " + billInList.getBalance());
         }
     }
 
     public void transactionToOtherUser(User lastUser) {
-        User toUser = choiceToUser();
-        int choiceTransaction;
-        do {
-            System.out.println("1. Transaction to other User's Bill");
-            System.out.println("2. Transaction to other User's Random Bill");
-            System.out.println(PRINT_MAIN_MENU);
-            choiceTransaction = in.nextInt();
-            if (choiceTransaction == 1) {
-                betweenUsersTransaction(lastUser, toUser);
-            }
-            if (choiceTransaction == 2) {
-                transactionToRandomBill(lastUser);
-            }
-            if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2) {
-                System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
-            }
-        } while (choiceTransaction != 0);
+        try {
+            User toUser = choiceToUser();
+            billService.findBillsByUser(toUser);
+            int choiceTransaction;
+            do {
+                System.out.println("1. Transaction to other User's Bill");
+                System.out.println("2. Transaction to other User's Random Bill");
+                System.out.println(PRINT_MAIN_MENU);
+                choiceTransaction = in.nextInt();
+                if (choiceTransaction == 1) {
+                    betweenUsersTransaction(lastUser, toUser);
+                }
+                if (choiceTransaction == 2) {
+                    transactionToRandomBill(lastUser, toUser);
+                }
+                if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2) {
+                    System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
+                }
+            } while (choiceTransaction != 0);
+        } catch (MyExceptionUser | MyExceptionBill e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    private User choiceToUser() {
+    private User choiceToUser() throws MyExceptionUser {
         System.out.println("Enter login User for add money");
         String loginToUser = in.next();
-        User userToUser = userService.findUserByLogin(loginToUser);
-        return userToUser;
+        User toUser = userService.findUserByLogin(loginToUser);
+        return toUser;
     }
 
     private void betweenUsersTransaction(User lastUser, User toUser) {
@@ -155,7 +159,7 @@ public class TransactionMenu {
             List<Bill> billListToUser = billService.findBillsByUser(toUser);
             printBillsWithBalance(billListToUser);
 
-            System.out.println("Enter Bill of" + toUser.getLogin() + "  for add money");
+            System.out.println("Enter Bill of   " + toUser.getLogin() + "  for add money");
             int toToBillIndex = in.nextInt() - 1;
 
             System.out.println("Enter the transaction summa");
@@ -169,19 +173,16 @@ public class TransactionMenu {
 
             List<Bill> lastToBillList = billService.findBillsByUser(toUser);
             printBillWithUserAndBalance(lastToBillList, toUser);
-        } catch (MyException e) {
+        } catch (MyExceptionBill e) {
             System.out.println(e.getMessage());
         }
     }
 
-
     private void printBillWithUserAndBalance(List<Bill> lastFromBillList, User lastUser) {
         for (Bill fromBillInList : lastFromBillList) {
-            System.out.println(lastUser.getName() + ". name of bill:   " + fromBillInList.getName() +
-                    ".   balance =  " + fromBillInList.getBalance());
+            System.out.println(lastUser.getName() + ". name of bill:   " + fromBillInList.getName() + ".   balance =  " + fromBillInList.getBalance());
         }
     }
-
 
     private void transactionToRandomBill(User lastUser, User toUser) {
         try {
@@ -196,12 +197,12 @@ public class TransactionMenu {
             printBillWithUserAndBalance(lastFromBillList, lastUser);
             List<Bill> lastToBillList = billService.findBillsByUser(toUser);
             printBillWithUserAndBalance(lastToBillList, toUser);
-        } catch (MyException e) {
+        } catch (MyExceptionBill e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private int choiceFromBillId(User lastUser) throws MyException {
+    private int choiceFromBillId(User lastUser) throws MyExceptionUser {
         int idFromBill = 0;
         try {
             List<Bill> billListFromUser = billService.findBillsByUser(lastUser);
@@ -210,8 +211,7 @@ public class TransactionMenu {
             System.out.println("Enter Bill for write off money");
             int fromBillIndex = in.nextInt() - 1;
             idFromBill = billListFromUser.get(fromBillIndex).getId();
-        } catch (
-                MyException e) {
+        } catch (MyExceptionBill e) {
             System.out.println(e.getMessage());
         }
         return idFromBill;

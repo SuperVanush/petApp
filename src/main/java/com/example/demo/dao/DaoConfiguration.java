@@ -35,8 +35,7 @@ public class DaoConfiguration {
         Liquibase liquibase = new Liquibase(
                 "liquibase.xml",
                 new ClassLoaderResourceAccessor(),
-                database
-        );
+                database);
         liquibase.update(new Contexts());
         return liquibase;
     }

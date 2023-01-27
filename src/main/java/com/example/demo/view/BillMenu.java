@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 @Service
 public class BillMenu {
+
     private static final String PRINT_MAIN_MENU = "0. Return to main menu";
     private static final String MESSAGE_ERROR_BY_CHOICE_MENU = "ERROR";
 
@@ -22,7 +23,6 @@ public class BillMenu {
     }
 
     public final Scanner in = new Scanner(System.in);
-
 
     public void enterBillMenu(User lastUser) {
         int billChoice;
@@ -44,7 +44,6 @@ public class BillMenu {
             if (billChoice == 3) {
                 transactionMenu.balanceTransaction(lastUser);
             }
-
             if (billChoice != 1 && billChoice != 0 && billChoice != 2 && billChoice != 3) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }

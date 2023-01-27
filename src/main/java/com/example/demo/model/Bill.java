@@ -8,7 +8,6 @@ public class Bill {
     private int id;
     private int balance;
     private User user;
-    private boolean primaryMarker;
 
     public Bill() {
     }

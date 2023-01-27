@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.StorageBill;
-import com.example.demo.exception.MyException;
+import com.example.demo.exception.MyExceptionBill;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class BillService implements ServiceBill {
+
     private StorageBill billStorage;
 
     public BillService(StorageBill billStorage) {
@@ -28,17 +29,17 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public List<Bill> findBillsByUser(User findUser){
+    public List<Bill> findBillsByUser(User findUser) throws MyExceptionBill {
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
-        if (billList.isEmpty()){
-            throw new MyException("Bill list is empty");
-        }
         for (Bill billInList : billList) {
             int idUser = findUser.getId();
             if (billInList.getUser().getId() == idUser) {
                 billsList.add(billInList);
             }
+        }
+        if (billsList.isEmpty()) {
+            throw new MyExceptionBill("No Bills");
         }
         return billsList;
     }
@@ -54,12 +55,12 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public Bill reduceBalance(int idBill, int reduceDigit) throws MyException {
+    public Bill reduceBalance(int idBill, int reduceDigit) throws MyExceptionBill {
         Bill bill = billStorage.findBillFromId(idBill);
         int billBalance = bill.getBalance();
         int reduceBillBalance = billBalance - reduceDigit;
         if (reduceBillBalance < 0) {
-            throw new MyException("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
+            throw new MyExceptionBill("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
         } else {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
@@ -68,8 +69,8 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public void transactionToBill(int idFromBill, int idToBill, int transactionSumma) throws MyException {
-               reduceBalance(idFromBill, transactionSumma);
+    public void transactionToBill(int idFromBill, int idToBill, int transactionSumma) throws MyExceptionBill {
+        reduceBalance(idFromBill, transactionSumma);
         sumBalanceTransaction(idToBill, transactionSumma);
     }
 }

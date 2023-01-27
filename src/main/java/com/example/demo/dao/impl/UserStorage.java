@@ -18,7 +18,7 @@ public class UserStorage implements StorageUser {
         this.dataSource = dataSource;
     }
 
-      @Override
+    @Override
     public User add(User user) {
         try (Connection connect = dataSource.getConnection()) {
             String sql = "insert into users ( user_name, login) VALUES (?,?)";

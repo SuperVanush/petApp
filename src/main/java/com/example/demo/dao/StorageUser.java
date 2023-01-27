@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import java.util.List;
 
 public interface StorageUser {
+
     User add(User user);
 
     User findById(int id);
