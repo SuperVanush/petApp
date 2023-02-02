@@ -154,28 +154,24 @@ public class TransactionMenu {
     }
 
     private void betweenUsersTransaction(User lastUser, User toUser) {
-        try {
-            int idFromBill = choiceFromBillId(lastUser);
-            List<Bill> billListToUser = billService.findBillsByUser(toUser);
-            printBillsWithBalance(billListToUser);
+        int idFromBill = choiceFromBillId(lastUser);
+        List<Bill> billListToUser = billService.findBillsByUser(toUser);
+        printBillsWithBalance(billListToUser);
 
-            System.out.println("Enter Bill of   " + toUser.getLogin() + "  for add money");
-            int toToBillIndex = in.nextInt() - 1;
+        System.out.println("Enter Bill of   " + toUser.getLogin() + "  for add money");
+        int toToBillIndex = in.nextInt() - 1;
 
-            System.out.println("Enter the transaction summa");
-            int transactionSumma = in.nextInt();
+        System.out.println("Enter the transaction summa");
+        int transactionSumma = in.nextInt();
 
-            int idToBill = billListToUser.get(toToBillIndex).getId();
-            billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+        int idToBill = billListToUser.get(toToBillIndex).getId();
+        billService.transactionToBill(idFromBill, idToBill, transactionSumma);
 
-            List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
-            printBillWithUserAndBalance(lastFromBillList, lastUser);
+        List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
+        printBillWithUserAndBalance(lastFromBillList, lastUser);
 
-            List<Bill> lastToBillList = billService.findBillsByUser(toUser);
-            printBillWithUserAndBalance(lastToBillList, toUser);
-        } catch (MyExceptionBill e) {
-            System.out.println(e.getMessage());
-        }
+        List<Bill> lastToBillList = billService.findBillsByUser(toUser);
+        printBillWithUserAndBalance(lastToBillList, toUser);
     }
 
     private void printBillWithUserAndBalance(List<Bill> lastFromBillList, User lastUser) {
@@ -202,18 +198,13 @@ public class TransactionMenu {
         }
     }
 
-    private int choiceFromBillId(User lastUser) throws MyExceptionUser {
-        int idFromBill = 0;
-        try {
-            List<Bill> billListFromUser = billService.findBillsByUser(lastUser);
-            printBillsWithBalance(billListFromUser);
+    private int choiceFromBillId(User lastUser) {
+        List<Bill> billListFromUser = billService.findBillsByUser(lastUser);
+        printBillsWithBalance(billListFromUser);
 
-            System.out.println("Enter Bill for write off money");
-            int fromBillIndex = in.nextInt() - 1;
-            idFromBill = billListFromUser.get(fromBillIndex).getId();
-        } catch (MyExceptionBill e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("Enter Bill for write off money");
+        int fromBillIndex = in.nextInt() - 1;
+        int idFromBill = billListFromUser.get(fromBillIndex).getId();
         return idFromBill;
     }
 }

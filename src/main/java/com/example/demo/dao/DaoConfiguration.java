@@ -33,7 +33,7 @@ public class DaoConfiguration {
         DatabaseConnection connection = new JdbcConnection(dataSource.getConnection());
         Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
         Liquibase liquibase = new Liquibase(
-                "liquibase.xml",
+                "db-liquibase-master.xml",
                 new ClassLoaderResourceAccessor(),
                 database);
         liquibase.update(new Contexts());
