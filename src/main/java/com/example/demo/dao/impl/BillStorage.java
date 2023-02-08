@@ -40,7 +40,7 @@ public class BillStorage implements StorageBill {
                     throw new SQLException("Creating bill failed, no ID obtained.");
                 }
             }
-        } catch (SQLException e) {
+            } catch (SQLException e) {
             e.printStackTrace();
         }
         return bill;

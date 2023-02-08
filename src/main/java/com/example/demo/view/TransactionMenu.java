@@ -3,8 +3,10 @@ package com.example.demo.view;
 import com.example.demo.exception.MyExceptionBill;
 import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
+import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.service.impl.BillService;
+import com.example.demo.service.impl.TransferService;
 import com.example.demo.service.impl.UserService;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,13 @@ public class TransactionMenu {
 
     private BillService billService;
     private UserService userService;
+    private TransferService transferService;
 
-    public TransactionMenu(BillService billService, UserService userService) {
+    public TransactionMenu(BillService billService, UserService userService,
+                           TransferService transferService) {
         this.billService = billService;
         this.userService = userService;
+        this.transferService = transferService;
     }
 
     public final Scanner in = new Scanner(System.in);
@@ -104,8 +109,10 @@ public class TransactionMenu {
         int transactionSumma = in.nextInt();
         int idFromBill = billList.get(fromBillIndex).getId();
         int idToBill = billList.get(toBillIndex).getId();
+        User toUser = lastUser;
         try {
             billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+            transferService.addTransfer(lastUser, toUser, idFromBill, idToBill, transactionSumma);
 
             List<Bill> transactionBillList = billService.findBillsByUser(lastUser);
             printBillsWithBalance(transactionBillList);
@@ -129,6 +136,7 @@ public class TransactionMenu {
             do {
                 System.out.println("1. Transaction to other User's Bill");
                 System.out.println("2. Transaction to other User's Random Bill");
+                System.out.println("3. Print my transactions");
                 System.out.println(PRINT_MAIN_MENU);
                 choiceTransaction = in.nextInt();
                 if (choiceTransaction == 1) {
@@ -137,7 +145,9 @@ public class TransactionMenu {
                 if (choiceTransaction == 2) {
                     transactionToRandomBill(lastUser, toUser);
                 }
-                if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2) {
+
+                if (choiceTransaction==3){}
+                if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2&& choiceTransaction!= 3) {
                     System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
                 }
             } while (choiceTransaction != 0);
@@ -166,6 +176,7 @@ public class TransactionMenu {
 
         int idToBill = billListToUser.get(toToBillIndex).getId();
         billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+        transferService.addTransfer(lastUser, toUser, idFromBill, idToBill, transactionSumma);
 
         List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
         printBillWithUserAndBalance(lastFromBillList, lastUser);
@@ -188,6 +199,7 @@ public class TransactionMenu {
             List<Bill> billListToUser = billService.findBillsByUser(toUser);
             int idToBill = billListToUser.get((int) (billListToUser.size() * Math.random())).getId();
             billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+            transferService.addTransfer(lastUser, toUser, idFromBill, idToBill, transactionSumma);
 
             List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
             printBillWithUserAndBalance(lastFromBillList, lastUser);
@@ -206,5 +218,13 @@ public class TransactionMenu {
         int fromBillIndex = in.nextInt() - 1;
         int idFromBill = billListFromUser.get(fromBillIndex).getId();
         return idFromBill;
+    }
+
+    private void printBillTransaction(User lastUser, List<Bill> billList){
+        printBillsWithBalance(billList);
+        System.out.println("Enter ID Bill for print transactions");
+        int printBillIndex = in.nextInt() - 1;
+        int idBillForPrint = billList.get(printBillIndex).getId();
+        List<Transfer> transferList = transferService.findTransferByBillsId(idBillForPrint);
     }
 }
