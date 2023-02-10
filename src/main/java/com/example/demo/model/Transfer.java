@@ -28,6 +28,10 @@ public class Transfer {
 
     }
 
+    public Transfer() {
+
+    }
+
     public int getId() {
         return id;
     }

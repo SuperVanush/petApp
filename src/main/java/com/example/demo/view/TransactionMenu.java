@@ -40,6 +40,7 @@ public class TransactionMenu {
             System.out.println("2. Reduce Balance");
             System.out.println("3. Transaction between Bills");
             System.out.println("4. Transaction to other User");
+            System.out.println("5. Print my transactions");
             System.out.println(PRINT_MAIN_MENU);
             choiceTransaction = in.nextInt();
             if (choiceTransaction == 1) {
@@ -54,7 +55,11 @@ public class TransactionMenu {
             if (choiceTransaction == 4) {
                 transactionToOtherUser(lastUser);
             }
-            if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2 && choiceTransaction != 3 && choiceTransaction != 4) {
+            if (choiceTransaction == 5) {
+                printBillTransaction(lastUser);
+            }
+            if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2
+                    && choiceTransaction != 3 && choiceTransaction != 4 && choiceTransaction != 5) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
         } while (choiceTransaction != 0);
@@ -136,7 +141,7 @@ public class TransactionMenu {
             do {
                 System.out.println("1. Transaction to other User's Bill");
                 System.out.println("2. Transaction to other User's Random Bill");
-                System.out.println("3. Print my transactions");
+
                 System.out.println(PRINT_MAIN_MENU);
                 choiceTransaction = in.nextInt();
                 if (choiceTransaction == 1) {
@@ -145,9 +150,7 @@ public class TransactionMenu {
                 if (choiceTransaction == 2) {
                     transactionToRandomBill(lastUser, toUser);
                 }
-
-                if (choiceTransaction==3){}
-                if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2&& choiceTransaction!= 3) {
+                if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2) {
                     System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
                 }
             } while (choiceTransaction != 0);
@@ -220,11 +223,23 @@ public class TransactionMenu {
         return idFromBill;
     }
 
-    private void printBillTransaction(User lastUser, List<Bill> billList){
+    private void printBillTransaction(User lastUser) {
+        List<Bill> billList = billService.findBillsByUser(lastUser);
         printBillsWithBalance(billList);
         System.out.println("Enter ID Bill for print transactions");
         int printBillIndex = in.nextInt() - 1;
         int idBillForPrint = billList.get(printBillIndex).getId();
         List<Transfer> transferList = transferService.findTransferByBillsId(idBillForPrint);
+        for (Transfer transferInList : transferList) {
+            String nameFromUser = userService.findUserById(transferInList.getIdFromUser()).getName();
+            String nameFromBill = billService.findBillById(transferInList.getIdFromBill()).getName();
+            int sumTransaction = transferInList.getSumTransaction();
+            String nameToUser = userService.findUserById(transferInList.getIdToUser()).getName();
+            String nameToBill = billService.findBillById(transferInList.getIdToBill()).getName();
+            Long timeDateTransaction = transferInList.getTimeDateTransaction();
+            System.out.println("User From   " + nameFromUser + "    Bill From   " + nameFromBill +
+                    "   Sum Transaction   = " + sumTransaction + "   User To   " + nameToUser +
+                    "Bill To   " + nameToBill + "Time Transaction   " + timeDateTransaction);
+        }
     }
 }

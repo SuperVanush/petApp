@@ -6,5 +6,6 @@ public class MyExceptionTransfer extends RuntimeException {
         super(message);
     }
 
-    public MyExceptionTransfer;
+    public MyExceptionTransfer() {
+    }
 }
