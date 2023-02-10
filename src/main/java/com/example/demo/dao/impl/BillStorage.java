@@ -32,7 +32,6 @@ public class BillStorage implements StorageBill {
             if (affectedRows == 0) {
                 throw new SQLException("Creating bill failed, no rows affected.");
             }
-
             try (ResultSet generatedKeys = psmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     bill.setId(Math.toIntExact(generatedKeys.getLong(1)));
@@ -40,7 +39,7 @@ public class BillStorage implements StorageBill {
                     throw new SQLException("Creating bill failed, no ID obtained.");
                 }
             }
-            } catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return bill;

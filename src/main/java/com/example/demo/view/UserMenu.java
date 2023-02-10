@@ -33,7 +33,7 @@ public class UserMenu {
         try {
             userService.findUserByLogin(login);
             System.out.println("The user exists. Choose another login");
-        } catch (MyExceptionUser ex) {
+        } catch (MyExceptionUser e) {
             userService.addUser(name, login);
             System.out.println("The User was Added");
         }

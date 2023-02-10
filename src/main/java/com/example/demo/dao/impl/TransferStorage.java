@@ -36,7 +36,6 @@ public class TransferStorage implements StorageTransfer {
             if (affectedRows == 0) {
                 throw new SQLException("Creating transaction failed, no rows affected.");
             }
-
             try (ResultSet generatedKeys = psmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     transfer.setId(Math.toIntExact(generatedKeys.getLong(1)));
@@ -61,11 +60,11 @@ public class TransferStorage implements StorageTransfer {
                 int idFromUser = resultSet.getInt("user_from_id");
                 int idFromBill = resultSet.getInt("bill_from_id");
                 int sumTransaction = resultSet.getInt("sum_transaction");
-                int idToUser  = resultSet.getInt("user_to_id");
+                int idToUser = resultSet.getInt("user_to_id");
                 int idToBill = resultSet.getInt("bill_to_id");
-                Timestamp timeDateTramsaction = resultSet.getTimestamp("time_date_transaction");
+                Timestamp timeDateTransaction = resultSet.getTimestamp("time_date_transaction");
                 Transfer transfer = new Transfer(idFromUser, idFromBill, idToUser, idToBill,
-                        sumTransaction,timeDateTramsaction);
+                        sumTransaction, timeDateTransaction);
                 transferList.add(transfer);
             }
         } catch (SQLException e) {

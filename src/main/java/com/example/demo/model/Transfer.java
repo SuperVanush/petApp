@@ -11,11 +11,10 @@ public class Transfer {
     private int idFromBill;
     private int idToBill;
     private int sumTransaction;
-    private long timeDateTransaction;
+    private Timestamp timeDateTransaction;
 
-    public Transfer(int id, int idFromUser, int idToUser,
-                    int idFromBill, int idToBill, int sumTransaction, long timeDateTransaction) {
-        this.id = id;
+    public Transfer(int idFromUser, int idFromBill,
+                    int idToUser, int idToBill, int sumTransaction, Timestamp timeDateTransaction) {
         this.idFromUser = idFromUser;
         this.idToUser = idToUser;
         this.idFromBill = idFromBill;
@@ -24,12 +23,7 @@ public class Transfer {
         this.timeDateTransaction = timeDateTransaction;
     }
 
-    public Transfer(int idFromUser, int idFromBill, int idToUser, int idToBill, int sumTransaction, Timestamp timeDateTramsaction) {
-
-    }
-
     public Transfer() {
-
     }
 
     public int getId() {
@@ -80,11 +74,11 @@ public class Transfer {
         this.sumTransaction = sumTransaction;
     }
 
-    public long getTimeDateTransaction() {
+    public Timestamp getTimeDateTransaction() {
         return timeDateTransaction;
     }
 
-    public void setTimeDateTransaction(long timeDateTransaction) {
+    public void setTimeDateTransaction(Timestamp timeDateTransaction) {
         this.timeDateTransaction = timeDateTransaction;
     }
 

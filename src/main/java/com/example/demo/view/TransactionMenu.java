@@ -10,6 +10,7 @@ import com.example.demo.service.impl.TransferService;
 import com.example.demo.service.impl.UserService;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,8 +24,7 @@ public class TransactionMenu {
     private UserService userService;
     private TransferService transferService;
 
-    public TransactionMenu(BillService billService, UserService userService,
-                           TransferService transferService) {
+    public TransactionMenu(BillService billService, UserService userService, TransferService transferService) {
         this.billService = billService;
         this.userService = userService;
         this.transferService = transferService;
@@ -58,8 +58,7 @@ public class TransactionMenu {
             if (choiceTransaction == 5) {
                 printBillTransaction(lastUser);
             }
-            if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2
-                    && choiceTransaction != 3 && choiceTransaction != 4 && choiceTransaction != 5) {
+            if (choiceTransaction != 1 && choiceTransaction != 0 && choiceTransaction != 2 && choiceTransaction != 3 && choiceTransaction != 4 && choiceTransaction != 5) {
                 System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
             }
         } while (choiceTransaction != 0);
@@ -225,21 +224,23 @@ public class TransactionMenu {
 
     private void printBillTransaction(User lastUser) {
         List<Bill> billList = billService.findBillsByUser(lastUser);
+
         printBillsWithBalance(billList);
         System.out.println("Enter ID Bill for print transactions");
         int printBillIndex = in.nextInt() - 1;
         int idBillForPrint = billList.get(printBillIndex).getId();
+
         List<Transfer> transferList = transferService.findTransferByBillsId(idBillForPrint);
+
         for (Transfer transferInList : transferList) {
             String nameFromUser = userService.findUserById(transferInList.getIdFromUser()).getName();
             String nameFromBill = billService.findBillById(transferInList.getIdFromBill()).getName();
             int sumTransaction = transferInList.getSumTransaction();
             String nameToUser = userService.findUserById(transferInList.getIdToUser()).getName();
             String nameToBill = billService.findBillById(transferInList.getIdToBill()).getName();
-            Long timeDateTransaction = transferInList.getTimeDateTransaction();
-            System.out.println("User From   " + nameFromUser + "    Bill From   " + nameFromBill +
-                    "   Sum Transaction   = " + sumTransaction + "   User To   " + nameToUser +
-                    "Bill To   " + nameToBill + "Time Transaction   " + timeDateTransaction);
+            Timestamp timeDateTransaction = transferInList.getTimeDateTransaction();
+
+            System.out.println("User From   " + nameFromUser + "    Bill From   " + nameFromBill + "   Sum Transaction   = " + sumTransaction + "   User To   " + nameToUser + "   Bill To   " + nameToBill + "Time Transaction   " + timeDateTransaction);
         }
     }
 }

@@ -50,7 +50,7 @@ public class UserStorage implements StorageUser {
             String sql = "select * from users where user_id = ?";
             PreparedStatement psmt = connect.prepareStatement(sql);
             psmt.setInt(1, id);
-            ResultSet resultSet = psmt.executeQuery(sql);
+            ResultSet resultSet = psmt.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getInt("user_id");
                 String name = resultSet.getString("user_name");

@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.StorageBill;
 import com.example.demo.exception.MyExceptionBill;
-import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
@@ -75,11 +74,8 @@ public class BillService implements ServiceBill {
         sumBalanceTransaction(idToBill, transactionSumma);
     }
 
-    public Bill findBillById(int billId) throws MyExceptionBill {
+    public Bill findBillById(int billId) {
         Bill billById = billStorage.findBillFromId(billId);
-        if (billById == null) {
-            throw new MyExceptionUser("Bill not found. Please enter other Bill");
-        }
         return billById;
     }
 }

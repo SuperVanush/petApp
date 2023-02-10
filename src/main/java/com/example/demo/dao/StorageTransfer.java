@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StorageTransfer {
 
-Transfer add (Transfer transfer);
+    Transfer add(Transfer transfer);
 
     List<Transfer> getListOfElements();
 

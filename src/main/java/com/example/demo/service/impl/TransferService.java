@@ -22,7 +22,6 @@ public class TransferService implements ServiceTransfer {
     @Override
     public Transfer addTransfer(User lastUser, User toUser, int idFromBill,
                                 int idToBill, int transactionSumma) {
-
         Transfer transfer = new Transfer();
         transfer.setIdFromUser(lastUser.getId());
         transfer.setIdToUser(toUser.getId());
@@ -31,11 +30,6 @@ public class TransferService implements ServiceTransfer {
         transfer.setSumTransaction(transactionSumma);
         transferStorage.add(transfer);
         return transfer;
-    }
-
-    @Override
-    public int removeTransfer(int id) {
-        return 0;
     }
 
     @Override
@@ -48,5 +42,9 @@ public class TransferService implements ServiceTransfer {
             }
         }
         return transferListForReturn;
+    }
+    @Override
+    public int removeTransfer(int id) {
+        return 0;
     }
 }

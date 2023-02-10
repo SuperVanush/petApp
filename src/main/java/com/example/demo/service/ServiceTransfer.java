@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface ServiceTransfer {
 
-    Transfer addTransfer(User lastUser, User toUser, int idFromBill, int idToBill, int transactionSumma);
+    Transfer addTransfer(User lastUser, User toUser, int idFromBill,
+                         int idToBill, int transactionSumma);
 
     int removeTransfer(int id);
 
