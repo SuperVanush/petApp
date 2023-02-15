@@ -11,10 +11,4 @@ public interface ServiceBill {
 
     List<Bill> findBillsByUser(User user);
 
-    Bill sumBalanceTransaction(int idBill, int sumDigit);
-
-    Bill reduceBalance(int idBill, int reduceDigit);
-
-    void transactionToBill(int idFromBill, int idToBill, int transactionSumma);
-
 }

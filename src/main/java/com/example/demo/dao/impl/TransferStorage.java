@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class TransferStorage implements StorageTransfer {
             psmt.setInt(5, transfer.getIdToBill());
             psmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
 
-            int affectedRows = psmt.executeUpdate();
+            int affectedRows = psmt.executeUpdate(sql);
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating transaction failed, no rows affected.");
@@ -63,8 +64,9 @@ public class TransferStorage implements StorageTransfer {
                 int idToUser = resultSet.getInt("user_to_id");
                 int idToBill = resultSet.getInt("bill_to_id");
                 Timestamp timeDateTransaction = resultSet.getTimestamp("time_date_transaction");
+                LocalDateTime localDateTime = timeDateTransaction.toLocalDateTime();
                 Transfer transfer = new Transfer(idFromUser, idFromBill, idToUser, idToBill,
-                        sumTransaction, timeDateTransaction);
+                        sumTransaction, localDateTime);
                 transferList.add(transfer);
             }
         } catch (SQLException e) {

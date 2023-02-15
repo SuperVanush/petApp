@@ -1,7 +1,10 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dao.impl.BillStorage;
 import com.example.demo.dao.impl.TransferStorage;
+import com.example.demo.exception.MyExceptionBill;
 import com.example.demo.exception.MyExceptionTransfer;
+import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceTransfer;
@@ -14,6 +17,11 @@ import java.util.List;
 public class TransferService implements ServiceTransfer {
 
     private TransferStorage transferStorage;
+    private BillStorage billStorage;
+
+    public TransferService(BillStorage billStorage) {
+        this.billStorage = billStorage;
+    }
 
     public TransferService(TransferStorage transferStorage) {
         this.transferStorage = transferStorage;
@@ -43,8 +51,40 @@ public class TransferService implements ServiceTransfer {
         }
         return transferListForReturn;
     }
+
+    @Override
+    public Bill sumBalanceTransaction(int idBill, int sumDigit) {
+        Bill bill = billStorage.findBillFromId(idBill);
+        int billBalance = bill.getBalance();
+        int sumBillBalance = billBalance + sumDigit;
+        bill.setBalance(sumBillBalance);
+        billStorage.updateBill(bill);
+        return bill;
+    }
+
+    @Override
+    public Bill reduceBalance(int idBill, int reduceDigit) throws MyExceptionBill {
+        Bill bill = billStorage.findBillFromId(idBill);
+        int billBalance = bill.getBalance();
+        int reduceBillBalance = billBalance - reduceDigit;
+        if (reduceBillBalance < 0) {
+            throw new MyExceptionBill("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
+        } else {
+            bill.setBalance(reduceBillBalance);
+            billStorage.updateBill(bill);
+        }
+        return bill;
+    }
+
+    @Override
+    public void transactionToBill(int idFromBill, int idToBill, int transactionSumma) throws MyExceptionBill {
+        reduceBalance(idFromBill, transactionSumma);
+        sumBalanceTransaction(idToBill, transactionSumma);
+    }
+
     @Override
     public int removeTransfer(int id) {
         return 0;
     }
+
 }

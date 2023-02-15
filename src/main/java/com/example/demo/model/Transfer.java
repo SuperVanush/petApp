@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Transfer {
@@ -11,10 +11,10 @@ public class Transfer {
     private int idFromBill;
     private int idToBill;
     private int sumTransaction;
-    private Timestamp timeDateTransaction;
+    private LocalDateTime timeDateTransaction;
 
     public Transfer(int idFromUser, int idFromBill,
-                    int idToUser, int idToBill, int sumTransaction, Timestamp timeDateTransaction) {
+                    int idToUser, int idToBill, int sumTransaction, LocalDateTime timeDateTransaction) {
         this.idFromUser = idFromUser;
         this.idToUser = idToUser;
         this.idFromBill = idFromBill;
@@ -74,11 +74,11 @@ public class Transfer {
         this.sumTransaction = sumTransaction;
     }
 
-    public Timestamp getTimeDateTransaction() {
+    public LocalDateTime getTimeDateTransaction() {
         return timeDateTransaction;
     }
 
-    public void setTimeDateTransaction(Timestamp timeDateTransaction) {
+    public void setTimeDateTransaction(LocalDateTime timeDateTransaction) {
         this.timeDateTransaction = timeDateTransaction;
     }
 

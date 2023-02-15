@@ -72,28 +72,4 @@ public class BillServiceTest extends TestCase {
         List<Bill> listBillsSecondUser = subj.findBillsByUser(secondUser);
         assertEquals(listBillsSecondUser, listForComparison);
     }
-
-    @Test
-    public void test_sumBalanceTransaction_Ok() {
-        Bill bill = new Bill();
-        bill.setBalance(6);
-        bill.setId(2);
-        int sumDigit = 3;
-        when(billStorage.findBillFromId(6)).thenReturn(bill);
-        Bill returnBill = subj.sumBalanceTransaction(6, 3);
-        verify(billStorage).updateBill(returnBill);
-        assertEquals(bill.getBalance(), returnBill.getBalance());
-    }
-
-    @Test
-    public void test_reduceBalance_Ok() {
-        Bill bill = new Bill();
-        bill.setBalance(9);
-        bill.setId(2);
-        int reduceBalance = 2;
-        when(billStorage.findBillFromId(2)).thenReturn(bill);
-        Bill returnBill = subj.reduceBalance(2, reduceBalance);
-        verify(billStorage).updateBill(returnBill);
-        assertEquals(bill.getBalance(), returnBill.getBalance());
-    }
 }

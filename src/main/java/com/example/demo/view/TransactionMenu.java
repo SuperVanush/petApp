@@ -10,7 +10,7 @@ import com.example.demo.service.impl.TransferService;
 import com.example.demo.service.impl.UserService;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,7 +24,8 @@ public class TransactionMenu {
     private UserService userService;
     private TransferService transferService;
 
-    public TransactionMenu(BillService billService, UserService userService, TransferService transferService) {
+    public TransactionMenu(BillService billService,
+                           UserService userService, TransferService transferService) {
         this.billService = billService;
         this.userService = userService;
         this.transferService = transferService;
@@ -67,7 +68,7 @@ public class TransactionMenu {
     private void sumBalance(User lastUser) {
         int billId = getBillId(lastUser);
         int sumDigit = in.nextInt();
-        Bill bill = billService.sumBalanceTransaction(billId, sumDigit);
+        Bill bill = transferService.sumBalanceTransaction(billId, sumDigit);
         System.out.println(bill);
     }
 
@@ -75,7 +76,7 @@ public class TransactionMenu {
         int billId = getBillId(lastUser);
         int reduceDigit = in.nextInt();
         try {
-            Bill bill = billService.reduceBalance(billId, reduceDigit);
+            Bill bill = transferService.reduceBalance(billId, reduceDigit);
             System.out.println(bill);
         } catch (MyExceptionBill e) {
             System.out.println(e.getMessage());
@@ -115,7 +116,7 @@ public class TransactionMenu {
         int idToBill = billList.get(toBillIndex).getId();
         User toUser = lastUser;
         try {
-            billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+            transferService.transactionToBill(idFromBill, idToBill, transactionSumma);
             transferService.addTransfer(lastUser, toUser, idFromBill, idToBill, transactionSumma);
 
             List<Bill> transactionBillList = billService.findBillsByUser(lastUser);
@@ -177,7 +178,7 @@ public class TransactionMenu {
         int transactionSumma = in.nextInt();
 
         int idToBill = billListToUser.get(toToBillIndex).getId();
-        billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+        transferService.transactionToBill(idFromBill, idToBill, transactionSumma);
         transferService.addTransfer(lastUser, toUser, idFromBill, idToBill, transactionSumma);
 
         List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
@@ -200,7 +201,7 @@ public class TransactionMenu {
             int transactionSumma = in.nextInt();
             List<Bill> billListToUser = billService.findBillsByUser(toUser);
             int idToBill = billListToUser.get((int) (billListToUser.size() * Math.random())).getId();
-            billService.transactionToBill(idFromBill, idToBill, transactionSumma);
+            transferService.transactionToBill(idFromBill, idToBill, transactionSumma);
             transferService.addTransfer(lastUser, toUser, idFromBill, idToBill, transactionSumma);
 
             List<Bill> lastFromBillList = billService.findBillsByUser(lastUser);
@@ -238,7 +239,7 @@ public class TransactionMenu {
             int sumTransaction = transferInList.getSumTransaction();
             String nameToUser = userService.findUserById(transferInList.getIdToUser()).getName();
             String nameToBill = billService.findBillById(transferInList.getIdToBill()).getName();
-            Timestamp timeDateTransaction = transferInList.getTimeDateTransaction();
+            LocalDateTime timeDateTransaction = transferInList.getTimeDateTransaction();
 
             System.out.println("User From   " + nameFromUser + "    Bill From   " + nameFromBill + "   Sum Transaction   = " + sumTransaction + "   User To   " + nameToUser + "   Bill To   " + nameToBill + "Time Transaction   " + timeDateTransaction);
         }
