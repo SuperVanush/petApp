@@ -19,12 +19,9 @@ public class TransferService implements ServiceTransfer {
     private TransferStorage transferStorage;
     private BillStorage billStorage;
 
-    public TransferService(BillStorage billStorage) {
-        this.billStorage = billStorage;
-    }
-
-    public TransferService(TransferStorage transferStorage) {
+    public TransferService(TransferStorage transferStorage, BillStorage billStorage) {
         this.transferStorage = transferStorage;
+        this.billStorage = billStorage;
     }
 
     @Override

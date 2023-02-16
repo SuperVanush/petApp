@@ -32,7 +32,7 @@ public class TransferStorage implements StorageTransfer {
             psmt.setInt(5, transfer.getIdToBill());
             psmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
 
-            int affectedRows = psmt.executeUpdate(sql);
+            int affectedRows = psmt.executeUpdate();
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating transaction failed, no rows affected.");

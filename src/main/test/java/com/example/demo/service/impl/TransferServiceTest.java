@@ -23,7 +23,7 @@ public class TransferServiceTest extends TestCase {
     public void setUp() throws Exception {
         billStorage = mock(BillStorage.class);
         transferStorage = mock(TransferStorage.class);
-        subj = new TransferService(billStorage);
+        subj = new TransferService(transferStorage, billStorage);
     }
 
     @Test
@@ -39,24 +39,41 @@ public class TransferServiceTest extends TestCase {
     }
 
     @Test
-    public void test_findTransferByBillsId_ok (){
-        subj = new TransferService(transferStorage);
+    public void test_findTransferByBillsId_ok() {
         Transfer firstTransfer = new Transfer();
         firstTransfer.setIdFromBill(5);
 
         Transfer secondTransfer = new Transfer();
         secondTransfer.setIdFromBill(11);
 
-        List <Transfer> listTransfer = new ArrayList<>();
+        List<Transfer> listTransfer = new ArrayList<>();
         listTransfer.add(firstTransfer);
         listTransfer.add(secondTransfer);
 
-        List <Transfer> listTransferForCompare = new ArrayList<>();
+        List<Transfer> listTransferForCompare = new ArrayList<>();
         listTransferForCompare.add(secondTransfer);
 
         when(transferStorage.getListOfElements()).thenReturn(listTransfer);
-        List <Transfer> transferListForElevenBill = subj.findTransferByBillsId(11);
+        List<Transfer> transferListForElevenBill = subj.findTransferByBillsId(11);
         assertEquals(transferListForElevenBill, listTransferForCompare);
+    }
+
+    @Test
+    public void test_findTransferByBillsId_not_find_transfer() {
+        Bill firstBill = new Bill();
+        firstBill.setId(6);
+        Transfer firstTransfer = new Transfer();
+        firstTransfer.setIdFromBill(firstBill.getId());
+
+        Bill secondBill = new Bill();
+        secondBill.setId(2);
+
+        List<Transfer> firstTransferList = new ArrayList<>();
+        firstTransferList.add(firstTransfer);
+        when(transferStorage.getListOfElements()).thenReturn(firstTransferList);
+
+        List<Transfer> secondTransferList = subj.findTransferByBillsId(secondBill.getId());
+        assertEquals(secondTransferList.size(), 0);
 
     }
 
