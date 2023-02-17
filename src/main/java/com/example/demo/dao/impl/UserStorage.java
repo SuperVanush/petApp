@@ -21,10 +21,11 @@ public class UserStorage implements StorageUser {
     @Override
     public User add(User user) {
         try (Connection connect = dataSource.getConnection()) {
-            String sql = "insert into users ( user_name, login) VALUES (?,?)";
+            String sql = "insert into users ( user_name, login, password) VALUES (?,?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, user.getName());
             psmt.setString(2, user.getLogin());
+            psmt.setString(3, user.getPassword());
             int affectedRowsUser = psmt.executeUpdate();
 
             if (affectedRowsUser == 0) {
@@ -83,6 +84,25 @@ public class UserStorage implements StorageUser {
         return user;
     }
 
+    @Override
+    public User findByPassword(String password) {
+        User user = null;
+        try (Connection connect = dataSource.getConnection()) {
+            String sqlRequest = "select * from users where password = ?";
+            PreparedStatement psmt = connect.prepareStatement(sqlRequest);
+            psmt.setString(1, password);
+            ResultSet resultSet = psmt.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String name = resultSet.getString("user_name");
+                String userLogin = resultSet.getString("login");
+                user = new User(id, name, userLogin);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 
     @Override
     public List<User> getListOfElements() {

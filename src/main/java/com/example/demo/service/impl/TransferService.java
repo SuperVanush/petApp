@@ -78,10 +78,4 @@ public class TransferService implements ServiceTransfer {
         reduceBalance(idFromBill, transactionSumma);
         sumBalanceTransaction(idToBill, transactionSumma);
     }
-
-    @Override
-    public int removeTransfer(int id) {
-        return 0;
-    }
-
 }

@@ -17,8 +17,6 @@ public interface ServiceTransfer {
 
     Bill sumBalanceTransaction(int idBill, int sumDigit);
 
-    int removeTransfer(int id);
-
     List<Transfer> findTransferByBillsId(int id);
 }
 

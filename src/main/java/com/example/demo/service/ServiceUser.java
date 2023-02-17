@@ -4,7 +4,9 @@ import com.example.demo.model.User;
 
 public interface ServiceUser {
 
-    User addUser(String name, String login);
+    User addUser(String name, String login, String password);
+
+    User findUserByPassword(String password);
 
     User findUserByLogin(String login);
 

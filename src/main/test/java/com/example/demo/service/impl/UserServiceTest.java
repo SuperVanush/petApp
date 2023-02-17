@@ -36,9 +36,10 @@ public class UserServiceTest extends TestCase {
         User userFromDatabase = new User();
         userFromDatabase.setLogin("qqq");
         userFromDatabase.setName("qqq");
+        userFromDatabase.setPassword("qqq");
 
         when(userStorage.add(user)).thenReturn(userFromDatabase);
-        User userFromService = subj.addUser("qqq", "qqq");
+        User userFromService = subj.addUser("qqq", "qqq","qqq");
         assertEquals(user, userFromService);
     }
 
@@ -63,6 +64,22 @@ public class UserServiceTest extends TestCase {
         when(billService.findBillsByUser(userByLogin)).thenReturn(bills);
         User userFromService = subj.findUserByLogin("qqq");
         assertEquals(userByLogin, userFromService);
+    }
+
+    @Test
+    public void test_FindUserByPassword_ok() {
+        User userByPassword= new User();
+        userByPassword.setId(1);
+        userByPassword.setPassword("qqq");
+
+        Bill bill = new Bill();
+        List<Bill> bills = new ArrayList<>();
+        bills.add(0, bill);
+
+        when(userStorage.findByPassword("qqq")).thenReturn(userByPassword);
+        when(billService.findBillsByUser(userByPassword)).thenReturn(bills);
+        User userFromService = subj.findUserByPassword("qqq");
+        assertEquals(userByPassword, userFromService);
     }
 
     @Test

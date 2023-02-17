@@ -21,10 +21,11 @@ public class UserService implements ServiceUser {
     }
 
     @Override
-    public User addUser(String name, String login) {
+    public User addUser(String name, String login, String password) {
         User user = new User();
         user.setName(name);
         user.setLogin(login);
+        user.setPassword(password);
         user = userStorage.add(user);
         return user;
     }
@@ -36,6 +37,15 @@ public class UserService implements ServiceUser {
             throw new MyExceptionUser("User not found. Please enter other User");
         }
         return userByLogin;
+    }
+
+    @Override
+    public User findUserByPassword(String password) throws MyExceptionUser {
+        User userByPassword = userStorage.findByPassword(password);
+        if (userByPassword == null) {
+            throw new MyExceptionUser("Wrong password");
+        }
+        return userByPassword;
     }
 
     @Override

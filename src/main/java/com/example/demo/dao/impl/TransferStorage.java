@@ -73,16 +73,5 @@ public class TransferStorage implements StorageTransfer {
             e.printStackTrace();
         }
         return transferList;
-
-    }
-
-    @Override
-    public Transfer findTransferFromId(int idTransfer) {
-        return null;
-    }
-
-    @Override
-    public void updateTransfer(Transfer transfer) {
-
     }
 }
