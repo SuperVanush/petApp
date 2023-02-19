@@ -12,8 +12,6 @@ public interface StorageUser {
 
     User findByLogin(String login);
 
-    User findByPassword(String password);
-
     List<User> getListOfElements();
 
     void remove(int id);

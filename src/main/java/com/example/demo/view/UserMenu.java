@@ -34,16 +34,11 @@ public class UserMenu {
         try {
             userService.findUserByLogin(login);
             System.out.println("The user exists. Choose another login");
-        } catch (MyExceptionUser e) {
+        } catch (MyExceptionUser ex) {
             System.out.println("Enter User password");
             password = in.next();
-            try {
-                userService.findUserByPassword(password);
-                System.out.println("The password exists. Choose another password");
-            } catch (MyExceptionUser ex) {
-                userService.addUser(name, login, password);
-                System.out.println("The User was Added");
-            }
+            userService.addUser(name, login, password);
+            System.out.println("The User was Added");
         }
     }
 
@@ -51,35 +46,37 @@ public class UserMenu {
         System.out.println("Enter User login");
         String login = in.next();
         try {
-            userService.findUserByLogin(login);
+            User userByLogin = userService.findUserByLogin(login);
             System.out.println("Enter User password");
             String password = in.next();
-            try {
-                User userByPassword = userService.findUserByPassword(password);
-                int userMenuChouce;
+            if (userByLogin.getPassword().equals(password)) {
+                int userMenuChoice;
                 do {
                     System.out.println("1. Print User");
                     System.out.println("2. Go to Bills menu");
                     System.out.println(PRINT_MAIN_MENU);
-                    userMenuChouce = in.nextInt();
-                    if (userMenuChouce == 1) {
-                        System.out.println(userByPassword);
+                    userMenuChoice = in.nextInt();
+                    if (userMenuChoice == 1) {
+                        System.out.println(userByLogin);
                     }
-                    if (userMenuChouce == 2) {
-                        billMenu.enterBillMenu(userByPassword);
+                    if (userMenuChoice == 2) {
+                        billMenu.enterBillMenu(userByLogin);
                     }
-                    if (userMenuChouce != 1 && userMenuChouce != 0 && userMenuChouce != 2) {
+                    if (userMenuChoice != 1 && userMenuChoice != 0 && userMenuChoice != 2) {
                         System.err.println(MESSAGE_ERROR_BY_CHOICE_MENU);
                     }
                 }
-                while (userMenuChouce != 0);
-            } catch (MyExceptionUser ex) {
-                System.out.println(ex.getMessage());
+                while (userMenuChoice != 0);
+            } else {
+                System.out.println("Wrong password");
             }
-        } catch (MyExceptionUser e) {
-            System.out.println(e.getMessage());
+        } catch (
+                MyExceptionUser ex) {
+            System.out.println(ex.getMessage());
         }
+
     }
+
 
     public void removeUser() {
         System.out.println("Enter login of user to remove");

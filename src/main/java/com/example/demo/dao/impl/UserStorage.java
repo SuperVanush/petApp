@@ -76,7 +76,8 @@ public class UserStorage implements StorageUser {
                 int id = resultSet.getInt("user_id");
                 String name = resultSet.getString("user_name");
                 String userLogin = resultSet.getString("login");
-                user = new User(id, name, userLogin);
+                String password = resultSet.getString("password");
+                user = new User(id, name, userLogin, password);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,25 +85,6 @@ public class UserStorage implements StorageUser {
         return user;
     }
 
-    @Override
-    public User findByPassword(String password) {
-        User user = null;
-        try (Connection connect = dataSource.getConnection()) {
-            String sqlRequest = "select * from users where password = ?";
-            PreparedStatement psmt = connect.prepareStatement(sqlRequest);
-            psmt.setString(1, password);
-            ResultSet resultSet = psmt.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("user_id");
-                String name = resultSet.getString("user_name");
-                String userLogin = resultSet.getString("login");
-                user = new User(id, name, userLogin);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
 
     @Override
     public List<User> getListOfElements() {

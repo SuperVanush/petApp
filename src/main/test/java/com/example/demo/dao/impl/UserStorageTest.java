@@ -64,19 +64,6 @@ public class UserStorageTest extends TestCase {
     }
 
     @Test
-    public void findByPassword() {
-        User user = new User();
-        user.setId(10);
-        user.setName("TestUserName");
-        user.setLogin("TestUserPassword");
-        user.setPassword("TestUserPassword");
-
-        subj.add(user);
-        User returnUser = subj.findByPassword(user.getPassword());
-        assertEquals(user.getId(), returnUser.getId());
-    }
-
-    @Test
     public void testGetListOfElements() {
         User firstUser = new User();
         firstUser.setId(13);

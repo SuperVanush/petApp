@@ -40,15 +40,6 @@ public class UserService implements ServiceUser {
     }
 
     @Override
-    public User findUserByPassword(String password) throws MyExceptionUser {
-        User userByPassword = userStorage.findByPassword(password);
-        if (userByPassword == null) {
-            throw new MyExceptionUser("Wrong password");
-        }
-        return userByPassword;
-    }
-
-    @Override
     public User findUserById(int idUser) {
         User userById = userStorage.findById(idUser);
         if (userById != null) {

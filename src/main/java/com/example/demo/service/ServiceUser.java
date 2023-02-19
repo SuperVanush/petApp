@@ -6,8 +6,6 @@ public interface ServiceUser {
 
     User addUser(String name, String login, String password);
 
-    User findUserByPassword(String password);
-
     User findUserByLogin(String login);
 
     int removeUser(String login);
