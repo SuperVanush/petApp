@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="servlet">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="root">
+      <element id="file-copy" path="$PROJECT_DIR$/.idea/artifacts/servlet.xml" />
+    </root>
+  </artifact>
+</component>
