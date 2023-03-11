@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>servlets.MainServlet</servlet-class>
+        <servlet-class>com.example.demo.servlets.MainServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>servlets.LoginServlet</servlet-class>
+        <servlet-class>com.example.demo.servlets.LoginServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

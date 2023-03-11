@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.servlets;
 
 import com.example.demo.view.ViewConfig;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,5 +8,5 @@ import org.springframework.context.annotation.Import;
 @ComponentScan
 @Import(ViewConfig.class)
 @Configuration
-public class ServiceConfiguration {
+public class ServletConfiguration {
 }

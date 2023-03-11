@@ -1,14 +1,22 @@
-package servlets;
+package com.example.demo.servlets;
 
 import com.example.demo.service.impl.UserService;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+@Service
 public class LoginServlet extends HttpServlet {
-    UserService userService;
+    private UserService userService;
+
+    public LoginServlet(UserService userService) {
+        this.userService = userService;
+    }
+
+    public LoginServlet() {
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
