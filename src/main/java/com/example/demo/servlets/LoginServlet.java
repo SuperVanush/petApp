@@ -12,11 +12,11 @@ import javax.servlet.http.HttpSession;
 public class LoginServlet extends HttpServlet {
     private UserService userService;
 
-    public LoginServlet(UserService userService) {
-        this.userService = userService;
+    public LoginServlet() {
     }
 
-    public LoginServlet() {
+    public LoginServlet(UserService userService) {
+        this.userService = userService;
     }
 
     @Override

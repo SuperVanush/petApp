@@ -23,6 +23,7 @@ public class DaoConfiguration {
     public DataSource dataSource(Environment env) {
         HikariDataSource hikariDataSource = new HikariDataSource();
         hikariDataSource.setJdbcUrl(env.getProperty("jdbcUrl", "jdbc:postgresql://localhost:5432/postgres"));
+        hikariDataSource.setDriverClassName(env.getProperty("", "org.postgresql.Driver"));
         hikariDataSource.setUsername(env.getProperty("jdbcUserName", "postgres"));
         hikariDataSource.setPassword(env.getProperty("jdbcPassword", "5577166"));
         return hikariDataSource;
@@ -32,10 +33,7 @@ public class DaoConfiguration {
     public Liquibase liquibase(DataSource dataSource) throws Exception {
         DatabaseConnection connection = new JdbcConnection(dataSource.getConnection());
         Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection);
-        Liquibase liquibase = new Liquibase(
-                "db-liquibase-master.xml",
-                new ClassLoaderResourceAccessor(),
-                database);
+        Liquibase liquibase = new Liquibase("db-liquibase-master.xml", new ClassLoaderResourceAccessor(), database);
         liquibase.update(new Contexts());
         return liquibase;
     }

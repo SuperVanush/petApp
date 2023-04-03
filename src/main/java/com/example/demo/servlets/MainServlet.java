@@ -19,7 +19,7 @@ public class MainServlet extends HttpServlet {
             throws ServletException, IOException {
 
         ApplicationContext context = new AnnotationConfigApplicationContext(ServiceConfiguration.class);
-        context.getBean(UserService.class);
+        UserService userService = context.getBean(UserService.class);
 
         PrintWriter writer = response.getWriter();
         Integer userId = (Integer) request.getSession().getAttribute("userId");
