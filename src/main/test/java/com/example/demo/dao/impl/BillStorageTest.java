@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class BillStorageTest extends TestCase {
 
         Bill bill = new Bill();
         bill.setName("bill_qqq");
-        bill.setBalance(55);
+        bill.setBalance(BigDecimal.valueOf(55));
 
         User addedUser = userStorage.add(user);
         bill.setUser(addedUser);
@@ -56,7 +57,7 @@ public class BillStorageTest extends TestCase {
 
         Bill bill1 = new Bill();
         bill1.setName("billUser1");
-        bill1.setBalance(789);
+        bill1.setBalance(BigDecimal.valueOf(789));
 
         User addedUser1 = userStorage.add(user1);
         bill1.setUser(addedUser1);
@@ -77,7 +78,7 @@ public class BillStorageTest extends TestCase {
 
         Bill bill1 = new Bill();
         bill1.setName("BillUser1");
-        bill1.setBalance(55);
+        bill1.setBalance(BigDecimal.valueOf(55));
 
         User user2 = new User();
         user2.setName("User2");
@@ -85,7 +86,7 @@ public class BillStorageTest extends TestCase {
 
         Bill bill2 = new Bill();
         bill2.setName("BillUser2");
-        bill2.setBalance(999);
+        bill2.setBalance(BigDecimal.valueOf(999));
 
         User user3 = new User();
         user3.setName("User3");
@@ -93,7 +94,7 @@ public class BillStorageTest extends TestCase {
 
         Bill bill3 = new Bill();
         bill3.setName("BillUser3");
-        bill3.setBalance(777);
+        bill3.setBalance(BigDecimal.valueOf(777));
 
         User addedUser1 = userStorage.add(user1);
         bill1.setUser(addedUser1);

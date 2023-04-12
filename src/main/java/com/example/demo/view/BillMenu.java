@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
@@ -55,7 +56,7 @@ public class BillMenu {
         System.out.println("Input name of bill");
         String billName = in.next();
         System.out.println("Input bill balance");
-        int billBalance = in.nextInt();
+        BigDecimal billBalance = in.nextBigDecimal();
         billService.addBill(billName, billBalance, user);
     }
 }

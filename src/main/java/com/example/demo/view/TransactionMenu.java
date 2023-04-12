@@ -10,6 +10,7 @@ import com.example.demo.service.impl.TransferService;
 import com.example.demo.service.impl.UserService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -67,14 +68,14 @@ public class TransactionMenu {
 
     private void sumBalance(User lastUser) {
         int billId = getBillId(lastUser);
-        int sumDigit = in.nextInt();
+        BigDecimal sumDigit = in.nextBigDecimal();
         Bill bill = transferService.sumBalanceTransaction(billId, sumDigit);
         System.out.println(bill);
     }
 
     private void reduceBalance(User lastUser) {
         int billId = getBillId(lastUser);
-        int reduceDigit = in.nextInt();
+        BigDecimal reduceDigit = in.nextBigDecimal();
         try {
             Bill bill = transferService.reduceBalance(billId, reduceDigit);
             System.out.println(bill);
@@ -111,7 +112,7 @@ public class TransactionMenu {
         int toBillIndex = in.nextInt() - 1;
         System.out.println("Enter the transaction summa");
 
-        int transactionSumma = in.nextInt();
+        BigDecimal transactionSumma = in.nextBigDecimal();
         int idFromBill = billList.get(fromBillIndex).getId();
         int idToBill = billList.get(toBillIndex).getId();
         User toUser = lastUser;
@@ -175,7 +176,7 @@ public class TransactionMenu {
         int toToBillIndex = in.nextInt() - 1;
 
         System.out.println("Enter the transaction summa");
-        int transactionSumma = in.nextInt();
+        BigDecimal transactionSumma = in.nextBigDecimal();
 
         int idToBill = billListToUser.get(toToBillIndex).getId();
         transferService.transactionToBill(idFromBill, idToBill, transactionSumma);
@@ -198,7 +199,7 @@ public class TransactionMenu {
         try {
             int idFromBill = choiceFromBillId(lastUser);
             System.out.println("Enter the transaction summa");
-            int transactionSumma = in.nextInt();
+            BigDecimal transactionSumma = in.nextBigDecimal();
             List<Bill> billListToUser = billService.findBillsByUser(toUser);
             int idToBill = billListToUser.get((int) (billListToUser.size() * Math.random())).getId();
             transferService.transactionToBill(idFromBill, idToBill, transactionSumma);
@@ -236,7 +237,7 @@ public class TransactionMenu {
         for (Transfer transferInList : transferList) {
             String nameFromUser = userService.findUserById(transferInList.getIdFromUser()).getName();
             String nameFromBill = billService.findBillById(transferInList.getIdFromBill()).getName();
-            int sumTransaction = transferInList.getSumTransaction();
+            BigDecimal sumTransaction = transferInList.getSumTransaction();
             String nameToUser = userService.findUserById(transferInList.getIdToUser()).getName();
             String nameToBill = billService.findBillById(transferInList.getIdToBill()).getName();
             LocalDateTime timeDateTransaction = transferInList.getTimeDateTransaction();

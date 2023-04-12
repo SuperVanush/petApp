@@ -6,6 +6,7 @@ import com.example.demo.model.User;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class BillStorage implements StorageBill {
             String sql = "insert into bills (bill_name, bill_balance, user_id) VALUES (?,?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, bill.getName());
-            psmt.setInt(2, bill.getBalance());
+            psmt.setBigDecimal(2, bill.getBalance());
             psmt.setInt(3, bill.getUser().getId());
             int affectedRows = psmt.executeUpdate();
 
@@ -55,7 +56,7 @@ public class BillStorage implements StorageBill {
             while (resultSet.next()) {
                 int id = resultSet.getInt("bill_id");
                 String name = resultSet.getString("bill_name");
-                int balance = resultSet.getInt("bill_balance");
+                BigDecimal balance = resultSet.getBigDecimal("bill_balance");
                 int userId = resultSet.getInt("user_id");
                 User user = new User(userId);
                 Bill bill = new Bill(name, id, balance, user);
@@ -78,7 +79,7 @@ public class BillStorage implements StorageBill {
             while (resultSet.next()) {
                 int id = resultSet.getInt("bill_id");
                 String billname = resultSet.getString("bill_name");
-                int balance = resultSet.getInt("bill_balance");
+                BigDecimal balance = resultSet.getBigDecimal("bill_balance");
                 int userId = resultSet.getInt("user_id");
                 User user = new User(userId);
                 bill = new Bill(billname, id, balance, user);
@@ -91,12 +92,12 @@ public class BillStorage implements StorageBill {
 
     @Override
     public void updateBill(Bill bill) {
-        int balanceBill = bill.getBalance();
+        BigDecimal balanceBill = bill.getBalance();
         int idBill = bill.getId();
         try (Connection connection = dataSource.getConnection()) {
             String sqlReqest = "update bills set bill_balance = ? where bill_id = ?";
             PreparedStatement psmt = connection.prepareStatement(sqlReqest);
-            psmt.setInt(1, balanceBill);
+            psmt.setBigDecimal(1, balanceBill);
             psmt.setInt(2, idBill);
             psmt.executeUpdate();
         } catch (SQLException e) {

@@ -7,6 +7,7 @@ import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public void addBill(String billName, int billBalance, User user) {
+    public void addBill(String billName, BigDecimal billBalance, User user) {
         Bill bill = new Bill();
         bill.setName(billName);
         bill.setBalance(billBalance);

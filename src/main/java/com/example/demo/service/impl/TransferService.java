@@ -10,6 +10,7 @@ import com.example.demo.model.User;
 import com.example.demo.service.ServiceTransfer;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Transfer addTransfer(User lastUser, User toUser, int idFromBill,
-                                int idToBill, int transactionSumma) {
+                                int idToBill, BigDecimal transactionSumma) {
         Transfer transfer = new Transfer();
         transfer.setIdFromUser(lastUser.getId());
         transfer.setIdToUser(toUser.getId());
@@ -50,31 +51,31 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public Bill sumBalanceTransaction(int idBill, int sumDigit) {
+    public Bill sumBalanceTransaction(int idBill, BigDecimal sumDigit) {
         Bill bill = billStorage.findBillFromId(idBill);
-        int billBalance = bill.getBalance();
-        int sumBillBalance = billBalance + sumDigit;
+        BigDecimal billBalance = bill.getBalance();
+        BigDecimal sumBillBalance = billBalance.add(sumDigit);
         bill.setBalance(sumBillBalance);
         billStorage.updateBill(bill);
         return bill;
     }
 
     @Override
-    public Bill reduceBalance(int idBill, int reduceDigit) throws MyExceptionBill {
+    public Bill reduceBalance(int idBill, BigDecimal reduceDigit) throws MyExceptionBill {
         Bill bill = billStorage.findBillFromId(idBill);
-        int billBalance = bill.getBalance();
-        int reduceBillBalance = billBalance - reduceDigit;
-        if (reduceBillBalance < 0) {
-            throw new MyExceptionBill("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
-        } else {
+        BigDecimal billBalance = bill.getBalance();
+        BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
+        if (reduceBillBalance.compareTo(BigDecimal.ZERO) > 0) {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
+        } else {
+            throw new MyExceptionBill("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
         }
         return bill;
     }
 
     @Override
-    public void transactionToBill(int idFromBill, int idToBill, int transactionSumma) throws MyExceptionBill {
+    public void transactionToBill(int idFromBill, int idToBill, BigDecimal transactionSumma) throws MyExceptionBill {
         reduceBalance(idFromBill, transactionSumma);
         sumBalanceTransaction(idToBill, transactionSumma);
     }

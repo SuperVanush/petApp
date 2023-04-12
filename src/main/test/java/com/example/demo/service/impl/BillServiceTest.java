@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class BillServiceTest extends TestCase {
     public void test_AddBill_Ok() {
         Bill bill = new Bill();
         bill.setName("qqq");
-        bill.setBalance(123);
+        bill.setBalance(BigDecimal.valueOf(123));
         billStorage.add(bill);
         verify(billStorage).add(bill);
     }

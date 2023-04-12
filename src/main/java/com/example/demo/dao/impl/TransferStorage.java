@@ -5,6 +5,7 @@ import com.example.demo.model.Transfer;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class TransferStorage implements StorageTransfer {
             PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setInt(1, transfer.getIdFromUser());
             psmt.setInt(2, transfer.getIdFromBill());
-            psmt.setInt(3, transfer.getSumTransaction());
+            psmt.setBigDecimal(3, transfer.getSumTransaction());
             psmt.setInt(4, transfer.getIdToUser());
             psmt.setInt(5, transfer.getIdToBill());
             psmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
@@ -60,7 +61,7 @@ public class TransferStorage implements StorageTransfer {
             while (resultSet.next()) {
                 int idFromUser = resultSet.getInt("user_from_id");
                 int idFromBill = resultSet.getInt("bill_from_id");
-                int sumTransaction = resultSet.getInt("sum_transaction");
+                BigDecimal sumTransaction = resultSet.getBigDecimal("sum_transaction");
                 int idToUser = resultSet.getInt("user_to_id");
                 int idToBill = resultSet.getInt("bill_to_id");
                 Timestamp timeDateTransaction = resultSet.getTimestamp("time_date_transaction");

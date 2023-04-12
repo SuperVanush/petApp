@@ -1,36 +1,41 @@
 package com.example.demo.servlets;
 
-import javax.servlet.ServletException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainServlet extends HttpServlet {
 
+    private Map<String, Controller> controllers;
+    private ObjectMapper objectMapper;
+
+    public MainServlet() {
+        this.controllers = new HashMap<String, Controller>();
+        this.controllers.put("/login", new LoginController());
+
+        this.objectMapper = new ObjectMapper();
+    }
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        PrintWriter writer = response.getWriter(); //сделала первое меню,
-        writer.println("MENU");
-        writer.println("1. Registration");
-        writer.println("2. Entrance to the cabinet"); // дальше для того,
-                                                      // что бы понять правильно или нет, решила сначала вход в кабинет проверить
-        writer.println("3. Remove user");
-        writer.println("0. EXIT");
-        HttpSession sessionMenuNumber = request.getSession(); // назначила пункты меню
-        sessionMenuNumber.setAttribute("menuNumber", 1);
-        sessionMenuNumber.setAttribute("menuNumber", 2);
-        sessionMenuNumber.setAttribute("menuNumber", 3);
-        Integer numberOfChoice = (Integer) request.getSession().getAttribute("menuNumber");
-        if (numberOfChoice == 2) {                      // считывает в URL пункт, который мне надо
-                                                        // и кидает дальше на др. страничку
-            response.sendRedirect("/user");
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String uri = request.getRequestURI();
+        Controller controller = controllers.get(uri);
+        if (controller == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
-
+        try {
+            Object req = objectMapper.readValue(request.getInputStream(), controller.getRequestClass());
+            Object resp = controller.execute(req);
+            objectMapper.writeValue(response.getOutputStream(), resp);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(e.getMessage());
+        }
     }
 }
