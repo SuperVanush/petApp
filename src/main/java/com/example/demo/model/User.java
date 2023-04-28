@@ -1,10 +1,14 @@
 package com.example.demo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     private int id;
@@ -12,9 +16,6 @@ public class User {
     private String login;
     private String password;
     private List<Bill> bills;
-
-    public User() {
-    }
 
     public User(int id) {
         this.id = id;

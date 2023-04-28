@@ -7,14 +7,15 @@ public class LoginController implements
         Controller<LoginRequest, LoginResponse> {
     @Override
     public LoginResponse execute(LoginRequest request) {
-        if ("MMM".equals(request.getUsername())){
+
+        if ("Anna".equals(request.getUsername())) {
             return new LoginResponse(true);
         }
-        return null;
+        return new LoginResponse(false);
     }
 
     @Override
     public Class<LoginRequest> getRequestClass() {
-        return null;
+        return LoginRequest.class;
     }
 }

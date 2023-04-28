@@ -17,6 +17,7 @@ public class MainServlet extends HttpServlet {
     public MainServlet() {
         this.controllers = new HashMap<String, Controller>();
         this.controllers.put("/login", new LoginController());
+        this.controllers.put("/bill", new BillController());
 
         this.objectMapper = new ObjectMapper();
     }
@@ -32,6 +33,7 @@ public class MainServlet extends HttpServlet {
         try {
             Object req = objectMapper.readValue(request.getInputStream(), controller.getRequestClass());
             Object resp = controller.execute(req);
+            response.setContentType("application/json");
             objectMapper.writeValue(response.getOutputStream(), resp);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

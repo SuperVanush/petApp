@@ -1,27 +1,21 @@
 package com.example.demo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Bill {
 
     private String name;
     private int id;
     private BigDecimal balance;
     private User user;
-
-    public Bill() {
-    }
-
-    public Bill(String name, int id, BigDecimal balance, User user) {
-        this.name = name;
-        this.id = id;
-        this.balance = balance;
-        this.user = user;
-    }
 
     public Bill(String name, int id, BigDecimal balance) {
         this.name = name;

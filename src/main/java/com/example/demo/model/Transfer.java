@@ -1,12 +1,16 @@
 package com.example.demo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Transfer {
 
     private int id;
@@ -14,7 +18,7 @@ public class Transfer {
     private int idToUser;
     private int idFromBill;
     private int idToBill;
-    private BigDecimal sumTransaction ;
+    private BigDecimal sumTransaction;
     private LocalDateTime timeDateTransaction;
 
     public Transfer(int idFromUser, int idFromBill,
@@ -26,10 +30,6 @@ public class Transfer {
         this.sumTransaction = sumTransaction;
         this.timeDateTransaction = timeDateTransaction;
     }
-
-    public Transfer() {
-    }
-
 
     @Override
     public boolean equals(Object o) {
