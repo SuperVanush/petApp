@@ -1,13 +1,13 @@
 package com.example.demo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Data
+@Builder (toBuilder = true)
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bill {
@@ -16,12 +16,6 @@ public class Bill {
     private int id;
     private BigDecimal balance;
     private User user;
-
-    public Bill(String name, int id, BigDecimal balance) {
-        this.name = name;
-        this.id = id;
-        this.balance = balance;
-    }
 
     @Override
     public boolean equals(Object o) {

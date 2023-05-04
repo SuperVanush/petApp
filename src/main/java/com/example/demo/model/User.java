@@ -1,12 +1,13 @@
 package com.example.demo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Objects;
-@Data
+
+@Builder (toBuilder = true)
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -16,24 +17,6 @@ public class User {
     private String login;
     private String password;
     private List<Bill> bills;
-
-    public User(int id) {
-        this.id = id;
-    }
-
-    public User(int id, String name, String login) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-    }
-
-    public User(int id, String name, String login, String password) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.password = password;
-    }
-
 
     @Override
     public boolean equals(Object o) {
