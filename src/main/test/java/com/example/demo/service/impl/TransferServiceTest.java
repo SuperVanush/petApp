@@ -29,7 +29,7 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_addTransaction_Ok() {
-        Transfer transfer = new Transfer();
+        Transfer transfer = Transfer.builder().build();
         transfer.setIdFromUser(1);
         transfer.setIdFromBill(1);
         transfer.setIdToUser(2);
@@ -41,10 +41,10 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_findTransferByBillsId_ok() {
-        Transfer firstTransfer = new Transfer();
+        Transfer firstTransfer = Transfer.builder().build();
         firstTransfer.setIdFromBill(5);
 
-        Transfer secondTransfer = new Transfer();
+        Transfer secondTransfer = Transfer.builder().build();
         secondTransfer.setIdFromBill(11);
 
         List<Transfer> listTransfer = new ArrayList<>();
@@ -61,12 +61,12 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_findTransferByBillsId_not_find_transfer() {
-        Bill firstBill = new Bill();
+        Bill firstBill = Bill.builder().build();
         firstBill.setId(6);
-        Transfer firstTransfer = new Transfer();
+        Transfer firstTransfer = Transfer.builder().build();
         firstTransfer.setIdFromBill(firstBill.getId());
 
-        Bill secondBill = new Bill();
+        Bill secondBill = Bill.builder().build();
         secondBill.setId(2);
 
         List<Transfer> firstTransferList = new ArrayList<>();
@@ -80,7 +80,7 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_sumBalanceTransaction_Ok() {
-        Bill bill = new Bill();
+        Bill bill = Bill.builder().build();
         bill.setBalance(BigDecimal.valueOf(6));
         bill.setId(2);
         BigDecimal sumDigit = BigDecimal.valueOf(3);
@@ -92,7 +92,7 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_reduceBalance_Ok() {
-        Bill bill = new Bill();
+        Bill bill = Bill.builder().build();
         bill.setBalance(BigDecimal.valueOf(9));
         bill.setId(2);
         BigDecimal reduceBalance = BigDecimal.valueOf(2);

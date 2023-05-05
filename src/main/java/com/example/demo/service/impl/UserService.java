@@ -22,7 +22,7 @@ public class UserService implements ServiceUser {
 
     @Override
     public User addUser(String name, String login, String password) {
-        User user = new User();
+        User user = User.builder().build();
         user.setName(name);
         user.setLogin(login);
         user.setPassword(password);

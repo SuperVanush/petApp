@@ -25,7 +25,7 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_AddBill_Ok() {
-        Bill bill = new Bill();
+        Bill bill = Bill.builder().build();
         bill.setName("qqq");
         bill.setBalance(BigDecimal.valueOf(123));
         billStorage.add(bill);
@@ -34,12 +34,12 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_notFindBills() {
-        User firstUser = new User();
+        User firstUser = User.builder().build();
         firstUser.setId(5);
-        Bill billForFirstUser = new Bill();
+        Bill billForFirstUser = Bill.builder().build();
         billForFirstUser.setUser(firstUser);
 
-        User secondUser = new User();
+        User secondUser = User.builder().build();
         secondUser.setId(2);
 
         List<Bill> listBillFirstUser = new ArrayList<>();
@@ -52,14 +52,14 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_Ok() {
-        User firstUser = new User();
+        User firstUser = User.builder().build();
         firstUser.setId(5);
-        Bill billForFirstUser = new Bill();
+        Bill billForFirstUser = Bill.builder().build();
         billForFirstUser.setUser(firstUser);
 
-        User secondUser = new User();
+        User secondUser = User.builder().build();
         secondUser.setId(2);
-        Bill billForSecondUser = new Bill();
+        Bill billForSecondUser = Bill.builder().build();
         billForSecondUser.setUser(secondUser);
 
         List<Bill> listBillsFromDatabase = new ArrayList<>();

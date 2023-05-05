@@ -1,15 +1,15 @@
 package com.example.demo.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
 
-@Builder (toBuilder = true)
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
 
     private int id;
@@ -23,8 +23,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(password, user.password) &&
-                Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
+        return id == user.id && Objects.equals(name, user.name) && Objects.equals(password, user.password) && Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
     }
 
     @Override

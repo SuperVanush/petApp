@@ -29,11 +29,11 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void test_AddUser() {
-        User user = new User();
+        User user = User.builder().build();
         user.setName("qqq");
         user.setLogin("qqq");
 
-        User userFromDatabase = new User();
+        User userFromDatabase = User.builder().build();
         userFromDatabase.setLogin("qqq");
         userFromDatabase.setName("qqq");
         userFromDatabase.setPassword("qqq");
@@ -52,11 +52,11 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void test_FindUserByLogin_ok() {
-        User userByLogin = new User();
+        User userByLogin = User.builder().build();
         userByLogin.setId(1);
         userByLogin.setLogin("qqq");
 
-        Bill bill = new Bill();
+        Bill bill = Bill.builder().build();
         List<Bill> bills = new ArrayList<>();
         bills.add(0, bill);
 
@@ -68,7 +68,7 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void test_RemoveUser_Ok() {
-        User user = new User();
+        User user = User.builder().build();
         user.setLogin("ddd");
         user.setId(1);
 

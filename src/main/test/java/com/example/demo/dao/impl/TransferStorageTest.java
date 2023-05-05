@@ -34,7 +34,7 @@ public class TransferStorageTest extends TestCase {
 
     @Test
     public void testAddTransfer() {
-        Transfer transfer = new Transfer();
+        Transfer transfer = Transfer.builder().build();
         transfer.setId(2);
         transfer.setIdFromUser(20);
         transfer.setIdFromBill(2);
@@ -53,7 +53,7 @@ public class TransferStorageTest extends TestCase {
 
     @Test
     public void testGetListOfElements() {
-        Transfer firstTransfer = new Transfer();
+        Transfer firstTransfer = Transfer.builder().build();
         firstTransfer.setId(2);
         firstTransfer.setIdFromUser(20);
         firstTransfer.setIdFromBill(2);
@@ -62,7 +62,7 @@ public class TransferStorageTest extends TestCase {
         firstTransfer.setSumTransaction(BigDecimal.valueOf(100));
         firstTransfer.setTimeDateTransaction(LocalDateTime.now());
 
-        Transfer secondTransfer = new Transfer();
+        Transfer secondTransfer = Transfer.builder().build();
         secondTransfer.setId(3);
         secondTransfer.setIdFromUser(2);
         secondTransfer.setIdFromBill(3);
@@ -71,7 +71,7 @@ public class TransferStorageTest extends TestCase {
         secondTransfer.setSumTransaction(BigDecimal.valueOf(500));
         secondTransfer.setTimeDateTransaction(LocalDateTime.now());
 
-        Transfer thirdTransfer = new Transfer();
+        Transfer thirdTransfer = Transfer.builder().build();
         thirdTransfer.setId(4);
         thirdTransfer.setIdFromUser(11);
         thirdTransfer.setIdFromBill(1);

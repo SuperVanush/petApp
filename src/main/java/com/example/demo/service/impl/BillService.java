@@ -22,7 +22,7 @@ public class BillService implements ServiceBill {
 
     @Override
     public void addBill(String billName, BigDecimal billBalance, User user) {
-        Bill bill = new Bill();
+        Bill bill = Bill.builder().build();
         bill.setName(billName);
         bill.setBalance(billBalance);
         bill.setUser(user);

@@ -28,7 +28,7 @@ public class TransferService implements ServiceTransfer {
     @Override
     public Transfer addTransfer(User lastUser, User toUser, int idFromBill,
                                 int idToBill, BigDecimal transactionSumma) {
-        Transfer transfer = new Transfer();
+        Transfer transfer = Transfer.builder().build();
         transfer.setIdFromUser(lastUser.getId());
         transfer.setIdToUser(toUser.getId());
         transfer.setIdFromBill(idFromBill);

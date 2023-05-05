@@ -58,8 +58,8 @@ public class BillStorage implements StorageBill {
                 String name = resultSet.getString("bill_name");
                 BigDecimal balance = resultSet.getBigDecimal("bill_balance");
                 int userId = resultSet.getInt("user_id");
-                User user = new User(userId);
-                Bill bill = new Bill(name, id, balance, user);
+                User user = User.builder().id(userId).build();
+                Bill bill = Bill.builder().name(name).id(id).balance(balance).user(user).build();
                 billList.add(bill);
             }
         } catch (SQLException e) {
@@ -81,8 +81,9 @@ public class BillStorage implements StorageBill {
                 String billname = resultSet.getString("bill_name");
                 BigDecimal balance = resultSet.getBigDecimal("bill_balance");
                 int userId = resultSet.getInt("user_id");
-                User user = new User(userId);
-                bill = new Bill(billname, id, balance, user);
+                User user = User.builder().id(userId).build();
+                bill = Bill.builder().name(billname).id(id)
+                        .balance(balance).user(user).build();
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -30,7 +30,7 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testAddUser() {
-        User user = new User();
+        User user = User.builder().build();
         user.setLogin("User1");
         user.setName("User1");
 
@@ -41,7 +41,7 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testFindById() {
-        User user = new User();
+        User user = User.builder().build();
         user.setId(4);
         user.setName("Test_User_Name");
         user.setLogin("Test_User_Login");
@@ -53,7 +53,7 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testFindByLogin() {
-        User user = new User();
+        User user = User.builder().build();
         user.setId(10);
         user.setName("TestUserName");
         user.setLogin("TestUserLogin");
@@ -65,12 +65,12 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testGetListOfElements() {
-        User firstUser = new User();
+        User firstUser = User.builder().build();
         firstUser.setId(13);
         firstUser.setName("FirstUserName");
         firstUser.setLogin("FirstUserLogin");
 
-        User secondUser = new User();
+        User secondUser = User.builder().build();
         secondUser.setId(20);
         secondUser.setName("SecondUserName");
         secondUser.setLogin("SecondUserLogin");
@@ -87,17 +87,17 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testRemoveUser() {
-        User firstUser = new User();
+        User firstUser = User.builder().build();
         firstUser.setId(5);
         firstUser.setName("FirstUserName");
         firstUser.setLogin("FirstUserLogin");
 
-        User secondUser = new User();
+        User secondUser = User.builder().build();
         secondUser.setId(12);
         secondUser.setName("SecondUserName");
         secondUser.setLogin("SecondUserLogin");
 
-        User thirdUser = new User();
+        User thirdUser = User.builder().build();
         thirdUser.setId(9);
         thirdUser.setName("ThirdUserName");
         thirdUser.setLogin("ThirdUserLogin");

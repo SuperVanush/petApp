@@ -56,7 +56,7 @@ public class UserStorage implements StorageUser {
                 id = resultSet.getInt("user_id");
                 String name = resultSet.getString("user_name");
                 String login = resultSet.getString("login");
-                user = new User(id, name, login);
+                user = User.builder().id(id).name(name).login(login).build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class UserStorage implements StorageUser {
                 String name = resultSet.getString("user_name");
                 String userLogin = resultSet.getString("login");
                 String password = resultSet.getString("password");
-                user = new User(id, name, userLogin, password);
+                user = User.builder().id(id).name(name).login(userLogin).password(password).build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +97,7 @@ public class UserStorage implements StorageUser {
                 int id = resultSet.getInt("user_id");
                 String name = resultSet.getString("user_name");
                 String login = resultSet.getString("login");
-                User user = new User(id, name, login);
+                User user = User.builder().id(id).name(name).login(login).build();
                 userList.add(user);
             }
         } catch (SQLException e) {

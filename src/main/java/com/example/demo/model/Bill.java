@@ -5,11 +5,9 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Builder (toBuilder = true)
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Bill {
 
     private String name;
@@ -22,8 +20,7 @@ public class Bill {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bill bill = (Bill) o;
-        return id == bill.id && Objects.equals(name, bill.name) &&
-                Objects.equals(balance, bill.balance);
+        return id == bill.id && Objects.equals(name, bill.name) && Objects.equals(balance, bill.balance);
     }
 
     @Override

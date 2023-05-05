@@ -66,8 +66,9 @@ public class TransferStorage implements StorageTransfer {
                 int idToBill = resultSet.getInt("bill_to_id");
                 Timestamp timeDateTransaction = resultSet.getTimestamp("time_date_transaction");
                 LocalDateTime localDateTime = timeDateTransaction.toLocalDateTime();
-                Transfer transfer = new Transfer(idFromUser, idFromBill, idToUser, idToBill,
-                        sumTransaction, localDateTime);
+                Transfer transfer = Transfer.builder().id(idFromUser).idFromBill(idFromBill)
+                        .idToUser(idToUser).idToBill(idToBill).sumTransaction(sumTransaction)
+                        .timeDateTransaction(localDateTime).build();
                 transferList.add(transfer);
             }
         } catch (SQLException e) {
