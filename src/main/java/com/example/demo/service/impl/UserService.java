@@ -22,10 +22,11 @@ public class UserService implements ServiceUser {
 
     @Override
     public User addUser(String name, String login, String password) {
-        User user = User.builder().build();
-        user.setName(name);
-        user.setLogin(login);
-        user.setPassword(password);
+        User user = User.builder()
+                .name(name)
+                .login(login)
+                .password(password)
+                .build();
         user = userStorage.add(user);
         return user;
     }
@@ -44,7 +45,7 @@ public class UserService implements ServiceUser {
         User userById = userStorage.findById(idUser);
         if (userById != null) {
             List<Bill> bills = billService.findBillsByUser(userById);
-            userById.setBills(bills);
+            userById = User.builder().bills(bills).build();
         }
         return userById;
     }

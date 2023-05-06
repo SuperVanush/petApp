@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,23 +30,20 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_addTransaction_Ok() {
-        Transfer transfer = Transfer.builder().build();
-        transfer.setIdFromUser(1);
-        transfer.setIdFromBill(1);
-        transfer.setIdToUser(2);
-        transfer.setIdToBill(2);
-        transfer.setSumTransaction(BigDecimal.valueOf(500));
+        Transfer transfer = Transfer.builder()
+                .idFromUser(1).idFromBill(1)
+                .idToUser(2).idToBill(2)
+                .sumTransaction(BigDecimal.valueOf(500))
+                .timeDateTransaction(LocalDateTime.now()).build();
         transferStorage.add(transfer);
         verify(transferStorage).add(transfer);
     }
 
     @Test
     public void test_findTransferByBillsId_ok() {
-        Transfer firstTransfer = Transfer.builder().build();
-        firstTransfer.setIdFromBill(5);
+        Transfer firstTransfer = Transfer.builder().idFromBill(5).build();
 
-        Transfer secondTransfer = Transfer.builder().build();
-        secondTransfer.setIdFromBill(11);
+        Transfer secondTransfer = Transfer.builder().idFromBill(11).build();
 
         List<Transfer> listTransfer = new ArrayList<>();
         listTransfer.add(firstTransfer);
@@ -61,13 +59,11 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_findTransferByBillsId_not_find_transfer() {
-        Bill firstBill = Bill.builder().build();
-        firstBill.setId(6);
-        Transfer firstTransfer = Transfer.builder().build();
-        firstTransfer.setIdFromBill(firstBill.getId());
+        Bill firstBill = Bill.builder().id(6).build();
 
-        Bill secondBill = Bill.builder().build();
-        secondBill.setId(2);
+        Transfer firstTransfer = Transfer.builder().idFromBill(firstBill.getId()).build();
+
+        Bill secondBill = Bill.builder().id(2).build();
 
         List<Transfer> firstTransferList = new ArrayList<>();
         firstTransferList.add(firstTransfer);
@@ -80,9 +76,7 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_sumBalanceTransaction_Ok() {
-        Bill bill = Bill.builder().build();
-        bill.setBalance(BigDecimal.valueOf(6));
-        bill.setId(2);
+        Bill bill = Bill.builder().balance(BigDecimal.valueOf(6)).id(2).build();
         BigDecimal sumDigit = BigDecimal.valueOf(3);
         when(billStorage.findBillFromId(6)).thenReturn(bill);
         Bill returnBill = subj.sumBalanceTransaction(6, BigDecimal.valueOf(3));
@@ -92,9 +86,7 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_reduceBalance_Ok() {
-        Bill bill = Bill.builder().build();
-        bill.setBalance(BigDecimal.valueOf(9));
-        bill.setId(2);
+        Bill bill = Bill.builder().balance(BigDecimal.valueOf(9)).id(2).build();
         BigDecimal reduceBalance = BigDecimal.valueOf(2);
         when(billStorage.findBillFromId(2)).thenReturn(bill);
         Bill returnBill = subj.reduceBalance(2, reduceBalance);

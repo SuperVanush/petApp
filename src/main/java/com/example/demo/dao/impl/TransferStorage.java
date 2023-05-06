@@ -40,7 +40,8 @@ public class TransferStorage implements StorageTransfer {
             }
             try (ResultSet generatedKeys = psmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    transfer.setId(Math.toIntExact(generatedKeys.getLong(1)));
+                    transfer = Transfer.builder()
+                            .id(Math.toIntExact(generatedKeys.getLong(1))).build();
                 } else {
                     throw new SQLException("Creating transaction failed, no ID obtained.");
                 }
@@ -66,8 +67,10 @@ public class TransferStorage implements StorageTransfer {
                 int idToBill = resultSet.getInt("bill_to_id");
                 Timestamp timeDateTransaction = resultSet.getTimestamp("time_date_transaction");
                 LocalDateTime localDateTime = timeDateTransaction.toLocalDateTime();
-                Transfer transfer = Transfer.builder().id(idFromUser).idFromBill(idFromBill)
-                        .idToUser(idToUser).idToBill(idToBill).sumTransaction(sumTransaction)
+                Transfer transfer = Transfer.builder()
+                        .id(idFromUser).idFromBill(idFromBill)
+                        .idToUser(idToUser).idToBill(idToBill)
+                        .sumTransaction(sumTransaction)
                         .timeDateTransaction(localDateTime).build();
                 transferList.add(transfer);
             }

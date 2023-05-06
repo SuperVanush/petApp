@@ -29,14 +29,10 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void test_AddUser() {
-        User user = User.builder().build();
-        user.setName("qqq");
-        user.setLogin("qqq");
+        User user = User.builder().name("qqq").login("qqq").build();
 
-        User userFromDatabase = User.builder().build();
-        userFromDatabase.setLogin("qqq");
-        userFromDatabase.setName("qqq");
-        userFromDatabase.setPassword("qqq");
+        User userFromDatabase = User.builder()
+                .login("qqq").name("qqq").password("qqq").build();
 
         when(userStorage.add(user)).thenReturn(userFromDatabase);
         User userFromService = subj.addUser("qqq", "qqq", "qqq");
@@ -52,9 +48,7 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void test_FindUserByLogin_ok() {
-        User userByLogin = User.builder().build();
-        userByLogin.setId(1);
-        userByLogin.setLogin("qqq");
+        User userByLogin = User.builder().id(1).login("qqq").build();
 
         Bill bill = Bill.builder().build();
         List<Bill> bills = new ArrayList<>();
@@ -68,9 +62,7 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void test_RemoveUser_Ok() {
-        User user = User.builder().build();
-        user.setLogin("ddd");
-        user.setId(1);
+        User user = User.builder().login("ddd").id(1).build();
 
         when(subj.findUserByLogin("ddd")).thenReturn(user);
         userStorage.remove(1);

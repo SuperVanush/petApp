@@ -35,7 +35,8 @@ public class BillStorage implements StorageBill {
             }
             try (ResultSet generatedKeys = psmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    bill.setId(Math.toIntExact(generatedKeys.getLong(1)));
+                    bill = Bill.builder()
+                            .id(Math.toIntExact(generatedKeys.getLong(1))).build();
                 } else {
                     throw new SQLException("Creating bill failed, no ID obtained.");
                 }
@@ -58,8 +59,10 @@ public class BillStorage implements StorageBill {
                 String name = resultSet.getString("bill_name");
                 BigDecimal balance = resultSet.getBigDecimal("bill_balance");
                 int userId = resultSet.getInt("user_id");
-                User user = User.builder().id(userId).build();
-                Bill bill = Bill.builder().name(name).id(id).balance(balance).user(user).build();
+                User user = User.builder()
+                        .id(userId).build();
+                Bill bill = Bill.builder()
+                        .name(name).id(id).balance(balance).user(user).build();
                 billList.add(bill);
             }
         } catch (SQLException e) {
@@ -81,8 +84,10 @@ public class BillStorage implements StorageBill {
                 String billname = resultSet.getString("bill_name");
                 BigDecimal balance = resultSet.getBigDecimal("bill_balance");
                 int userId = resultSet.getInt("user_id");
-                User user = User.builder().id(userId).build();
-                bill = Bill.builder().name(billname).id(id)
+                User user = User.builder()
+                        .id(userId).build();
+                bill = Bill.builder()
+                        .name(billname).id(id)
                         .balance(balance).user(user).build();
             }
         } catch (SQLException e) {

@@ -33,7 +33,9 @@ public class UserStorage implements StorageUser {
             }
             try (ResultSet generatedKeysUser = psmt.getGeneratedKeys()) {
                 if (generatedKeysUser.next()) {
-                    user.setId(Math.toIntExact(generatedKeysUser.getLong(1)));
+                    user = User.builder()
+                            .id(Math.toIntExact(generatedKeysUser.getLong(1))).build();
+
                 } else {
                     throw new SQLException("Creating bill failed, no ID obtained.");
                 }
@@ -56,7 +58,8 @@ public class UserStorage implements StorageUser {
                 id = resultSet.getInt("user_id");
                 String name = resultSet.getString("user_name");
                 String login = resultSet.getString("login");
-                user = User.builder().id(id).name(name).login(login).build();
+                user = User.builder()
+                        .id(id).name(name).login(login).build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +80,8 @@ public class UserStorage implements StorageUser {
                 String name = resultSet.getString("user_name");
                 String userLogin = resultSet.getString("login");
                 String password = resultSet.getString("password");
-                user = User.builder().id(id).name(name).login(userLogin).password(password).build();
+                user = User.builder()
+                        .id(id).name(name).login(userLogin).password(password).build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +101,8 @@ public class UserStorage implements StorageUser {
                 int id = resultSet.getInt("user_id");
                 String name = resultSet.getString("user_name");
                 String login = resultSet.getString("login");
-                User user = User.builder().id(id).name(name).login(login).build();
+                User user = User.builder()
+                        .id(id).name(name).login(login).build();
                 userList.add(user);
             }
         } catch (SQLException e) {

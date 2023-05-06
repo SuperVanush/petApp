@@ -34,14 +34,11 @@ public class TransferStorageTest extends TestCase {
 
     @Test
     public void testAddTransfer() {
-        Transfer transfer = Transfer.builder().build();
-        transfer.setId(2);
-        transfer.setIdFromUser(20);
-        transfer.setIdFromBill(2);
-        transfer.setIdToUser(15);
-        transfer.setIdToBill(3);
-        transfer.setSumTransaction(BigDecimal.valueOf(100));
-        transfer.setTimeDateTransaction(LocalDateTime.now());
+        Transfer transfer = Transfer.builder()
+                .id(2).idFromUser(20).idFromBill(2)
+                .idToUser(15).idToBill(3)
+                .sumTransaction(BigDecimal.valueOf(100))
+                .timeDateTransaction(LocalDateTime.now()).build();
 
         List<Transfer> transferList = new ArrayList<>();
         transferList.add(transfer);
@@ -53,32 +50,23 @@ public class TransferStorageTest extends TestCase {
 
     @Test
     public void testGetListOfElements() {
-        Transfer firstTransfer = Transfer.builder().build();
-        firstTransfer.setId(2);
-        firstTransfer.setIdFromUser(20);
-        firstTransfer.setIdFromBill(2);
-        firstTransfer.setIdToUser(15);
-        firstTransfer.setIdToBill(3);
-        firstTransfer.setSumTransaction(BigDecimal.valueOf(100));
-        firstTransfer.setTimeDateTransaction(LocalDateTime.now());
+        Transfer firstTransfer = Transfer.builder()
+                .id(2).idFromUser(20).idFromBill(2)
+                .idToUser(15).idToBill(3)
+                .sumTransaction(BigDecimal.valueOf(100))
+                .timeDateTransaction(LocalDateTime.now()).build();
 
-        Transfer secondTransfer = Transfer.builder().build();
-        secondTransfer.setId(3);
-        secondTransfer.setIdFromUser(2);
-        secondTransfer.setIdFromBill(3);
-        secondTransfer.setIdToUser(5);
-        secondTransfer.setIdToBill(1);
-        secondTransfer.setSumTransaction(BigDecimal.valueOf(500));
-        secondTransfer.setTimeDateTransaction(LocalDateTime.now());
+        Transfer secondTransfer = Transfer.builder()
+                .id(3).idFromUser(2).idFromBill(3)
+                .idToUser(5).idToBill(1)
+                .sumTransaction(BigDecimal.valueOf(500))
+                .timeDateTransaction(LocalDateTime.now()).build();
 
-        Transfer thirdTransfer = Transfer.builder().build();
-        thirdTransfer.setId(4);
-        thirdTransfer.setIdFromUser(11);
-        thirdTransfer.setIdFromBill(1);
-        thirdTransfer.setIdToUser(2);
-        thirdTransfer.setIdToBill(3);
-        thirdTransfer.setSumTransaction(BigDecimal.valueOf(400));
-        thirdTransfer.setTimeDateTransaction(LocalDateTime.now());
+        Transfer thirdTransfer = Transfer.builder()
+                .id(4).idFromUser(11).idFromBill(1)
+                .idToUser(2).idToBill(3)
+                .sumTransaction(BigDecimal.valueOf(400))
+                .timeDateTransaction(LocalDateTime.now()).build();
 
         List<Transfer> transferList = new ArrayList<>();
         transferList.add(firstTransfer);

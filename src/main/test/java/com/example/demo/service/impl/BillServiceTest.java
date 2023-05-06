@@ -25,22 +25,19 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_AddBill_Ok() {
-        Bill bill = Bill.builder().build();
-        bill.setName("qqq");
-        bill.setBalance(BigDecimal.valueOf(123));
+        Bill bill = Bill.builder()
+                .name("qqq").balance(BigDecimal.valueOf(123)).build();
         billStorage.add(bill);
         verify(billStorage).add(bill);
     }
 
     @Test
     public void test_FindBillsByUser_notFindBills() {
-        User firstUser = User.builder().build();
-        firstUser.setId(5);
-        Bill billForFirstUser = Bill.builder().build();
-        billForFirstUser.setUser(firstUser);
+        User firstUser = User.builder().id(5).build();
+        Bill billForFirstUser = Bill.builder().user(firstUser).build();
 
-        User secondUser = User.builder().build();
-        secondUser.setId(2);
+
+        User secondUser = User.builder().id(2).build();
 
         List<Bill> listBillFirstUser = new ArrayList<>();
         listBillFirstUser.add(billForFirstUser);
@@ -52,15 +49,11 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_Ok() {
-        User firstUser = User.builder().build();
-        firstUser.setId(5);
-        Bill billForFirstUser = Bill.builder().build();
-        billForFirstUser.setUser(firstUser);
+        User firstUser = User.builder().id(5).build();
+        Bill billForFirstUser = Bill.builder().user(firstUser).build();
 
-        User secondUser = User.builder().build();
-        secondUser.setId(2);
-        Bill billForSecondUser = Bill.builder().build();
-        billForSecondUser.setUser(secondUser);
+        User secondUser = User.builder().id(2).build();
+        Bill billForSecondUser = Bill.builder().user(secondUser).build();
 
         List<Bill> listBillsFromDatabase = new ArrayList<>();
         listBillsFromDatabase.add(billForFirstUser);

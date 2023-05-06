@@ -32,16 +32,13 @@ public class BillStorageTest extends TestCase {
 
     @Test
     public void testAddBill() {
-        User user = User.builder().build();
-        user.setName("qqq");
-        user.setLogin("qqq");
+        User user = User.builder().name("qqq").login("qqq").build();
 
-        Bill bill = Bill.builder().build();
-        bill.setName("bill_qqq");
-        bill.setBalance(BigDecimal.valueOf(55));
+        Bill bill = Bill.builder().name("bill_qqq")
+                .balance(BigDecimal.valueOf(55)).build();
 
         User addedUser = userStorage.add(user);
-        bill.setUser(addedUser);
+        bill = Bill.builder().user(addedUser).build();
 
         Bill addedBill = subj.add(bill);
         Bill billFromBd = subj.findBillFromId(addedBill.getId());
@@ -51,16 +48,13 @@ public class BillStorageTest extends TestCase {
 
     @Test
     public void testGetListOfElements() {
-        User user1 = User.builder().build();
-        user1.setName("user1");
-        user1.setLogin("loginUser1");
+        User user1 = User.builder().name("user1").login("loginUser1").build();
 
-        Bill bill1 = Bill.builder().build();
-        bill1.setName("billUser1");
-        bill1.setBalance(BigDecimal.valueOf(789));
+        Bill bill1 = Bill.builder().name("billUser1")
+                .balance(BigDecimal.valueOf(789)).build();
 
         User addedUser1 = userStorage.add(user1);
-        bill1.setUser(addedUser1);
+        bill1 = Bill.builder().user(addedUser1).build();
 
         List<Bill> testBillList = new ArrayList<>();
         testBillList.add(bill1);
@@ -72,36 +66,27 @@ public class BillStorageTest extends TestCase {
 
     @Test
     public void testFindBillFromId() {
-        User user1 = User.builder().build();
-        user1.setName("User1");
-        user1.setLogin("LoginUser1");
+        User user1 = User.builder().name("User1").login("LoginUser1").build();
 
-        Bill bill1 = Bill.builder().build();
-        bill1.setName("BillUser1");
-        bill1.setBalance(BigDecimal.valueOf(55));
+        Bill bill1 = Bill.builder().name("BillUser1")
+                .balance(BigDecimal.valueOf(55)).build();
 
-        User user2 = User.builder().build();
-        user2.setName("User2");
-        user2.setLogin("LoginUser2");
+        User user2 = User.builder().name("User2").login("LoginUser2").build();
 
-        Bill bill2 = Bill.builder().build();
-        bill2.setName("BillUser2");
-        bill2.setBalance(BigDecimal.valueOf(999));
+        Bill bill2 = Bill.builder().name("BillUser2")
+                .balance(BigDecimal.valueOf(999)).build();
 
-        User user3 = User.builder().build();
-        user3.setName("User3");
-        user3.setLogin("LoginUser3");
+        User user3 = User.builder().name("User3").login("LoginUser3").build();
 
-        Bill bill3 = Bill.builder().build();
-        bill3.setName("BillUser3");
-        bill3.setBalance(BigDecimal.valueOf(777));
+        Bill bill3 = Bill.builder().name("BillUser3")
+                .balance(BigDecimal.valueOf(777)).build();
 
         User addedUser1 = userStorage.add(user1);
-        bill1.setUser(addedUser1);
+        bill1 = Bill.builder().user(addedUser1).build();
         User addedUser2 = userStorage.add(user2);
-        bill2.setUser(addedUser2);
+        bill2= Bill.builder().user(addedUser2).build();
         User addedUser3 = userStorage.add(user3);
-        bill3.setUser(addedUser3);
+        bill3 = Bill.builder().user(addedUser3).build();
 
         Bill addedBill1 = subj.add(bill1);
         Bill addedBill2 = subj.add(bill2);

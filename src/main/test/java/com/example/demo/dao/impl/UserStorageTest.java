@@ -30,9 +30,8 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testAddUser() {
-        User user = User.builder().build();
-        user.setLogin("User1");
-        user.setName("User1");
+        User user = User.builder()
+                .login("User1").name("User1").build();
 
         subj.add(user);
         User returnUser = subj.findById(user.getId());
@@ -41,11 +40,9 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testFindById() {
-        User user = User.builder().build();
-        user.setId(4);
-        user.setName("Test_User_Name");
-        user.setLogin("Test_User_Login");
-
+        User user = User.builder()
+                .id(4).name("Test_User_Name")
+                .login("Test_User_Login").build();
         subj.add(user);
         User findUser = subj.findById(user.getId());
         assertEquals(user.getName(), findUser.getName());
@@ -53,10 +50,9 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testFindByLogin() {
-        User user = User.builder().build();
-        user.setId(10);
-        user.setName("TestUserName");
-        user.setLogin("TestUserLogin");
+        User user = User.builder()
+                .id(10).name("TestUserName")
+                .login("TestUserLogin").build();
 
         subj.add(user);
         User returnUser = subj.findByLogin(user.getLogin());
@@ -65,15 +61,13 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testGetListOfElements() {
-        User firstUser = User.builder().build();
-        firstUser.setId(13);
-        firstUser.setName("FirstUserName");
-        firstUser.setLogin("FirstUserLogin");
+        User firstUser = User.builder()
+                .id(13).name("FirstUserName")
+                .login("FirstUserLogin").build();
 
-        User secondUser = User.builder().build();
-        secondUser.setId(20);
-        secondUser.setName("SecondUserName");
-        secondUser.setLogin("SecondUserLogin");
+        User secondUser = User.builder()
+                .id(20).name("SecondUserName")
+                .login("SecondUserLogin").build();
 
         List<User> userList = new ArrayList<>();
         userList.add(firstUser);
@@ -87,20 +81,17 @@ public class UserStorageTest extends TestCase {
 
     @Test
     public void testRemoveUser() {
-        User firstUser = User.builder().build();
-        firstUser.setId(5);
-        firstUser.setName("FirstUserName");
-        firstUser.setLogin("FirstUserLogin");
+        User firstUser = User.builder()
+                .id(5).name("FirstUserName")
+                .login("FirstUserLogin").build();
 
-        User secondUser = User.builder().build();
-        secondUser.setId(12);
-        secondUser.setName("SecondUserName");
-        secondUser.setLogin("SecondUserLogin");
+        User secondUser = User.builder()
+                .id(12).name("SecondUserName")
+                .login("SecondUserLogin").build();
 
-        User thirdUser = User.builder().build();
-        thirdUser.setId(9);
-        thirdUser.setName("ThirdUserName");
-        thirdUser.setLogin("ThirdUserLogin");
+        User thirdUser = User.builder()
+                .id(9).name("ThirdUserName")
+                .login("ThirdUserLogin").build();
 
         subj.add(firstUser);
         subj.add(secondUser);
