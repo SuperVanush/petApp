@@ -45,7 +45,7 @@ public class UserService implements ServiceUser {
         User userById = userStorage.findById(idUser);
         if (userById != null) {
             List<Bill> bills = billService.findBillsByUser(userById);
-            userById = User.builder().bills(bills).build();
+            userById.setBills(bills);
         }
         return userById;
     }

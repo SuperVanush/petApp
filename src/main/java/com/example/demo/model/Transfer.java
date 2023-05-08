@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @Builder
 @Getter
+@Setter
 public class Transfer {
 
     private int id;

@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Builder
 @Getter
+@Setter
 public class Bill {
 
     private String name;

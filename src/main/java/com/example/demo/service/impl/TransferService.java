@@ -28,7 +28,7 @@ public class TransferService implements ServiceTransfer {
     @Override
     public Transfer addTransfer(User lastUser, User toUser, int idFromBill, int idToBill, BigDecimal transactionSumma) {
         Transfer transfer = Transfer.builder()
-                .idFromBill(lastUser.getId())
+                .idFromUser(lastUser.getId())
                 .idToUser(toUser.getId())
                 .idFromBill(idFromBill)
                 .idToBill(idToBill)
@@ -55,7 +55,7 @@ public class TransferService implements ServiceTransfer {
         Bill bill = billStorage.findBillFromId(idBill);
         BigDecimal billBalance = bill.getBalance();
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
-        bill = Bill.builder().balance(sumBillBalance).build();
+        bill.setBalance(sumBillBalance);
         billStorage.updateBill(bill);
         return bill;
     }
@@ -66,7 +66,7 @@ public class TransferService implements ServiceTransfer {
         BigDecimal billBalance = bill.getBalance();
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
         if (reduceBillBalance.compareTo(BigDecimal.ZERO) > 0) {
-            bill = Bill.builder().balance(reduceBillBalance).build();
+            bill .setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
         } else {
             throw new MyExceptionBill("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
