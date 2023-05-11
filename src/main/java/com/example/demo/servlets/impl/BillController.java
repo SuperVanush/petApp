@@ -1,7 +1,8 @@
-package com.example.demo.servlets;
+package com.example.demo.servlets.impl;
 
-import com.example.demo.request.BillRequest;
-import com.example.demo.response.BillResponse;
+import com.example.demo.model.request.BillRequest;
+import com.example.demo.servlets.response.BillResponse;
+import com.example.demo.servlets.Controller;
 
 public class BillController implements Controller<BillResponse, BillRequest> {
 

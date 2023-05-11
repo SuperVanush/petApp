@@ -1,5 +1,7 @@
-package com.example.demo.servlets;
+package com.example.demo.servlets.impl;
 
+import com.example.demo.servlets.Controller;
+import com.example.demo.servlets.impl.LoginController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServlet;
@@ -17,7 +19,6 @@ public class MainServlet extends HttpServlet {
     public MainServlet() {
         this.controllers = new HashMap<String, Controller>();
         this.controllers.put("/login", new LoginController());
-        this.controllers.put("/bill", new BillController());
 
         this.objectMapper = new ObjectMapper();
     }

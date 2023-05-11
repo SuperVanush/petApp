@@ -1,7 +1,8 @@
-package com.example.demo.servlets;
+package com.example.demo.servlets.impl;
 
-import com.example.demo.request.LoginRequest;
-import com.example.demo.response.LoginResponse;
+import com.example.demo.model.request.LoginRequest;
+import com.example.demo.servlets.response.LoginResponse;
+import com.example.demo.servlets.Controller;
 
 public class LoginController implements
         Controller<LoginRequest, LoginResponse> {

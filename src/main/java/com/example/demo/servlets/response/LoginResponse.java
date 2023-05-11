@@ -1,5 +1,4 @@
-package com.example.demo.response;
-
+package com.example.demo.servlets.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +9,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class TransferResponse {
+public class LoginResponse {
     private boolean success;
+
 }
