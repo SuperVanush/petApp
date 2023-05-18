@@ -1,7 +1,6 @@
 package com.example.demo.dao.impl;
 
 import com.example.demo.model.Transfer;
-import com.example.demo.view.ViewConfig;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +25,7 @@ public class TransferStorageTest extends TestCase {
         System.setProperty("jdbcUrl", "jdbc:h2:mem:testDatabase");
         System.setProperty("jdbcUserName", "sa");
         System.setProperty("jdbcPassword", "");
-        ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext();
         subj = context.getBean(TransferStorage.class);
         userStorage = context.getBean(UserStorage.class);
         billStorage = context.getBean(BillStorage.class);

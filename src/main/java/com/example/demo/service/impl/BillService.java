@@ -5,6 +5,8 @@ import com.example.demo.exception.MyExceptionBill;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,13 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class BillService implements ServiceBill {
 
     private StorageBill billStorage;
-
-    public BillService(StorageBill billStorage) {
-        this.billStorage = billStorage;
-    }
 
     @Override
     public void addBill(String billName, BigDecimal billBalance, User user) {
@@ -45,7 +45,6 @@ public class BillService implements ServiceBill {
     }
 
     public Bill findBillById(int billId) {
-        Bill billById = billStorage.findBillFromId(billId);
-        return billById;
+        return billStorage.findBillFromId(billId);
     }
 }

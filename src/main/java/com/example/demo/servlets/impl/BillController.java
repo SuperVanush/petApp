@@ -1,18 +1,18 @@
 package com.example.demo.servlets.impl;
 
-import com.example.demo.model.request.BillRequest;
-import com.example.demo.servlets.response.BillResponse;
-import com.example.demo.servlets.Controller;
+import org.springframework.stereotype.Service;
 
-public class BillController implements Controller<BillResponse, BillRequest> {
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Service
+public class BillController extends HttpServlet {
 
     @Override
-    public BillRequest execute(BillResponse request) {
-        return null;
-    }
-
-    @Override
-    public Class<BillResponse> getRequestClass() {
-        return null;
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
     }
 }

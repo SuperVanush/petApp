@@ -2,7 +2,6 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.view.ViewConfig;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ public class BillStorageTest extends TestCase {
         System.setProperty("jdbcUrl", "jdbc:h2:mem:testDatabase");
         System.setProperty("jdbcUserName", "sa");
         System.setProperty("jdbcPassword", "");
-        ApplicationContext context = new AnnotationConfigApplicationContext(ViewConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext();
         subj = context.getBean(BillStorage.class);
         userStorage = context.getBean(UserStorage.class);
     }

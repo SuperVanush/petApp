@@ -8,6 +8,8 @@ import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceTransfer;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,15 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransferService implements ServiceTransfer {
 
     private TransferStorage transferStorage;
     private BillStorage billStorage;
-
-    public TransferService(TransferStorage transferStorage, BillStorage billStorage) {
-        this.transferStorage = transferStorage;
-        this.billStorage = billStorage;
-    }
 
     @Override
     public Transfer addTransfer(User lastUser, User toUser, int idFromBill, int idToBill, BigDecimal transactionSumma) {

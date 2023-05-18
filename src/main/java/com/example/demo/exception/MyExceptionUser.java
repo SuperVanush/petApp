@@ -6,6 +6,4 @@ public class MyExceptionUser extends RuntimeException {
         super(message);
     }
 
-    public MyExceptionUser() {
-    }
 }

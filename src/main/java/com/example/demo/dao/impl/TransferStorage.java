@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class TransferStorage implements StorageTransfer {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public TransferStorage(DataSource dataSource) {
         this.dataSource = dataSource;

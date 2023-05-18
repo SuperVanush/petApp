@@ -10,7 +10,7 @@ import java.util.List;
 public interface ServiceTransfer {
 
     Transfer addTransfer(User lastUser, User toUser, int idFromBill,
-                         int idToBill, BigDecimal transactionSumma);
+                     int idToBill, BigDecimal transactionSumma);
 
     Bill reduceBalance(int idBill, BigDecimal reduceDigit);
 
