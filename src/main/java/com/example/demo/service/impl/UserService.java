@@ -12,8 +12,8 @@ import java.util.List;
 @Service
 public class UserService implements ServiceUser {
 
-    private StorageUser userStorage;
-    private BillService billService;
+    private final StorageUser userStorage;
+    private final BillService billService;
 
     public UserService(StorageUser userStorage, BillService billService) {
         this.userStorage = userStorage;

@@ -6,7 +6,6 @@ import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,10 +14,9 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class BillService implements ServiceBill {
 
-    private StorageBill billStorage;
+    private final StorageBill billStorage;
 
     @Override
     public void addBill(String billName, BigDecimal billBalance, User user) {

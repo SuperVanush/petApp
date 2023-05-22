@@ -1,18 +1,27 @@
 package com.example.demo.servlets.impl;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.servlets.Controller;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-@Service
-public class BillController extends HttpServlet {
+public class BillController implements Controller {
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter writer = resp.getWriter();
+
+    }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+    public Object execute(Object request) {
+        return null;
+    }
+
+    @Override
+    public Class getRequestClass() {
+        return null;
     }
 }
