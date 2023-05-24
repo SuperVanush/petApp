@@ -3,13 +3,13 @@ package com.example.demo.model.dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Accessors(chain = true)
 public class TransferResponse {
-    private boolean success;
+    private String success;
 }

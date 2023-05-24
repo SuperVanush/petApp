@@ -31,7 +31,7 @@ public class BillStorageTest extends TestCase {
 
     @Test
     public void testAddBill() {
-        User user = User.builder().name("qqq").login("qqq").build();
+        User user = User.builder().username("qqq").login("qqq").build();
 
         Bill bill = Bill.builder().name("bill_qqq")
                 .balance(BigDecimal.valueOf(55)).build();
@@ -47,7 +47,7 @@ public class BillStorageTest extends TestCase {
 
     @Test
     public void testGetListOfElements() {
-        User user1 = User.builder().name("user1").login("loginUser1").build();
+        User user1 = User.builder().username("user1").login("loginUser1").build();
 
         Bill bill1 = Bill.builder().name("billUser1")
                 .balance(BigDecimal.valueOf(789)).build();
@@ -65,17 +65,17 @@ public class BillStorageTest extends TestCase {
 
     @Test
     public void testFindBillFromId() {
-        User user1 = User.builder().name("User1").login("LoginUser1").build();
+        User user1 = User.builder().username("User1").login("LoginUser1").build();
 
         Bill bill1 = Bill.builder().name("BillUser1")
                 .balance(BigDecimal.valueOf(55)).build();
 
-        User user2 = User.builder().name("User2").login("LoginUser2").build();
+        User user2 = User.builder().username("User2").login("LoginUser2").build();
 
         Bill bill2 = Bill.builder().name("BillUser2")
                 .balance(BigDecimal.valueOf(999)).build();
 
-        User user3 = User.builder().name("User3").login("LoginUser3").build();
+        User user3 = User.builder().username("User3").login("LoginUser3").build();
 
         Bill bill3 = Bill.builder().name("BillUser3")
                 .balance(BigDecimal.valueOf(777)).build();

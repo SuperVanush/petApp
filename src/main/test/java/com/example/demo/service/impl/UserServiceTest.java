@@ -29,10 +29,10 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void test_AddUser() {
-        User user = User.builder().name("qqq").login("qqq").build();
+        User user = User.builder().username("qqq").login("qqq").build();
 
         User userFromDatabase = User.builder()
-                .login("qqq").name("qqq").password("qqq").build();
+                .login("qqq").username("qqq").password("qqq").build();
 
         when(userStorage.add(user)).thenReturn(userFromDatabase);
         User userFromService = subj.addUser("qqq", "qqq", "qqq");

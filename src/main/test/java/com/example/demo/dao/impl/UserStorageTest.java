@@ -30,7 +30,7 @@ public class UserStorageTest extends TestCase {
     @Test
     public void testAddUser() {
         User user = User.builder()
-                .login("User1").name("User1").build();
+                .login("User1").username("User1").build();
 
         subj.add(user);
         User returnUser = subj.findById(user.getId());
@@ -40,17 +40,17 @@ public class UserStorageTest extends TestCase {
     @Test
     public void testFindById() {
         User user = User.builder()
-                .id(4).name("Test_User_Name")
+                .id(4).username("Test_User_Name")
                 .login("Test_User_Login").build();
         subj.add(user);
         User findUser = subj.findById(user.getId());
-        assertEquals(user.getName(), findUser.getName());
+        assertEquals(user.getUsername(), findUser.getUsername());
     }
 
     @Test
     public void testFindByLogin() {
         User user = User.builder()
-                .id(10).name("TestUserName")
+                .id(10).username("TestUserName")
                 .login("TestUserLogin").build();
 
         subj.add(user);
@@ -61,11 +61,11 @@ public class UserStorageTest extends TestCase {
     @Test
     public void testGetListOfElements() {
         User firstUser = User.builder()
-                .id(13).name("FirstUserName")
+                .id(13).username("FirstUserName")
                 .login("FirstUserLogin").build();
 
         User secondUser = User.builder()
-                .id(20).name("SecondUserName")
+                .id(20).username("SecondUserName")
                 .login("SecondUserLogin").build();
 
         List<User> userList = new ArrayList<>();
@@ -81,15 +81,15 @@ public class UserStorageTest extends TestCase {
     @Test
     public void testRemoveUser() {
         User firstUser = User.builder()
-                .id(5).name("FirstUserName")
+                .id(5).username("FirstUserName")
                 .login("FirstUserLogin").build();
 
         User secondUser = User.builder()
-                .id(12).name("SecondUserName")
+                .id(12).username("SecondUserName")
                 .login("SecondUserLogin").build();
 
         User thirdUser = User.builder()
-                .id(9).name("ThirdUserName")
+                .id(9).username("ThirdUserName")
                 .login("ThirdUserLogin").build();
 
         subj.add(firstUser);

@@ -5,25 +5,23 @@ import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements ServiceUser {
 
     private final StorageUser userStorage;
     private final BillService billService;
 
-    public UserService(StorageUser userStorage, BillService billService) {
-        this.userStorage = userStorage;
-        this.billService = billService;
-    }
 
     @Override
     public User addUser(String name, String login, String password) {
         User user = User.builder()
-                .name(name)
+                .username(name)
                 .login(login)
                 .password(password)
                 .build();

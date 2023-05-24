@@ -13,7 +13,7 @@ import java.util.Objects;
 public class User {
 
     private int id;
-    private String name;
+    private String username;
     private String login;
     private String password;
     private List<Bill> bills;
@@ -23,11 +23,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(password, user.password) && Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, bills);
+        return Objects.hash(id, username, login, bills);
     }
 }

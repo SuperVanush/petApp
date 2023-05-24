@@ -1,37 +1,31 @@
 package com.example.demo.servlets;
 
-import com.example.demo.servlets.impl.LoginController;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainServlet extends HttpServlet {
-    private final Map<String, Controller> controllers;
-    private final ObjectMapper objectMapper;
+
+    private final ObjectMapper objectMapper; // создаем объект для возможности конвертации в формат JSON
 
     public MainServlet() {
-        this.controllers = new HashMap<String, Controller>();
-        this.controllers.put("/login", new LoginController());
         this.objectMapper = new ObjectMapper();
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String uri = req.getRequestURI();
-        Controller controller = controllers.get(uri);
-        if (controller == null) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
+        ApplicationContext context = new AnnotationConfigApplicationContext(ServletConfiguration.class);
+        String uri = req.getRequestURI();// запрос uri (у меня /login)
+        Controller controller = context.getBean(uri, Controller.class); //создаем бин указанного uri (LoginController)
         try {
-            Object request = objectMapper.readValue(req.getInputStream(), controller.getRequestClass());
-            Object response = controller.execute(request);
-            resp.setContentType("application/json");
-            objectMapper.writeValue(resp.getOutputStream(), response);
+            Object request = objectMapper.readValue(req.getInputStream(), controller.getRequestClass());// получаем запрос
+            Object response = controller.execute(request);// обрабатывается запрос
+            resp.setContentType("application/json");//приведение к типу JSON
+            objectMapper.writeValue(resp.getOutputStream(), response);// выводится ответ
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write(e.getMessage());

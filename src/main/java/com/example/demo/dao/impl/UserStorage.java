@@ -23,7 +23,7 @@ public class UserStorage implements StorageUser {
         try (Connection connect = dataSource.getConnection()) {
             String sql = "insert into users ( user_name, login, password) VALUES (?,?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            psmt.setString(1, user.getName());
+            psmt.setString(1, user.getUsername());
             psmt.setString(2, user.getLogin());
             psmt.setString(3, user.getPassword());
             int affectedRowsUser = psmt.executeUpdate();
@@ -59,7 +59,7 @@ public class UserStorage implements StorageUser {
                 String name = resultSet.getString("user_name");
                 String login = resultSet.getString("login");
                 user = User.builder()
-                        .id(id).name(name).login(login).build();
+                        .id(id).username(name).login(login).build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class UserStorage implements StorageUser {
                 String userLogin = resultSet.getString("login");
                 String password = resultSet.getString("password");
                 user = User.builder()
-                        .id(id).name(name).login(userLogin).password(password).build();
+                        .id(id).username(name).login(userLogin).password(password).build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class UserStorage implements StorageUser {
                 String name = resultSet.getString("user_name");
                 String login = resultSet.getString("login");
                 User user = User.builder()
-                        .id(id).name(name).login(login).build();
+                        .id(id).username(name).login(login).build();
                 userList.add(user);
             }
         } catch (SQLException e) {
