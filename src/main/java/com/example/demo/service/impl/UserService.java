@@ -19,14 +19,18 @@ public class UserService implements ServiceUser {
 
 
     @Override
-    public User addUser(String name, String login, String password) {
+    public User addUser(String name, String login, String password) throws MyExceptionUser {
         User user = User.builder()
                 .username(name)
                 .login(login)
                 .password(password)
                 .build();
-        user = userStorage.add(user);
-        return user;
+        if (userStorage.findByLogin(login) != (null)) {
+            throw new MyExceptionUser("User with this login exist. Enter another login");
+        } else {
+            user = userStorage.add(user);
+            return user;
+        }
     }
 
     @Override

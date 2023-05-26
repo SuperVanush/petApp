@@ -10,5 +10,5 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class LoginResponse {
-    private String success;
+    private String error;
 }

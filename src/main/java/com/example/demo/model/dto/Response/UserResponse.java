@@ -9,8 +9,6 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class BillResponse {
-    private boolean success;
-    private String error;
-
+public class UserResponse {
+    private String success;
 }
