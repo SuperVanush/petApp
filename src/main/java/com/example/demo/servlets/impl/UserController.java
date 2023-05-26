@@ -9,28 +9,30 @@ import com.example.demo.servlets.Controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service("/login")
+@Service("/user") //сделала еще один адреc
 @AllArgsConstructor
-public class LoginController implements Controller<LoginRequest, LoginResponse> {
+public class UserController implements Controller<LoginRequest, LoginResponse> {
+    //когда имплементировала, сделала Дженериками LoginRequest, LoginResponse,
+    // потому, что мне нужны те же поля, что и в LoginController
     private final UserService userService;
 
     @Override
     public LoginResponse execute(LoginRequest request) {
+        String name = request.getName();
         String login = request.getLogin();
+        String password = request.getPassword();
         try {
             User findUser = userService.findUserByLogin(login);
-            return new LoginResponse("Hello      " + findUser.getUsername());
+            return new LoginResponse("User with login " + findUser.getLogin() + " already exist");
         } catch (MyExceptionUser exceptionUser) {
-            return new LoginResponse("Enter correct Login or Registration");
+            userService.addUser(name, login, password);
+            String loginAddedUser = userService.findUserByLogin(login).getLogin();
+            return new LoginResponse("User with login  " + loginAddedUser + "  added");
         }
     }
-
 
     @Override
     public Class<LoginRequest> getRequestClass() {
         return LoginRequest.class;
     }
 }
-
-
-

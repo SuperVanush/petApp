@@ -1,11 +1,13 @@
 package com.example.demo.model.dto.Response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 public class BillResponse {
     private boolean success;
