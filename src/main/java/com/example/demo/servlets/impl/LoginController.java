@@ -25,7 +25,6 @@ public class LoginController implements Controller<LoginRequest, LoginResponse> 
         }
     }
 
-
     @Override
     public Class<LoginRequest> getRequestClass() {
         return LoginRequest.class;

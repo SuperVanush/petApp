@@ -11,12 +11,12 @@ import java.io.IOException;
 
 public class MainServlet extends HttpServlet {
 
-    private final ObjectMapper objectMapper= new ObjectMapper(); // создаем объект для возможности конвертации в формат JSON
+    private final ObjectMapper objectMapper = new ObjectMapper(); // создаем объект для возможности конвертации в формат JSON
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ApplicationContext context = new AnnotationConfigApplicationContext(ServletConfiguration.class);
         String uri = req.getRequestURI();// запрос uri (у меня /login)
-        Controller <Object, Object> controller = context.getBean(uri, Controller.class); //создаем бин указанного uri (LoginController)
+        Controller<Object, Object> controller = context.getBean(uri, Controller.class); //создаем бин указанного uri (LoginController)
         try {
             Object request = objectMapper.readValue(req.getInputStream(), controller.getRequestClass());// получаем запрос
             Object response = controller.execute(request);// обрабатывается запрос

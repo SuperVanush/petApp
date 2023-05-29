@@ -17,20 +17,18 @@ public class UserService implements ServiceUser {
     private final StorageUser userStorage;
     private final BillService billService;
 
-
     @Override
-    public User addUser(String name, String login, String password) throws MyExceptionUser {
+    public User addUser(String name, String login, String password) {
+        if (userStorage.findByLogin(login) != (null)) {
+            throw new MyExceptionUser("User with this login exist. Enter another login");
+        }
         User user = User.builder()
                 .username(name)
                 .login(login)
                 .password(password)
                 .build();
-        if (userStorage.findByLogin(login) != (null)) {
-            throw new MyExceptionUser("User with this login exist. Enter another login");
-        } else {
-            user = userStorage.add(user);
-            return user;
-        }
+        user = userStorage.add(user);
+        return user;
     }
 
     @Override
