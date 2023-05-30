@@ -41,8 +41,4 @@ public class BillService implements ServiceBill {
         }
         return billsList;
     }
-
-    public Bill findBillById(int billId) {
-        return billStorage.findBillFromId(billId);
-    }
 }

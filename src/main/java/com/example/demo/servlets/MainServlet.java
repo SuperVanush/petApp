@@ -11,17 +11,17 @@ import java.io.IOException;
 
 public class MainServlet extends HttpServlet {
 
-    private final ObjectMapper objectMapper = new ObjectMapper(); // создаем объект для возможности конвертации в формат JSON
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ApplicationContext context = new AnnotationConfigApplicationContext(ServletConfiguration.class);
-        String uri = req.getRequestURI();// запрос uri (у меня /login)
-        Controller<Object, Object> controller = context.getBean(uri, Controller.class); //создаем бин указанного uri (LoginController)
+        String uri = req.getRequestURI();
+        Controller <Object, Object> controller = context.getBean(uri,Controller.class);
         try {
-            Object request = objectMapper.readValue(req.getInputStream(), controller.getRequestClass());// получаем запрос
-            Object response = controller.execute(request);// обрабатывается запрос
-            resp.setContentType("application/json");//приведение к типу JSON
-            objectMapper.writeValue(resp.getOutputStream(), response);// выводится ответ
+            Object request = objectMapper.readValue(req.getInputStream(), controller.getRequestClass());
+            Object response = controller.execute(request);
+            resp.setContentType("application/json");
+            objectMapper.writeValue(resp.getOutputStream(), response);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write(e.getMessage());

@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class BillRequest {
+@NoArgsConstructor
+public class PrintBillsRequest {
     private String billName;
     private String login;
     private BigDecimal balance;
