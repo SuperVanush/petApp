@@ -32,7 +32,7 @@ public class UserService implements ServiceUser {
     }
 
     @Override
-    public User findUserByLogin(String login) throws MyExceptionUser {
+    public User findUserByLogin(String login) {
         User userByLogin = userStorage.findByLogin(login);
         if (userByLogin == null) {
             throw new MyExceptionUser("User not found. Please enter other User");

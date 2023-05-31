@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
+@Accessors
 public class PrintBillsResponse {
-    private String success;
+    private String message;
 }

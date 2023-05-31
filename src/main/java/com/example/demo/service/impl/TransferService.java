@@ -3,7 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.impl.BillStorage;
 import com.example.demo.dao.impl.TransferStorage;
 import com.example.demo.exception.MyExceptionBill;
-import com.example.demo.exception.MyExceptionTransfer;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
@@ -36,7 +35,7 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public List<Transfer> findTransferByBillsId(int id) throws MyExceptionTransfer {
+    public List<Transfer> findTransferByBillsId(int id) {
         List<Transfer> transferListForReturn = new ArrayList<>();
         List<Transfer> transferList = transferStorage.getListOfElements();
         for (Transfer transferInList : transferList) {
@@ -58,7 +57,7 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public Bill reduceBalance(int idBill, BigDecimal reduceDigit) throws MyExceptionBill {
+    public Bill reduceBalance(int idBill, BigDecimal reduceDigit) {
         Bill bill = billStorage.findBillFromId(idBill);
         BigDecimal billBalance = bill.getBalance();
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);

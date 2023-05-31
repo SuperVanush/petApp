@@ -27,7 +27,7 @@ public class BillService implements ServiceBill {
     }
 
     @Override
-    public List<Bill> findBillsByUser(User findUser) throws MyExceptionBill {
+    public List<Bill> findBillsByUser(User findUser) {
         List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
         for (Bill billInList : billList) {

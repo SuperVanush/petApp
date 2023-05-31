@@ -1,6 +1,7 @@
 package com.example.demo.servlets.impl;
 
 import com.example.demo.exception.MyExceptionBill;
+import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.Request.PrintBillsRequest;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("/printbill")
+@Service("/print-bill")
 @Data
 @AllArgsConstructor
 public class PrintBillsController implements Controller<PrintBillsRequest, PrintBillsResponse> {
@@ -26,10 +27,15 @@ public class PrintBillsController implements Controller<PrintBillsRequest, Print
         String login = request.getLogin();
         try {
             User findUser = userService.findUserByLogin(login);
-            List<Bill> findUserBills = billService.findBillsByUser(findUser);
-            return new PrintBillsResponse("Bills for User  " + findUser.getUsername() + "  " + findUserBills);
-        } catch (MyExceptionBill e) {
-            return new PrintBillsResponse("Bills not Found");
+            try {
+                List<Bill> findUserBills = billService.findBillsByUser(findUser);
+                String findUserName = findUser.getUsername();
+                return new PrintBillsResponse("Bills for User  " + findUserName + "  " + findUserBills);
+            } catch (MyExceptionBill e) {
+                return new PrintBillsResponse(e.getMessage());
+            }
+        } catch (MyExceptionUser e) {
+            return new PrintBillsResponse(e.getMessage());
         }
     }
 
