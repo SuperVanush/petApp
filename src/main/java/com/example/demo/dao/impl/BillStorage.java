@@ -101,8 +101,8 @@ public class BillStorage implements StorageBill {
         BigDecimal balanceBill = bill.getBalance();
         int idBill = bill.getId();
         try (Connection connection = dataSource.getConnection()) {
-            String sqlReqest = "update bills set bill_balance = ? where bill_id = ?";
-            PreparedStatement psmt = connection.prepareStatement(sqlReqest);
+            String sqlRequest = "update bills set bill_balance = ? where bill_id = ?";
+            PreparedStatement psmt = connection.prepareStatement(sqlRequest);
             psmt.setBigDecimal(1, balanceBill);
             psmt.setInt(2, idBill);
             psmt.executeUpdate();

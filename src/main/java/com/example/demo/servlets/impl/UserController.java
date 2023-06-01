@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service("/user")
 @RequiredArgsConstructor
 public class UserController implements Controller<UserRequest, UserResponse> {
+
     private final UserService userService;
 
     @Override
@@ -19,6 +20,7 @@ public class UserController implements Controller<UserRequest, UserResponse> {
         String login = request.getLogin();
         String password = request.getPassword();
         User addedUser = userService.addUser(name, login, password);
+
         return new UserResponse("User with login  " + addedUser.getLogin() + "added");
     }
 

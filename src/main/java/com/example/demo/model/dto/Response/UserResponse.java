@@ -10,5 +10,6 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class UserResponse {
+
     private String success;
 }

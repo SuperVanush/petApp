@@ -11,8 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,18 +31,18 @@ public class TransferService implements ServiceTransfer {
                 .sumTransaction(transactionSumma)
                 .build();
         transferStorage.add(transfer);
+
         return transfer;
     }
 
     @Override
     public List<Transfer> findTransferByBillsId(int id) {
-        List<Transfer> transferListForReturn = new ArrayList<>();
         List<Transfer> transferList = transferStorage.getListOfElements();
-        for (Transfer transferInList : transferList) {
-            if (transferInList.getIdFromBill() == id) {
-                transferListForReturn.add(transferInList);
-            }
-        }
+        List<Transfer> transferListForReturn = transferList
+                .stream()
+                .filter(transfer -> id == transfer.getId())
+                .collect(Collectors.toList());
+
         return transferListForReturn;
     }
 
@@ -53,6 +53,7 @@ public class TransferService implements ServiceTransfer {
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
         bill.setBalance(sumBillBalance);
         billStorage.updateBill(bill);
+
         return bill;
     }
 
@@ -65,7 +66,7 @@ public class TransferService implements ServiceTransfer {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
         } else {
-            throw new MyExceptionBill("fufufu, TRY AGAIN YOUR BALANCE IS MINUS");
+            throw new MyExceptionBill("TRY AGAIN YOUR BALANCE IS MINUS");
         }
         return bill;
     }

@@ -19,6 +19,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class PrintBillsController implements Controller<PrintBillsRequest, PrintBillsResponse> {
+
     private final BillService billService;
     private final UserService userService;
 
@@ -27,14 +28,11 @@ public class PrintBillsController implements Controller<PrintBillsRequest, Print
         String login = request.getLogin();
         try {
             User findUser = userService.findUserByLogin(login);
-            try {
-                List<Bill> findUserBills = billService.findBillsByUser(findUser);
-                String findUserName = findUser.getUsername();
-                return new PrintBillsResponse("Bills for User  " + findUserName + "  " + findUserBills);
-            } catch (MyExceptionBill e) {
-                return new PrintBillsResponse(e.getMessage());
-            }
-        } catch (MyExceptionUser e) {
+            List<Bill> findUserBills = billService.findBillsByUser(findUser);
+            String findUserName = findUser.getUsername();
+            return new PrintBillsResponse("Bills for User  " + findUserName + "  " + findUserBills);
+        } catch (MyExceptionBill | MyExceptionUser e) {
+
             return new PrintBillsResponse(e.getMessage());
         }
     }

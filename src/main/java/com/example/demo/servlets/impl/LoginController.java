@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service("/login")
 @AllArgsConstructor
 public class LoginController implements Controller<LoginRequest, LoginResponse> {
+
     private final UserService userService;
 
     @Override

@@ -9,8 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -28,16 +28,14 @@ public class BillService implements ServiceBill {
 
     @Override
     public List<Bill> findBillsByUser(User findUser) {
-        List<Bill> billsList = new ArrayList<>();
         List<Bill> billList = billStorage.getListOfElements();
-        for (Bill billInList : billList) {
-            int idUser = findUser.getId();
-            if (billInList.getUser().getId() == idUser) {
-                billsList.add(billInList);
-            }
-        }
+        List<Bill> billsList = billList
+                .stream()
+                .filter(bill -> findUser.getId() == bill.getUser().getId())
+                .collect(Collectors.toList());
+
         if (billsList.isEmpty()) {
-            throw new MyExceptionBill("No Bills");
+            throw new MyExceptionBill("This user doesn't have bills");
         }
         return billsList;
     }

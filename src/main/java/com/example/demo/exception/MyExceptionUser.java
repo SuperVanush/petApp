@@ -5,5 +5,4 @@ public class MyExceptionUser extends RuntimeException {
     public MyExceptionUser(String message) {
         super(message);
     }
-
 }

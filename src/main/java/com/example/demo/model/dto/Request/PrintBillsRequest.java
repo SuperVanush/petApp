@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PrintBillsRequest {
+
     private String billName;
     private String login;
     private BigDecimal balance;

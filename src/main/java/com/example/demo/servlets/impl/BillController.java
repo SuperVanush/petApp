@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 @Service("/bill")
 @AllArgsConstructor
 public class BillController implements Controller<BillRequest, BillResponse> {
+
     private final UserService userService;
     private final BillService billService;
 

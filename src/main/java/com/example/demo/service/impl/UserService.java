@@ -28,6 +28,7 @@ public class UserService implements ServiceUser {
                 .password(password)
                 .build();
         user = userStorage.add(user);
+
         return user;
     }
 
@@ -55,6 +56,7 @@ public class UserService implements ServiceUser {
         User user = findUserByLogin(removeUserLogin);
         int idRemoveUser = user.getId();
         userStorage.remove(idRemoveUser);
+
         return idRemoveUser;
     }
 }
