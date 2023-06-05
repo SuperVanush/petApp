@@ -6,11 +6,11 @@ import com.example.demo.model.dto.request.LoginRequest;
 import com.example.demo.model.dto.response.LoginResponse;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service("/login")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginController implements Controller<LoginRequest, LoginResponse> {
 
     private final UserService userService;

@@ -22,7 +22,7 @@ public class MainServlet extends HttpServlet {
             Object request = objectMapper.readValue(req.getInputStream(), controller.getRequestClass());
             Object response = controller.execute(request);
             resp.setContentType("application/json");
-            objectMapper.writeValueAsString(response);
+            objectMapper.writeValue(resp.getOutputStream(), response);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write(e.getMessage());

@@ -8,14 +8,14 @@ import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service("/bill")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BillController implements Controller<BillRequest, BillResponse> {
 
     private final UserService userService;
