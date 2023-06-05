@@ -1,8 +1,8 @@
 package com.example.demo.servlets.impl;
 
 import com.example.demo.model.User;
-import com.example.demo.model.dto.Request.UserRequest;
-import com.example.demo.model.dto.Response.UserResponse;
+import com.example.demo.model.dto.request.UserRequest;
+import com.example.demo.model.dto.response.UserResponse;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
 import lombok.RequiredArgsConstructor;

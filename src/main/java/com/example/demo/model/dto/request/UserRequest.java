@@ -1,17 +1,15 @@
-package com.example.demo.model.dto.Request;
+package com.example.demo.model.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BillRequest {
+public class UserRequest {
 
-    private String billName;
+    private String name;
     private String login;
-    private BigDecimal balance;
+    private String password;
 }

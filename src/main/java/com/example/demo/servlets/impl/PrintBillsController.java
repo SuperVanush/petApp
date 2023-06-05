@@ -4,8 +4,8 @@ import com.example.demo.exception.MyExceptionBill;
 import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.Request.PrintBillsRequest;
-import com.example.demo.model.dto.Response.PrintBillsResponse;
+import com.example.demo.model.dto.request.PrintBillsRequest;
+import com.example.demo.model.dto.response.PrintBillsResponse;
 import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
@@ -25,15 +25,22 @@ public class PrintBillsController implements Controller<PrintBillsRequest, Print
 
     @Override
     public PrintBillsResponse execute(PrintBillsRequest request) {
+        PrintBillsResponse printBillsResponse;
         String login = request.getLogin();
         try {
             User findUser = userService.findUserByLogin(login);
             List<Bill> findUserBills = billService.findBillsByUser(findUser);
             String findUserName = findUser.getUsername();
-            return new PrintBillsResponse("Bills for User  " + findUserName + "  " + findUserBills);
-        } catch (MyExceptionBill | MyExceptionUser e) {
+            printBillsResponse = PrintBillsResponse.builder()
+                    .name(findUserName)
+                    .billList(findUserBills)
+                    .build();
 
-            return new PrintBillsResponse(e.getMessage());
+            return printBillsResponse;
+        } catch (MyExceptionBill | MyExceptionUser e) {
+            printBillsResponse = PrintBillsResponse
+                    .builder().message(e.getMessage()).build();
+            return printBillsResponse;
         }
     }
 

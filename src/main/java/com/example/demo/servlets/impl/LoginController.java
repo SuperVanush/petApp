@@ -2,8 +2,8 @@ package com.example.demo.servlets.impl;
 
 import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.Request.LoginRequest;
-import com.example.demo.model.dto.Response.LoginResponse;
+import com.example.demo.model.dto.request.LoginRequest;
+import com.example.demo.model.dto.response.LoginResponse;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
 import lombok.AllArgsConstructor;

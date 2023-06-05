@@ -1,15 +1,21 @@
-package com.example.demo.model.dto.Response;
+package com.example.demo.model.dto.response;
 
+import com.example.demo.model.Bill;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
+@Builder
 public class PrintBillsResponse {
 
+    private String name;
+    private List<Bill> billList;
     private String message;
+
 }
