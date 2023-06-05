@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 @Service("/bill")
@@ -20,6 +21,9 @@ public class BillController implements Controller<BillRequest, BillResponse> {
 
     private final UserService userService;
     private final BillService billService;
+
+    private final String SUCCESS_MESSAGE = "Success";
+    private final String ERROR_MESSAGE = "Enter correct Login or Registration";
 
     @Override
     public BillResponse execute(BillRequest request) {
@@ -30,10 +34,18 @@ public class BillController implements Controller<BillRequest, BillResponse> {
             User findUser = userService.findUserByLogin(userLogin);
             billService.addBill(billName, billBalance, findUser);
             List<Bill> billsFindUser = billService.findBillsByUser(findUser);
-            return new BillResponse("User " + "added bills  " + billsFindUser);
-        } catch (MyExceptionBill bill) {
-            return new BillResponse("Enter correct Login or Registration");
+            return getBillResponse(findUser.getUsername(), SUCCESS_MESSAGE, billsFindUser);
+        } catch (MyExceptionBill e) {
+            return getBillResponse(ERROR_MESSAGE, e.getMessage(), Collections.emptyList());
         }
+    }
+
+    private BillResponse getBillResponse(String userName, String message, List<Bill> billList) {
+        return BillResponse.builder()
+                .userName(userName)
+                .message(message)
+                .billList(billList)
+                .build();
     }
 
     @Override
