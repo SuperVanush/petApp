@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +11,29 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "username")
     private String username;
+    @Column(name = "login")
     private String login;
+    @Column(name = "password")
     private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "bills",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "user_id")
+
+
+    )
     private List<Bill> bills;
 
     @Override

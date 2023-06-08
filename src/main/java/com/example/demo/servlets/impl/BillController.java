@@ -19,11 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BillController implements Controller<BillRequest, BillResponse> {
 
+    private final static String SUCCESS_MESSAGE = "Success";
+    private final static String ERROR_MESSAGE = "Enter correct Login or Registration";
+
     private final UserService userService;
     private final BillService billService;
-
-    private final String SUCCESS_MESSAGE = "Success";
-    private final String ERROR_MESSAGE = "Enter correct Login or Registration";
 
     @Override
     public BillResponse execute(BillRequest request) {

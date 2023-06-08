@@ -19,11 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PrintBillsController implements Controller<PrintBillsRequest, PrintBillsResponse> {
 
+    private final static String SUCCESS_MESSAGE = "Success";
+    private final static String ERROR_MESSAGE = "Error";
+
     private final BillService billService;
     private final UserService userService;
-
-    private final String SUCCESS_MESSAGE = "Success";
-    private final String ERROR_MESSAGE = "Error";
 
     @Override
     public PrintBillsResponse execute(PrintBillsRequest request) {
@@ -32,17 +32,17 @@ public class PrintBillsController implements Controller<PrintBillsRequest, Print
             User findUser = userService.findUserByLogin(login);
             List<Bill> findUserBills = billService.findBillsByUser(findUser);
             String findUserName = findUser.getUsername();
-            return getResponse(findUserName, findUserBills, SUCCESS_MESSAGE);
+            return getResponse(findUserName, SUCCESS_MESSAGE, findUserBills);
         } catch (MyExceptionBill | MyExceptionUser e) {
-            return getResponse(ERROR_MESSAGE, Collections.emptyList(), e.getMessage());
+            return getResponse(ERROR_MESSAGE, e.getMessage(), Collections.emptyList());
         }
     }
 
-    private PrintBillsResponse getResponse(String name, List<Bill> billList, String message) {
+    private PrintBillsResponse getResponse(String name, String message, List<Bill> billList) {
         return PrintBillsResponse.builder()
                 .name(name)
-                .billList(billList)
                 .message(message)
+                .billList(billList)
                 .build();
     }
 

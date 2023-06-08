@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginController implements Controller<LoginRequest, LoginResponse> {
 
-    private final UserService userService;
+    private final static String SUCCESS_MESSAGE = "Success";
+    private final static String ERROR_MESSAGE = "Enter correct Login or Registration";
 
-    private final String SUCCESS_MESSAGE = "Success";
-    private final String ERROR_MESSAGE = "Enter correct Login or Registration";
+    private final UserService userService;
 
     @Override
     public LoginResponse execute(LoginRequest request) {

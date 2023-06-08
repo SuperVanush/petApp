@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -8,11 +9,21 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
+@Entity
+@Table(name = "bills")
 public class Bill {
 
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
+    private String name;
+    @Column(name = "balance")
     private BigDecimal balance;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private User user;
 
     @Override
