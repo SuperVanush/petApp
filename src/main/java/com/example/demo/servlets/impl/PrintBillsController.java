@@ -1,19 +1,5 @@
 package com.example.demo.servlets.impl;
 
-import com.example.demo.exception.MyExceptionBill;
-import com.example.demo.exception.MyExceptionUser;
-import com.example.demo.model.Bill;
-import com.example.demo.model.User;
-import com.example.demo.model.dto.request.PrintBillsRequest;
-import com.example.demo.model.dto.response.PrintBillsResponse;
-import com.example.demo.service.impl.BillService;
-import com.example.demo.service.impl.UserService;
-import com.example.demo.servlets.Controller;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service("/print-bill")
 @RequiredArgsConstructor

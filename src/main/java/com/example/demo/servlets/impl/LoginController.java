@@ -1,5 +1,6 @@
 package com.example.demo.servlets.impl;
 
+
 import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.LoginRequest;
@@ -42,6 +43,3 @@ public class LoginController implements Controller<LoginRequest, LoginResponse> 
         return LoginRequest.class;
     }
 }
-
-
-

@@ -1,16 +1,16 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Builder
-@Getter
 @Setter
+@Getter
 @Entity
 @Table(name = "users")
 public class User {
@@ -31,8 +31,6 @@ public class User {
             name = "bills",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "user_id")
-
-
     )
     private List<Bill> bills;
 
@@ -41,7 +39,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
+        return id == user.id
+                && Objects.equals(username, user.username)
+                && Objects.equals(password, user.password)
+                && Objects.equals(login, user.login)
+                && Objects.equals(bills, user.bills);
     }
 
     @Override

@@ -6,10 +6,10 @@ import com.example.demo.model.User;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class BillStorage implements StorageBill {
@@ -26,7 +26,6 @@ public class BillStorage implements StorageBill {
             String sql = "insert into bills (bill_name, bill_balance, user_id) VALUES (?,?,?)";
             PreparedStatement psmt = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psmt.setString(1, bill.getName());
-            psmt.setBigDecimal(2, bill.getBalance());
             psmt.setInt(3, bill.getUser().getId());
             int affectedRows = psmt.executeUpdate();
 
@@ -49,7 +48,7 @@ public class BillStorage implements StorageBill {
 
     @Override
     public List<Bill> getListOfElements() {
-        List<Bill> billList = new ArrayList<>();
+        List<Bill> billList = new ArrayList();
         try (Connection connection = dataSource.getConnection()) {
             Statement statement = connection.createStatement();
             String sql = "select * from bills left outer join users u on u.user_id = bills.user_id";

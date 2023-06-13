@@ -18,25 +18,25 @@ public class JpaConfiguration {
     @Bean
     public DataSource dataSource() {
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(System.getProperty("jdbc:postgresql://localhost:5432/postgres"));
-        ds.setUsername(System.getProperty("postgres"));
+        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
         ds.setDriverClassName("org.postgresql.Driver");
-        ds.setPassword(System.getProperty("5577166"));
+        ds.setUsername("postgres");
+        ds.setPassword("5577166");
 
         return ds;
     }
 
     @Bean
-    public EntityManager createEntityManager(javax.persistence.EntityManagerFactory entityManagerFactory) {
+    public EntityManager createEntityManager(EntityManagerFactory entityManagerFactory) {
         return entityManagerFactory.createEntityManager();
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactoryBean(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactoryBean(DataSource ds) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
+        entityManagerFactoryBean.setDataSource(ds);
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManagerFactoryBean.setPackagesToScan("com.example.demo.model");
+        entityManagerFactoryBean.setPackagesToScan("com.example.demo.model.entity");
 
         Properties jpaProperties = new Properties();
 
@@ -68,9 +68,8 @@ public class JpaConfiguration {
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory((jakarta.persistence.EntityManagerFactory) entityManagerFactory);
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
 
         return transactionManager;
     }
-
 }

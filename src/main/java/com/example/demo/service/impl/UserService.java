@@ -1,15 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.StorageUser;
-import com.example.demo.exception.MyExceptionUser;
-import com.example.demo.model.Bill;
-import com.example.demo.model.User;
-import com.example.demo.service.ServiceUser;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserService implements ServiceUser {
@@ -22,14 +12,14 @@ public class UserService implements ServiceUser {
         if (userStorage.findByLogin(login) != null) {
             throw new MyExceptionUser("User with this login exist. Enter another login");
         }
-        User user = User.builder()
-                .username(name)
-                .login(login)
-                .password(password)
-                .build();
-        user = userStorage.add(user);
+    //    User user = User.builder()
+     //           .username(name)
+    //            .login(login)
+     //           .password(password)
+     //           .build();
+     //   user = userStorage.add(user);
 
-        return user;
+        return null;
     }
 
     @Override
@@ -46,7 +36,7 @@ public class UserService implements ServiceUser {
         User userById = userStorage.findById(idUser);
         if (userById != null) {
             List<Bill> bills = billService.findBillsByUser(userById);
-            userById.setBills(bills);
+        //    userById.setBills(bills);
         }
         return userById;
     }
@@ -54,9 +44,9 @@ public class UserService implements ServiceUser {
     @Override
     public int removeUser(String removeUserLogin) {
         User user = findUserByLogin(removeUserLogin);
-        int idRemoveUser = user.getId();
-        userStorage.remove(idRemoveUser);
+   //     int idRemoveUser = user.getId();
+ //       userStorage.remove(idRemoveUser);
 
-        return idRemoveUser;
+        return 0;
     }
 }
