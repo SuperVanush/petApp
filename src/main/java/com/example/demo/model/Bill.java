@@ -1,16 +1,17 @@
 package com.example.demo.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Builder
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "bills")
 public class Bill {
@@ -19,13 +20,17 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "bill_name")
     private String name;
-    @Column(name = "balance")
+    @Column(name = "bill_balance")
     private BigDecimal balance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    )
     private User user;
 
     @Override

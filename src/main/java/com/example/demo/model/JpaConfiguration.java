@@ -17,13 +17,13 @@ public class JpaConfiguration {
 
     @Bean
     public DataSource dataSource() {
-        HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUsername("postgres");
-        ds.setPassword("5577166");
+        HikariDataSource hikariDataSource = new HikariDataSource();
+        hikariDataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
+        hikariDataSource.setDriverClassName("org.postgresql.Driver");
+        hikariDataSource.setUsername("postgres");
+        hikariDataSource.setPassword("5577166");
 
-        return ds;
+        return hikariDataSource;
     }
 
     @Bean
@@ -32,11 +32,11 @@ public class JpaConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactoryBean(DataSource ds) {
+    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactoryBean(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(ds);
+        entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManagerFactoryBean.setPackagesToScan("com.example.demo.model.entity");
+        entityManagerFactoryBean.setPackagesToScan("com.example.demo.entity");
 
         Properties jpaProperties = new Properties();
 
@@ -72,4 +72,6 @@ public class JpaConfiguration {
 
         return transactionManager;
     }
+
 }
+

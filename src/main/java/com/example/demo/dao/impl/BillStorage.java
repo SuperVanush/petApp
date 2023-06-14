@@ -6,10 +6,10 @@ import com.example.demo.model.User;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.awt.*;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BillStorage implements StorageBill {
@@ -48,7 +48,7 @@ public class BillStorage implements StorageBill {
 
     @Override
     public List<Bill> getListOfElements() {
-        List<Bill> billList = new ArrayList();
+        List<Bill> billList = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             Statement statement = connection.createStatement();
             String sql = "select * from bills left outer join users u on u.user_id = bills.user_id";
