@@ -42,7 +42,7 @@ public class JpaConfiguration {
 
         Properties jpaProperties = new Properties();
 
-        //Configures the used database dialect. This allows Hibernate to create SQL
+        ////Configures the used database dialect. This allows Hibernate to create SQL
         //that is optimized for the used database.
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
 
