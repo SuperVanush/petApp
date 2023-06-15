@@ -32,11 +32,13 @@ public class JpaConfiguration {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactoryBean(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
+    public LocalContainerEntityManagerFactoryBean
+    createLocalContainerEntityManagerFactoryBean(DataSource hikariDataSource) {
+        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =
+                new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactoryBean.setDataSource(hikariDataSource);
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManagerFactoryBean.setPackagesToScan("com.example.demo.entity");
+        entityManagerFactoryBean.setPackagesToScan("com.example.demo");
 
         Properties jpaProperties = new Properties();
 

@@ -5,13 +5,13 @@ import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceUser;
-import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Builder
+@RequiredArgsConstructor
 public class UserService implements ServiceUser {
 
     private final StorageUser userStorage;

@@ -5,7 +5,7 @@ import com.example.demo.exception.MyExceptionBill;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceBill;
-import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Builder
+@RequiredArgsConstructor
 public class BillService implements ServiceBill {
 
     private final StorageBill billStorage;

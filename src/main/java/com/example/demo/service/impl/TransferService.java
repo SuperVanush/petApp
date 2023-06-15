@@ -7,7 +7,7 @@ import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceTransfer;
-import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Builder
+@RequiredArgsConstructor
 public class TransferService implements ServiceTransfer {
 
     private final TransferStorage transferStorage;
