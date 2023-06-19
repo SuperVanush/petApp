@@ -6,18 +6,18 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "bills")
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bill_id")
     private int id;
 
     @Column(name = "bill_name")
@@ -25,12 +25,8 @@ public class Bill {
     @Column(name = "bill_balance")
     private BigDecimal balance;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "user_id")
     private User user;
 
     @Override

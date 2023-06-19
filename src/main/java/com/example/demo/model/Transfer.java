@@ -3,21 +3,34 @@ package com.example.demo.model;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Builder
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
+@Table(name = "transaction_history")
 public class Transfer {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transaction_id")
     private int id;
+
+    @Column(name = "user_from_id")
     private int idFromUser;
+    @Column(name = "user_to_id")
     private int idToUser;
+    @Column(name = "bill_from_id")
     private int idFromBill;
+    @Column(name = "bill_to_id")
     private int idToBill;
+    @Column(name = "sum_transaction")
     private BigDecimal sumTransaction;
+    @Column(name = "time_date_transaction")
     private LocalDateTime timeDateTransaction;
 
     @Override

@@ -6,18 +6,18 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-@Setter
-@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int id;
 
     @Column(name = "user_name")
@@ -27,12 +27,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "bills",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    )
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Bill> bills;
 
     @Override

@@ -12,7 +12,7 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JpaConfiguration.class);
         EntityManager em = context.getBean(EntityManager.class);
 
-        User user = em.find(User.class, 10);
-        System.out.println(user);
+        User user = em.find(User.class,10);
+        System.out.println("User name is  " + user.getUsername());
     }
 }
