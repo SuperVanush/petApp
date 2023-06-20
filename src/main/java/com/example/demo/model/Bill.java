@@ -12,6 +12,11 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Bill.findById", query = "select a from Bill a where a.id=:id"),
+        @NamedQuery(name = "Bill.updateBill", query = "update Bill a set a.balance =:balance where a.id = :id"),
+@NamedQuery(name= "Bill.getListOfElements", query = "select a from Bill a")
+})
 @Table(name = "bills")
 public class Bill {
 
@@ -26,7 +31,7 @@ public class Bill {
     private BigDecimal balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Override

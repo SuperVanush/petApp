@@ -12,6 +12,18 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "User.findById",
+                query = "select a from User a where a.id=:id"),
+        @NamedQuery(
+                name = "User.findByLogin",
+                query = "select a from User a where a.login=:login"),
+        @NamedQuery(
+                name = "User.remove",
+                query = "delete from User a where a.id=:id"
+        )
+})
 @Table(name = "users")
 public class User {
 
