@@ -5,7 +5,6 @@ import com.example.demo.model.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 public class Main {
 
@@ -13,15 +12,9 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JpaConfiguration.class);
         EntityManager entityManager= context.getBean(EntityManager.class);
 
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
 
-        User user = new User();
-        user.setUsername("Lev");
-        user.setLogin("LLL");
-        user.setPassword("lll");
-        entityManager.persist(user);
+        User user = entityManager.find(User.class, 10);
+        System.out.println(user.getUsername());
 
-        entityTransaction.commit();
     }
 }

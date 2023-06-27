@@ -21,8 +21,10 @@ import java.util.Objects;
                 query = "select a from User a where a.login=:login"),
         @NamedQuery(
                 name = "User.remove",
-                query = "delete from User a where a.id=:id"
-        )
+                query = "delete from User a where a.id=:id"),
+        @NamedQuery(
+                name = "User.getListOfElements",
+                query = "select a from User a")
 })
 @Table(name = "users")
 public class User {

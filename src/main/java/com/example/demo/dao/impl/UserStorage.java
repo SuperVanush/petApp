@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @Data
 public class UserStorage implements StorageUser {
-    private UserService userService;
+    private final UserService userService;
     EntityManager entityManager;
     EntityTransaction entityTransaction;
 
@@ -49,7 +49,9 @@ public class UserStorage implements StorageUser {
 
     @Override
     public List<User> getListOfElements() {
-        return null;
+        List<User> userList = entityManager.createNamedQuery("User.getListOfElements", User.class)
+                .getResultList();
+        return userList;
     }
 
     @Override

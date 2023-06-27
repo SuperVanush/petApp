@@ -1,20 +1,20 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.StorageUser;
+import com.example.demo.dao.impl.UserStorage;
 import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.service.ServiceUser;
-import lombok.RequiredArgsConstructor;
+import lombok.Builder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@Builder
 public class UserService implements ServiceUser {
 
-    private final StorageUser userStorage;
+    private final UserStorage userStorage;
     private final BillService billService;
 
     @Override
