@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.dao;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +15,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan
+
 public class JpaConfiguration {
 
     @Bean

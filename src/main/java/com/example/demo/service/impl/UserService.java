@@ -28,7 +28,6 @@ public class UserService implements ServiceUser {
                 .password(password)
                 .build();
         user = userStorage.add(user);
-
         return user;
     }
 

@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.model.JpaConfiguration;
+import com.example.demo.dao.JpaConfiguration;
 import com.example.demo.model.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

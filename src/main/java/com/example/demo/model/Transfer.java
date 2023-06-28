@@ -16,6 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "transaction_history")
 public class Transfer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")

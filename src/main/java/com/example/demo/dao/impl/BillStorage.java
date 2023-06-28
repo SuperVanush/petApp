@@ -2,8 +2,7 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageBill;
 import com.example.demo.model.Bill;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -12,12 +11,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
 public class BillStorage implements StorageBill {
 
     EntityManager entityManager;
     EntityTransaction entityTransaction;
+
+    public BillStorage(@Qualifier("createEntityManager") EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public Bill add(Bill bill) {
@@ -34,17 +35,15 @@ public class BillStorage implements StorageBill {
 
     @Override
     public List<Bill> getListOfElements() {
-        List<Bill> billList = entityManager.createNamedQuery("Bill.getListOfElements", Bill.class)
+        return entityManager.createNamedQuery("Bill.getListOfElements", Bill.class)
                 .getResultList();
-        return billList;
     }
 
     @Override
     public Bill findBillFromId(int idBill) {
-        Bill bill = entityManager.createNamedQuery("Bill.findById", Bill.class)
-                .setParameter(idBill, Integer.valueOf(idBill))
+        return entityManager.createNamedQuery("Bill.findById", Bill.class)
+                .setParameter(idBill, idBill)
                 .getSingleResult();
-        return bill;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class BillStorage implements StorageBill {
         BigDecimal balanceBill = bill.getBalance();
         int idBill = bill.getId();
         int update = entityManager.createNamedQuery("Bill.updateBill", Bill.class)
-                .setParameter(idBill, Integer.valueOf(idBill))
+                .setParameter(idBill, idBill)
                 .executeUpdate();
     }
 }
