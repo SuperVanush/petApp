@@ -19,7 +19,8 @@ public class UserService implements ServiceUser {
 
     @Override
     public User addUser(String name, String login, String password) {
-        try{userStorage.findByLogin(login)}{
+        User findUserByLogin = userStorage.findByLogin(login);
+        if (findUserByLogin != null) {
             throw new MyExceptionUser("User with this login exist. Enter another login");
         }
         User user = User.builder()
