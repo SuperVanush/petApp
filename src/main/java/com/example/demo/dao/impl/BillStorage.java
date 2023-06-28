@@ -2,28 +2,22 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageBill;
 import com.example.demo.model.Bill;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BillStorage implements StorageBill {
 
-    EntityManager entityManager;
-    EntityTransaction entityTransaction;
-
-    public BillStorage(@Qualifier("createEntityManager") EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private final EntityManager entityManager;
 
     @Override
     public Bill add(Bill bill) {
-        entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
+        entityManager.getTransaction().begin();
 
         bill.setName(bill.getName());
         bill.setBalance(bill.getBalance());

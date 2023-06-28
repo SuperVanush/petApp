@@ -2,34 +2,27 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageUser;
 import com.example.demo.model.User;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.util.List;
 
 @Service
-
+@RequiredArgsConstructor
 public class UserStorage implements StorageUser {
 
-    EntityManager entityManager;
-    EntityTransaction entityTransaction;
-
-    public UserStorage(@Qualifier("createEntityManager") EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private final EntityManager entityManager;
 
     @Override
     public User add(User user) {
-        entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
+        entityManager.getTransaction().begin();
 
         user.setUsername(user.getUsername());
         user.setLogin(user.getLogin());
         user.setPassword(user.getPassword());
         entityManager.persist(user);
-
+        entityManager.getTransaction().commit();
         return user;
     }
 
