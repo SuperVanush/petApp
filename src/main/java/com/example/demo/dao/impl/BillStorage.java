@@ -2,8 +2,8 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageBill;
 import com.example.demo.model.Bill;
-import com.example.demo.service.impl.BillService;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -12,9 +12,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BillStorage implements StorageBill {
-    private BillService billService;
+
     EntityManager entityManager;
     EntityTransaction entityTransaction;
 
