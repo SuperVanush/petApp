@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserStorage implements StorageUser {
+public class UserStorage implements StorageUser  {
 
     private final EntityManager entityManager;
 
@@ -27,14 +28,14 @@ public class UserStorage implements StorageUser {
     }
 
     @Override
-    public User findById(int id) {
-        return entityManager.createNamedQuery("User.findById", User.class).setParameter(id, id).getSingleResult();
+    public  User findById(int id)  {
+        return entityManager.createNamedQuery("User.findById", User.class).setParameter(id, id).getResultList().stream().findAny().get();
     }
 
     @Override
-    public User findByLogin(String login) {
-        return entityManager.createNamedQuery("User.findByLogin", User.class).setParameter("login", login).getSingleResult();
-    }
+    public Optional <User> findByLogin(String login)  {
+            return entityManager.createNamedQuery("User.findByLogin", User.class).setParameter("login", login).getResultList().stream().findAny();
+        }
 
     @Override
     public List<User> getListOfElements() {

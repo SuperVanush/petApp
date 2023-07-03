@@ -3,6 +3,7 @@ package com.example.demo.dao;
 import com.example.demo.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StorageUser {
 
@@ -10,7 +11,7 @@ public interface StorageUser {
 
     User findById(int id);
 
-    User findByLogin(String login);
+    Optional<User> findByLogin(String login);
 
     List<User> getListOfElements();
 

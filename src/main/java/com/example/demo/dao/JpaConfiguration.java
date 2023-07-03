@@ -18,14 +18,18 @@ import java.util.Properties;
 
 public class JpaConfiguration {
 
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String DB_DRIVER = "org.postgresql.Driver";
+    private static final String DB_USERNAME = "postgres";
+    private static final String DB_PASS = "5577166";
+
     @Bean
     public DataSource dataSource() {
         HikariDataSource hikariDataSource = new HikariDataSource();
-        hikariDataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-        hikariDataSource.setDriverClassName("org.postgresql.Driver");
-        hikariDataSource.setUsername("postgres");
-        hikariDataSource.setPassword("5577166");
-
+        hikariDataSource.setJdbcUrl(DB_URL);
+        hikariDataSource.setDriverClassName(DB_DRIVER);
+        hikariDataSource.setUsername(DB_USERNAME);
+        hikariDataSource.setPassword(DB_PASS);
         return hikariDataSource;
     }
 

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +20,7 @@ public class UserService implements ServiceUser {
 
     @Override
     public User addUser(String name, String login, String password) {
-        User findUserByLogin = userStorage.findByLogin(login);
-        if (findUserByLogin != null) {
+        if (userStorage.findByLogin(login).isPresent()) {
             throw new MyExceptionUser("User with this login exist. Enter another login");
         }
         User user = User.builder()
@@ -29,16 +29,18 @@ public class UserService implements ServiceUser {
                 .password(password)
                 .build();
         user = userStorage.add(user);
+
         return user;
     }
 
+
     @Override
     public User findUserByLogin(String login) {
-        User userByLogin = userStorage.findByLogin(login);
+        Optional <User> userByLogin = userStorage.findByLogin(login);
         if (userByLogin == null) {
             throw new MyExceptionUser("User not found. Please enter other User");
         }
-        return userByLogin;
+        return userByLogin.get();
     }
 
     @Override
