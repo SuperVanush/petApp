@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginController implements Controller<LoginRequest, LoginResponse> {
 
-    private final static String SUCCESS_MESSAGE = "Success";
+    private final static String SUCCESS_MESSAGE = "Hello";
     private final static String ERROR_MESSAGE = "Enter correct Login or Registration";
 
     private final UserService userService;

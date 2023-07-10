@@ -15,9 +15,9 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-@Service("/bill")
+@Service("/add-bill")
 @RequiredArgsConstructor
-public class BillController implements Controller<BillRequest, BillResponse> {
+public class AddBillController implements Controller<BillRequest, BillResponse> {
 
     private final static String SUCCESS_MESSAGE = "Success";
     private final static String ERROR_MESSAGE = "Enter correct Login or Registration";

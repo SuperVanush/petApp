@@ -8,7 +8,7 @@ import com.example.demo.servlets.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service("/user")
+@Service("/add-user")
 @RequiredArgsConstructor
 public class UserController implements Controller<UserRequest, UserResponse> {
 

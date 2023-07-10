@@ -39,9 +39,10 @@ public class PrintBillsController implements Controller<PrintBillsRequest, Print
         }
     }
 
-    private PrintBillsResponse getResponse(String name, String message, List<Bill> billList) {
+    private PrintBillsResponse getResponse(String userName, String message, List<Bill> billList) {
+
         return PrintBillsResponse.builder()
-                .name(name)
+                .name(userName)
                 .message(message)
                 .billList(billList)
                 .build();

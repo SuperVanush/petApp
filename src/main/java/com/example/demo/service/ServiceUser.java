@@ -8,7 +8,7 @@ public interface ServiceUser {
 
     User findUserByLogin(String login);
 
-    int removeUser(String login);
+    User removeUser(String login);
 
     User findUserById(int idUser);
 

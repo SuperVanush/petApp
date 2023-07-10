@@ -7,7 +7,7 @@ import com.example.demo.servlets.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service("/remove")
+@Service("/remove-user")
 @RequiredArgsConstructor
 public class RemoveUserController implements Controller<UserRequest, UserResponse> {
 

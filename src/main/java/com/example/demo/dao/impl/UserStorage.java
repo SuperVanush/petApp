@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserStorage implements StorageUser  {
+public class UserStorage implements StorageUser {
 
     private final EntityManager entityManager;
 
@@ -28,14 +28,16 @@ public class UserStorage implements StorageUser  {
     }
 
     @Override
-    public  User findById(int id)  {
-        return entityManager.createNamedQuery("User.findById", User.class).setParameter(id, id).getResultList().stream().findAny().get();
+    public User findById(int id) {
+        return entityManager.createNamedQuery("User.findById", User.class)
+                .setParameter(id, id).getResultList().stream().findAny().get();
     }
 
     @Override
-    public Optional <User> findByLogin(String login)  {
-            return entityManager.createNamedQuery("User.findByLogin", User.class).setParameter("login", login).getResultList().stream().findAny();
-        }
+    public Optional<User> findByLogin(String login) {
+        return entityManager.createNamedQuery("User.findByLogin", User.class)
+                .setParameter("login", login).getResultList().stream().findFirst();
+    }
 
     @Override
     public List<User> getListOfElements() {
@@ -43,7 +45,9 @@ public class UserStorage implements StorageUser  {
     }
 
     @Override
-    public void remove(int id) {
-        int update = entityManager.createNamedQuery("User.remove", User.class).setParameter(id, id).executeUpdate();
+    public void remove(User user) {
+        entityManager.getTransaction().begin();
+        entityManager.remove(user);
+        entityManager.getTransaction().commit();
     }
 }

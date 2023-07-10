@@ -14,8 +14,7 @@ import java.util.List;
 @Builder
 public class BillResponse {
 
-    private String userName;
     private String message;
+    private String userName;
     private List<Bill> billList;
-
 }

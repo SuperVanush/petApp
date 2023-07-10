@@ -15,5 +15,5 @@ public interface StorageUser {
 
     List<User> getListOfElements();
 
-    void remove(int id);
+    void remove(User user);
 }

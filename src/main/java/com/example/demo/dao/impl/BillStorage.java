@@ -23,6 +23,7 @@ public class BillStorage implements StorageBill {
         bill.setBalance(bill.getBalance());
         bill.setUser(bill.getUser());
         entityManager.persist(bill);
+        entityManager.getTransaction().commit();
 
         return bill;
     }
