@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,22 +30,30 @@ public class AddBillController implements Controller<BillRequest, BillResponse> 
     public BillResponse execute(BillRequest request) {
         String userLogin = request.getLogin();
         String billName = request.getBillName();
-        BigDecimal billBalance = request.getBalance();
+        BigDecimal balance = request.getBalance();
         try {
             User findUser = userService.findUserByLogin(userLogin);
-            billService.addBill(billName, billBalance, findUser);
+            billService.addBill(billName, balance, findUser);
             List<Bill> billsFindUser = billService.findBillsByUser(findUser);
-            return getBillResponse(findUser.getUsername(), SUCCESS_MESSAGE, billsFindUser);
+            List<Bill> responseBillList = new ArrayList<>();
+            for (Bill billInList : billsFindUser) {
+                Bill responseBill = Bill.builder()
+                        .billName(billInList.getBillName())
+                        .balance(billInList.getBalance())
+                        .build();
+                responseBillList.add(responseBill);
+            }
+            return getBillResponse(SUCCESS_MESSAGE, findUser.getUsername(), responseBillList);
         } catch (MyExceptionBill e) {
-            return getBillResponse(ERROR_MESSAGE, e.getMessage(), Collections.emptyList());
+            return getBillResponse(e.getMessage(), ERROR_MESSAGE, Collections.emptyList());
         }
     }
 
-    private BillResponse getBillResponse(String userName, String message, List<Bill> billList) {
+    private BillResponse getBillResponse(String message, String userName, List<Bill> responseBillList) {
         return BillResponse.builder()
-                .userName(userName)
                 .message(message)
-                .billList(billList)
+                .userName(userName)
+                .billList(responseBillList)
                 .build();
     }
 

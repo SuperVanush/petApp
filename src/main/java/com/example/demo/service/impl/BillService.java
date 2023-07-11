@@ -21,7 +21,7 @@ public class BillService implements ServiceBill {
     @Override
     public void addBill(String billName, BigDecimal billBalance, User user) {
         Bill bill = Bill.builder()
-                .name(billName)
+                .billName(billName)
                 .balance(billBalance).user(user).build();
         billStorage.add(bill);
     }

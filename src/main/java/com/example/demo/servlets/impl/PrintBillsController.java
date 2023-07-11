@@ -6,19 +6,20 @@ import com.example.demo.exception.MyExceptionUser;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.PrintBillsRequest;
-import com.example.demo.model.dto.response.PrintBillsResponse;
+import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
 import lombok.Builder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service("/print-bill")
 @Builder
-public class PrintBillsController implements Controller<PrintBillsRequest, PrintBillsResponse> {
+public class PrintBillsController implements Controller<PrintBillsRequest, BillResponse> {
 
     private final static String SUCCESS_MESSAGE = "Success";
     private final static String ERROR_MESSAGE = "Error";
@@ -27,24 +28,31 @@ public class PrintBillsController implements Controller<PrintBillsRequest, Print
     private final UserService userService;
 
     @Override
-    public PrintBillsResponse execute(PrintBillsRequest request) {
+    public BillResponse execute(PrintBillsRequest request) {
         String login = request.getLogin();
         try {
             User findUser = userService.findUserByLogin(login);
             List<Bill> findUserBills = billService.findBillsByUser(findUser);
             String findUserName = findUser.getUsername();
-            return getResponse(findUserName, SUCCESS_MESSAGE, findUserBills);
+            List<Bill> responseBillList = new ArrayList<>();
+            for (Bill billInList : findUserBills) {
+                Bill responseBill = Bill.builder()
+                        .billName(billInList.getBillName())
+                        .balance(billInList.getBalance())
+                        .build();
+                responseBillList.add(responseBill);
+            }
+            return getResponse(SUCCESS_MESSAGE, findUserName, responseBillList);
         } catch (MyExceptionBill | MyExceptionUser e) {
-            return getResponse(ERROR_MESSAGE, e.getMessage(), Collections.emptyList());
+            return getResponse(e.getMessage(), ERROR_MESSAGE, Collections.emptyList());
         }
     }
 
-    private PrintBillsResponse getResponse(String userName, String message, List<Bill> billList) {
-
-        return PrintBillsResponse.builder()
-                .name(userName)
+    private BillResponse getResponse(String message, String userName, List<Bill> responseBillList) {
+        return BillResponse.builder()
                 .message(message)
-                .billList(billList)
+                .userName(userName)
+                .billList(responseBillList)
                 .build();
     }
 

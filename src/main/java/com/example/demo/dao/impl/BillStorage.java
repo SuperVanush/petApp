@@ -19,7 +19,7 @@ public class BillStorage implements StorageBill {
     public Bill add(Bill bill) {
         entityManager.getTransaction().begin();
 
-        bill.setName(bill.getName());
+        bill.setBillName(bill.getBillName());
         bill.setBalance(bill.getBalance());
         bill.setUser(bill.getUser());
         entityManager.persist(bill);

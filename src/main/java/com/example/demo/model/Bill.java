@@ -32,7 +32,7 @@ public class Bill {
     private int id;
 
     @Column(name = "bill_name")
-    private String name;
+    private String billName;
     @Column(name = "bill_balance")
     private BigDecimal balance;
 
@@ -45,11 +45,11 @@ public class Bill {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bill bill = (Bill) o;
-        return id == bill.id && Objects.equals(name, bill.name) && Objects.equals(balance, bill.balance);
+        return id == bill.id && Objects.equals(billName, bill.billName) && Objects.equals(balance, bill.balance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, balance);
+        return Objects.hash(id, billName, balance);
     }
 }
