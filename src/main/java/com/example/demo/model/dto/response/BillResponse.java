@@ -1,12 +1,10 @@
 package com.example.demo.model.dto.response;
 
-import com.example.demo.model.Bill;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,8 +12,7 @@ import java.util.List;
 @Builder
 public class BillResponse {
 
-    private String message;
-    private String userName;
-    private List<Bill> billList;
-
+  private String message;
+  private String userName;
+  private List<BillDto> billList;
 }
