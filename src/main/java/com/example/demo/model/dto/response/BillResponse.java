@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class BillResponse {
 
   private String message;
-  private String userName;
+  private String login;
   private List<BillDto> billList;
 }

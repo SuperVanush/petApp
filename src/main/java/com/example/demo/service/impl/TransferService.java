@@ -2,7 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.impl.BillStorage;
 import com.example.demo.dao.impl.TransferStorage;
-import com.example.demo.exception.MyExceptionBill;
+import com.example.demo.exception.TransferException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
@@ -66,13 +66,13 @@ public class TransferService implements ServiceTransfer {
             bill.setBalance(reduceBillBalance);
             billStorage.updateBill(bill);
         } else {
-            throw new MyExceptionBill("TRY AGAIN YOUR BALANCE IS MINUS");
+            throw new TransferException("TRY AGAIN YOUR BALANCE IS MINUS");
         }
         return bill;
     }
 
     @Override
-    public void transactionToBill(int idFromBill, int idToBill, BigDecimal transactionSumma) throws MyExceptionBill {
+    public void transactionToBill(int idFromBill, int idToBill, BigDecimal transactionSumma) throws TransferException {
         reduceBalance(idFromBill, transactionSumma);
         sumBalanceTransaction(idToBill, transactionSumma);
     }

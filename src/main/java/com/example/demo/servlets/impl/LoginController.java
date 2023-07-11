@@ -1,7 +1,6 @@
 package com.example.demo.servlets.impl;
 
-
-import com.example.demo.exception.MyExceptionUser;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.LoginRequest;
 import com.example.demo.model.dto.response.LoginResponse;
@@ -14,32 +13,37 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginController implements Controller<LoginRequest, LoginResponse> {
 
-    private final static String SUCCESS_MESSAGE = "Hello";
-    private final static String ERROR_MESSAGE = "Enter correct Login or Registration";
+  private static final String SUCCESS_MESSAGE = "Hello";
+  private static final String ERROR_MESSAGE = "Enter correct Login or Registration";
+  private final UserService userService;
 
-    private final UserService userService;
+  @Override
+  public LoginResponse execute(LoginRequest request) {
+    try {
+      User userByLogin = userService.findUserByLogin(request.getLogin());
 
-    @Override
-    public LoginResponse execute(LoginRequest request) {
-        String login = request.getLogin();
-        try {
-            User findUser = userService.findUserByLogin(login);
-            String findUserName = findUser.getUsername();
-            return getLoginResponse(SUCCESS_MESSAGE, findUserName);
-        } catch (MyExceptionUser exceptionUser) {
-            return getLoginResponse(ERROR_MESSAGE, exceptionUser.getMessage());
-        }
+      return getSuccessResponse(userByLogin);
+    } catch (UserNotFoundException e) {
+      return getErrorResponse(e.getMessage(), request.getLogin());
     }
+  }
 
-    private LoginResponse getLoginResponse(String message, String userName) {
-        return LoginResponse.builder()
-                .message(message)
-                .userName(userName)
-                .build();
-    }
+  private LoginResponse getSuccessResponse(User user) {
+    return LoginResponse.builder()
+        .message(SUCCESS_MESSAGE)
+        .login(user.getLogin())
+        .build();
+  }
 
-    @Override
-    public Class<LoginRequest> getRequestClass() {
-        return LoginRequest.class;
-    }
+  private LoginResponse getErrorResponse(String message, String userName) {
+    return LoginResponse.builder()
+        .message(ERROR_MESSAGE + message)
+        .login(userName)
+        .build();
+  }
+
+  @Override
+  public Class<LoginRequest> getRequestClass() {
+    return LoginRequest.class;
+  }
 }
