@@ -12,4 +12,6 @@ public interface ServiceBill {
 
     List<Bill> findBillsByUser(User user);
 
+    Bill findBillById(int id);
+
 }

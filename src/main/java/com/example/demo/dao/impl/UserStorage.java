@@ -30,7 +30,7 @@ public class UserStorage implements StorageUser {
     @Override
     public User findById(int id) {
         return entityManager.createNamedQuery("User.findById", User.class)
-                .setParameter(id, id).getResultList().stream().findAny().get();
+                .setParameter("id", id).getResultList().stream().findAny().get();
     }
 
     @Override

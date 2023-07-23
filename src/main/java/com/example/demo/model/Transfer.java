@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Builder
@@ -38,13 +38,15 @@ public class Transfer {
     @Column(name = "sum_transaction")
     private BigDecimal sumTransaction;
     @Column(name = "time_date_transaction")
-    private LocalDateTime timeDateTransaction;
+    private Timestamp timeDateTransaction;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transfer transfer = (Transfer) o;
-        return id == transfer.id && Objects.equals(idFromBill, transfer.idFromBill) && Objects.equals(idToUser, transfer.idToUser) && (Objects.equals(idToBill, transfer.idToBill) && (Objects.equals(sumTransaction, transfer.sumTransaction) && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
+        return id == transfer.id && Objects.equals(idFromBill, transfer.idFromBill) && Objects.equals(idToUser, transfer.idToUser)
+                && (Objects.equals(idToBill, transfer.idToBill) && (Objects.equals(sumTransaction, transfer.sumTransaction)
+                && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
     }
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -23,7 +24,7 @@ public class TransferStorage implements StorageTransfer {
         transfer.setIdToUser(transfer.getIdToUser());
         transfer.setIdToBill(transfer.getIdToBill());
         transfer.setSumTransaction(transfer.getSumTransaction());
-        transfer.setTimeDateTransaction(transfer.getTimeDateTransaction());
+        transfer.setTimeDateTransaction(new Timestamp(System.currentTimeMillis()));
 
         entityManager.persist(transfer);
         entityManager.getTransaction().commit();

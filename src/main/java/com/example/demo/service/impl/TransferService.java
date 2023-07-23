@@ -32,7 +32,7 @@ public class TransferService implements ServiceTransfer {
                 .build();
         transferStorage.add(transfer);
 
-        return null;
+        return transfer;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class TransferService implements ServiceTransfer {
         List<Transfer> transferList = transferStorage.getListOfElements();
         List<Transfer> transferListForReturn = transferList
                 .stream()
-                .filter(transfer -> id == transfer.getId())
+                .filter(transfer -> id == transfer.getIdFromBill())
                 .collect(Collectors.toList());
 
         return transferListForReturn;

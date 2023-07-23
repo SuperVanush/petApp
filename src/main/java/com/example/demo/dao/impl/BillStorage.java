@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -35,18 +34,16 @@ public class BillStorage implements StorageBill {
     }
 
     @Override
-    public Bill findBillFromId(int idBill) {
+    public Bill findBillFromId(int id) {
         return entityManager.createNamedQuery("Bill.findById", Bill.class)
-                .setParameter(idBill, idBill)
-                .getSingleResult();
+                .setParameter("id", id)
+                .getResultList().stream().findAny().get();
     }
 
     @Override
     public void updateBill(Bill bill) {
-        BigDecimal balanceBill = bill.getBalance();
-        int idBill = bill.getId();
-        int update = entityManager.createNamedQuery("Bill.updateBill", Bill.class)
-                .setParameter(idBill, idBill)
-                .executeUpdate();
+        entityManager.getTransaction().begin();
+        entityManager.merge(bill);
+        entityManager.getTransaction().commit();
     }
 }
