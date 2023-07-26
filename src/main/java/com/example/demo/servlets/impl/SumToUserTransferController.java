@@ -3,7 +3,7 @@ package com.example.demo.servlets.impl;
 
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.TransferBillRequest;
+import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.TransferService;
@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 @Service("/to-user-sum-transfer")
 @RequiredArgsConstructor
-public class SumToUserTransferController implements Controller<TransferBillRequest, TransferResponse> {
+public class SumToUserTransferController implements Controller<TransferRequest, TransferResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
     private static final String ERROR_MESSAGE = "User not found";
@@ -25,12 +25,20 @@ public class SumToUserTransferController implements Controller<TransferBillReque
     private final BillService billService;
     private final TransferService transferService;
 
+    private TransferRequest transferRequest(TransferRequest request) {
+        return TransferRequest.builder()
+                .loginToUser(request.getLoginToUser())
+                .idToBill(request.getIdToBill())
+                .sumTransfer(request.getSumTransfer())
+                .build();
+    }
+
     @Override
-    public TransferResponse execute(TransferBillRequest request) {
+    public TransferResponse execute(TransferRequest request) {
         try {
-            String loginToUser = request.getLoginUser();
-            int idFromBill = request.getIdBill();
-            int idToBill = request.getIdBill();
+            String loginToUser = transferRequest(request).getLoginToUser();
+            int idFromBill = transferRequest(request).getIdToBill();
+            int idToBill = transferRequest(request).getIdToBill();
             BigDecimal sumTransfer = request.getSumTransfer();
             User fromUser = userService.findUserByLogin(loginToUser);
             User toUser = userService.findUserByLogin(loginToUser);
@@ -42,20 +50,27 @@ public class SumToUserTransferController implements Controller<TransferBillReque
                     billService.findBillById(idToBill).getBillName(),
                     billService.findBillById(idToBill).getBalance());
         } catch (UserNotFoundException e) {
-            return getErrorResponse(e.getMessage(), request.getLoginUser());
+            return getErrorResponse(e.getMessage(), request.getLoginToUser());
         }
     }
 
-    private TransferResponse getSuccessResponse(String userName, String billName, BigDecimal newBillBalance) {
-        return TransferResponse.builder().message(SUCCESS_MESSAGE + SumToUserTransferController.SUCCESS_MESSAGE).userName(userName).billName(billName).newBillBalance(newBillBalance).build();
+    private TransferResponse getSuccessResponse(String toUserName, String toBillName, BigDecimal toBillBalance) {
+        return TransferResponse.builder()
+                .message(SUCCESS_MESSAGE + SumToUserTransferController.SUCCESS_MESSAGE)
+                .toUserName(toUserName)
+                .toBillName(toBillName)
+                .toBillBalance(toBillBalance)
+                .build();
     }
 
-    private TransferResponse getErrorResponse(String message, String userName) {
-        return TransferResponse.builder().message(ERROR_MESSAGE + message).userName(userName).build();
+    private TransferResponse getErrorResponse(String message, String toUserName) {
+        return TransferResponse.builder()
+                .message(ERROR_MESSAGE + message)
+                .toUserName(toUserName).build();
     }
 
     @Override
-    public Class<TransferBillRequest> getRequestClass() {
-        return TransferBillRequest.class;
+    public Class<TransferRequest> getRequestClass() {
+        return TransferRequest.class;
     }
 }

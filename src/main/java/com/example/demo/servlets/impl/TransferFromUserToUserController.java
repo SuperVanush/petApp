@@ -3,8 +3,8 @@ package com.example.demo.servlets.impl;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.TransferFromUserToUserRequest;
-import com.example.demo.model.dto.response.TransferFromUserToUserResponse;
+import com.example.demo.model.dto.request.TransferRequest;
+import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.service.impl.TransferService;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 @Service("/from-user-to-user-transfer")
 @RequiredArgsConstructor
-public class TransferFromUserToUserController implements Controller<TransferFromUserToUserRequest, TransferFromUserToUserResponse> {
+public class TransferFromUserToUserController implements Controller<TransferRequest, TransferResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
     private static final String ERROR_MESSAGE = "User not found";
@@ -23,14 +23,24 @@ public class TransferFromUserToUserController implements Controller<TransferFrom
     private final UserService userService;
     private final TransferService transferService;
 
+    private TransferRequest transferRequest(TransferRequest request) {
+        return TransferRequest.builder()
+                .loginFromUser(request.getLoginFromUser())
+                .loginToUser(request.getLoginToUser())
+                .idFromBill(request.getIdFromBill())
+                .idToBill(request.getIdToBill())
+                .sumTransfer(request.getSumTransfer())
+                .build();
+    }
+
     @Override
-    public TransferFromUserToUserResponse execute(TransferFromUserToUserRequest request) {
+    public TransferResponse execute(TransferRequest request) {
         try {
-            String loginFromUser = request.getLoginFromUser();
-            String loginToUser = request.getLoginToUser();
-            int idFromBill = request.getIdFromBill();
-            int idToBill = request.getIdToBill();
-            BigDecimal sumTransfer = request.getSumTransfer();
+            String loginFromUser = transferRequest(request).getLoginFromUser();
+            String loginToUser = transferRequest(request).getLoginToUser();
+            int idFromBill = transferRequest(request).getIdFromBill();
+            int idToBill = transferRequest(request).getIdToBill();
+            BigDecimal sumTransfer = transferRequest(request).getSumTransfer();
 
             User fromUser = userService.findUserByLogin(loginFromUser);
             User toUser = userService.findUserByLogin(loginToUser);
@@ -44,8 +54,8 @@ public class TransferFromUserToUserController implements Controller<TransferFrom
         }
     }
 
-    private TransferFromUserToUserResponse getSuccessResponse(String fromUserName, String toUserName, String fromBillName, String toBillName, BigDecimal fromBillBalance, BigDecimal toBillBalance) {
-        return TransferFromUserToUserResponse.builder()
+    private TransferResponse getSuccessResponse(String fromUserName, String toUserName, String fromBillName, String toBillName, BigDecimal fromBillBalance, BigDecimal toBillBalance) {
+        return TransferResponse.builder()
                 .message(SUCCESS_MESSAGE + TransferFromUserToUserController.SUCCESS_MESSAGE)
                 .fromUserName(fromUserName)
                 .toUserName(toUserName)
@@ -56,15 +66,15 @@ public class TransferFromUserToUserController implements Controller<TransferFrom
                 .build();
     }
 
-    private TransferFromUserToUserResponse getErrorResponse(String message, String fromUserName) {
-        return TransferFromUserToUserResponse.builder()
+    private TransferResponse getErrorResponse(String message, String fromUserName) {
+        return TransferResponse.builder()
                 .message(ERROR_MESSAGE + message)
                 .fromUserName(fromUserName).build();
     }
 
 
     @Override
-    public Class<TransferFromUserToUserRequest> getRequestClass() {
-        return TransferFromUserToUserRequest.class;
+    public Class<TransferRequest> getRequestClass() {
+        return TransferRequest.class;
     }
 }

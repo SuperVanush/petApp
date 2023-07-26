@@ -37,7 +37,7 @@ public class BillStorage implements StorageBill {
     public Bill findBillFromId(int id) {
         return entityManager.createNamedQuery("Bill.findById", Bill.class)
                 .setParameter("id", id)
-                .getResultList().stream().findAny().get();
+                .getSingleResult();
     }
 
     @Override

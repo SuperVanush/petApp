@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,6 +39,7 @@ public class Transfer {
     @Column(name = "sum_transaction")
     private BigDecimal sumTransaction;
     @Column(name = "time_date_transaction")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'   'HH:mm:ss")
     private Timestamp timeDateTransaction;
 
     @Override

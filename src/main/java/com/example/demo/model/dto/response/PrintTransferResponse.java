@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 public class PrintTransferResponse {
 
-    String message;
-    List<Transfer> transferList;
-
+    private String message;
+    private List<Transfer> transferList;
 }

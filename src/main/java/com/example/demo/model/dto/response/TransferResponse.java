@@ -14,8 +14,12 @@ import java.math.BigDecimal;
 public class TransferResponse {
 
     private String message;
-    private String userName;
-    private String billName;
-    private BigDecimal newBillBalance;
+    private String fromUserName;
+    private String toUserName;
+    private String fromBillName;
+    private String toBillName;
+    private BigDecimal fromBillBalance;
+    private BigDecimal toBillBalance;
+
 
 }

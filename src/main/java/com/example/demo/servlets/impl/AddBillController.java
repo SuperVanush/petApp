@@ -42,18 +42,18 @@ public class AddBillController implements Controller<BillRequest, BillAddRespons
 
     private BillAddResponse getSuccessResponse(String userMessage, String userLogin, String billMessage, String billName) {
         return BillAddResponse.builder()
-                .userMessage(SUCCESS_MESSAGE)
+                .userMessage(SUCCESS_MESSAGE + userMessage)
                 .userLogin(userLogin)
-                .billMessage(SUCCESS_BILL_MESSAGE)
+                .billMessage(SUCCESS_BILL_MESSAGE + billMessage)
                 .billName(billName)
                 .build();
     }
 
-    private BillAddResponse getErrorResponse(String userMessage, String userLogin, String billMessage, String billName) {
+    private BillAddResponse getErrorResponse(String message, String userLogin, String billMessage, String billName) {
         return BillAddResponse.builder()
-                .userMessage(ERROR_USER_MESSAGE)
+                .userMessage(ERROR_USER_MESSAGE + message)
                 .userLogin(userLogin)
-                .billMessage(ERROR_BILL_MESSAGE)
+                .billMessage(ERROR_BILL_MESSAGE + billMessage)
                 .billName(billName)
                 .build();
     }

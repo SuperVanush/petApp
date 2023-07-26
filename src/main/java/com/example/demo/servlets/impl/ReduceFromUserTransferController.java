@@ -2,7 +2,7 @@ package com.example.demo.servlets.impl;
 
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.TransferBillRequest;
+import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.TransferService;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 @Service("/to-user-reduce-transfer")
 @RequiredArgsConstructor
-public class ReduceFromUserTransferController implements Controller<TransferBillRequest, TransferResponse> {
+public class ReduceFromUserTransferController implements Controller<TransferRequest, TransferResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
     private static final String ERROR_MESSAGE = "User not found";
@@ -24,43 +24,51 @@ public class ReduceFromUserTransferController implements Controller<TransferBill
     private final BillService billService;
     private final TransferService transferService;
 
+    private TransferRequest transferRequest(TransferRequest request) {
+        return TransferRequest.builder()
+                .idFromBill(request.getIdFromBill())
+                .idToBill(request.getIdToBill())
+                .sumTransfer(request.getSumTransfer())
+                .build();
+    }
+
     @Override
-    public TransferResponse execute(TransferBillRequest request) {
+    public TransferResponse execute(TransferRequest request) {
         try {
-            String loginFromUser = request.getLoginUser();
-            int idFromBill = request.getIdBill();
-            int idToBill = request.getIdBill();
+            String loginUser = transferRequest(request).getLoginFromUser();
+            int idToBill = transferRequest(request).getIdFromBill();
+            int idFromBill = transferRequest(request).getIdFromBill();
             BigDecimal sumTransfer = request.getSumTransfer();
-            User fromUser = userService.findUserByLogin(loginFromUser);
-            User reduceUser = userService.findUserByLogin(loginFromUser);
-            transferService.reduceBalance(idToBill, sumTransfer);
+            User fromUser = userService.findUserByLogin(loginUser);
+            User reduceUser = userService.findUserByLogin(loginUser);
+            transferService.reduceBalance(idFromBill, sumTransfer);
             transferService.addTransfer(fromUser, reduceUser, idFromBill, idToBill, sumTransfer);
             return getSuccessResponse(reduceUser.getUsername(),
                     billService.findBillById(idToBill).getBillName(),
                     billService.findBillById(idToBill).getBalance());
         } catch (UserNotFoundException e) {
-            return getErrorResponse(e.getMessage(), request.getLoginUser());
+            return getErrorResponse(e.getMessage(), request.getLoginToUser());
         }
     }
 
-    private TransferResponse getSuccessResponse(String userName, String billName, BigDecimal newBillBalance) {
+    private TransferResponse getSuccessResponse(String fromUserName, String fromBillName, BigDecimal fromBillBalance) {
         return TransferResponse.builder()
                 .message(SUCCESS_MESSAGE + ReduceFromUserTransferController.SUCCESS_MESSAGE)
-                .userName(userName)
-                .billName(billName)
-                .newBillBalance(newBillBalance)
+                .fromUserName(fromUserName)
+                .fromBillName(fromBillName)
+                .fromBillBalance(fromBillBalance)
                 .build();
     }
 
-    private TransferResponse getErrorResponse(String message, String userName) {
+    private TransferResponse getErrorResponse(String message, String fromUserName) {
         return TransferResponse.builder()
                 .message(ERROR_MESSAGE + message)
-                .userName(userName)
+                .fromUserName(fromUserName)
                 .build();
     }
 
     @Override
-    public Class<TransferBillRequest> getRequestClass() {
-        return TransferBillRequest.class;
+    public Class<TransferRequest> getRequestClass() {
+        return TransferRequest.class;
     }
 }

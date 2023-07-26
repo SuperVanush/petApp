@@ -3,7 +3,7 @@ package com.example.demo.servlets.impl;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.PrintBillsRequest;
+import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.response.BillDtoResponse;
 import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.service.converter.Converter;
@@ -18,23 +18,29 @@ import java.util.stream.Collectors;
 
 @Service("/print-bill")
 @RequiredArgsConstructor
-public class PrintBillsController implements Controller<PrintBillsRequest, BillResponse> {
+public class PrintBillsController implements Controller<BillRequest, BillResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
-    private static final String ERROR_MESSAGE = "Error = ";
+    private static final String ERROR_MESSAGE = "Error";
 
     private final BillService billService;
     private final UserService userService;
     private final Converter<Bill, BillDtoResponse> converter;
 
+    private BillRequest billRequest(BillRequest request) {
+        return BillRequest.builder()
+                .login(request.getLogin())
+                .build();
+    }
+
     @Override
-    public BillResponse execute(PrintBillsRequest request) {
+    public BillResponse execute(BillRequest request) {
         try {
-            User userByLogin = userService.findUserByLogin(request.getLogin());
+            User userByLogin = userService.findUserByLogin(billRequest(request).getLogin());
 
             return getSuccessResponse(userByLogin);
         } catch (UserNotFoundException e) {
-            return getErrorResponse(e.getMessage(), request.getLogin());
+            return getErrorResponse(e.getMessage());
         }
     }
 
@@ -51,15 +57,14 @@ public class PrintBillsController implements Controller<PrintBillsRequest, BillR
                 map(converter::convert).collect(Collectors.toList());
     }
 
-    private BillResponse getErrorResponse(String message, String login) {
+    private BillResponse getErrorResponse(String message) {
         return BillResponse.builder()
                 .message(ERROR_MESSAGE + message)
-                .login(login)
                 .build();
     }
 
     @Override
-    public Class<PrintBillsRequest> getRequestClass() {
-        return PrintBillsRequest.class;
+    public Class<BillRequest> getRequestClass() {
+        return BillRequest.class;
     }
 }
