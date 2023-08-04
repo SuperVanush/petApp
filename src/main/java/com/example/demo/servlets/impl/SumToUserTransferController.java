@@ -25,20 +25,12 @@ public class SumToUserTransferController implements Controller<TransferRequest, 
     private final BillService billService;
     private final TransferService transferService;
 
-    private TransferRequest transferRequest(TransferRequest request) {
-        return TransferRequest.builder()
-                .loginToUser(request.getLoginToUser())
-                .idToBill(request.getIdToBill())
-                .sumTransfer(request.getSumTransfer())
-                .build();
-    }
-
     @Override
     public TransferResponse execute(TransferRequest request) {
         try {
-            String loginToUser = transferRequest(request).getLoginToUser();
-            int idFromBill = transferRequest(request).getIdToBill();
-            int idToBill = transferRequest(request).getIdToBill();
+            String loginToUser = request.getLoginToUser();
+            int idFromBill = request.getIdToBill();
+            int idToBill = request.getIdToBill();
             BigDecimal sumTransfer = request.getSumTransfer();
             User fromUser = userService.findUserByLogin(loginToUser);
             User toUser = userService.findUserByLogin(loginToUser);
@@ -56,7 +48,7 @@ public class SumToUserTransferController implements Controller<TransferRequest, 
 
     private TransferResponse getSuccessResponse(String toUserName, String toBillName, BigDecimal toBillBalance) {
         return TransferResponse.builder()
-                .message(SUCCESS_MESSAGE + SumToUserTransferController.SUCCESS_MESSAGE)
+                .message(SumToUserTransferController.SUCCESS_MESSAGE)
                 .toUserName(toUserName)
                 .toBillName(toBillName)
                 .toBillBalance(toBillBalance)
@@ -65,7 +57,7 @@ public class SumToUserTransferController implements Controller<TransferRequest, 
 
     private TransferResponse getErrorResponse(String message, String toUserName) {
         return TransferResponse.builder()
-                .message(ERROR_MESSAGE + message)
+                .message(ERROR_MESSAGE)
                 .toUserName(toUserName).build();
     }
 

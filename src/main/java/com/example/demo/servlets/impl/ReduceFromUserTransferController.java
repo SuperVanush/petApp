@@ -24,20 +24,12 @@ public class ReduceFromUserTransferController implements Controller<TransferRequ
     private final BillService billService;
     private final TransferService transferService;
 
-    private TransferRequest transferRequest(TransferRequest request) {
-        return TransferRequest.builder()
-                .idFromBill(request.getIdFromBill())
-                .idToBill(request.getIdToBill())
-                .sumTransfer(request.getSumTransfer())
-                .build();
-    }
-
     @Override
     public TransferResponse execute(TransferRequest request) {
         try {
-            String loginUser = transferRequest(request).getLoginFromUser();
-            int idToBill = transferRequest(request).getIdFromBill();
-            int idFromBill = transferRequest(request).getIdFromBill();
+            String loginUser = request.getLoginFromUser();
+            int idToBill = request.getIdFromBill();
+            int idFromBill = request.getIdFromBill();
             BigDecimal sumTransfer = request.getSumTransfer();
             User fromUser = userService.findUserByLogin(loginUser);
             User reduceUser = userService.findUserByLogin(loginUser);
@@ -53,7 +45,7 @@ public class ReduceFromUserTransferController implements Controller<TransferRequ
 
     private TransferResponse getSuccessResponse(String fromUserName, String fromBillName, BigDecimal fromBillBalance) {
         return TransferResponse.builder()
-                .message(SUCCESS_MESSAGE + ReduceFromUserTransferController.SUCCESS_MESSAGE)
+                .message(ReduceFromUserTransferController.SUCCESS_MESSAGE)
                 .fromUserName(fromUserName)
                 .fromBillName(fromBillName)
                 .fromBillBalance(fromBillBalance)
@@ -62,7 +54,7 @@ public class ReduceFromUserTransferController implements Controller<TransferRequ
 
     private TransferResponse getErrorResponse(String message, String fromUserName) {
         return TransferResponse.builder()
-                .message(ERROR_MESSAGE + message)
+                .message(ERROR_MESSAGE)
                 .fromUserName(fromUserName)
                 .build();
     }

@@ -21,16 +21,10 @@ public class PrintTransferController implements Controller<TransferRequest, Prin
 
     private final TransferService transferService;
 
-    private TransferRequest transferRequest(TransferRequest request) {
-        return TransferRequest.builder()
-                .idFromBill(request.getIdFromBill())
-                .build();
-    }
-
     @Override
     public PrintTransferResponse execute(TransferRequest request) {
         try {
-            int idFromBill = transferRequest(request).getIdFromBill();
+            int idFromBill = request.getIdFromBill();
             List<Transfer> transferList = transferService.findTransferByBillsId(idFromBill);
 
             return new PrintTransferResponse(SUCCESS_MESSAGE, transferList);
@@ -41,7 +35,7 @@ public class PrintTransferController implements Controller<TransferRequest, Prin
 
     private PrintTransferResponse getErrorResponse(String message) {
         return PrintTransferResponse.builder()
-                .message(ERROR_MESSAGE + message)
+                .message(ERROR_MESSAGE)
                 .build();
     }
 

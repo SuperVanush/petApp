@@ -27,16 +27,10 @@ public class PrintBillsController implements Controller<BillRequest, BillRespons
     private final UserService userService;
     private final Converter<Bill, BillDtoResponse> converter;
 
-    private BillRequest billRequest(BillRequest request) {
-        return BillRequest.builder()
-                .login(request.getLogin())
-                .build();
-    }
-
     @Override
     public BillResponse execute(BillRequest request) {
         try {
-            User userByLogin = userService.findUserByLogin(billRequest(request).getLogin());
+            User userByLogin = userService.findUserByLogin(request.getLogin());
 
             return getSuccessResponse(userByLogin);
         } catch (UserNotFoundException e) {
@@ -59,7 +53,7 @@ public class PrintBillsController implements Controller<BillRequest, BillRespons
 
     private BillResponse getErrorResponse(String message) {
         return BillResponse.builder()
-                .message(ERROR_MESSAGE + message)
+                .message(ERROR_MESSAGE)
                 .build();
     }
 

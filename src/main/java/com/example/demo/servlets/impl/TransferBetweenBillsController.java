@@ -22,20 +22,12 @@ public class TransferBetweenBillsController implements Controller<TransferReques
     private final TransferService transferService;
     private final BillService billService;
 
-    private TransferRequest transferRequest(TransferRequest request) {
-        return TransferRequest.builder()
-                .idFromBill(request.getIdFromBill())
-                .idToBill(request.getIdToBill())
-                .sumTransfer(request.getSumTransfer())
-                .build();
-    }
-
     @Override
     public TransferResponse execute(TransferRequest request) {
         try {
-            int idFromBill = transferRequest(request).getIdFromBill();
-            int idToBill = transferRequest(request).getIdToBill();
-            BigDecimal sumTransfer = transferRequest(request).getSumTransfer();
+            int idFromBill = request.getIdFromBill();
+            int idToBill = request.getIdToBill();
+            BigDecimal sumTransfer = request.getSumTransfer();
 
             transferService.transactionToBill(idFromBill, idToBill, sumTransfer);
             String fromBillName = billService.findBillById(idFromBill).getBillName();
@@ -47,15 +39,15 @@ public class TransferBetweenBillsController implements Controller<TransferReques
             User toUser = billService.findBillById(idToBill).getUser();
             transferService.addTransfer(fromUser, toUser, idFromBill, idToBill, sumTransfer);
 
-            return getSuccessResponse(SUCCESS_MESSAGE, fromBillName, balanceFromBill, toBillName, balanceToBill);
+            return getSuccessResponse(fromBillName, balanceFromBill, toBillName, balanceToBill);
         } catch (TransferException e) {
             return getErrorResponse(e.getMessage());
         }
     }
 
-    private TransferResponse getSuccessResponse(String message, String fromBillName, BigDecimal fromBillBalance, String toBillName, BigDecimal toBillBalance) {
+    private TransferResponse getSuccessResponse(String fromBillName, BigDecimal fromBillBalance, String toBillName, BigDecimal toBillBalance) {
         return TransferResponse.builder()
-                .message(SUCCESS_MESSAGE + message)
+                .message(TransferBetweenBillsController.SUCCESS_MESSAGE)
                 .fromBillName(fromBillName)
                 .fromBillBalance(fromBillBalance)
                 .toBillName(toBillName)
@@ -65,7 +57,7 @@ public class TransferBetweenBillsController implements Controller<TransferReques
 
     private TransferResponse getErrorResponse(String message) {
         return TransferResponse.builder()
-                .message(ERROR_MESSAGE + message)
+                .message(ERROR_MESSAGE)
                 .build();
     }
 

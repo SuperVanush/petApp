@@ -38,7 +38,7 @@ public class LoginController implements Controller<LoginRequest, LoginResponse> 
 
   private LoginResponse getErrorResponse(String message, String userName) {
     return LoginResponse.builder()
-        .message(ERROR_MESSAGE + message)
+        .message(ERROR_MESSAGE)
         .login(userName)
         .build();
   }

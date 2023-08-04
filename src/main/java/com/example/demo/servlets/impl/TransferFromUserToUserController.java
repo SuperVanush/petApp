@@ -23,24 +23,14 @@ public class TransferFromUserToUserController implements Controller<TransferRequ
     private final UserService userService;
     private final TransferService transferService;
 
-    private TransferRequest transferRequest(TransferRequest request) {
-        return TransferRequest.builder()
-                .loginFromUser(request.getLoginFromUser())
-                .loginToUser(request.getLoginToUser())
-                .idFromBill(request.getIdFromBill())
-                .idToBill(request.getIdToBill())
-                .sumTransfer(request.getSumTransfer())
-                .build();
-    }
-
     @Override
     public TransferResponse execute(TransferRequest request) {
         try {
-            String loginFromUser = transferRequest(request).getLoginFromUser();
-            String loginToUser = transferRequest(request).getLoginToUser();
-            int idFromBill = transferRequest(request).getIdFromBill();
-            int idToBill = transferRequest(request).getIdToBill();
-            BigDecimal sumTransfer = transferRequest(request).getSumTransfer();
+            String loginFromUser = request.getLoginFromUser();
+            String loginToUser = request.getLoginToUser();
+            int idFromBill = request.getIdFromBill();
+            int idToBill = request.getIdToBill();
+            BigDecimal sumTransfer = request.getSumTransfer();
 
             User fromUser = userService.findUserByLogin(loginFromUser);
             User toUser = userService.findUserByLogin(loginToUser);
@@ -56,7 +46,7 @@ public class TransferFromUserToUserController implements Controller<TransferRequ
 
     private TransferResponse getSuccessResponse(String fromUserName, String toUserName, String fromBillName, String toBillName, BigDecimal fromBillBalance, BigDecimal toBillBalance) {
         return TransferResponse.builder()
-                .message(SUCCESS_MESSAGE + TransferFromUserToUserController.SUCCESS_MESSAGE)
+                .message(SUCCESS_MESSAGE)
                 .fromUserName(fromUserName)
                 .toUserName(toUserName)
                 .fromBillName(fromBillName)
@@ -68,7 +58,7 @@ public class TransferFromUserToUserController implements Controller<TransferRequ
 
     private TransferResponse getErrorResponse(String message, String fromUserName) {
         return TransferResponse.builder()
-                .message(ERROR_MESSAGE + message)
+                .message(ERROR_MESSAGE)
                 .fromUserName(fromUserName).build();
     }
 
