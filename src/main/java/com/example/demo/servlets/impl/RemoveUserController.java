@@ -17,7 +17,7 @@ public class RemoveUserController implements Controller<UserRequest, UserRespons
     public UserResponse execute(UserRequest request) {
         String login = request.getLogin();
         userService.removeUser(login);
-        return new UserResponse("User with login  " + login + "  was removed");
+        return new UserResponse("Success");
     }
 
     @Override

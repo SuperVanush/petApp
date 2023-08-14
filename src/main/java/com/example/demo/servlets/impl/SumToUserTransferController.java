@@ -5,7 +5,6 @@ import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.TransferResponse;
-import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.TransferService;
 import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
@@ -19,10 +18,8 @@ import java.math.BigDecimal;
 public class SumToUserTransferController implements Controller<TransferRequest, TransferResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
-    private static final String ERROR_MESSAGE = "User not found";
 
     private final UserService userService;
-    private final BillService billService;
     private final TransferService transferService;
 
     @Override
@@ -38,27 +35,22 @@ public class SumToUserTransferController implements Controller<TransferRequest, 
             transferService.sumBalanceTransaction(idToBill, sumTransfer);
             transferService.addTransfer(fromUser, toUser, idFromBill, idToBill, sumTransfer);
 
-            return getSuccessResponse(toUser.getUsername(),
-                    billService.findBillById(idToBill).getBillName(),
-                    billService.findBillById(idToBill).getBalance());
+            return getSuccessResponse(SUCCESS_MESSAGE);
         } catch (UserNotFoundException e) {
-            return getErrorResponse(e.getMessage(), request.getLoginToUser());
+            return getErrorResponse(e.getMessage());
         }
     }
 
-    private TransferResponse getSuccessResponse(String toUserName, String toBillName, BigDecimal toBillBalance) {
+    private TransferResponse getSuccessResponse(String message) {
         return TransferResponse.builder()
-                .message(SumToUserTransferController.SUCCESS_MESSAGE)
-                .toUserName(toUserName)
-                .toBillName(toBillName)
-                .toBillBalance(toBillBalance)
+                .message(message)
                 .build();
     }
 
-    private TransferResponse getErrorResponse(String message, String toUserName) {
+    private TransferResponse getErrorResponse(String message) {
         return TransferResponse.builder()
-                .message(ERROR_MESSAGE)
-                .toUserName(toUserName).build();
+                .message(message)
+                .build();
     }
 
     @Override

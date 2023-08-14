@@ -16,9 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PrintTransferController implements Controller<TransferRequest, PrintTransferResponse> {
 
-    private static final String SUCCESS_MESSAGE = "Success";
-    private static final String ERROR_MESSAGE = "Not found User";
-
     private final TransferService transferService;
 
     @Override
@@ -26,16 +23,22 @@ public class PrintTransferController implements Controller<TransferRequest, Prin
         try {
             int idFromBill = request.getIdFromBill();
             List<Transfer> transferList = transferService.findTransferByBillsId(idFromBill);
+            return getSuccessResponse(transferList);
 
-            return new PrintTransferResponse(SUCCESS_MESSAGE, transferList);
         } catch (UserNotFoundException e) {
             return getErrorResponse(e.getMessage());
         }
     }
 
+    private PrintTransferResponse getSuccessResponse(List<Transfer> transferList) {
+        return PrintTransferResponse.builder()
+                .transferList(transferList)
+                .build();
+    }
+
     private PrintTransferResponse getErrorResponse(String message) {
         return PrintTransferResponse.builder()
-                .message(ERROR_MESSAGE)
+                .message(message)
                 .build();
     }
 

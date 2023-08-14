@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 public class TransferFromUserToUserController implements Controller<TransferRequest, TransferResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
-    private static final String ERROR_MESSAGE = "User not found";
 
     private final UserService userService;
     private final TransferService transferService;
@@ -58,7 +57,7 @@ public class TransferFromUserToUserController implements Controller<TransferRequ
 
     private TransferResponse getErrorResponse(String message, String fromUserName) {
         return TransferResponse.builder()
-                .message(ERROR_MESSAGE)
+                .message(message)
                 .fromUserName(fromUserName).build();
     }
 

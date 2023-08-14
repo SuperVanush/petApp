@@ -1,6 +1,5 @@
 package com.example.demo.servlets.impl;
 
-import com.example.demo.model.User;
 import com.example.demo.model.dto.request.UserRequest;
 import com.example.demo.model.dto.response.UserResponse;
 import com.example.demo.service.impl.UserService;
@@ -19,9 +18,9 @@ public class UserController implements Controller<UserRequest, UserResponse> {
         String name = request.getName();
         String login = request.getLogin();
         String password = request.getPassword();
-        User addedUser = userService.addUser(name, login, password);
+       userService.addUser(name, login, password);
 
-        return new UserResponse("User with login  " + addedUser.getLogin() + "  was added");
+        return new UserResponse("Success");
     }
 
     @Override

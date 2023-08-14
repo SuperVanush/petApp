@@ -13,38 +13,37 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginController implements Controller<LoginRequest, LoginResponse> {
 
-  private static final String SUCCESS_MESSAGE = "Hello";
-  private static final String ERROR_MESSAGE = "Enter correct Login or Registration";
+    private static final String SUCCESS_MESSAGE = "Hello";
 
-  private final UserService userService;
 
-  @Override
-  public LoginResponse execute(LoginRequest request) {
-    try {
-      User userByLogin = userService.findUserByLogin(request.getLogin());
+    private final UserService userService;
 
-      return getSuccessResponse(userByLogin);
-    } catch (UserNotFoundException e) {
-      return getErrorResponse(e.getMessage(), request.getLogin());
+    @Override
+    public LoginResponse execute(LoginRequest request) {
+        try {
+            User userByLogin = userService.findUserByLogin(request.getLogin());
+            return getSuccessResponse(userByLogin);
+
+        } catch (UserNotFoundException e) {
+            return getErrorResponse(e.getMessage());
+        }
     }
-  }
 
-  private LoginResponse getSuccessResponse(User user) {
-    return LoginResponse.builder()
-        .message(SUCCESS_MESSAGE)
-        .login(user.getLogin())
-        .build();
-  }
+    private LoginResponse getSuccessResponse(User user) {
+        return LoginResponse.builder()
+                .message(SUCCESS_MESSAGE)
+                .login(user.getLogin())
+                .build();
+    }
 
-  private LoginResponse getErrorResponse(String message, String userName) {
-    return LoginResponse.builder()
-        .message(ERROR_MESSAGE)
-        .login(userName)
-        .build();
-  }
+    private LoginResponse getErrorResponse(String message) {
+        return LoginResponse.builder()
+                .message(message)
+                .build();
+    }
 
-  @Override
-  public Class<LoginRequest> getRequestClass() {
-    return LoginRequest.class;
-  }
+    @Override
+    public Class<LoginRequest> getRequestClass() {
+        return LoginRequest.class;
+    }
 }

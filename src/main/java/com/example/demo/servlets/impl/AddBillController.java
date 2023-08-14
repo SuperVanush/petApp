@@ -17,9 +17,6 @@ import java.math.BigDecimal;
 public class AddBillController implements Controller<BillRequest, BillAddResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
-    private static final String SUCCESS_BILL_MESSAGE = "Added bill with name";
-    private static final String ERROR_USER_MESSAGE = "User is not found";
-    private static final String ERROR_BILL_MESSAGE = "Bill is not added";
 
     private final UserService userService;
     private final BillService billService;
@@ -34,27 +31,21 @@ public class AddBillController implements Controller<BillRequest, BillAddRespons
             BigDecimal balance = request.getBalance();
             billService.addBill(billName, balance, findUser);
 
-            return getSuccessResponse(SUCCESS_MESSAGE, request.getLogin(), SUCCESS_BILL_MESSAGE, request.getBillName());
+            return getSuccessResponse(SUCCESS_MESSAGE);
         } catch (UserNotFoundException e) {
-            return getErrorResponse(e.getMessage(), request.getLogin(), e.getMessage(), request.getBillName());
+            return getErrorResponse(e.getMessage());
         }
     }
 
-    private BillAddResponse getSuccessResponse(String userMessage, String userLogin, String billMessage, String billName) {
+    private BillAddResponse getSuccessResponse(String message) {
         return BillAddResponse.builder()
-                .userMessage(userMessage)
-                .userLogin(userLogin)
-                .billMessage(billMessage)
-                .billName(billName)
+                .userMessage(message)
                 .build();
     }
 
-    private BillAddResponse getErrorResponse(String message, String userLogin, String billMessage, String billName) {
+    private BillAddResponse getErrorResponse(String message) {
         return BillAddResponse.builder()
-                .userMessage(ERROR_USER_MESSAGE)
-                .userLogin(userLogin)
-                .billMessage(ERROR_BILL_MESSAGE)
-                .billName(billName)
+                .userMessage(message)
                 .build();
     }
 

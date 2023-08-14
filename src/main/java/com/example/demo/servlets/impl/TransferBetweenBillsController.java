@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 public class TransferBetweenBillsController implements Controller<TransferRequest, TransferResponse> {
 
     private static final String SUCCESS_MESSAGE = "Success";
-    private static final String ERROR_MESSAGE = "ERROR";
 
     private final TransferService transferService;
     private final BillService billService;
@@ -30,34 +29,26 @@ public class TransferBetweenBillsController implements Controller<TransferReques
             BigDecimal sumTransfer = request.getSumTransfer();
 
             transferService.transactionToBill(idFromBill, idToBill, sumTransfer);
-            String fromBillName = billService.findBillById(idFromBill).getBillName();
-            String toBillName = billService.findBillById(idToBill).getBillName();
-            BigDecimal balanceFromBill = billService.findBillById(idFromBill).getBalance();
-            BigDecimal balanceToBill = billService.findBillById(idToBill).getBalance();
 
             User fromUser = billService.findBillById(idFromBill).getUser();
             User toUser = billService.findBillById(idToBill).getUser();
             transferService.addTransfer(fromUser, toUser, idFromBill, idToBill, sumTransfer);
 
-            return getSuccessResponse(fromBillName, balanceFromBill, toBillName, balanceToBill);
+            return getSuccessResponse(SUCCESS_MESSAGE);
         } catch (TransferException e) {
             return getErrorResponse(e.getMessage());
         }
     }
 
-    private TransferResponse getSuccessResponse(String fromBillName, BigDecimal fromBillBalance, String toBillName, BigDecimal toBillBalance) {
+    private TransferResponse getSuccessResponse(String message) {
         return TransferResponse.builder()
-                .message(TransferBetweenBillsController.SUCCESS_MESSAGE)
-                .fromBillName(fromBillName)
-                .fromBillBalance(fromBillBalance)
-                .toBillName(toBillName)
-                .toBillBalance(toBillBalance)
+                .message(message)
                 .build();
     }
 
     private TransferResponse getErrorResponse(String message) {
         return TransferResponse.builder()
-                .message(ERROR_MESSAGE)
+                .message(message)
                 .build();
     }
 

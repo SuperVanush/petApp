@@ -20,9 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PrintBillsController implements Controller<BillRequest, BillResponse> {
 
-    private static final String SUCCESS_MESSAGE = "Success";
-    private static final String ERROR_MESSAGE = "Error";
-
     private final BillService billService;
     private final UserService userService;
     private final Converter<Bill, BillDtoResponse> converter;
@@ -31,8 +28,8 @@ public class PrintBillsController implements Controller<BillRequest, BillRespons
     public BillResponse execute(BillRequest request) {
         try {
             User userByLogin = userService.findUserByLogin(request.getLogin());
-
             return getSuccessResponse(userByLogin);
+
         } catch (UserNotFoundException e) {
             return getErrorResponse(e.getMessage());
         }
@@ -40,7 +37,6 @@ public class PrintBillsController implements Controller<BillRequest, BillRespons
 
     private BillResponse getSuccessResponse(User user) {
         return BillResponse.builder()
-                .message(SUCCESS_MESSAGE)
                 .login(user.getLogin())
                 .billList(getResponseBills(user))
                 .build();
@@ -53,7 +49,7 @@ public class PrintBillsController implements Controller<BillRequest, BillRespons
 
     private BillResponse getErrorResponse(String message) {
         return BillResponse.builder()
-                .message(ERROR_MESSAGE)
+                .message(message)
                 .build();
     }
 
