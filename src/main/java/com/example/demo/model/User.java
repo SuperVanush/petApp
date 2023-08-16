@@ -13,18 +13,10 @@ import java.util.Objects;
 @Setter
 @Entity
 @NamedQueries({
-        @NamedQuery(
-                name = "User.findById",
-                query = "select a from User a where a.id=:id"),
-        @NamedQuery(
-                name = "User.findByLogin",
-                query = "select a from User a where a.login=:login"),
-        @NamedQuery(
-                name = "User.remove",
-                query = "delete from User a where a.id=:id"),
-        @NamedQuery(
-                name = "User.getListOfElements",
-                query = "select a from User a")
+        @NamedQuery(name = "User.findById", query = "select a from User a where a.id=:id"),
+        @NamedQuery(name = "User.findByLogin", query = "select a from User a where a.login=:login"),
+        @NamedQuery(name = "User.remove", query = "delete from User a where a.id=:id"),
+        @NamedQuery(name = "User.getListOfElements", query = "select a from User a")
 })
 @Table(name = "users")
 public class User {
@@ -49,11 +41,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id
-                && Objects.equals(username, user.username)
-                && Objects.equals(password, user.password)
-                && Objects.equals(login, user.login)
-                && Objects.equals(bills, user.bills);
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
     }
 
     @Override

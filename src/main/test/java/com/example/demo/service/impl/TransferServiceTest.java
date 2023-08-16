@@ -31,8 +31,10 @@ public class TransferServiceTest extends TestCase {
     @Test
     public void test_addTransaction_Ok() {
         Transfer transfer = Transfer.builder()
-                .idFromUser(1).idFromBill(1)
-                .idToUser(2).idToBill(2)
+                .idFromUser(1)
+                .idFromBill(1)
+                .idToUser(2)
+                .idToBill(2)
                 .sumTransaction(BigDecimal.valueOf(500))
                 .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
                 .build();
@@ -94,5 +96,4 @@ public class TransferServiceTest extends TestCase {
         verify(billStorage).updateBill(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
-
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 public class BillServiceTest extends TestCase {
+
     BillService subj;
     BillStorage billStorage;
 
@@ -36,7 +37,6 @@ public class BillServiceTest extends TestCase {
     public void test_FindBillsByUser_notFindBills() {
         User firstUser = User.builder().id(5).build();
         Bill billForFirstUser = Bill.builder().user(firstUser).build();
-
 
         User secondUser = User.builder().id(2).build();
 

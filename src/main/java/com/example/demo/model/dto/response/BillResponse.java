@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class BillResponse {
 
-  private String message;
-  private String login;
-  private List<BillDtoResponse> billList;
+    private String message;
+    private String login;
+    private List<BillDtoResponse> billList;
 }

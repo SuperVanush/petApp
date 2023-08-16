@@ -20,6 +20,4 @@ public class TransferResponse {
     private String toBillName;
     private BigDecimal fromBillBalance;
     private BigDecimal toBillBalance;
-
-
 }

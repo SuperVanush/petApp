@@ -13,5 +13,4 @@ public class LoginResponse {
 
     private String login;
     private String message;
-
 }

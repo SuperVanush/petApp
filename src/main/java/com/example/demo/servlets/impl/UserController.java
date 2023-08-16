@@ -18,7 +18,7 @@ public class UserController implements Controller<UserRequest, UserResponse> {
         String name = request.getName();
         String login = request.getLogin();
         String password = request.getPassword();
-       userService.addUser(name, login, password);
+        userService.addUser(name, login, password);
 
         return new UserResponse("Success");
     }

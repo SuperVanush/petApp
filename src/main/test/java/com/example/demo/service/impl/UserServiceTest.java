@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest extends TestCase {
+
     UserService subj;
     UserStorage userStorage;
     BillService billService;
@@ -33,8 +34,7 @@ public class UserServiceTest extends TestCase {
     public void test_AddUser() {
         User user = User.builder().username("qqq").login("qqq").password("qqq").build();
 
-        User userFromDatabase = User.builder()
-                .login("qqq").username("qqq").password("qqq").build();
+        User userFromDatabase = User.builder().login("qqq").username("qqq").password("qqq").build();
 
         when(userStorage.add(user)).thenReturn(userFromDatabase);
         User userFromService = subj.addUser("qqq", "qqq", "qqq");
@@ -47,7 +47,6 @@ public class UserServiceTest extends TestCase {
         when(userStorage.findByLogin("rrr")).thenReturn(null);
         assertNull(user);
     }
-
 
     @Test
     public void test_FindUserByLogin_ok() {

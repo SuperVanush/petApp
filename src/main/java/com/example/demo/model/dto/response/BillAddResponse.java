@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 @Builder
 public class BillAddResponse {
+
     private String userMessage;
     private String userLogin;
     private String billMessage;
     private String billName;
-
 }
