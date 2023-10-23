@@ -6,9 +6,11 @@ import com.example.demo.service.impl.UserService;
 import com.example.demo.servlets.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 @Service("/add-user")
 @RequiredArgsConstructor
+@RestController
 public class UserController implements Controller<UserRequest, UserResponse> {
 
     private final UserService userService;

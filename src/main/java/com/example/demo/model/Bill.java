@@ -27,6 +27,7 @@ public class Bill {
 
     @Column(name = "bill_name")
     private String billName;
+    
     @Column(name = "bill_balance")
     private BigDecimal balance;
 
