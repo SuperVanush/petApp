@@ -15,7 +15,7 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(ServletConfiguration.class);
+       ApplicationContext context = new AnnotationConfigApplicationContext(ServletConfiguration.class);
         String uri = req.getRequestURI();
         Controller<Object, Object> controller = context.getBean(uri, Controller.class);
         try {

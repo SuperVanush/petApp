@@ -1,22 +1,27 @@
-package com.example.demo.servlets.impl;
+package com.example.demo.controller;
 
+import com.example.demo.model.User;
 import com.example.demo.model.dto.request.UserRequest;
 import com.example.demo.model.dto.response.UserResponse;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.UserService;
-import com.example.demo.servlets.Controller;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Service("/add-user")
-@RequiredArgsConstructor
 @RestController
-public class UserController implements Controller<UserRequest, UserResponse> {
+@RequiredArgsConstructor
+public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     private final UserService userService;
 
-    @Override
-    public UserResponse execute(UserRequest request) {
+    @GetMapping("/add-user")
+    public UserResponse addUser(UserRequest request) {
+        Iterable<User> user = userRepository.findAll();
         String name = request.getName();
         String login = request.getLogin();
         String password = request.getPassword();
@@ -25,7 +30,6 @@ public class UserController implements Controller<UserRequest, UserResponse> {
         return new UserResponse("Success");
     }
 
-    @Override
     public Class<UserRequest> getRequestClass() {
         return UserRequest.class;
     }

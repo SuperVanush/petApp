@@ -15,7 +15,6 @@ public class LoginController implements Controller<LoginRequest, LoginResponse> 
 
     private static final String SUCCESS_MESSAGE = "Hello";
 
-
     private final UserService userService;
 
     @Override
