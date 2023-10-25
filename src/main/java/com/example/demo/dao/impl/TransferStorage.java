@@ -3,10 +3,10 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageTransfer;
 import com.example.demo.model.Transfer;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.util.List;
 

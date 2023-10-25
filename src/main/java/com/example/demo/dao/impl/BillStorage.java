@@ -2,10 +2,10 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.StorageBill;
 import com.example.demo.model.Bill;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
