@@ -4,6 +4,8 @@ import com.example.demo.dao.StorageUser;
 import com.example.demo.model.User;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,16 +15,15 @@ import java.util.Optional;
 public class UserStorage implements StorageUser {
 
     private final EntityManager entityManager;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public User add(User user) {
-        entityManager.getTransaction().begin();
-
-        user.setUsername(user.getUsername());
-        user.setLogin(user.getLogin());
-        user.setPassword(user.getPassword());
-        entityManager.persist(user);
-        entityManager.getTransaction().commit();
+        var params = new MapSqlParameterSource();
+        params.addValue("user_name", user.getUsername());
+        params.addValue("login", user.getLogin());
+        params.addValue("password", user.getPassword());
+        jdbcTemplate.update("insert into users (user_name, login, password) VALUES (?,?,?)","user_name","login","password");
         return user;
     }
 
