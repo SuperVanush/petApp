@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
+import com.example.demo.model.dto.request.LoginRequest;
 import com.example.demo.model.dto.request.UserRequest;
+import com.example.demo.model.dto.response.LoginResponse;
 import com.example.demo.model.dto.response.UserResponse;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.UserService;
@@ -22,7 +25,7 @@ public class UserController {
 
     @PostMapping("/add-user")
     public UserResponse addUser(@RequestBody UserRequest request) {
-        Iterable<User> user = userRepository.findAll();
+        userRepository.findAll();
         String name = request.getName();
         String login = request.getLogin();
         String password = request.getPassword();
@@ -31,7 +34,28 @@ public class UserController {
         return new UserResponse("Success");
     }
 
-    public Class<UserRequest> getRequestClass() {
-        return UserRequest.class;
+    @PostMapping("/login")
+    public LoginResponse addUser(@RequestBody LoginRequest request) {
+        userRepository.findAll();
+        try {
+            User userByLogin = userService.findUserByLogin(request.getLogin());
+            return getSuccessResponse(userByLogin);
+
+        } catch (UserNotFoundException e) {
+            return getErrorResponse(e.getMessage());
+        }
+    }
+
+    private LoginResponse getSuccessResponse(User user) {
+        return LoginResponse.builder()
+                .message("Hello")
+                .login(user.getLogin())
+                .build();
+    }
+
+    private LoginResponse getErrorResponse(String message) {
+        return LoginResponse.builder()
+                .message(message)
+                .build();
     }
 }
