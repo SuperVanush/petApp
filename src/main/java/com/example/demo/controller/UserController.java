@@ -10,6 +10,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private final  UserRepository userRepository;
 
     private final UserService userService;
 
@@ -34,7 +35,7 @@ public class UserController {
         return new UserResponse("Success");
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public LoginResponse addUser(@RequestBody LoginRequest request) {
         userRepository.findAll();
         try {

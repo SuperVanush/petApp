@@ -34,16 +34,16 @@ public class UserStorage implements StorageUser {
     @Override
     @Transactional
     public User findById(int id) {
-        return userRepository.findById(id).stream().findFirst().get();
-                   }
+        return userRepository.findById(id)
+                .stream()
+                .findFirst()
+                .get();
+    }
 
     @Override
+    @Transactional
     public Optional<User> findByLogin(String login) {
-        User user = userRepository.findByLogin(login);
-        if (user == null){
-            return notFound
-        }
-        return user;
+             return entityManager.createNamedQuery("User.findByLogin", User.class).getResultStream().findAny();
     }
 
     @Override

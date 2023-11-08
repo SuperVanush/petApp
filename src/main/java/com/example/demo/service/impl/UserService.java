@@ -23,7 +23,6 @@ public class UserService implements ServiceUser {
         if (userStorage.findByLogin(login).isPresent()) {
             throw new UserNotFoundException("User with this login exist. Enter another login");
         }
-
         User user = User.builder().username(name).login(login).password(password).build();
         user = userStorage.add(user);
 
