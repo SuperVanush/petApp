@@ -1,9 +1,9 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.impl.UserStorage;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,14 +20,14 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest extends TestCase {
 
     UserService subj;
-    UserStorage userStorage;
+    UserRepository userRepository;
     BillService billService;
 
     @Before
-    public void setUp() throws Exception {
-        userStorage = mock(UserStorage.class);
+    public void setUp() {
+        userRepository = mock(UserRepository.class);
         billService = mock(BillService.class);
-        subj = new UserService(userStorage, billService);
+        subj = new UserService(userRepository, billService);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class UserServiceTest extends TestCase {
 
         User userFromDatabase = User.builder().login("qqq").username("qqq").password("qqq").build();
 
-        when(userStorage.add(user)).thenReturn(userFromDatabase);
+        when(userRepository.save(user)).thenReturn(userFromDatabase);
         User userFromService = subj.addUser("qqq", "qqq", "qqq");
         assertEquals(user, userFromService);
     }
@@ -44,7 +44,7 @@ public class UserServiceTest extends TestCase {
     @Test(expected = UserNotFoundException.class)
     public void test_FindUserByLogin_notFindUser() {
         User user = subj.findUserByLogin("rrr");
-        when(userStorage.findByLogin("rrr")).thenReturn(null);
+        when(userRepository.findByLogin("rrr")).thenReturn(null);
         assertNull(user);
     }
 
@@ -56,7 +56,7 @@ public class UserServiceTest extends TestCase {
         List<Bill> bills = new ArrayList<>();
         bills.add(0, bill);
 
-        when(userStorage.findByLogin("qqq")).thenReturn(Optional.of(userByLogin));
+        when(userRepository.findByLogin("qqq")).thenReturn(Optional.of(userByLogin));
         when(billService.findBillsByUser(userByLogin)).thenReturn(bills);
         User userFromService = subj.findUserByLogin("qqq");
         assertEquals(userByLogin, userFromService);
@@ -67,7 +67,7 @@ public class UserServiceTest extends TestCase {
         User user = User.builder().login("ddd").id(1).build();
 
         when(subj.findUserByLogin("ddd")).thenReturn(user);
-        userStorage.remove(user);
-        verify(userStorage).remove(user);
+        userRepository.remove(user);
+        verify(userRepository).remove(user);
     }
 }

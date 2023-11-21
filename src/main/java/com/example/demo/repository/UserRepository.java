@@ -3,9 +3,17 @@ package com.example.demo.repository;
 
 import com.example.demo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    Optional<User> findByLogin (String login);
+
+    @Query("select u from User u where u.login = ?1")
+    Optional<User> findByLogin(String login);
+
+    @Override
+    Optional<User> findById(Integer idUser);
+
+    void remove(User user);
 }

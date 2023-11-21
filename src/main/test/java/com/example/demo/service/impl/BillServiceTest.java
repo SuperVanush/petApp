@@ -1,9 +1,9 @@
 package com.example.demo.service.impl;
 
 
-import com.example.demo.dao.impl.BillStorage;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.repository.BillRepository;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,20 +17,20 @@ import static org.mockito.Mockito.*;
 public class BillServiceTest extends TestCase {
 
     BillService subj;
-    BillStorage billStorage;
+    BillRepository billRepository;
 
     @Before
-    public void setUp() throws Exception {
-        billStorage = mock(BillStorage.class);
-        subj = new BillService(billStorage);
+    public void setUp()  {
+        billRepository = mock(BillRepository.class);
+        subj = new BillService(billRepository);
     }
 
     @Test
     public void test_AddBill_Ok() {
         Bill bill = Bill.builder()
                 .billName("qqq").balance(BigDecimal.valueOf(123)).build();
-        billStorage.add(bill);
-        verify(billStorage).add(bill);
+        billRepository.save(bill);
+        verify(billRepository).save(bill);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class BillServiceTest extends TestCase {
 
         List<Bill> listBillFirstUser = new ArrayList<>();
         listBillFirstUser.add(billForFirstUser);
-        when(billStorage.getListOfElements()).thenReturn(listBillFirstUser);
+        when(billRepository.getListOfElements()).thenReturn(listBillFirstUser);
 
         List<Bill> listSecondUser = subj.findBillsByUser(secondUser);
         assertEquals(listSecondUser.size(), 0);
@@ -63,7 +63,7 @@ public class BillServiceTest extends TestCase {
         List<Bill> listForComparison = new ArrayList<>();
         listForComparison.add(billForSecondUser);
 
-        when(billStorage.getListOfElements()).thenReturn(listBillsFromDatabase);
+        when(billRepository.getListOfElements()).thenReturn(listBillsFromDatabase);
         List<Bill> listBillsSecondUser = subj.findBillsByUser(secondUser);
         assertEquals(listBillsSecondUser, listForComparison);
     }

@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.impl.BillStorage;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.repository.BillRepository;
 import com.example.demo.service.ServiceBill;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,17 +15,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BillService implements ServiceBill {
 
-    private final BillStorage billStorage;
+    private final BillRepository billRepository;
 
     @Override
     public void addBill(String billName, BigDecimal billBalance, User user) {
         Bill bill = Bill.builder().billName(billName).balance(billBalance).user(user).build();
-        billStorage.add(bill);
+        billRepository.save(bill);
     }
 
     @Override
     public List<Bill> findBillsByUser(User findUser) {
-        return billStorage
+        return billRepository
                 .getListOfElements()
                 .stream()
                 .filter(bill -> findUser.getId() == bill.getUser().getId())
@@ -34,6 +34,6 @@ public class BillService implements ServiceBill {
 
     @Override
     public Bill findBillById(int id) {
-        return billStorage.findBillFromId(id);
+        return billRepository.findBillById(id).get();
     }
 }

@@ -1,9 +1,9 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.impl.BillStorage;
-import com.example.demo.dao.impl.TransferStorage;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
+import com.example.demo.repository.BillRepository;
+import com.example.demo.repository.TransferRepository;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,15 +17,15 @@ import static org.mockito.Mockito.*;
 
 public class TransferServiceTest extends TestCase {
 
-    TransferStorage transferStorage;
+    TransferRepository transferRepository;
     TransferService subj;
-    BillStorage billStorage;
+    BillRepository billRepository;
 
     @Before
-    public void setUp() throws Exception {
-        billStorage = mock(BillStorage.class);
-        transferStorage = mock(TransferStorage.class);
-        subj = new TransferService(transferStorage, billStorage);
+    public void setUp() {
+        billRepository = mock(BillRepository.class);
+        transferRepository = mock(TransferRepository.class);
+        subj = new TransferService(transferRepository, billRepository);
     }
 
     @Test
@@ -38,8 +38,8 @@ public class TransferServiceTest extends TestCase {
                 .sumTransaction(BigDecimal.valueOf(500))
                 .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
                 .build();
-        transferStorage.add(transfer);
-        verify(transferStorage).add(transfer);
+        transferRepository.save(transfer);
+        verify(transferRepository).save(transfer);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class TransferServiceTest extends TestCase {
         List<Transfer> listTransferForCompare = new ArrayList<>();
         listTransferForCompare.add(secondTransfer);
 
-        when(transferStorage.getListOfElements()).thenReturn(listTransfer);
+        when(transferRepository.getListOfElements()).thenReturn(listTransfer);
         List<Transfer> transferListForElevenBill = subj.findTransferByBillsId(11);
         assertEquals(transferListForElevenBill, listTransferForCompare);
     }
@@ -70,7 +70,7 @@ public class TransferServiceTest extends TestCase {
 
         List<Transfer> firstTransferList = new ArrayList<>();
         firstTransferList.add(firstTransfer);
-        when(transferStorage.getListOfElements()).thenReturn(firstTransferList);
+        when(transferRepository.getListOfElements()).thenReturn(firstTransferList);
 
         List<Transfer> secondTransferList = subj.findTransferByBillsId(secondBill.getId());
         assertEquals(secondTransferList.size(), 0);
@@ -81,9 +81,9 @@ public class TransferServiceTest extends TestCase {
     public void test_sumBalanceTransaction_Ok() {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(6)).id(2).build();
         BigDecimal sumDigit = BigDecimal.valueOf(3);
-        when(billStorage.findBillFromId(6)).thenReturn(bill);
+        when(billRepository.findBillById(6).get()).thenReturn(bill);
         Bill returnBill = subj.sumBalanceTransaction(6, BigDecimal.valueOf(3));
-        verify(billStorage).updateBill(returnBill);
+        verify(billRepository).updateBill(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
 
@@ -91,9 +91,9 @@ public class TransferServiceTest extends TestCase {
     public void test_reduceBalance_Ok() {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(9)).id(2).build();
         BigDecimal reduceBalance = BigDecimal.valueOf(2);
-        when(billStorage.findBillFromId(2)).thenReturn(bill);
+        when(billRepository.findBillById(2).get()).thenReturn(bill);
         Bill returnBill = subj.reduceBalance(2, reduceBalance);
-        verify(billStorage).updateBill(returnBill);
+        verify(billRepository).updateBill(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
 }

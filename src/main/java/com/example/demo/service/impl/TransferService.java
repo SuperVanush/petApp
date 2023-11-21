@@ -1,11 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.impl.BillStorage;
-import com.example.demo.dao.impl.TransferStorage;
 import com.example.demo.exception.TransferException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
+import com.example.demo.repository.BillRepository;
+import com.example.demo.repository.TransferRepository;
 import com.example.demo.service.ServiceTransfer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TransferService implements ServiceTransfer {
 
-    private final TransferStorage transferStorage;
-    private final BillStorage billStorage;
+    private final TransferRepository transferRepository;
+    private final BillRepository billRepository;
 
     @Override
     public Transfer addTransfer(User lastUser, User toUser, int idFromBill, int idToBill, BigDecimal transactionSumma) {
@@ -30,14 +30,14 @@ public class TransferService implements ServiceTransfer {
                 .idToBill(idToBill)
                 .sumTransaction(transactionSumma)
                 .build();
-        transferStorage.add(transfer);
+        transferRepository.save(transfer);
 
         return transfer;
     }
 
     @Override
     public List<Transfer> findTransferByBillsId(int id) {
-        List<Transfer> transferList = transferStorage.getListOfElements();
+        List<Transfer> transferList = transferRepository.getListOfElements();
         List<Transfer> transferListForReturn = transferList
                 .stream()
                 .filter(transfer -> id == transfer.getIdFromBill())
@@ -48,23 +48,23 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Bill sumBalanceTransaction(int idBill, BigDecimal sumDigit) {
-        Bill bill = billStorage.findBillFromId(idBill);
+        Bill bill = billRepository.findBillById(idBill).get();
         BigDecimal billBalance = bill.getBalance();
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
         bill.setBalance(sumBillBalance);
-        billStorage.updateBill(bill);
+        billRepository.updateBill(bill);
 
         return bill;
     }
 
     @Override
     public Bill reduceBalance(int idBill, BigDecimal reduceDigit) {
-        Bill bill = billStorage.findBillFromId(idBill);
+        Bill bill = billRepository.findBillById(idBill).get();
         BigDecimal billBalance = bill.getBalance();
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
         if (reduceBillBalance.compareTo(BigDecimal.ZERO) > 0) {
             bill.setBalance(reduceBillBalance);
-            billStorage.updateBill(bill);
+            billRepository.updateBill(bill);
         } else {
             throw new TransferException("TRY AGAIN YOUR BALANCE IS MINUS");
         }
