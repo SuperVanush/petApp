@@ -55,7 +55,7 @@ public class TransferServiceTest extends TestCase {
         List<Transfer> listTransferForCompare = new ArrayList<>();
         listTransferForCompare.add(secondTransfer);
 
-        when(transferRepository.getListOfElements()).thenReturn(listTransfer);
+        when(transferRepository.findAll()).thenReturn(listTransfer);
         List<Transfer> transferListForElevenBill = subj.findTransferByBillsId(11);
         assertEquals(transferListForElevenBill, listTransferForCompare);
     }
@@ -70,7 +70,7 @@ public class TransferServiceTest extends TestCase {
 
         List<Transfer> firstTransferList = new ArrayList<>();
         firstTransferList.add(firstTransfer);
-        when(transferRepository.getListOfElements()).thenReturn(firstTransferList);
+        when(transferRepository.findAll()).thenReturn(firstTransferList);
 
         List<Transfer> secondTransferList = subj.findTransferByBillsId(secondBill.getId());
         assertEquals(secondTransferList.size(), 0);
@@ -83,7 +83,7 @@ public class TransferServiceTest extends TestCase {
         BigDecimal sumDigit = BigDecimal.valueOf(3);
         when(billRepository.findBillById(6).get()).thenReturn(bill);
         Bill returnBill = subj.sumBalanceTransaction(6, BigDecimal.valueOf(3));
-        verify(billRepository).updateBill(returnBill);
+        verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
 
@@ -93,7 +93,7 @@ public class TransferServiceTest extends TestCase {
         BigDecimal reduceBalance = BigDecimal.valueOf(2);
         when(billRepository.findBillById(2).get()).thenReturn(bill);
         Bill returnBill = subj.reduceBalance(2, reduceBalance);
-        verify(billRepository).updateBill(returnBill);
+        verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
 }

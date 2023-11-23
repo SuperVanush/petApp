@@ -1,0 +1,85 @@
+package com.example.demo.controller;
+
+import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.model.Bill;
+import com.example.demo.model.User;
+import com.example.demo.model.dto.request.BillRequest;
+import com.example.demo.model.dto.request.LoginRequest;
+import com.example.demo.model.dto.response.BillDtoResponse;
+import com.example.demo.model.dto.response.BillResponse;
+import com.example.demo.model.dto.response.LoginResponse;
+import com.example.demo.repository.BillRepository;
+import com.example.demo.service.impl.BillService;
+import com.example.demo.service.impl.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+public class BillController {
+
+    private final BillRepository billRepository;
+
+    private final BillService billService;
+    private final UserService userService;
+
+    @PostMapping("/add-bill")
+    public BillResponse addBill(@RequestBody BillRequest request) {
+        try {
+            billRepository.findAll();
+            String userLogin = request.getLogin();
+            String billName = request.getBillName();
+            BigDecimal balance = request.getBalance();
+            User userOfBill = userService.findUserByLogin(userLogin);
+            billService.addBill(billName, balance, userOfBill);
+            return getSuccessAddBillResponse(userOfBill);
+        } catch (UserNotFoundException e) {
+            return getErrorAddBillResponse(e.getMessage());
+        }
+    }
+
+    @GetMapping("/bills-by-user")
+    public BillResponse findBillsByUser(@RequestBody BillRequest request) {
+        try {
+            User userByLogin = userService.findUserByLogin(request.getLogin());
+            List<Bill> listBillsByUser = billService.findBillsByUser(userByLogin);
+            return getSuccessFindBillResponse(userByLogin, listBillsByUser);
+
+        } catch (UserNotFoundException e) {
+            return getErrorFindBillResponse(e.getMessage());
+        }
+    }
+
+
+    private BillResponse getSuccessAddBillResponse(User user) {
+        return BillResponse.builder()
+                .message("Success   ")
+                .build();
+    }
+
+    private BillResponse getErrorAddBillResponse(String message) {
+        return BillResponse.builder()
+                .message(message)
+                .build();
+    }
+
+    private BillResponse getSuccessFindBillResponse(User user, List<Bill> listBillsByUser) {
+        return BillResponse.builder()
+                .message("Success   ")
+                .login(user.getLogin())
+                .billList(List <BillDtoResponse>listBillsByUser)
+                .build();
+    }
+
+    private BillResponse getErrorFindBillResponse(String message) {
+        return BillResponse.builder()
+                .message(message)
+                .build();
+    }
+}

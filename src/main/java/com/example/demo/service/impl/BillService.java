@@ -26,7 +26,7 @@ public class BillService implements ServiceBill {
     @Override
     public List<Bill> findBillsByUser(User findUser) {
         return billRepository
-                .getListOfElements()
+                .findAll()
                 .stream()
                 .filter(bill -> findUser.getId() == bill.getUser().getId())
                 .collect(Collectors.toList());

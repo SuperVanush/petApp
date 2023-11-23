@@ -14,9 +14,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "Transfer.getListOfElements", query = "select a from Transfer a")
-})
 @Table(name = "transaction_history")
 public class Transfer {
 

@@ -42,7 +42,7 @@ public class BillServiceTest extends TestCase {
 
         List<Bill> listBillFirstUser = new ArrayList<>();
         listBillFirstUser.add(billForFirstUser);
-        when(billRepository.getListOfElements()).thenReturn(listBillFirstUser);
+        when(billRepository.findAll()).thenReturn(listBillFirstUser);
 
         List<Bill> listSecondUser = subj.findBillsByUser(secondUser);
         assertEquals(listSecondUser.size(), 0);
@@ -63,7 +63,7 @@ public class BillServiceTest extends TestCase {
         List<Bill> listForComparison = new ArrayList<>();
         listForComparison.add(billForSecondUser);
 
-        when(billRepository.getListOfElements()).thenReturn(listBillsFromDatabase);
+        when(billRepository.findAll()).thenReturn(listBillsFromDatabase);
         List<Bill> listBillsSecondUser = subj.findBillsByUser(secondUser);
         assertEquals(listBillsSecondUser, listForComparison);
     }

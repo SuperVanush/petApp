@@ -37,7 +37,7 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public List<Transfer> findTransferByBillsId(int id) {
-        List<Transfer> transferList = transferRepository.getListOfElements();
+        List<Transfer> transferList = transferRepository.findAll();
         List<Transfer> transferListForReturn = transferList
                 .stream()
                 .filter(transfer -> id == transfer.getIdFromBill())
@@ -52,7 +52,7 @@ public class TransferService implements ServiceTransfer {
         BigDecimal billBalance = bill.getBalance();
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
         bill.setBalance(sumBillBalance);
-        billRepository.updateBill(bill);
+        billRepository.save(bill);
 
         return bill;
     }
@@ -64,7 +64,7 @@ public class TransferService implements ServiceTransfer {
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
         if (reduceBillBalance.compareTo(BigDecimal.ZERO) > 0) {
             bill.setBalance(reduceBillBalance);
-            billRepository.updateBill(bill);
+            billRepository.save(bill);
         } else {
             throw new TransferException("TRY AGAIN YOUR BALANCE IS MINUS");
         }

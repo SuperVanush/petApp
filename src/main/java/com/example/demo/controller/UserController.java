@@ -24,34 +24,51 @@ public class UserController {
 
     @PostMapping( "/add-user")
     public UserResponse addUser(@RequestBody UserRequest request) {
+        try {
         userRepository.findAll();
         String name = request.getName();
         String login = request.getLogin();
         String password = request.getPassword();
-        userService.addUser(name, login, password);
+        User addUser = userService.addUser(name, login, password);
 
-        return new UserResponse("Success");
+        return getSuccessUserResponse(addUser);
+    }
+    catch (UserNotFoundException e) {
+        return  getErrorUserResponse(e.getMessage());}
     }
 
     @GetMapping("/login")
     public LoginResponse addUser(@RequestBody LoginRequest request) {
         try {
             User userByLogin = userService.findUserByLogin(request.getLogin());
-            return getSuccessResponse(userByLogin);
+            return getSuccessLoginResponse(userByLogin);
 
         } catch (UserNotFoundException e) {
-            return getErrorResponse(e.getMessage());
+            return getErrorLoginResponse(e.getMessage());
         }
     }
 
-    private LoginResponse getSuccessResponse(User user) {
+
+    private UserResponse getSuccessUserResponse(User user) {
+        return  UserResponse.builder()
+                .message("Success   ")
+                .name(user.getUsername())
+                .build();
+    }
+
+    private UserResponse getErrorUserResponse(String message) {
+        return UserResponse.builder()
+                .message(message)
+                .build();
+    }
+    private LoginResponse getSuccessLoginResponse(User user) {
         return LoginResponse.builder()
                 .message("Hello")
                 .login(user.getLogin())
                 .build();
     }
 
-    private LoginResponse getErrorResponse(String message) {
+    private LoginResponse getErrorLoginResponse(String message) {
         return LoginResponse.builder()
                 .message(message)
                 .build();

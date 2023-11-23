@@ -20,7 +20,7 @@ public class UserService implements ServiceUser {
 
     @Override
     public User addUser(String name, String login, String password) {
-        if (userRepository.findByLogin(login).isPresent()){
+        if (userRepository.findByLogin(login).isPresent()) {
             throw new UserNotFoundException("User with this login exist. Enter another login");
         }
         User user = User.builder().username(name).login(login).password(password).build();
@@ -32,7 +32,7 @@ public class UserService implements ServiceUser {
     @Override
     public User findUserByLogin(String login) {
 
-         return userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
+        return userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
     }
 
     @Override
@@ -47,8 +47,7 @@ public class UserService implements ServiceUser {
 
     @Override
     public User removeUser(String removeUserLogin) {
-        User user = findUserByLogin(removeUserLogin);
-        userRepository.remove(user);
-        return user;
+        return userRepository.removeUserByLogin(removeUserLogin).get();
+
     }
 }
