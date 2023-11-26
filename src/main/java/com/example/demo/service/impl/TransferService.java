@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.TransferException;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,12 +25,14 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Transfer addTransfer(User lastUser, User toUser, int idFromBill, int idToBill, BigDecimal transactionSumma) {
+
         Transfer transfer = Transfer.builder()
                 .idFromUser(lastUser.getId())
                 .idToUser(toUser.getId())
                 .idFromBill(idFromBill)
                 .idToBill(idToBill)
                 .sumTransaction(transactionSumma)
+                .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
                 .build();
         transferRepository.save(transfer);
 
@@ -48,7 +52,7 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Bill sumBalanceTransaction(int idBill, BigDecimal sumDigit) {
-        Bill bill = billRepository.findBillById(idBill).get();
+        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill_Optional is empty"));
         BigDecimal billBalance = bill.getBalance();
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
         bill.setBalance(sumBillBalance);
@@ -59,7 +63,7 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Bill reduceBalance(int idBill, BigDecimal reduceDigit) {
-        Bill bill = billRepository.findBillById(idBill).get();
+        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill_Optional is empty"));
         BigDecimal billBalance = bill.getBalance();
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
         if (reduceBillBalance.compareTo(BigDecimal.ZERO) > 0) {

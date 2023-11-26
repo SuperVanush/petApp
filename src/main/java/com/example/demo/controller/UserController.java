@@ -22,19 +22,19 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping( "/add-user")
+    @PostMapping("/add-user")
     public UserResponse addUser(@RequestBody UserRequest request) {
         try {
-        userRepository.findAll();
-        String name = request.getName();
-        String login = request.getLogin();
-        String password = request.getPassword();
-        User addUser = userService.addUser(name, login, password);
+            userRepository.findAll();
+            String name = request.getName();
+            String login = request.getLogin();
+            String password = request.getPassword();
+            User addUser = userService.addUser(name, login, password);
 
-        return getSuccessUserResponse(addUser);
-    }
-    catch (UserNotFoundException e) {
-        return  getErrorUserResponse(e.getMessage());}
+            return getSuccessUserResponse(addUser);
+        } catch (UserNotFoundException e) {
+            return getErrorUserResponse(e.getMessage());
+        }
     }
 
     @GetMapping("/login")
@@ -44,13 +44,29 @@ public class UserController {
             return getSuccessLoginResponse(userByLogin);
 
         } catch (UserNotFoundException e) {
+
             return getErrorLoginResponse(e.getMessage());
+        }
+    }
+
+    @PostMapping("/remove-user")
+    public LoginResponse removeUser(@RequestBody UserRequest request) {
+        try {
+            userRepository.findAll();
+            String login = request.getLogin();
+            userService.removeUser(login);
+
+            return getSuccessUserRemoveResponse(login);
+
+        } catch (UserNotFoundException e) {
+
+            return getErrorUserRemoveResponse(e.getMessage());
         }
     }
 
 
     private UserResponse getSuccessUserResponse(User user) {
-        return  UserResponse.builder()
+        return UserResponse.builder()
                 .message("Success   ")
                 .name(user.getUsername())
                 .build();
@@ -61,6 +77,7 @@ public class UserController {
                 .message(message)
                 .build();
     }
+
     private LoginResponse getSuccessLoginResponse(User user) {
         return LoginResponse.builder()
                 .message("Hello")
@@ -69,6 +86,19 @@ public class UserController {
     }
 
     private LoginResponse getErrorLoginResponse(String message) {
+        return LoginResponse.builder()
+                .message(message)
+                .build();
+    }
+
+    private LoginResponse getSuccessUserRemoveResponse(String login) {
+        return LoginResponse.builder()
+                .message("Success  remove ")
+                .login(login)
+                .build();
+    }
+
+    private LoginResponse getErrorUserRemoveResponse(String message) {
         return LoginResponse.builder()
                 .message(message)
                 .build();

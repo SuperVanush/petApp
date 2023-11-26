@@ -67,7 +67,7 @@ public class UserServiceTest extends TestCase {
         User user = User.builder().login("ddd").id(1).build();
 
         when(subj.findUserByLogin("ddd")).thenReturn(user);
-        userRepository.removeUserByLogin(user.getLogin()).get();
-        verify(userRepository).removeUserByLogin(user.getLogin()).get();
+        userRepository.deleteById(user.getId());
+        verify(userRepository).deleteById(user.getId());
     }
 }

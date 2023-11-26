@@ -37,7 +37,7 @@ public class UserService implements ServiceUser {
 
     @Override
     public User findUserById(int idUser) {
-        User userById = userRepository.findById(idUser).get();
+        User userById = userRepository.findById(idUser).orElseThrow(() -> new UserNotFoundException("User_Optional is empty"));
         if (userById != null) {
             List<Bill> bills = billService.findBillsByUser(userById);
             userById.setBills(bills);
@@ -45,9 +45,11 @@ public class UserService implements ServiceUser {
         return userById;
     }
 
-    @Override
-    public User removeUser(String removeUserLogin) {
-        return userRepository.removeUserByLogin(removeUserLogin).get();
 
+    @Override
+    public String removeUser(String removeUserLogin) {
+        int idRemoveUser = findUserByLogin(removeUserLogin).getId();
+        userRepository.deleteById(idRemoveUser);
+        return removeUserLogin;
     }
 }

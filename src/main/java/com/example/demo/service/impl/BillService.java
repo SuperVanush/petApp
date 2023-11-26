@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.repository.BillRepository;
@@ -34,6 +35,6 @@ public class BillService implements ServiceBill {
 
     @Override
     public Bill findBillById(int id) {
-        return billRepository.findBillById(id).get();
+        return billRepository.findBillById(id).orElseThrow(() -> new UserNotFoundException("Bill_Optional is empty"));
     }
 }
