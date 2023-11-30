@@ -6,7 +6,6 @@ import com.example.demo.model.User;
 import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.response.BillDtoResponse;
 import com.example.demo.model.dto.response.BillResponse;
-import com.example.demo.repository.BillRepository;
 import com.example.demo.service.converter.Converter;
 import com.example.demo.service.impl.BillService;
 import com.example.demo.service.impl.UserService;
@@ -24,8 +23,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BillController {
 
-    private final BillRepository billRepository;
-
     private final BillService billService;
     private final UserService userService;
     private final Converter<Bill, BillDtoResponse> converter;
@@ -33,7 +30,6 @@ public class BillController {
     @PostMapping("/add-bill")
     public BillResponse addBill(@RequestBody BillRequest request) {
         try {
-            billRepository.findAll();
             String userLogin = request.getLogin();
             String billName = request.getBillName();
             BigDecimal balance = request.getBalance();
@@ -49,9 +45,7 @@ public class BillController {
     public BillResponse findBillsByUser(@RequestBody BillRequest request) {
         try {
             User userByLogin = userService.findUserByLogin(request.getLogin());
-           billService.findBillsByUser(userByLogin);
             return getSuccessFindBillResponse(userByLogin);
-
         } catch (UserNotFoundException e) {
             return getErrorFindBillResponse(e.getMessage());
         }
@@ -60,7 +54,7 @@ public class BillController {
 
     private BillResponse getSuccessAddBillResponse(User user) {
         return BillResponse.builder()
-                .message("Success   ")
+                .message("Success")
                 .login(user.getLogin())
                 .billList(getResponseBills(user))
                 .build();
@@ -74,7 +68,7 @@ public class BillController {
 
     private BillResponse getSuccessFindBillResponse(User user) {
         return BillResponse.builder()
-                .message("Success   ")
+                .message("Success")
                 .login(user.getLogin())
                 .billList(getResponseBills(user))
                 .build();

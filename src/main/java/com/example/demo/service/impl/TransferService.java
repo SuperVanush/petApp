@@ -52,7 +52,7 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Bill sumBalanceTransaction(int idBill, BigDecimal sumDigit) {
-        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill_Optional is empty"));
+        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
         BigDecimal billBalance = bill.getBalance();
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
         bill.setBalance(sumBillBalance);
@@ -63,9 +63,10 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Bill reduceBalance(int idBill, BigDecimal reduceDigit) {
-        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill_Optional is empty"));
+        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
         BigDecimal billBalance = bill.getBalance();
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
+
         if (reduceBillBalance.compareTo(BigDecimal.ZERO) > 0) {
             bill.setBalance(reduceBillBalance);
             billRepository.save(bill);

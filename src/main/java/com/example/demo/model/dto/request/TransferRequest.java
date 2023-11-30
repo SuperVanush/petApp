@@ -16,7 +16,7 @@ public class TransferRequest {
     private String loginFromUser;
     private int idFromBill;
     private String loginToUser;
-    private int idToBill;
+    private String nameToBill;
     private BigDecimal sumTransfer;
     private BigDecimal fromBillBalance;
     private BigDecimal toBillBalance;

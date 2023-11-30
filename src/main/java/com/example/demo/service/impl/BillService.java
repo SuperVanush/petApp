@@ -34,7 +34,12 @@ public class BillService implements ServiceBill {
     }
 
     @Override
+    public Bill findBillByName (String billName){
+        return billRepository.findOne()
+    }
+
+
     public Bill findBillById(int id) {
-        return billRepository.findBillById(id).orElseThrow(() -> new UserNotFoundException("Bill_Optional is empty"));
+        return billRepository.findBillById(id).orElseThrow(() -> new UserNotFoundException("Bill not found"));
     }
 }

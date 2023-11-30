@@ -6,7 +6,6 @@ import com.example.demo.model.dto.request.LoginRequest;
 import com.example.demo.model.dto.request.UserRequest;
 import com.example.demo.model.dto.response.LoginResponse;
 import com.example.demo.model.dto.response.UserResponse;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,20 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
-
     private final UserService userService;
 
     @PostMapping("/add-user")
     public UserResponse addUser(@RequestBody UserRequest request) {
         try {
-            userRepository.findAll();
             String name = request.getName();
             String login = request.getLogin();
             String password = request.getPassword();
             User addUser = userService.addUser(name, login, password);
-
             return getSuccessUserResponse(addUser);
+
         } catch (UserNotFoundException e) {
             return getErrorUserResponse(e.getMessage());
         }
@@ -44,7 +40,6 @@ public class UserController {
             return getSuccessLoginResponse(userByLogin);
 
         } catch (UserNotFoundException e) {
-
             return getErrorLoginResponse(e.getMessage());
         }
     }
@@ -52,14 +47,12 @@ public class UserController {
     @PostMapping("/remove-user")
     public LoginResponse removeUser(@RequestBody UserRequest request) {
         try {
-            userRepository.findAll();
             String login = request.getLogin();
             userService.removeUser(login);
 
             return getSuccessUserRemoveResponse(login);
 
         } catch (UserNotFoundException e) {
-
             return getErrorUserRemoveResponse(e.getMessage());
         }
     }
@@ -67,7 +60,7 @@ public class UserController {
 
     private UserResponse getSuccessUserResponse(User user) {
         return UserResponse.builder()
-                .message("Success   ")
+                .message("Success")
                 .name(user.getUsername())
                 .build();
     }
@@ -93,7 +86,7 @@ public class UserController {
 
     private LoginResponse getSuccessUserRemoveResponse(String login) {
         return LoginResponse.builder()
-                .message("Success  remove ")
+                .message("Success  remove")
                 .login(login)
                 .build();
     }
