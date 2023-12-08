@@ -22,10 +22,13 @@ public class TransferService implements ServiceTransfer {
 
     private final TransferRepository transferRepository;
     private final BillRepository billRepository;
+    private final BillService billService;
+    private final UserService userService;
 
     @Override
-    public Transfer addTransfer(User lastUser, User toUser, int idFromBill, int idToBill, BigDecimal transactionSumma) {
-
+    public Transfer addTransfer(User lastUser, User toUser, String nameFromBill, String nameToBill, BigDecimal transactionSumma) {
+        int idFromBill = billService.findBillByName(nameFromBill).getId();
+        int idToBill = billService.findBillByName(nameToBill).getId();
         Transfer transfer = Transfer.builder()
                 .idFromUser(lastUser.getId())
                 .idToUser(toUser.getId())
@@ -40,19 +43,20 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public List<Transfer> findTransferByBillsId(int id) {
+    public List<Transfer> findTransferByBillsName(String billName) {
+        int billId = billService.findBillByName(billName).getId();
         List<Transfer> transferList = transferRepository.findAll();
         List<Transfer> transferListForReturn = transferList
                 .stream()
-                .filter(transfer -> id == transfer.getIdFromBill())
+                .filter(transfer -> billId == transfer.getIdFromBill())
                 .collect(Collectors.toList());
 
         return transferListForReturn;
     }
 
     @Override
-    public Bill sumBalanceTransaction(int idBill, BigDecimal sumDigit) {
-        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
+    public Bill sumBalanceTransaction(String fromBillName, BigDecimal sumDigit) {
+        Bill bill = billRepository.findBillByBillName(fromBillName).orElseThrow(() -> new UserNotFoundException("Bill not found"));
         BigDecimal billBalance = bill.getBalance();
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
         bill.setBalance(sumBillBalance);
@@ -62,8 +66,8 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public Bill reduceBalance(int idBill, BigDecimal reduceDigit) {
-        Bill bill = billRepository.findBillById(idBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
+    public Bill reduceBalance(String nameFromBill, BigDecimal reduceDigit) {
+        Bill bill = billRepository.findBillByBillName(nameFromBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
         BigDecimal billBalance = bill.getBalance();
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
 
@@ -73,12 +77,25 @@ public class TransferService implements ServiceTransfer {
         } else {
             throw new TransferException("TRY AGAIN YOUR BALANCE IS MINUS");
         }
+
         return bill;
     }
 
     @Override
-    public void transactionToBill(int idFromBill, int idToBill, BigDecimal transactionSumma) throws TransferException {
-        reduceBalance(idFromBill, transactionSumma);
-        sumBalanceTransaction(idToBill, transactionSumma);
+    public Transfer transactionBetweenBill(String fromUserLogin, String toUserLogin, String nameFromBill, String nameToBill, BigDecimal transactionSumma) throws TransferException {
+        int idFromUser = userService.findUserByLogin(fromUserLogin).getId();
+        int idToUser = userService.findUserByLogin(toUserLogin).getId();
+        int idFromBill = reduceBalance(nameFromBill, transactionSumma).getId();
+        int idToBill = sumBalanceTransaction(nameToBill, transactionSumma).getId();
+        Transfer transfer = Transfer.builder()
+                .idFromUser(idFromUser)
+                .idToUser(idToUser)
+                .idFromBill(idFromBill)
+                .idToBill(idToBill)
+                .sumTransaction(transactionSumma)
+                .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
+                .build();
+        transferRepository.save(transfer);
+        return transfer;
     }
 }

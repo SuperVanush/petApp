@@ -35,11 +35,7 @@ public class BillService implements ServiceBill {
 
     @Override
     public Bill findBillByName (String billName){
-        return billRepository.findOne()
+            return billRepository.findBillByBillName(billName).orElseThrow(()->new UserNotFoundException("Bill not found"));
     }
 
-
-    public Bill findBillById(int id) {
-        return billRepository.findBillById(id).orElseThrow(() -> new UserNotFoundException("Bill not found"));
-    }
 }

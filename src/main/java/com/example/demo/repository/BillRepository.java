@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface BillRepository extends JpaRepository<Bill, Integer> {
 
-    Optional<Bill> findBillById(int id);
+    Optional<Bill> findBillByBillName (String billName);
 
-    }
+    Optional<Bill> findBillById (int id);
+}

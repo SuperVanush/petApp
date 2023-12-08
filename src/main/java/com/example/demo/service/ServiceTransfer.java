@@ -9,15 +9,15 @@ import java.util.List;
 
 public interface ServiceTransfer {
 
-    Transfer addTransfer(User lastUser, User toUser, int idFromBill,
-                         int idToBill, BigDecimal transactionSumma);
+    Transfer addTransfer(User lastUser, User toUser, String nameFromBill,
+                         String NameToBill, BigDecimal transactionSumma);
 
-    Bill reduceBalance(int idBill, BigDecimal reduceDigit);
+    Bill reduceBalance(String nameFromBill, BigDecimal reduceDigit);
 
-    void transactionToBill(int idFromBill, int idToBill, BigDecimal transactionSumma);
+    Transfer transactionBetweenBill(String fromUserLogin, String toUserLogin, String nameFromBill, String nameToBill, BigDecimal transactionSumma);
 
-    Bill sumBalanceTransaction(int idBill, BigDecimal sumDigit);
+    Bill sumBalanceTransaction(String billName, BigDecimal sumDigit);
 
-    List<Transfer> findTransferByBillsId(int id);
+    List<Transfer> findTransferByBillsName(String billName);
 }
 

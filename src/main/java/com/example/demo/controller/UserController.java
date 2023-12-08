@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public LoginResponse addUser(@RequestBody LoginRequest request) {
+    public LoginResponse findUser(@RequestBody LoginRequest request) {
         try {
             User userByLogin = userService.findUserByLogin(request.getLogin());
             return getSuccessLoginResponse(userByLogin);

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class TransferRequest {
 
     private String loginFromUser;
-    private int idFromBill;
+    private String nameFromBill;
     private String loginToUser;
     private String nameToBill;
     private BigDecimal sumTransfer;

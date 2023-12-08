@@ -20,12 +20,14 @@ public class TransferServiceTest extends TestCase {
     TransferRepository transferRepository;
     TransferService subj;
     BillRepository billRepository;
+    BillService billService;
+    UserService userService;
 
     @Before
     public void setUp() {
         billRepository = mock(BillRepository.class);
         transferRepository = mock(TransferRepository.class);
-        subj = new TransferService(transferRepository, billRepository);
+        subj = new TransferService(transferRepository, billRepository, billService, userService);
     }
 
     @Test
@@ -43,7 +45,18 @@ public class TransferServiceTest extends TestCase {
     }
 
     @Test
-    public void test_findTransferByBillsId_ok() {
+    public void test_findTransferByBillsName_ok() {
+
+        Bill firstBill = Bill.builder()
+                .id(5)
+                .billName("VTB")
+                .build();
+
+        Bill secondBill = Bill.builder()
+                .id(11)
+                .billName("ALFA")
+                .build();
+
         Transfer firstTransfer = Transfer.builder().idFromBill(5).build();
 
         Transfer secondTransfer = Transfer.builder().idFromBill(11).build();
@@ -56,13 +69,14 @@ public class TransferServiceTest extends TestCase {
         listTransferForCompare.add(secondTransfer);
 
         when(transferRepository.findAll()).thenReturn(listTransfer);
-        List<Transfer> transferListForElevenBill = subj.findTransferByBillsId(11);
+        List<Transfer> transferListForElevenBill = subj.findTransferByBillsName(secondBill.getBillName());
         assertEquals(transferListForElevenBill, listTransferForCompare);
     }
 
     @Test
-    public void test_findTransferByBillsId_not_find_transfer() {
-        Bill firstBill = Bill.builder().id(6).build();
+    public void test_findTransferByBillsName_not_find_transfer() {
+        Bill firstBill = Bill.builder()
+                .id(6).build();
 
         Transfer firstTransfer = Transfer.builder().idFromBill(firstBill.getId()).build();
 
@@ -72,7 +86,7 @@ public class TransferServiceTest extends TestCase {
         firstTransferList.add(firstTransfer);
         when(transferRepository.findAll()).thenReturn(firstTransferList);
 
-        List<Transfer> secondTransferList = subj.findTransferByBillsId(secondBill.getId());
+        List<Transfer> secondTransferList = subj.findTransferByBillsName(secondBill.getBillName());
         assertEquals(secondTransferList.size(), 0);
 
     }
@@ -81,8 +95,8 @@ public class TransferServiceTest extends TestCase {
     public void test_sumBalanceTransaction_Ok() {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(6)).id(2).build();
         BigDecimal sumDigit = BigDecimal.valueOf(3);
-        when(billRepository.findBillById(6).get()).thenReturn(bill);
-        Bill returnBill = subj.sumBalanceTransaction(6, BigDecimal.valueOf(3));
+        when(billRepository.findBillByBillName("ALFA").get()).thenReturn(bill);
+        Bill returnBill = subj.sumBalanceTransaction("ALFA", sumDigit);
         verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
@@ -91,8 +105,8 @@ public class TransferServiceTest extends TestCase {
     public void test_reduceBalance_Ok() {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(9)).id(2).build();
         BigDecimal reduceBalance = BigDecimal.valueOf(2);
-        when(billRepository.findBillById(2).get()).thenReturn(bill);
-        Bill returnBill = subj.reduceBalance(2, reduceBalance);
+        when(billRepository.findBillByBillName("VTB").get()).thenReturn(bill);
+        Bill returnBill = subj.reduceBalance("VTB", reduceBalance);
         verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }

@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.TransferException;
 import com.example.demo.exception.UserNotFoundException;
-import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.TransferRequest;
@@ -26,18 +25,15 @@ public class TransferController {
     private final UserService userService;
     private final TransferService transferService;
 
-    @PostMapping("/transfer-from-user-to-user")
+    @PostMapping("/sumSratsfer")
     public TransferResponse addTransfer(@RequestBody TransferRequest request) {
         try {
             String loginFromUser = request.getLoginFromUser();
-            int idFromBill = request.getIdFromBill();
+            String nameFromBill = request.getNameFromBill();
             String loginToUser = request.getLoginToUser();
             String nameToBill = request.getNameToBill();
             BigDecimal sumTransfer = request.getSumTransfer();
-            User fromUser = userService.findUserByLogin(loginFromUser);
-            User toUser = userService.findUserByLogin(loginToUser);
-            transferService.transactionToBill(idFromBill, idToBill, sumTransfer);
-            Transfer transfer = transferService.addTransfer(fromUser, toUser, idFromBill, idToBill, sumTransfer);
+            Transfer transfer = transferService.transactionBetweenBill(loginFromUser, loginToUser, nameFromBill, nameToBill, sumTransfer);
             return getSuccessAddTransferResponse(transfer.getId());
 
         } catch (TransferException e) {
@@ -45,16 +41,15 @@ public class TransferController {
         }
     }
 
-    @PostMapping("/sum-transaction-cash-to-user")
+    @PostMapping("/sum-transaction")
     public TransferResponse addSum(@RequestBody TransferRequest request) {
         try {
             String nameToBill = request.getNameToBill();
             BigDecimal sumDigit = request.getSumTransfer();
             String userLogin = request.getLoginToUser();
             User user = userService.findUserByLogin(userLogin);
-            Bill bill = transferService.sumBalanceTransaction(idBill, sumDigit);
-            int idAddedBill = bill.getId();
-            Transfer transfer = transferService.addTransfer(user, user, idAddedBill, idAddedBill, sumDigit);
+            String nameToBillForTransfer = transferService.sumBalanceTransaction(nameToBill, sumDigit).getBillName();
+            Transfer transfer = transferService.addTransfer(user, user, nameToBillForTransfer, nameToBillForTransfer, sumDigit);
             return getSuccessTransferResponse(transfer.getId());
 
         } catch (TransferException e) {
@@ -65,13 +60,13 @@ public class TransferController {
     @PostMapping("/reduce-transaction")
     public TransferResponse addReduce(@RequestBody TransferRequest request) {
         try {
-            int idBill = request.getIdToBill();
+            String billName = request.getNameFromBill();
             BigDecimal reduceDigit = request.getSumTransfer();
             String userLogin = request.getLoginToUser();
             User user = userService.findUserByLogin(userLogin);
-            Bill bill = transferService.reduceBalance(idBill, reduceDigit);
-            int idAddedBill = bill.getId();
-            Transfer transfer = transferService.addTransfer(user, user, idAddedBill, idAddedBill, reduceDigit);
+            String nameFromBill = transferService.reduceBalance(billName, reduceDigit).getBillName();
+
+            Transfer transfer = transferService.addTransfer(user, user, nameFromBill, nameFromBill, reduceDigit);
             return getSuccessTransferResponse(transfer.getId());
 
         } catch (TransferException e) {
@@ -82,8 +77,8 @@ public class TransferController {
     @GetMapping("/transactions-by-bill")
     public PrintTransferResponse printTransferByBill(@RequestBody TransferRequest request) {
         try {
-            int idBill = request.getIdFromBill();
-            List<Transfer> transferList = transferService.findTransferByBillsId(idBill);
+            String billName = request.getNameFromBill();
+            List<Transfer> transferList = transferService.findTransferByBillsName(billName);
             return getSuccessPrintTransferResponse(transferList);
 
         } catch (UserNotFoundException e) {

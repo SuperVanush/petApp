@@ -41,8 +41,6 @@ public class Transfer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transfer transfer = (Transfer) o;
-        return id == transfer.id && Objects.equals(idFromBill, transfer.idFromBill) && Objects.equals(idToUser, transfer.idToUser)
-                && (Objects.equals(idToBill, transfer.idToBill) && (Objects.equals(sumTransaction, transfer.sumTransaction)
-                && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
+        return id == transfer.id && Objects.equals(idFromBill, transfer.idFromBill) && Objects.equals(idToUser, transfer.idToUser) && (Objects.equals(idToBill, transfer.idToBill) && (Objects.equals(sumTransaction, transfer.sumTransaction) && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
     }
 }
