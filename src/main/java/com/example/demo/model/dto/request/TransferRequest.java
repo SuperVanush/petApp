@@ -1,5 +1,6 @@
 package com.example.demo.model.dto.request;
 
+import com.example.demo.service.RequestType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,5 +21,6 @@ public class TransferRequest {
     private BigDecimal sumTransfer;
     private BigDecimal fromBillBalance;
     private BigDecimal toBillBalance;
+    private RequestType requestType;
 
 }

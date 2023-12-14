@@ -22,14 +22,23 @@ public class Transfer {
     @Column(name = "transaction_id")
     private int id;
 
-    @Column(name = "user_from_id")
-    private int idFromUser;
-    @Column(name = "user_to_id")
-    private int idToUser;
-    @Column(name = "bill_from_id")
-    private int idFromBill;
-    @Column(name = "bill_to_id")
-    private int idToBill;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_from_id")
+    private User fromUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_to_id")
+    private User toUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bill_from_id")
+    private Bill fromBill;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bill_to_id")
+    private Bill toBill;
+
+
     @Column(name = "sum_transaction")
     private BigDecimal sumTransaction;
     @Column(name = "time_date_transaction")
@@ -41,6 +50,6 @@ public class Transfer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transfer transfer = (Transfer) o;
-        return id == transfer.id && Objects.equals(idFromBill, transfer.idFromBill) && Objects.equals(idToUser, transfer.idToUser) && (Objects.equals(idToBill, transfer.idToBill) && (Objects.equals(sumTransaction, transfer.sumTransaction) && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
+        return id == transfer.id && Objects.equals(fromBill, transfer.fromBill) && Objects.equals(toUser, transfer.toUser) && (Objects.equals(toBill, transfer.toBill) && (Objects.equals(sumTransaction, transfer.sumTransaction) && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
     }
 }
