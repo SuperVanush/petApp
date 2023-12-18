@@ -6,6 +6,7 @@ import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.TransferRequest;
+import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.TransferRepository;
@@ -28,7 +29,6 @@ public class TransferService implements ServiceTransfer {
     private final BillService billService;
     private final UserService userService;
 
-    @Override
     public Transfer addTransfer(User lastUser, User toUser, String nameFromBill, String nameToBill, BigDecimal transactionSumma) {
         Bill fromBill = billService.findBillByName(nameFromBill);
         Bill toBill = billService.findBillByName(nameToBill);
@@ -52,6 +52,9 @@ public class TransferService implements ServiceTransfer {
         }
         if (RequestType.REDUCE == request.getRequestType()) {
             return reduceTransaction(request);
+        }
+        if (RequestType.TRANSFER == request.getRequestType()) {
+            return transactionBetweenBill(request);
         } else {
             return TransferResponse.builder().message("Wrong RequestType").build();
         }
@@ -82,7 +85,8 @@ public class TransferService implements ServiceTransfer {
 
             String nameToBillRequest = request.getNameToBill();
             BigDecimal sumTransfer = request.getSumTransfer();
-            String nameToBill = sumBalanceTransaction(nameToBillRequest, sumTransfer).getToBill().getBillName();
+            Bill toBill = sumBalanceTransaction(nameToBillRequest, sumTransfer).getToBill();
+            String nameToBill = toBill.getBillName();
 
             Transfer transfer = addTransfer(user, user, nameToBill, nameToBill, sumTransfer);
             return getSuccessAddTransferResponse(transfer.getId());
@@ -90,18 +94,24 @@ public class TransferService implements ServiceTransfer {
         } catch (TransferException e) {
             return getErrorAddTransferResponse(e.getMessage());
         }
-
     }
 
     @Override
-    public List<Transfer> findTransferByBillsName(String billName) {
-        int billId = billService.findBillByName(billName).getId();
-        List<Transfer> transferList = transferRepository.findAll();
-        return transferList
-                .stream()
-                .filter(transfer -> billId == transfer.getFromBill().getId())
-                .collect(Collectors.toList());
+    public PrintTransferResponse findTransferByBillsName(TransferRequest request) {
+        try {
+            String billName = request.getNameFromBill();
+            int billId = billService.findBillByName(billName).getId();
+            List<Transfer> transferAllList = transferRepository.findAll();
+            List<Transfer> transferList = transferAllList
+                    .stream()
+                    .filter(transfer -> billId == transfer.getFromBill().getId())
+                    .collect(Collectors.toList());
 
+            return getSuccessPrintTransferResponse(transferList);
+
+        } catch (UserNotFoundException e) {
+            return getErrorPrintTransferResponse(e.getMessage());
+        }
     }
 
     @Override
@@ -114,7 +124,6 @@ public class TransferService implements ServiceTransfer {
         Transfer toTransfer = new Transfer();
         toTransfer.setToBill(toBill);
         return toTransfer;
-
     }
 
     @Override
@@ -130,7 +139,6 @@ public class TransferService implements ServiceTransfer {
         } else {
             throw new TransferException("TRY AGAIN YOUR BALANCE IS MINUS");
         }
-
         return fromTransfer;
     }
 
@@ -160,7 +168,6 @@ public class TransferService implements ServiceTransfer {
         }
     }
 
-
     private TransferResponse getSuccessAddTransferResponse(int idTransaction) {
         return TransferResponse.builder()
                 .message("Success")
@@ -183,6 +190,19 @@ public class TransferService implements ServiceTransfer {
 
     private TransferResponse getErrorTransferResponse(String message) {
         return TransferResponse.builder()
+                .message(message)
+                .build();
+    }
+
+    private PrintTransferResponse getSuccessPrintTransferResponse(List<Transfer> transferList) {
+        return PrintTransferResponse.builder()
+                .message("Success")
+                .transferList(transferList)
+                .build();
+    }
+
+    private PrintTransferResponse getErrorPrintTransferResponse(String message) {
+        return PrintTransferResponse.builder()
                 .message(message)
                 .build();
     }

@@ -22,5 +22,4 @@ public class TransferRequest {
     private BigDecimal fromBillBalance;
     private BigDecimal toBillBalance;
     private RequestType requestType;
-
 }

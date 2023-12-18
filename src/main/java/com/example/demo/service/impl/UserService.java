@@ -2,21 +2,17 @@ package com.example.demo.service.impl;
 
 
 import com.example.demo.exception.UserNotFoundException;
-import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserService implements ServiceUser {
 
     private final UserRepository userRepository;
-    private final BillService billService;
 
     @Override
     public User addUser(String name, String login, String password) {
@@ -31,20 +27,8 @@ public class UserService implements ServiceUser {
 
     @Override
     public User findUserByLogin(String login) {
-
         return userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
     }
-
-    @Override
-    public User findUserById(int idUser) {
-        User userById = userRepository.findById(idUser).orElseThrow(() -> new UserNotFoundException("User_Optional is empty"));
-        if (userById != null) {
-            List<Bill> bills = billService.findBillsByUser(userById);
-            userById.setBills(bills);
-        }
-        return userById;
-    }
-
 
     @Override
     public String removeUser(String removeUserLogin) {

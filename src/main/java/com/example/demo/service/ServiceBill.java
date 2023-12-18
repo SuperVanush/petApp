@@ -1,16 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.model.User;
 import com.example.demo.model.Bill;
-
-import java.math.BigDecimal;
-import java.util.List;
+import com.example.demo.model.dto.request.BillRequest;
+import com.example.demo.model.dto.response.BillResponse;
 
 public interface ServiceBill {
 
-    void addBill(String billName, BigDecimal billBalance, User user);
+    BillResponse addBill(BillRequest request);
 
-    List<Bill> findBillsByUser(User user);
+    BillResponse findBillsByUser(BillRequest request);
 
     Bill findBillByName (String  billName);
 }

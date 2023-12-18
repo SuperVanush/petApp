@@ -57,7 +57,6 @@ public class UserController {
         }
     }
 
-
     private UserResponse getSuccessUserResponse(User user) {
         return UserResponse.builder()
                 .message("Success")

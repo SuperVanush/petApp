@@ -2,6 +2,9 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
+import com.example.demo.model.User;
+import com.example.demo.model.dto.request.TransferRequest;
+import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.TransferRepository;
 import junit.framework.TestCase;
@@ -32,11 +35,15 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_addTransaction_Ok() {
+        User user1 = new User();
+        User user2 = new User();
+        Bill billUser1 = new Bill();
+        Bill billUser2 = new Bill();
         Transfer transfer = Transfer.builder()
-                .idFromUser(1)
-                .idFromBill(1)
-                .idToUser(2)
-                .idToBill(2)
+                .fromUser(user1)
+                .fromBill(billUser1)
+                .toUser(user2)
+                .toBill(billUser2)
                 .sumTransaction(BigDecimal.valueOf(500))
                 .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
                 .build();
@@ -57,9 +64,9 @@ public class TransferServiceTest extends TestCase {
                 .billName("ALFA")
                 .build();
 
-        Transfer firstTransfer = Transfer.builder().idFromBill(5).build();
+        Transfer firstTransfer = Transfer.builder().fromBill(firstBill).build();
 
-        Transfer secondTransfer = Transfer.builder().idFromBill(11).build();
+        Transfer secondTransfer = Transfer.builder().toBill(secondBill).build();
 
         List<Transfer> listTransfer = new ArrayList<>();
         listTransfer.add(firstTransfer);
@@ -68,9 +75,12 @@ public class TransferServiceTest extends TestCase {
         List<Transfer> listTransferForCompare = new ArrayList<>();
         listTransferForCompare.add(secondTransfer);
 
+        TransferRequest request = TransferRequest.builder().nameFromBill("VTB").build();
+
         when(transferRepository.findAll()).thenReturn(listTransfer);
-        List<Transfer> transferListForElevenBill = subj.findTransferByBillsName(secondBill.getBillName());
-        assertEquals(transferListForElevenBill, listTransferForCompare);
+        PrintTransferResponse printTransferResponse = subj.findTransferByBillsName(request);
+        List<Transfer> transferList = printTransferResponse.getTransferList();
+        assertEquals(transferList, listTransferForCompare);
     }
 
     @Test
@@ -78,7 +88,7 @@ public class TransferServiceTest extends TestCase {
         Bill firstBill = Bill.builder()
                 .id(6).build();
 
-        Transfer firstTransfer = Transfer.builder().idFromBill(firstBill.getId()).build();
+        Transfer firstTransfer = Transfer.builder().fromBill(firstBill).build();
 
         Bill secondBill = Bill.builder().id(2).build();
 
@@ -86,8 +96,12 @@ public class TransferServiceTest extends TestCase {
         firstTransferList.add(firstTransfer);
         when(transferRepository.findAll()).thenReturn(firstTransferList);
 
-        List<Transfer> secondTransferList = subj.findTransferByBillsName(secondBill.getBillName());
-        assertEquals(secondTransferList.size(), 0);
+        TransferRequest request = TransferRequest.builder().nameFromBill("VTB").build();
+
+        PrintTransferResponse printTransferResponse = subj.findTransferByBillsName(request);
+        List<Transfer> transferList = printTransferResponse.getTransferList();
+
+        assertEquals(transferList.size(), 0);
 
     }
 
@@ -96,7 +110,9 @@ public class TransferServiceTest extends TestCase {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(6)).id(2).build();
         BigDecimal sumDigit = BigDecimal.valueOf(3);
         when(billRepository.findBillByBillName("ALFA").get()).thenReturn(bill);
-        Bill returnBill = subj.sumBalanceTransaction("ALFA", sumDigit);
+        Transfer transfer = subj.sumBalanceTransaction("ALFA", sumDigit);
+        Bill returnBill = transfer.getToBill();
+
         verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
@@ -106,7 +122,9 @@ public class TransferServiceTest extends TestCase {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(9)).id(2).build();
         BigDecimal reduceBalance = BigDecimal.valueOf(2);
         when(billRepository.findBillByBillName("VTB").get()).thenReturn(bill);
-        Bill returnBill = subj.reduceBalance("VTB", reduceBalance);
+        Transfer transfer = subj.reduceBalance("VTB", reduceBalance);
+        Bill returnBill = transfer.getFromBill();
+
         verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }

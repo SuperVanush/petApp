@@ -3,7 +3,11 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
+import com.example.demo.model.dto.request.BillRequest;
+import com.example.demo.model.dto.response.BillDtoResponse;
+import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.repository.BillRepository;
+import com.example.demo.service.converter.Converter;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +21,16 @@ import static org.mockito.Mockito.*;
 public class BillServiceTest extends TestCase {
 
     BillService subj;
+    UserService userService;
     BillRepository billRepository;
+    Converter<Bill, BillDtoResponse> converter;
 
     @Before
-    public void setUp()  {
+    public void setUp() {
         billRepository = mock(BillRepository.class);
-        subj = new BillService(billRepository);
+        userService = mock(UserService.class);
+        converter = mock(Converter.class);
+        subj = new BillService(billRepository, userService, converter);
     }
 
     @Test
@@ -35,16 +43,17 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_notFindBills() {
-        User firstUser = User.builder().id(5).build();
+        User firstUser = User.builder().login("LLL").build();
         Bill billForFirstUser = Bill.builder().user(firstUser).build();
 
-        User secondUser = User.builder().id(2).build();
+        BillRequest request = BillRequest.builder().login("NNN").build();
 
         List<Bill> listBillFirstUser = new ArrayList<>();
         listBillFirstUser.add(billForFirstUser);
         when(billRepository.findAll()).thenReturn(listBillFirstUser);
 
-        List<Bill> listSecondUser = subj.findBillsByUser(secondUser);
+        BillResponse billResponse = subj.findBillsByUser(request);
+        List<BillDtoResponse> listSecondUser = billResponse.getBillList();
         assertEquals(listSecondUser.size(), 0);
     }
 
@@ -56,6 +65,8 @@ public class BillServiceTest extends TestCase {
         User secondUser = User.builder().id(2).build();
         Bill billForSecondUser = Bill.builder().user(secondUser).build();
 
+        BillRequest request = BillRequest.builder().login("NNN").build();
+
         List<Bill> listBillsFromDatabase = new ArrayList<>();
         listBillsFromDatabase.add(billForFirstUser);
         listBillsFromDatabase.add(billForSecondUser);
@@ -64,7 +75,8 @@ public class BillServiceTest extends TestCase {
         listForComparison.add(billForSecondUser);
 
         when(billRepository.findAll()).thenReturn(listBillsFromDatabase);
-        List<Bill> listBillsSecondUser = subj.findBillsByUser(secondUser);
+        BillResponse billResponse = subj.findBillsByUser(request);
+        List<BillDtoResponse> listBillsSecondUser = billResponse.getBillList();
         assertEquals(listBillsSecondUser, listForComparison);
     }
 }
