@@ -10,6 +10,7 @@ import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.TransferRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.RequestType;
 import com.example.demo.service.ServiceTransfer;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,8 @@ public class TransferService implements ServiceTransfer {
 
     private final TransferRepository transferRepository;
     private final BillRepository billRepository;
+    private final UserRepository userRepository;
     private final BillService billService;
-    private final UserService userService;
 
     public Transfer addTransfer(User lastUser, User toUser, String nameFromBill, String nameToBill, BigDecimal transactionSumma) {
         Bill fromBill = billService.findBillByName(nameFromBill);
@@ -45,7 +46,6 @@ public class TransferService implements ServiceTransfer {
         return transfer;
     }
 
-    @Override
     public TransferResponse transfer(TransferRequest request) {
         if ((RequestType.SUM == request.getRequestType())) {
             return sumTransaction(request);
@@ -60,16 +60,15 @@ public class TransferService implements ServiceTransfer {
         }
     }
 
-    @Override
     public TransferResponse reduceTransaction(TransferRequest request) {
         try {
             String billName = request.getNameFromBill();
             BigDecimal reduceDigit = request.getSumTransfer();
-            String userLogin = request.getLoginToUser();
-            User user = userService.findUserByLogin(userLogin);
+            String login = request.getLoginToUser();
+            User userByLogin = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
             String nameFromBill = reduceBalance(billName, reduceDigit).getFromBill().getBillName();
 
-            Transfer transfer = addTransfer(user, user, nameFromBill, nameFromBill, reduceDigit);
+            Transfer transfer = addTransfer(userByLogin, userByLogin, nameFromBill, nameFromBill, reduceDigit);
             return getSuccessTransferResponse(transfer.getId());
 
         } catch (TransferException e) {
@@ -77,11 +76,10 @@ public class TransferService implements ServiceTransfer {
         }
     }
 
-    @Override
     public TransferResponse sumTransaction(TransferRequest request) {
         try {
             String loginFromUser = request.getLoginFromUser();
-            User user = userService.findUserByLogin(loginFromUser);
+            User user = userRepository.findByLogin(loginFromUser).orElseThrow(() -> new UserNotFoundException("User not found by login = " + loginFromUser));
 
             String nameToBillRequest = request.getNameToBill();
             BigDecimal sumTransfer = request.getSumTransfer();
@@ -142,11 +140,12 @@ public class TransferService implements ServiceTransfer {
         return fromTransfer;
     }
 
-    @Override
     public TransferResponse transactionBetweenBill(TransferRequest request) throws TransferException {
         try {
-            User fromUser = userService.findUserByLogin(request.getLoginFromUser());
-            User toUser = userService.findUserByLogin(request.getLoginToUser());
+            String loginFromUser = request.getLoginFromUser();
+            String loginToUser = request.getLoginToUser();
+            User fromUser = userRepository.findByLogin(loginFromUser).orElseThrow(() -> new UserNotFoundException("User not found by login = " + loginFromUser));
+            User toUser = userRepository.findByLogin(loginToUser).orElseThrow(() -> new UserNotFoundException("User not found by login = " + loginToUser));
             String nameFromBill = request.getNameFromBill();
             String nameToBill = request.getNameToBill();
             BigDecimal transactionSum = request.getSumTransfer();

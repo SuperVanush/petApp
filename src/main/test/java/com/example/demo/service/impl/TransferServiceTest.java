@@ -7,6 +7,7 @@ import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.TransferRepository;
+import com.example.demo.repository.UserRepository;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,14 +24,14 @@ public class TransferServiceTest extends TestCase {
     TransferRepository transferRepository;
     TransferService subj;
     BillRepository billRepository;
+    UserRepository userRepository;
     BillService billService;
-    UserService userService;
 
     @Before
     public void setUp() {
         billRepository = mock(BillRepository.class);
         transferRepository = mock(TransferRepository.class);
-        subj = new TransferService(transferRepository, billRepository, billService, userService);
+        subj = new TransferService(transferRepository, billRepository, userRepository, billService);
     }
 
     @Test

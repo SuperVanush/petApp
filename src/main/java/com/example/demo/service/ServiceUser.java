@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.model.User;
+import com.example.demo.model.dto.request.LoginRequest;
+import com.example.demo.model.dto.request.UserRequest;
+import com.example.demo.model.dto.response.LoginResponse;
+import com.example.demo.model.dto.response.UserResponse;
 
 public interface ServiceUser {
 
-    User addUser(String name, String login, String password);
+    UserResponse addUser(UserRequest request);
 
-    User findUserByLogin(String login);
-
-    String removeUser(String login);
+    LoginResponse findUserByLogin(LoginRequest request);
 }

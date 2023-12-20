@@ -7,6 +7,7 @@ import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.response.BillDtoResponse;
 import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.repository.BillRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceBill;
 import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +22,15 @@ import java.util.stream.Collectors;
 public class BillService implements ServiceBill {
 
     private final BillRepository billRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final Converter<Bill, BillDtoResponse> converter;
 
-    @Override
     public BillResponse addBill(BillRequest request) {
         try {
             String userLogin = request.getLogin();
             String billName = request.getBillName();
             BigDecimal billBalance = request.getBalance();
-            User userOfBill = userService.findUserByLogin(userLogin);
+            User userOfBill = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
             Bill bill = Bill.builder().billName(billName).balance(billBalance).user(userOfBill).build();
             billRepository.save(bill);
             return getSuccessAddBillResponse(userOfBill);
@@ -42,7 +42,8 @@ public class BillService implements ServiceBill {
     @Override
     public BillResponse findBillsByUser(BillRequest request) {
         try {
-            User userByLogin = userService.findUserByLogin(request.getLogin());
+            String userLogin = request.getLogin();
+            User userByLogin = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
             return getSuccessFindBillResponse(userByLogin);
         } catch (UserNotFoundException e) {
             return getErrorFindBillResponse(e.getMessage());

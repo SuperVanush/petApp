@@ -6,9 +6,7 @@ import com.example.demo.model.dto.response.BillResponse;
 
 public interface ServiceBill {
 
-    BillResponse addBill(BillRequest request);
-
     BillResponse findBillsByUser(BillRequest request);
 
-    Bill findBillByName (String  billName);
+    Bill findBillByName(String billName);
 }

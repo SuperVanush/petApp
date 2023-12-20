@@ -7,6 +7,7 @@ import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.response.BillDtoResponse;
 import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.repository.BillRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.converter.Converter;
 import junit.framework.TestCase;
 import org.junit.Before;
@@ -23,6 +24,7 @@ public class BillServiceTest extends TestCase {
     BillService subj;
     UserService userService;
     BillRepository billRepository;
+    UserRepository userRepository;
     Converter<Bill, BillDtoResponse> converter;
 
     @Before
@@ -30,7 +32,7 @@ public class BillServiceTest extends TestCase {
         billRepository = mock(BillRepository.class);
         userService = mock(UserService.class);
         converter = mock(Converter.class);
-        subj = new BillService(billRepository, userService, converter);
+        subj = new BillService(billRepository,userRepository, converter);
     }
 
     @Test
