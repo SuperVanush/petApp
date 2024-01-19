@@ -33,7 +33,9 @@ public class BillService implements ServiceBill {
             User userOfBill = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
             Bill bill = Bill.builder().billName(billName).balance(billBalance).user(userOfBill).build();
             billRepository.save(bill);
+
             return getSuccessAddBillResponse(userOfBill);
+
         } catch (UserNotFoundException e) {
             return getErrorAddBillResponse(e.getMessage());
         }
@@ -44,7 +46,9 @@ public class BillService implements ServiceBill {
         try {
             String userLogin = request.getLogin();
             User userByLogin = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
+
             return getSuccessFindBillResponse(userByLogin);
+
         } catch (UserNotFoundException e) {
             return getErrorFindBillResponse(e.getMessage());
         }
@@ -56,25 +60,15 @@ public class BillService implements ServiceBill {
     }
 
     private BillResponse getSuccessAddBillResponse(User user) {
-        return BillResponse.builder()
-                .message("Success")
-                .login(user.getLogin())
-                .billList(getResponseBills(user))
-                .build();
+        return BillResponse.builder().message("Success").login(user.getLogin()).billList(getResponseBills(user)).build();
     }
 
     private BillResponse getErrorAddBillResponse(String message) {
-        return BillResponse.builder()
-                .message(message)
-                .build();
+        return BillResponse.builder().message(message).build();
     }
 
     private BillResponse getSuccessFindBillResponse(User user) {
-        return BillResponse.builder()
-                .message("Success")
-                .login(user.getLogin())
-                .billList(getResponseBills(user))
-                .build();
+        return BillResponse.builder().message("Success").login(user.getLogin()).billList(getResponseBills(user)).build();
     }
 
     private List<BillDtoResponse> getResponseBills(User user) {
@@ -82,8 +76,6 @@ public class BillService implements ServiceBill {
     }
 
     private BillResponse getErrorFindBillResponse(String message) {
-        return BillResponse.builder()
-                .message(message)
-                .build();
+        return BillResponse.builder().message(message).build();
     }
 }

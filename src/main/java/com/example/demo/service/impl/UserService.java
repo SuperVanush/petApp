@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.LoginRequest;
@@ -42,6 +41,7 @@ public class UserService implements ServiceUser {
         try {
             String login = request.getLogin();
             User userByLogin = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
+
             return getSuccessLoginResponse(userByLogin);
 
         } catch (UserNotFoundException e) {
@@ -55,6 +55,7 @@ public class UserService implements ServiceUser {
             User userByLogin = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
             int idRemoveUser = userByLogin.getId();
             userRepository.deleteById(idRemoveUser);
+
             return getSuccessUserRemoveResponse(login);
 
         } catch (UserNotFoundException e) {
@@ -63,41 +64,26 @@ public class UserService implements ServiceUser {
     }
 
     private UserResponse getSuccessUserResponse(User user) {
-        return UserResponse.builder()
-                .message("Success")
-                .name(user.getUsername())
-                .build();
+        return UserResponse.builder().message("Success").name(user.getUsername()).build();
     }
 
     private UserResponse getErrorUserResponse(String message) {
-        return UserResponse.builder()
-                .message(message)
-                .build();
+        return UserResponse.builder().message(message).build();
     }
 
     private LoginResponse getSuccessLoginResponse(User user) {
-        return LoginResponse.builder()
-                .message("Hello")
-                .login(user.getLogin())
-                .build();
+        return LoginResponse.builder().message("Hello").login(user.getLogin()).build();
     }
 
     private LoginResponse getErrorLoginResponse(String message) {
-        return LoginResponse.builder()
-                .message(message)
-                .build();
+        return LoginResponse.builder().message(message).build();
     }
 
     private LoginResponse getSuccessUserRemoveResponse(String login) {
-        return LoginResponse.builder()
-                .message("Success  remove")
-                .login(login)
-                .build();
+        return LoginResponse.builder().message("Success  remove").login(login).build();
     }
 
     private LoginResponse getErrorUserRemoveResponse(String message) {
-        return LoginResponse.builder()
-                .message(message)
-                .build();
+        return LoginResponse.builder().message(message).build();
     }
 }

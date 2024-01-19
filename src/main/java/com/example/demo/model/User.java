@@ -22,8 +22,10 @@ public class User {
 
     @Column(name = "user_name")
     private String username;
+
     @Column(name = "login")
     private String login;
+
     @Column(name = "password")
     private String password;
 
@@ -35,7 +37,8 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password)
+                && Objects.equals(login, user.login) && Objects.equals(bills, user.bills);
     }
 
     @Override

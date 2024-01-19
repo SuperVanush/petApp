@@ -38,7 +38,6 @@ public class Transfer {
     @JoinColumn(name = "bill_to_id")
     private Bill toBill;
 
-
     @Column(name = "sum_transaction")
     private BigDecimal sumTransaction;
     @Column(name = "time_date_transaction")
@@ -50,6 +49,8 @@ public class Transfer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transfer transfer = (Transfer) o;
-        return id == transfer.id && Objects.equals(fromBill, transfer.fromBill) && Objects.equals(toUser, transfer.toUser) && (Objects.equals(toBill, transfer.toBill) && (Objects.equals(sumTransaction, transfer.sumTransaction) && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
+        return id == transfer.id && Objects.equals(fromBill, transfer.fromBill) && Objects.equals(toUser, transfer.toUser)
+                && (Objects.equals(toBill, transfer.toBill) && (Objects.equals(sumTransaction, transfer.sumTransaction)
+                && (Objects.equals(timeDateTransaction, transfer.timeDateTransaction))));
     }
 }

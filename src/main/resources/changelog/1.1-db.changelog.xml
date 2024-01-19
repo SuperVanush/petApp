@@ -30,11 +30,6 @@
             <column name="time_date_transaction" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-
-
         </createTable>
-
     </changeSet>
-
-
 </databaseChangeLog>
