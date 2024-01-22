@@ -35,7 +35,6 @@ public class TransferService implements ServiceTransfer {
         Bill toBill = billService.findBillByName(nameToBill);
         Transfer transfer = Transfer.builder().fromUser(lastUser).toUser(toUser).fromBill(fromBill).toBill(toBill).sumTransaction(transactionSumma).timeDateTransaction(new Timestamp(System.currentTimeMillis())).build();
         transferRepository.save(transfer);
-
         return transfer;
     }
 
@@ -61,9 +60,7 @@ public class TransferService implements ServiceTransfer {
             User userByLogin = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
             String nameFromBill = reduceBalance(billName, reduceDigit).getFromBill().getBillName();
             Transfer transfer = addTransfer(userByLogin, userByLogin, nameFromBill, nameFromBill, reduceDigit);
-
             return getSuccessTransferResponse(transfer.getId());
-
         } catch (TransferException e) {
             return getErrorTransferResponse(e.getMessage());
         }
@@ -79,9 +76,7 @@ public class TransferService implements ServiceTransfer {
             Bill toBill = sumBalanceTransaction(nameToBillRequest, sumTransfer).getToBill();
             String nameToBill = toBill.getBillName();
             Transfer transfer = addTransfer(user, user, nameToBill, nameToBill, sumTransfer);
-
             return getSuccessAddTransferResponse(transfer.getId());
-
         } catch (TransferException e) {
             return getErrorAddTransferResponse(e.getMessage());
         }
@@ -94,9 +89,7 @@ public class TransferService implements ServiceTransfer {
             int billId = billService.findBillByName(billName).getId();
             List<Transfer> transferAllList = transferRepository.findAll();
             List<Transfer> transferList = transferAllList.stream().filter(transfer -> billId == transfer.getFromBill().getId()).collect(Collectors.toList());
-
             return getSuccessPrintTransferResponse(transferList);
-
         } catch (UserNotFoundException e) {
             return getErrorPrintTransferResponse(e.getMessage());
         }
@@ -111,7 +104,6 @@ public class TransferService implements ServiceTransfer {
         billRepository.save(toBill);
         Transfer toTransfer = new Transfer();
         toTransfer.setToBill(toBill);
-
         return toTransfer;
     }
 
@@ -144,35 +136,48 @@ public class TransferService implements ServiceTransfer {
             Bill toBill = sumBalanceTransaction(nameToBill, transactionSum).getToBill();
             Transfer transfer = Transfer.builder().fromUser(fromUser).toUser(toUser).fromBill(fromBill).toBill(toBill).sumTransaction(transactionSum).timeDateTransaction(new Timestamp(System.currentTimeMillis())).build();
             transferRepository.save(transfer);
-
             return getSuccessAddTransferResponse(transfer.getId());
-
         } catch (TransferException e) {
             return getErrorAddTransferResponse(e.getMessage());
         }
     }
 
     private TransferResponse getSuccessAddTransferResponse(int idTransaction) {
-        return TransferResponse.builder().message("Success").idTransaction(idTransaction).build();
+        return TransferResponse.builder()
+                .message("Success")
+                .idTransaction(idTransaction)
+                .build();
     }
 
     private TransferResponse getErrorAddTransferResponse(String message) {
-        return TransferResponse.builder().message(message).build();
+        return TransferResponse.builder()
+                .message(message)
+                .build();
     }
 
     private TransferResponse getSuccessTransferResponse(int idTransaction) {
-        return TransferResponse.builder().message("Success").idTransaction(idTransaction).build();
+        return TransferResponse.builder()
+                .message("Success")
+                .idTransaction(idTransaction)
+                .build();
     }
 
     private TransferResponse getErrorTransferResponse(String message) {
-        return TransferResponse.builder().message(message).build();
+        return TransferResponse.builder()
+                .message(message)
+                .build();
     }
 
     private PrintTransferResponse getSuccessPrintTransferResponse(List<Transfer> transferList) {
-        return PrintTransferResponse.builder().message("Success").transferList(transferList).build();
+        return PrintTransferResponse.builder()
+                .message("Success")
+                .transferList(transferList)
+                .build();
     }
 
     private PrintTransferResponse getErrorPrintTransferResponse(String message) {
-        return PrintTransferResponse.builder().message(message).build();
+        return PrintTransferResponse.builder()
+                .message(message)
+                .build();
     }
 }
