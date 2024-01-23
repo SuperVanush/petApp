@@ -8,7 +8,7 @@ import com.example.demo.model.dto.response.BillDtoResponse;
 import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.converter.Converter;
+import com.example.demo.service.converter.iml.BillConverter;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
 
@@ -39,7 +38,7 @@ public class BillServiceTest extends TestCase {
     @MockBean
     UserRepository userRepository;
     @MockBean
-    Converter<Bill, BillDtoResponse> converter;
+    BillConverter billConverter;
 
     @Before
     public void setUp() {
@@ -103,32 +102,70 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_Ok() {
-        User firstUser = User.builder().id(5).build();
-        Bill billForFirstUser = Bill.builder().user(firstUser).build();
-
-        User secondUser = User.builder().id(2).build();
-        Bill billForSecondUser = Bill.builder().user(secondUser).build();
-
-        BillRequest request = BillRequest.builder().login("NNN").build();
-
-        List<Bill> listBillsFromDatabase = new ArrayList<>();
-        listBillsFromDatabase.add(billForFirstUser);
-        listBillsFromDatabase.add(billForSecondUser);
-
-        List<Bill> listForComparison = new ArrayList<>();
-        listForComparison.add(billForSecondUser);
-
-        BillDtoResponse billDtoResponse = BillDtoResponse.builder()
-                .userId(2)
+        User secondUser = User.builder()
+                .login("QQQ")
+                .id(10)
                 .build();
 
-        List<BillDtoResponse> billDtoResponses = new ArrayList<>();
-        billDtoResponses.add(billDtoResponse);
+        Bill firstUserFirstBill = Bill.builder()
+                .user(secondUser)
+                .billName("secondUserFirstBill")
+                .balance(BigDecimal.valueOf(150))
+                .build();
+        Bill firstUserSecondBill = Bill.builder()
+                .user(secondUser)
+                .billName("secondUserSecondBill")
+                .balance(BigDecimal.valueOf(200))
+                .build();
 
-        when(billRepository.findAll().stream().filter(bill -> secondUser.equals(billForSecondUser.getUser())).map(converter::convert)
-                .collect(Collectors.toList())).thenReturn(billDtoResponses);
+        Bill secondUserFirstBill = Bill.builder()
+                .user(secondUser)
+                .billName("secondUserFirstBill")
+                .balance(BigDecimal.valueOf(150))
+                .build();
+        Bill secondUserSecondBill = Bill.builder()
+                .user(secondUser)
+                .billName("secondUserSecondBill")
+                .balance(BigDecimal.valueOf(200))
+                .build();
 
-        BillResponse billResponse = subj.findBillsByUser(request);
-        assertEquals(billResponse, billDtoResponses);
+        List<Bill> fullBillList = new ArrayList<>();
+        fullBillList.add(firstUserFirstBill);
+        fullBillList.add(firstUserSecondBill);
+        fullBillList.add(secondUserFirstBill);
+        fullBillList.add(secondUserSecondBill);
+
+        BillRequest billRequest = BillRequest.builder()
+                .login(secondUser.getLogin())
+                .build();
+
+        BillDtoResponse billDtoResponseFirst = BillDtoResponse.builder()
+                .userId(secondUser.getId())
+                .billName(secondUserFirstBill.getBillName())
+                .balance(secondUserFirstBill.getBalance())
+                .build();
+
+        BillDtoResponse billDtoResponseSecond = BillDtoResponse.builder()
+                .userId(secondUser.getId())
+                .billName(secondUserSecondBill.getBillName())
+                .balance(secondUserSecondBill.getBalance())
+                .build();
+
+        List<BillDtoResponse> billDtoResponseList = new ArrayList<>();
+        billDtoResponseList.add(billDtoResponseFirst);
+        billDtoResponseList.add(billDtoResponseSecond);
+
+        BillResponse standardBillResponse = BillResponse.builder()
+                .message("Success")
+                .login(secondUser.getLogin())
+                .billList(billDtoResponseList)
+                .build();
+        when(userRepository.findByLogin(secondUser.getLogin())).thenReturn(Optional.of(secondUser));
+        when(billRepository.findAll()).thenReturn(fullBillList);
+        when(billConverter.convert(secondUserFirstBill)).thenReturn(billDtoResponseFirst);
+        when(billConverter.convert(secondUserSecondBill)).thenReturn(billDtoResponseSecond);
+
+        BillResponse billResponseTest = subj.findBillsByUser(billRequest);
+        assertEquals(standardBillResponse, billResponseTest);
     }
 }
