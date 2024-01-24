@@ -12,13 +12,16 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -26,17 +29,19 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 public class TransferServiceTest extends TestCase {
 
-    TransferRepository transferRepository;
+    @Autowired
     TransferService subj;
+    @MockBean
+    TransferRepository transferRepository;
+    @MockBean
     BillRepository billRepository;
+    @MockBean
     UserRepository userRepository;
+    @MockBean
     BillService billService;
 
     @Before
     public void setUp() {
-        billRepository = mock(BillRepository.class);
-        transferRepository = mock(TransferRepository.class);
-        subj = new TransferService(transferRepository, billRepository, userRepository, billService);
     }
 
     @Test
@@ -115,7 +120,7 @@ public class TransferServiceTest extends TestCase {
     public void test_sumBalanceTransaction_Ok() {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(6)).id(2).build();
         BigDecimal sumDigit = BigDecimal.valueOf(3);
-        when(billRepository.findBillByBillName("ALFA").get()).thenReturn(bill);
+        when(billRepository.findBillByBillName("ALFA")).thenReturn(Optional.of(bill));
         Transfer transfer = subj.sumBalanceTransaction("ALFA", sumDigit);
         Bill returnBill = transfer.getToBill();
 

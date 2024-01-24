@@ -102,53 +102,40 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_Ok() {
-        User secondUser = User.builder()
+        User testUser = User.builder()
                 .login("QQQ")
                 .id(10)
                 .build();
 
-        Bill firstUserFirstBill = Bill.builder()
-                .user(secondUser)
+        Bill testUserFirstBill = Bill.builder()
+                .user(testUser)
                 .billName("secondUserFirstBill")
                 .balance(BigDecimal.valueOf(150))
                 .build();
-        Bill firstUserSecondBill = Bill.builder()
-                .user(secondUser)
+        Bill testUserSecondBill = Bill.builder()
+                .user(testUser)
                 .billName("secondUserSecondBill")
                 .balance(BigDecimal.valueOf(200))
                 .build();
 
-        Bill secondUserFirstBill = Bill.builder()
-                .user(secondUser)
-                .billName("secondUserFirstBill")
-                .balance(BigDecimal.valueOf(150))
-                .build();
-        Bill secondUserSecondBill = Bill.builder()
-                .user(secondUser)
-                .billName("secondUserSecondBill")
-                .balance(BigDecimal.valueOf(200))
-                .build();
-
-        List<Bill> fullBillList = new ArrayList<>();
-        fullBillList.add(firstUserFirstBill);
-        fullBillList.add(firstUserSecondBill);
-        fullBillList.add(secondUserFirstBill);
-        fullBillList.add(secondUserSecondBill);
+        List<Bill> testBillList = new ArrayList<>();
+        testBillList.add(testUserFirstBill);
+        testBillList.add(testUserSecondBill);
 
         BillRequest billRequest = BillRequest.builder()
-                .login(secondUser.getLogin())
+                .login(testUser.getLogin())
                 .build();
 
         BillDtoResponse billDtoResponseFirst = BillDtoResponse.builder()
-                .userId(secondUser.getId())
-                .billName(secondUserFirstBill.getBillName())
-                .balance(secondUserFirstBill.getBalance())
+                .userId(testUser.getId())
+                .billName(testUserFirstBill.getBillName())
+                .balance(testUserFirstBill.getBalance())
                 .build();
 
         BillDtoResponse billDtoResponseSecond = BillDtoResponse.builder()
-                .userId(secondUser.getId())
-                .billName(secondUserSecondBill.getBillName())
-                .balance(secondUserSecondBill.getBalance())
+                .userId(testUser.getId())
+                .billName(testUserSecondBill.getBillName())
+                .balance(testUserSecondBill.getBalance())
                 .build();
 
         List<BillDtoResponse> billDtoResponseList = new ArrayList<>();
@@ -157,15 +144,27 @@ public class BillServiceTest extends TestCase {
 
         BillResponse standardBillResponse = BillResponse.builder()
                 .message("Success")
-                .login(secondUser.getLogin())
+                .login(testUser.getLogin())
                 .billList(billDtoResponseList)
                 .build();
-        when(userRepository.findByLogin(secondUser.getLogin())).thenReturn(Optional.of(secondUser));
-        when(billRepository.findAll()).thenReturn(fullBillList);
-        when(billConverter.convert(secondUserFirstBill)).thenReturn(billDtoResponseFirst);
-        when(billConverter.convert(secondUserSecondBill)).thenReturn(billDtoResponseSecond);
+        when(userRepository.findByLogin(testUser.getLogin())).thenReturn(Optional.of(testUser));
+        when(billRepository.findAll()).thenReturn(testBillList);
+        when(billConverter.convert(testUserFirstBill)).thenReturn(billDtoResponseFirst);
+        when(billConverter.convert(testUserSecondBill)).thenReturn(billDtoResponseSecond);
 
         BillResponse billResponseTest = subj.findBillsByUser(billRequest);
         assertEquals(standardBillResponse, billResponseTest);
+    }
+
+    @Test
+    public void test_FindBillsByName_Ok() {
+        Bill testBill = Bill.builder()
+                .billName("billName")
+                .build();
+        String billName = testBill.getBillName();
+        when(billRepository.findBillByBillName(billName)).thenReturn((Optional.of(testBill)));
+
+        Bill billFromBase = subj.findBillByName(billName);
+        assertEquals(testBill, billFromBase);
     }
 }
