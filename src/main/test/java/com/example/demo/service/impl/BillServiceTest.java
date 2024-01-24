@@ -1,6 +1,10 @@
 package com.example.demo.service.impl;
 
 
+import static com.example.demo.TestData.createBillWithUser;
+import static com.example.demo.TestData.createUser;
+import static org.mockito.Mockito.when;
+
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.BillRequest;
@@ -9,6 +13,10 @@ import com.example.demo.model.dto.response.BillResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.converter.iml.BillConverter;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -102,25 +103,12 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_Ok() {
-        User testUser = User.builder()
-                .login("QQQ")
-                .id(10)
-                .build();
+        User testUser = createUser();
 
-        Bill testUserFirstBill = Bill.builder()
-                .user(testUser)
-                .billName("secondUserFirstBill")
-                .balance(BigDecimal.valueOf(150))
-                .build();
-        Bill testUserSecondBill = Bill.builder()
-                .user(testUser)
-                .billName("secondUserSecondBill")
-                .balance(BigDecimal.valueOf(200))
-                .build();
+        Bill testUserFirstBill = createBillWithUser(testUser);
+        Bill testUserSecondBill = createBillWithUser(testUser);
 
-        List<Bill> testBillList = new ArrayList<>();
-        testBillList.add(testUserFirstBill);
-        testBillList.add(testUserSecondBill);
+        List<Bill> testBillList = List.of(testUserFirstBill, testUserSecondBill);
 
         BillRequest billRequest = BillRequest.builder()
                 .login(testUser.getLogin())
@@ -138,9 +126,7 @@ public class BillServiceTest extends TestCase {
                 .balance(testUserSecondBill.getBalance())
                 .build();
 
-        List<BillDtoResponse> billDtoResponseList = new ArrayList<>();
-        billDtoResponseList.add(billDtoResponseFirst);
-        billDtoResponseList.add(billDtoResponseSecond);
+        List<BillDtoResponse> billDtoResponseList = List.of(billDtoResponseFirst, billDtoResponseSecond);
 
         BillResponse standardBillResponse = BillResponse.builder()
                 .message("Success")
