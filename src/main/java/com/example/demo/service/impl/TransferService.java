@@ -134,7 +134,14 @@ public class TransferService implements ServiceTransfer {
             BigDecimal transactionSum = request.getSumTransfer();
             Bill fromBill = reduceBalance(nameFromBill, transactionSum).getFromBill();
             Bill toBill = sumBalanceTransaction(nameToBill, transactionSum).getToBill();
-            Transfer transfer = Transfer.builder().fromUser(fromUser).toUser(toUser).fromBill(fromBill).toBill(toBill).sumTransaction(transactionSum).timeDateTransaction(new Timestamp(System.currentTimeMillis())).build();
+            Transfer transfer = Transfer.builder()
+                    .fromUser(fromUser)
+                    .toUser(toUser)
+                    .fromBill(fromBill)
+                    .toBill(toBill)
+                    .sumTransaction(transactionSum)
+                    .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
+                    .build();
             transferRepository.save(transfer);
             return getSuccessAddTransferResponse(transfer.getId());
         } catch (TransferException e) {

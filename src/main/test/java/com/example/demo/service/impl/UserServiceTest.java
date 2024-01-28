@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
+import static com.example.demo.TestData.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,37 +28,34 @@ public class UserServiceTest {
     UserService subj;
     @MockBean
     UserRepository userRepository;
-
     @MockBean
     BillService billService;
 
-
     @Before
     public void setUp() {
-
     }
 
     @Test
     public void test_AddUser() {
+
         User user = User.builder()
                 .username("qqq")
                 .login("qqq")
                 .password("qqq")
                 .build();
         String userName = "qqq";
-
         User userFromDatabase = User.builder()
                 .login("qqq")
                 .username("qqq")
                 .password("qqq")
                 .build();
-
-        when(userRepository.save(user)).thenReturn(userFromDatabase);
         UserRequest request = UserRequest.builder()
                 .login("qqq")
                 .name("qqq")
                 .password("qqq")
                 .build();
+
+        when(userRepository.save(user)).thenReturn(userFromDatabase);
         UserResponse response = subj.addUser(request);
         String nameUserFromService = response.getName();
         assertEquals(userName, nameUserFromService);
@@ -65,9 +63,11 @@ public class UserServiceTest {
 
     @Test
     public void test_FindUserByLogin_notFindUser() {
+
         LoginRequest loginRequest = LoginRequest.builder()
                 .login("rrr")
                 .build();
+
         String loginResponse = subj.findUserByLogin(loginRequest).getLogin();
         when(userRepository.findByLogin("rrr")).thenReturn(null);
         assertNull(loginResponse);
@@ -75,22 +75,20 @@ public class UserServiceTest {
 
     @Test
     public void test_FindUserByLogin_ok() {
-        LoginRequest loginRequest = new LoginRequest("qqq", "qqq");
-        User userByLogin = User.builder()
-                .id(1)
-                .login("qqq")
-                .build();
-        when(userRepository.findByLogin("qqq")).thenReturn(Optional.of(userByLogin));
+
+        LoginRequest loginRequest = new LoginRequest("login", "qqq");
+        User userByLogin = createUser();
+
+        when(userRepository.findByLogin("login")).thenReturn(Optional.of(userByLogin));
         assertEquals(loginRequest.getLogin(), userByLogin.getLogin());
     }
 
     @Test
     public void test_RemoveUser_Ok() {
-        User user = User.builder()
-                .login("ddd")
-                .id(1)
-                .build();
-        when(userRepository.findByLogin("ddd")).thenReturn(Optional.of(user));
+
+        User user = createUser();
+
+        when(userRepository.findByLogin("login")).thenReturn(Optional.of(user));
         userRepository.deleteById(user.getId());
         verify(userRepository).deleteById(user.getId());
     }
