@@ -46,33 +46,26 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_AddBill_Ok() {
-
         User user = createUser();
         BillRequest billRequest = createBillRequest(user);
         Bill oldBill = createBill();
         List<Bill> billList = new ArrayList<>();
         billList.add(oldBill);
         Bill billFromRequest = createBill();
-        User userFromDataBase = User.builder()
-                .login("qqq")
-                .id(1)
-                .bills(billList)
-                .build();
-        Bill newBill = Bill.builder()
-                .id(5)
-                .billName(billFromRequest.getBillName())
-                .balance(billFromRequest.getBalance())
-                .user(userFromDataBase)
-                .build();
+        User userFromDataBase = createUser();
+        userFromDataBase.setBills(billList);
+        billFromRequest.setId(5);
+        billFromRequest.setUser(userFromDataBase);
 
         when(userRepository.findByLogin(billRequest.getLogin())).thenReturn(Optional.of(userFromDataBase));
-        when(billRepository.save(billFromRequest)).thenReturn(newBill);
-        assertEquals(userFromDataBase.getId(), newBill.getUser().getId());
+        when(billRepository.save(billFromRequest)).thenReturn(billFromRequest);
+        BillResponse response = subj.addBill(billRequest);
+        String loginUserFromSubj = response.getLogin();
+        assertEquals(loginUserFromSubj, billFromRequest.getUser().getLogin());
     }
 
     @Test
     public void test_FindBillsByUser_notFindBills() {
-
         User firstUser = createUser();
         Bill billForFirstUser = createBillWithUser(firstUser);
         BillRequest request = BillRequest.builder().login("NNN").build();
@@ -87,7 +80,6 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByUser_Ok() {
-
         User testUser = createUser();
         Bill testUserFirstBill = createBillWithUser(testUser);
         Bill testUserSecondBill = createBillWithUser(testUser);
@@ -120,7 +112,6 @@ public class BillServiceTest extends TestCase {
 
     @Test
     public void test_FindBillsByName_Ok() {
-
         Bill testBill = createBill();
         String billName = testBill.getBillName();
 

@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.BillRequest;
+import com.example.demo.model.dto.request.LoginRequest;
 
 import java.math.BigDecimal;
 
@@ -18,8 +19,10 @@ public class TestData {
 
     public static User createUser() {
         return User.builder()
-                .login("login")
+                .login("login"+ randomInt())
                 .id(randomInt())
+                .username("testUser" + randomInt())
+                .password("password")
                 .build();
     }
 
@@ -32,6 +35,13 @@ public class TestData {
                 .login(user.getLogin())
                 .billName("testBill" + randomInt())
                 .balance(BigDecimal.valueOf(randomInt()))
+                .build();
+    }
+
+    public static LoginRequest createLoginRequest() {
+        return LoginRequest.builder()
+                .login("login")
+                .password("password")
                 .build();
     }
 }

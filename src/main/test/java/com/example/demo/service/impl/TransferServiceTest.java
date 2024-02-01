@@ -45,7 +45,6 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_addTransaction_Ok() {
-
         User user1 = new User();
         User user2 = new User();
         Bill billUser1 = new Bill();
@@ -65,7 +64,6 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_findTransferByBillsName_ok() {
-
         Bill firstBill = Bill.builder()
                 .id(5)
                 .billName("VTB")
@@ -108,7 +106,6 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_findTransferByBillsName_not_find_transfer() {
-
         Bill firstBill = Bill.builder()
                 .id(6)
                 .build();
@@ -134,7 +131,6 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_sumBalanceTransaction_Ok() {
-
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(6)).id(2).build();
         BigDecimal sumDigit = BigDecimal.valueOf(3);
 
@@ -147,7 +143,6 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_reduceBalance_Ok() {
-
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(9)).id(2).build();
         BigDecimal reduceBalance = BigDecimal.valueOf(2);
 
@@ -160,7 +155,6 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_transaction_between_bills() {
-
         String loginFromUser = "TestFromUser";
         String loginToUser = "TestToUser";
         String nameFromBill = "fromBill";

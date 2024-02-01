@@ -37,25 +37,16 @@ public class UserServiceTest {
 
     @Test
     public void test_AddUser() {
-
-        User user = User.builder()
-                .username("qqq")
-                .login("qqq")
-                .password("qqq")
-                .build();
-        String userName = "qqq";
-        User userFromDatabase = User.builder()
-                .login("qqq")
-                .username("qqq")
-                .password("qqq")
-                .build();
+        User userFromDatabase = createUser();
+        String userName = userFromDatabase.getUsername();
         UserRequest request = UserRequest.builder()
-                .login("qqq")
-                .name("qqq")
-                .password("qqq")
+                .login(userFromDatabase.getLogin())
+                .name(userFromDatabase.getUsername())
+                .password(userFromDatabase.getPassword())
                 .build();
 
-        when(userRepository.save(user)).thenReturn(userFromDatabase);
+        when(userRepository.findByLogin(userFromDatabase.getLogin())).getMock();
+        when(userRepository.save(userFromDatabase)).thenReturn(userFromDatabase);
         UserResponse response = subj.addUser(request);
         String nameUserFromService = response.getName();
         assertEquals(userName, nameUserFromService);
@@ -63,20 +54,16 @@ public class UserServiceTest {
 
     @Test
     public void test_FindUserByLogin_notFindUser() {
-
-        LoginRequest loginRequest = LoginRequest.builder()
-                .login("rrr")
-                .build();
+        LoginRequest loginRequest = createLoginRequest();
 
         String loginResponse = subj.findUserByLogin(loginRequest).getLogin();
-        when(userRepository.findByLogin("rrr")).thenReturn(null);
+        when(userRepository.findByLogin("login")).thenReturn(null);
         assertNull(loginResponse);
     }
 
     @Test
     public void test_FindUserByLogin_ok() {
-
-        LoginRequest loginRequest = new LoginRequest("login", "qqq");
+        LoginRequest loginRequest = createLoginRequest();
         User userByLogin = createUser();
 
         when(userRepository.findByLogin("login")).thenReturn(Optional.of(userByLogin));
@@ -85,7 +72,6 @@ public class UserServiceTest {
 
     @Test
     public void test_RemoveUser_Ok() {
-
         User user = createUser();
 
         when(userRepository.findByLogin("login")).thenReturn(Optional.of(user));
