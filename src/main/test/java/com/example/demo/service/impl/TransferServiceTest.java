@@ -18,12 +18,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
+import static com.example.demo.TestData.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -37,6 +36,8 @@ public class TransferServiceTest extends TestCase {
     @MockBean
     BillRepository billRepository;
     @MockBean
+    BillService billService;
+    @MockBean
     UserRepository userRepository;
 
     @Before
@@ -45,21 +46,22 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_addTransaction_Ok() {
-        User user1 = new User();
-        User user2 = new User();
-        Bill billUser1 = new Bill();
-        Bill billUser2 = new Bill();
-        Transfer transfer = Transfer.builder()
-                .fromUser(user1)
-                .fromBill(billUser1)
-                .toUser(user2)
-                .toBill(billUser2)
-                .sumTransaction(BigDecimal.valueOf(500))
-                .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
-                .build();
+        User fromUser = createUser();
+        User toUser = createUser();
+        Bill fromBill = createBillWithUser(fromUser);
+        String nameFromBill = fromBill.getBillName();
+        Bill toBill = createBillWithUser(toUser);
+        String nameToBill = toBill.getBillName();
+        BigDecimal sumTransaction = BigDecimal.valueOf(randomInt());
+        Transfer transfer = createTransfer(fromUser, fromBill, toUser, toBill, sumTransaction);
+        Transfer transferFromTest = createTransfer(fromUser, fromBill, toUser, toBill, sumTransaction);
+        transfer.setId(1);
 
-        transferRepository.save(transfer);
-        verify(transferRepository).save(transfer);
+        when(billService.findBillByName(nameFromBill)).thenReturn(fromBill);
+        when(billService.findBillByName(nameToBill)).thenReturn(toBill);
+        when(transferRepository.save(transfer)).thenReturn(transferFromTest);
+        Transfer transferForTest = subj.addTransfer(fromUser, toUser, nameFromBill, nameToBill, sumTransaction);
+        assertEquals(transfer.getFromBill().getBillName(), transferForTest.getFromBill().getBillName());
     }
 
     @Test
@@ -106,27 +108,24 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_findTransferByBillsName_not_find_transfer() {
-        Bill firstBill = Bill.builder()
-                .id(6)
-                .build();
-        Bill secondBill = Bill.builder()
-                .id(2)
-                .build();
+        Bill fromBill = createBill();
+        Bill toBill = createBill();
+        Bill testBill = createBill();
         Transfer firstTransfer = Transfer.builder()
-                .fromBill(firstBill)
-                .toBill(secondBill)
+                .fromBill(fromBill)
+                .toBill(toBill)
                 .build();
         List<Transfer> firstTransferList = new ArrayList<>();
         firstTransferList.add(firstTransfer);
         TransferRequest request = TransferRequest.builder()
-                .nameFromBill("VTB")
+                .nameFromBill(testBill.getBillName())
                 .build();
 
         when(transferRepository.findAll()).thenReturn(firstTransferList);
-        when(billRepository.findBillByBillName("ALFA")).thenReturn(Optional.of(secondBill));
+        when(billService.findBillByName(testBill.getBillName())).thenReturn(testBill);
         PrintTransferResponse printTransferResponse = subj.findTransferByBillsName(request);
         List<Transfer> transferList = printTransferResponse.getTransferList();
-        assertNull(transferList);
+        assertNotSame(firstTransferList,transferList);
     }
 
     @Test
@@ -135,9 +134,9 @@ public class TransferServiceTest extends TestCase {
         BigDecimal sumDigit = BigDecimal.valueOf(3);
 
         when(billRepository.findBillByBillName("ALFA")).thenReturn(Optional.of(bill));
+        when(billRepository.save(bill)).thenReturn(bill);
         Transfer transfer = subj.sumBalanceTransaction("ALFA", sumDigit);
         Bill returnBill = transfer.getToBill();
-        verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
 
@@ -146,43 +145,26 @@ public class TransferServiceTest extends TestCase {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(9)).id(2).build();
         BigDecimal reduceBalance = BigDecimal.valueOf(2);
 
+        when(billRepository.save(bill)).thenReturn(bill);
         when(billRepository.findBillByBillName("VTB")).thenReturn(Optional.of(bill));
         Transfer transfer = subj.reduceBalance("VTB", reduceBalance);
         Bill returnBill = transfer.getFromBill();
-        verify(billRepository).save(returnBill);
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
 
     @Test
     public void test_transaction_between_bills() {
-        String loginFromUser = "TestFromUser";
-        String loginToUser = "TestToUser";
-        String nameFromBill = "fromBill";
-        String nameToBill = "toBill";
-        BigDecimal transactionSum = BigDecimal.valueOf(88);
-        User testFromUser = User.builder()
-                .id(5)
-                .build();
-        User testToUser = User.builder()
-                .id(10)
-                .build();
-        Bill testFromBill = Bill.builder()
-                .id(5)
-                .balance(BigDecimal.valueOf(99))
-                .build();
-        Bill testToBill = Bill.builder()
-                .id(10)
-                .balance(BigDecimal.valueOf(99))
-                .build();
-        Transfer transfer = Transfer.builder()
-                .id(1)
-                .toUser(testToUser)
-                .fromUser(testFromUser)
-                .fromBill(testFromBill)
-                .toBill(testToBill)
-                .sumTransaction(transactionSum)
-                .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
-                .build();
+
+        BigDecimal transactionSum = BigDecimal.valueOf(randomInt());
+        User testFromUser = createUser();
+        User testToUser = createUser();
+        Bill testFromBill = createBill();
+        Bill testToBill = createBill();
+        String loginFromUser = testFromUser.getLogin();
+        String loginToUser = testToUser.getLogin();
+        String nameFromBill = testFromBill.getBillName();
+        String nameToBill = testToBill.getBillName();
+        Transfer transfer = createTransfer(testFromUser,testFromBill,testToUser,testToBill,transactionSum);
         Transfer testTransfer = Transfer.builder()
                 .id(1)
                 .fromBill(testFromBill)

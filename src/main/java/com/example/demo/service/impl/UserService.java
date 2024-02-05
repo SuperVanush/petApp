@@ -23,8 +23,9 @@ public class UserService implements ServiceUser {
             String name = request.getName();
             String login = request.getLogin();
             String password = request.getPassword();
-            if (userRepository.findByLogin(login).isPresent())
+            if (userRepository.findByLogin(login).isPresent()){
                 throw new UserNotFoundException("User with this login exist. Enter another login");
+            }
             User user = User.builder().username(name).login(login).password(password).build();
             User addUser = userRepository.save(user);
             return getSuccessUserResponse(addUser);

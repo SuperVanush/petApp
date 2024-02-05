@@ -1,11 +1,13 @@
 package com.example.demo;
 
 import com.example.demo.model.Bill;
+import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.request.LoginRequest;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class TestData {
 
@@ -19,7 +21,7 @@ public class TestData {
 
     public static User createUser() {
         return User.builder()
-                .login("login"+ randomInt())
+                .login("login" + randomInt())
                 .id(randomInt())
                 .username("testUser" + randomInt())
                 .password("password")
@@ -42,6 +44,17 @@ public class TestData {
         return LoginRequest.builder()
                 .login("login")
                 .password("password")
+                .build();
+    }
+
+    public static Transfer createTransfer(User fromUser, Bill fromBill, User toUser, Bill toBill, BigDecimal sumTransaction) {
+        return Transfer.builder()
+                .fromUser(fromUser)
+                .fromBill(fromBill)
+                .toUser(toUser)
+                .toBill(toBill)
+                .sumTransaction(BigDecimal.valueOf(500))
+                .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
                 .build();
     }
 }

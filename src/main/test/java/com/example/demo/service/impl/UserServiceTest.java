@@ -39,7 +39,12 @@ public class UserServiceTest {
     @Test
     public void test_AddUser() {
         User userFromDatabase = createUser();
-        User userForReturn = createUser();
+        User userForReturn = User.builder()
+                .username(userFromDatabase.getUsername())
+                .login(userFromDatabase.getLogin())
+                .password(userFromDatabase.getPassword())
+                .build();
+
         String userName = userFromDatabase.getUsername();
         UserRequest request = UserRequest.builder()
                 .login(userFromDatabase.getLogin())
@@ -47,8 +52,8 @@ public class UserServiceTest {
                 .password(userFromDatabase.getPassword())
                 .build();
 
-        when(userRepository.findByLogin(userFromDatabase.getLogin())).thenReturn(Optional.of(userForReturn));
-        when(userRepository.save(userFromDatabase)).thenReturn(userFromDatabase);
+        when(userRepository.findByLogin(userFromDatabase.getLogin())).thenReturn(Optional.empty());
+        when(userRepository.save(userForReturn)).thenReturn(userFromDatabase);
         UserResponse response = subj.addUser(request);
         String nameUserFromService = response.getName();
         assertEquals(userName, nameUserFromService);
