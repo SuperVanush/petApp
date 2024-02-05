@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserServiceTest {
+
     @Autowired
     UserService subj;
     @MockBean
@@ -38,6 +39,7 @@ public class UserServiceTest {
     @Test
     public void test_AddUser() {
         User userFromDatabase = createUser();
+        User userForReturn = createUser();
         String userName = userFromDatabase.getUsername();
         UserRequest request = UserRequest.builder()
                 .login(userFromDatabase.getLogin())
@@ -45,7 +47,7 @@ public class UserServiceTest {
                 .password(userFromDatabase.getPassword())
                 .build();
 
-        when(userRepository.findByLogin(userFromDatabase.getLogin())).getMock();
+        when(userRepository.findByLogin(userFromDatabase.getLogin())).thenReturn(Optional.of(userForReturn));
         when(userRepository.save(userFromDatabase)).thenReturn(userFromDatabase);
         UserResponse response = subj.addUser(request);
         String nameUserFromService = response.getName();
