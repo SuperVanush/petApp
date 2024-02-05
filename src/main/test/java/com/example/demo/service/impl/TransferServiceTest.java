@@ -125,7 +125,7 @@ public class TransferServiceTest extends TestCase {
         when(billService.findBillByName(testBill.getBillName())).thenReturn(testBill);
         PrintTransferResponse printTransferResponse = subj.findTransferByBillsName(request);
         List<Transfer> transferList = printTransferResponse.getTransferList();
-        assertNotSame(firstTransferList,transferList);
+        assertNotSame(firstTransferList, transferList);
     }
 
     @Test
@@ -154,7 +154,6 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_transaction_between_bills() {
-
         BigDecimal transactionSum = BigDecimal.valueOf(randomInt());
         User testFromUser = createUser();
         User testToUser = createUser();
@@ -164,7 +163,7 @@ public class TransferServiceTest extends TestCase {
         String loginToUser = testToUser.getLogin();
         String nameFromBill = testFromBill.getBillName();
         String nameToBill = testToBill.getBillName();
-        Transfer transfer = createTransfer(testFromUser,testFromBill,testToUser,testToBill,transactionSum);
+        Transfer transfer = createTransfer(testFromUser, testFromBill, testToUser, testToBill, transactionSum);
         Transfer testTransfer = Transfer.builder()
                 .id(1)
                 .fromBill(testFromBill)
