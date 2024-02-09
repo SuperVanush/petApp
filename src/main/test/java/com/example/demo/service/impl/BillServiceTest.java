@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.demo.TestData.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -48,20 +49,25 @@ public class BillServiceTest extends TestCase {
     public void test_AddBill_Ok() {
         User user = createUser();
         BillRequest billRequest = createBillRequest(user);
-        Bill oldBill = createBill();
+        Bill bill = Bill.builder()
+                .billName(billRequest.getBillName())
+                .balance(billRequest.getBalance())
+                .user(user)
+                .build();
         List<Bill> billList = new ArrayList<>();
-        billList.add(oldBill);
-        Bill billFromRequest = createBill();
-        User userFromDataBase = createUser();
-        userFromDataBase.setBills(billList);
-        billFromRequest.setId(5);
-        billFromRequest.setUser(userFromDataBase);
+        billList.add(bill);
+        user.setBills(billList);
 
-        when(userRepository.findByLogin(billRequest.getLogin())).thenReturn(Optional.of(userFromDataBase));
-        when(billRepository.save(billFromRequest)).thenReturn(billFromRequest);
+        when(userRepository.findByLogin(billRequest.getLogin())).thenReturn(Optional.of(user));
+        when(billRepository.save(any())).thenReturn(bill);
+        when(billRepository.findAll()).thenReturn(billList);
+
         BillResponse response = subj.addBill(billRequest);
+
         String loginUserFromSubj = response.getLogin();
-        assertEquals(loginUserFromSubj, billFromRequest.getUser().getLogin());
+        assertEquals(loginUserFromSubj, bill.getUser().getLogin());
+        assertEquals(response.getMessage(), "Success");
+        assertEquals(response.getBillList(), billList);
     }
 
     @Test

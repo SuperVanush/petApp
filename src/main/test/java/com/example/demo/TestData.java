@@ -12,11 +12,18 @@ import java.sql.Timestamp;
 public class TestData {
 
     public static Bill createBillWithUser(User user) {
-        return Bill.builder().user(user).billName("testBill" + randomInt()).balance(BigDecimal.valueOf(randomInt())).build();
+        return Bill.builder()
+                .user(user)
+                .billName("testBill" + randomInt())
+                .balance(BigDecimal.valueOf(randomInt()))
+                .build();
     }
 
     public static Bill createBill() {
-        return Bill.builder().billName("testBill" + randomInt()).balance(BigDecimal.valueOf(randomInt())).build();
+        return Bill.builder()
+                .billName("testBill" + randomInt())
+                .balance(BigDecimal.valueOf(randomInt()))
+                .build();
     }
 
     public static User createUser() {

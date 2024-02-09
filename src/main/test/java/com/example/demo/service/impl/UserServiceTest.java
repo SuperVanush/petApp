@@ -18,6 +18,7 @@ import java.util.Optional;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
 import static com.example.demo.TestData.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,13 +40,6 @@ public class UserServiceTest {
     @Test
     public void test_AddUser() {
         User userFromDatabase = createUser();
-        User userForReturn = User.builder()
-                .username(userFromDatabase.getUsername())
-                .login(userFromDatabase.getLogin())
-                .password(userFromDatabase.getPassword())
-                .build();
-
-        String userName = userFromDatabase.getUsername();
         UserRequest request = UserRequest.builder()
                 .login(userFromDatabase.getLogin())
                 .name(userFromDatabase.getUsername())
@@ -53,10 +47,13 @@ public class UserServiceTest {
                 .build();
 
         when(userRepository.findByLogin(userFromDatabase.getLogin())).thenReturn(Optional.empty());
-        when(userRepository.save(userForReturn)).thenReturn(userFromDatabase);
+        when(userRepository.save(any())).thenReturn(userFromDatabase);
+
         UserResponse response = subj.addUser(request);
+
         String nameUserFromService = response.getName();
-        assertEquals(userName, nameUserFromService);
+        assertEquals(response.getName(), nameUserFromService);
+        assertEquals(response.getMessage(),"Success");
     }
 
     @Test

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.demo.TestData.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -55,11 +56,11 @@ public class TransferServiceTest extends TestCase {
         BigDecimal sumTransaction = BigDecimal.valueOf(randomInt());
         Transfer transfer = createTransfer(fromUser, fromBill, toUser, toBill, sumTransaction);
         Transfer transferFromTest = createTransfer(fromUser, fromBill, toUser, toBill, sumTransaction);
-        transfer.setId(1);
 
         when(billService.findBillByName(nameFromBill)).thenReturn(fromBill);
         when(billService.findBillByName(nameToBill)).thenReturn(toBill);
-        when(transferRepository.save(transfer)).thenReturn(transferFromTest);
+        when(transferRepository.save(any())).thenReturn(transferFromTest);
+
         Transfer transferForTest = subj.addTransfer(fromUser, toUser, nameFromBill, nameToBill, sumTransaction);
         assertEquals(transfer.getFromBill().getBillName(), transferForTest.getFromBill().getBillName());
     }
