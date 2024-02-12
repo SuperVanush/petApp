@@ -53,7 +53,7 @@ public class UserServiceTest {
 
         String nameUserFromService = response.getName();
         assertEquals(response.getName(), nameUserFromService);
-        assertEquals(response.getMessage(),"Success");
+        assertEquals(response.getMessage(), "Success");
     }
 
     @Test

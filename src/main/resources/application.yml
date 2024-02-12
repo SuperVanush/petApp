@@ -1,7 +1,12 @@
 spring:
   datasource:
     username: postgres
-    password: 5577166
+    password: 55771661
     url: jdbc:postgresql://localhost:5432/postgres
   liquibase:
     change-log: classpath:db-liquibase-master.xml
+    jpa:
+      database-platform:org.hibernate.dialect.H2Dialect
+    h2:
+      console:
+        enabled: true

@@ -58,16 +58,25 @@ public class BillServiceTest extends TestCase {
         billList.add(bill);
         user.setBills(billList);
 
+        BillDtoResponse billDtoResponse = BillDtoResponse.builder()
+                .billName(bill.getBillName())
+                .balance(bill.getBalance())
+                .userId(bill.getUser().getId())
+                .build();
+        List<BillDtoResponse> billDtoResponseList = new ArrayList<>();
+        billDtoResponseList.add(billDtoResponse);
+
         when(userRepository.findByLogin(billRequest.getLogin())).thenReturn(Optional.of(user));
         when(billRepository.save(any())).thenReturn(bill);
         when(billRepository.findAll()).thenReturn(billList);
+        when(billConverter.convert(bill)).thenReturn(billDtoResponse);
 
         BillResponse response = subj.addBill(billRequest);
 
         String loginUserFromSubj = response.getLogin();
         assertEquals(loginUserFromSubj, bill.getUser().getLogin());
         assertEquals(response.getMessage(), "Success");
-        assertEquals(response.getBillList(), billList);
+        assertEquals(response.getBillList(), billDtoResponseList);
     }
 
     @Test
@@ -99,8 +108,8 @@ public class BillServiceTest extends TestCase {
         BillDtoResponse billDtoResponseSecond = BillDtoResponse.builder()
                 .userId(testUser.getId())
                 .billName(testUserSecondBill.getBillName())
-                .balance(testUserSecondBill.getBalance())
-                .build();
+                .balance(testUserSecondBill.getBalance()).
+                build();
         List<BillDtoResponse> billDtoResponseList = List.of(billDtoResponseFirst, billDtoResponseSecond);
         BillResponse standardBillResponse = BillResponse.builder()
                 .message("Success")
