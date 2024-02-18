@@ -38,6 +38,7 @@ public class UserServiceTest {
     }
 
     @Test
+
     public void test_AddUser() {
         User userFromDatabase = createUser();
         UserRequest request = UserRequest.builder()
