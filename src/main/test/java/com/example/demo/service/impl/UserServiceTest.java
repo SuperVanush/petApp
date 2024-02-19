@@ -59,19 +59,20 @@ public class UserServiceTest {
 
     @Test
     public void test_FindUserByLogin_notFindUser() {
-        LoginRequest loginRequest = createLoginRequest();
+        User user = createUser();
+        LoginRequest loginRequest = createLoginRequest(user);
 
         String loginResponse = subj.findUserByLogin(loginRequest).getLogin();
-        when(userRepository.findByLogin("login")).thenReturn(null);
+        when(userRepository.findByLogin(user.getLogin())).thenReturn(null);
         assertNull(loginResponse);
     }
 
     @Test
     public void test_FindUserByLogin_ok() {
-        LoginRequest loginRequest = createLoginRequest();
         User userByLogin = createUser();
+        LoginRequest loginRequest = createLoginRequest(userByLogin);
 
-        when(userRepository.findByLogin("login")).thenReturn(Optional.of(userByLogin));
+        when(userRepository.findByLogin(userByLogin.getLogin())).thenReturn(Optional.of(userByLogin));
         assertEquals(loginRequest.getLogin(), userByLogin.getLogin());
     }
 

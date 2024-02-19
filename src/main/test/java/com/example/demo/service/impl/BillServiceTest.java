@@ -49,20 +49,13 @@ public class BillServiceTest extends TestCase {
     public void test_AddBill_Ok() {
         User user = createUser();
         BillRequest billRequest = createBillRequest(user);
-        Bill bill = Bill.builder()
-                .billName(billRequest.getBillName())
-                .balance(billRequest.getBalance())
-                .user(user)
-                .build();
+        Bill bill = createBillWithUser(user);
+
         List<Bill> billList = new ArrayList<>();
         billList.add(bill);
         user.setBills(billList);
 
-        BillDtoResponse billDtoResponse = BillDtoResponse.builder()
-                .billName(bill.getBillName())
-                .balance(bill.getBalance())
-                .userId(bill.getUser().getId())
-                .build();
+        BillDtoResponse billDtoResponse = createBillDtoResponse(user, bill);
         List<BillDtoResponse> billDtoResponseList = new ArrayList<>();
         billDtoResponseList.add(billDtoResponse);
 
@@ -100,16 +93,8 @@ public class BillServiceTest extends TestCase {
         Bill testUserSecondBill = createBillWithUser(testUser);
         List<Bill> testBillList = List.of(testUserFirstBill, testUserSecondBill);
         BillRequest billRequest = createBillRequest(testUser);
-        BillDtoResponse billDtoResponseFirst = BillDtoResponse.builder()
-                .userId(testUser.getId())
-                .billName(testUserFirstBill.getBillName())
-                .balance(testUserFirstBill.getBalance())
-                .build();
-        BillDtoResponse billDtoResponseSecond = BillDtoResponse.builder()
-                .userId(testUser.getId())
-                .billName(testUserSecondBill.getBillName())
-                .balance(testUserSecondBill.getBalance()).
-                build();
+        BillDtoResponse billDtoResponseFirst = createBillDtoResponse(testUser, testUserFirstBill);
+        BillDtoResponse billDtoResponseSecond = createBillDtoResponse(testUser, testUserSecondBill);
         List<BillDtoResponse> billDtoResponseList = List.of(billDtoResponseFirst, billDtoResponseSecond);
         BillResponse standardBillResponse = BillResponse.builder()
                 .message("Success")

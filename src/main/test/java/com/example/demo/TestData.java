@@ -5,6 +5,7 @@ import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.request.LoginRequest;
+import com.example.demo.model.dto.response.BillDtoResponse;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -21,6 +22,7 @@ public class TestData {
 
     public static Bill createBill() {
         return Bill.builder()
+                .id(randomInt())
                 .billName("testBill" + randomInt())
                 .balance(BigDecimal.valueOf(randomInt()))
                 .build();
@@ -47,10 +49,10 @@ public class TestData {
                 .build();
     }
 
-    public static LoginRequest createLoginRequest() {
+    public static LoginRequest createLoginRequest(User user) {
         return LoginRequest.builder()
-                .login("login")
-                .password("password")
+                .login(user.getLogin())
+                .password(user.getPassword())
                 .build();
     }
 
@@ -60,8 +62,23 @@ public class TestData {
                 .fromBill(fromBill)
                 .toUser(toUser)
                 .toBill(toBill)
-                .sumTransaction(BigDecimal.valueOf(500))
+                .sumTransaction(BigDecimal.valueOf(randomInt()))
                 .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
+                .build();
+    }
+
+    public static Transfer createTransferByBills(Bill fromBill, Bill toBill) {
+        return Transfer.builder()
+                .fromBill(fromBill)
+                .toBill(toBill)
+                .build();
+    }
+
+    public static BillDtoResponse createBillDtoResponse(User user, Bill bill) {
+        return BillDtoResponse.builder()
+                .userId(user.getId())
+                .billName(bill.getBillName())
+                .balance(bill.getBalance())
                 .build();
     }
 }

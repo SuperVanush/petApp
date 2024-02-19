@@ -67,30 +67,13 @@ public class TransferServiceTest extends TestCase {
 
     @Test
     public void test_findTransferByBillsName_ok() {
-        Bill firstBill = Bill.builder()
-                .id(5)
-                .billName("VTB")
-                .build();
-        Bill secondBill = Bill.builder()
-                .id(11)
-                .billName("ALFA")
-                .build();
-        Bill thirdBill = Bill.builder()
-                .id(6)
-                .billName("BANK")
-                .build();
-        Transfer firstTransfer = Transfer.builder()
-                .fromBill(firstBill)
-                .toBill(secondBill)
-                .build();
-        Transfer secondTransfer = Transfer.builder()
-                .fromBill(thirdBill)
-                .toBill(secondBill).build();
-        Transfer thirdTransfer = Transfer
-                .builder()
-                .fromBill(firstBill)
-                .toBill(thirdBill)
-                .build();
+        Bill firstBill = createBill();
+        Bill secondBill = createBill();
+        Bill thirdBill = createBill();
+        Transfer firstTransfer = createTransferByBills(firstBill, secondBill);
+        Transfer secondTransfer = createTransferByBills(thirdBill, secondBill);
+        Transfer thirdTransfer = createTransferByBills(firstBill, thirdBill);
+
         List<Transfer> listTransfer = new ArrayList<>();
         listTransfer.add(firstTransfer);
         listTransfer.add(secondTransfer);
@@ -99,8 +82,10 @@ public class TransferServiceTest extends TestCase {
         listTransferForCompare.add(firstTransfer);
         listTransferForCompare.add(thirdTransfer);
 
-        TransferRequest request = TransferRequest.builder().nameFromBill("VTB").build();
-        when(billRepository.findBillByBillName("VTB")).thenReturn(Optional.of(firstBill));
+        TransferRequest request = TransferRequest.builder()
+                .nameFromBill(firstBill.getBillName())
+                .build();
+        when(billService.findBillByName(firstBill.getBillName())).thenReturn(firstBill);
         when(transferRepository.findAll()).thenReturn(listTransfer);
         PrintTransferResponse printTransferResponse = subj.findTransferByBillsName(request);
         List<Transfer> transferList = printTransferResponse.getTransferList();
@@ -112,10 +97,8 @@ public class TransferServiceTest extends TestCase {
         Bill fromBill = createBill();
         Bill toBill = createBill();
         Bill testBill = createBill();
-        Transfer firstTransfer = Transfer.builder()
-                .fromBill(fromBill)
-                .toBill(toBill)
-                .build();
+        Transfer firstTransfer = createTransferByBills(fromBill, toBill);
+
         List<Transfer> firstTransferList = new ArrayList<>();
         firstTransferList.add(firstTransfer);
         TransferRequest request = TransferRequest.builder()
