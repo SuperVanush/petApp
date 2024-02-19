@@ -2,6 +2,6 @@ spring:
   datasource:
     username: postgres
     password: 5577166
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:h2:mem:test_mem
   liquibase:
       change-log: classpath:db-liquibase-master.xml
