@@ -39,7 +39,7 @@ public class UserService implements ServiceUser {
         try {
             String login = request.getLogin();
             User userByLogin = userRepository.findByLogin(login)
-                    .orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
+                    .orElseThrow(() -> new UserNotFoundException("User by login = " + login +"  not found"));
             return getSuccessLoginResponse(userByLogin);
         } catch (UserNotFoundException e) {
             return getErrorLoginResponse(e.getMessage());

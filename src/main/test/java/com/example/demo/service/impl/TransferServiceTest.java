@@ -5,6 +5,7 @@ import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
+import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.TransferRepository;
 import com.example.demo.repository.UserRepository;
@@ -148,16 +149,18 @@ public class TransferServiceTest extends TestCase {
         String nameFromBill = testFromBill.getBillName();
         String nameToBill = testToBill.getBillName();
         Transfer transfer = createTransfer(testFromUser, testFromBill, testToUser, testToBill, transactionSum);
-        Transfer testTransfer = Transfer.builder()
-                .id(1)
-                .fromBill(testFromBill)
-                .build();
+        transfer.setId(0);
+
+        TransferRequest transferRequest = createTransferRequest(loginFromUser, nameFromBill, loginToUser, nameToBill, transactionSum);
+        String message = "Success";
 
         when(userRepository.findByLogin(loginFromUser)).thenReturn(Optional.of(testFromUser));
         when(userRepository.findByLogin(loginToUser)).thenReturn(Optional.of(testToUser));
         when(billRepository.findBillByBillName(nameFromBill)).thenReturn(Optional.of(testFromBill));
         when(billRepository.findBillByBillName(nameToBill)).thenReturn(Optional.of(testToBill));
         when(transferRepository.save(transfer)).thenReturn(transfer);
-        assertEquals(transfer.getFromBill().getBalance(), testTransfer.getFromBill().getBalance());
-    }
+        TransferResponse transferResponse = subj.transactionBetweenBill(transferRequest);
+        assertEquals(transferResponse.getMessage(), message);
+        assertEquals(transferResponse.getIdTransaction(), transfer.getId());
+                                   }
 }

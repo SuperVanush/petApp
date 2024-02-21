@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,9 +85,8 @@ public class TransferService implements ServiceTransfer {
     public PrintTransferResponse findTransferByBillsName(TransferRequest request) {
         try {
             String billName = request.getNameFromBill();
-            int billId = billService.findBillByName(billName).getId();
-            List<Transfer> transferAllList = transferRepository.findAll();
-            List<Transfer> transferList = transferAllList.stream().filter(transfer -> billId == transfer.getFromBill().getId()).collect(Collectors.toList());
+            Bill bill = billService.findBillByName(billName);
+            List<Transfer> transferList = transferRepository.findTransferByFromBill(bill);
             return getSuccessPrintTransferResponse(transferList);
         } catch (UserNotFoundException e) {
             return getErrorPrintTransferResponse(e.getMessage());
