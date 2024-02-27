@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@JsonFormat
 @Table(name = "transaction_history")
 public class Transfer {
 
@@ -24,18 +26,22 @@ public class Transfer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_from_id")
+    @JsonBackReference
     private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_to_id")
+    @JsonBackReference
     private User toUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bill_from_id")
+    @JsonBackReference
     private Bill fromBill;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bill_to_id")
+    @JsonBackReference
     private Bill toBill;
 
     @Column(name = "sum_transaction")

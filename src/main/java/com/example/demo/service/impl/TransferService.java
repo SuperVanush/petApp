@@ -5,6 +5,7 @@ import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
+import com.example.demo.model.dto.request.PrintTransferRequest;
 import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
@@ -82,9 +83,9 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public PrintTransferResponse findTransferByBillsName(TransferRequest request) {
+    public PrintTransferResponse findTransferByBillsName(PrintTransferRequest request) {
         try {
-            String billName = request.getNameFromBill();
+            String billName = request.getBillName();
             Bill bill = billService.findBillByName(billName);
             List<Transfer> transferList = transferRepository.findTransferByFromBill(bill);
             return getSuccessPrintTransferResponse(transferList);

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.dto.request.PrintTransferRequest;
 import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
@@ -22,7 +23,7 @@ public class TransferController {
     }
 
     @GetMapping("/transactions-by-bill")
-    public PrintTransferResponse printTransferByBill(@RequestBody TransferRequest request) {
+    public PrintTransferResponse printTransferByBill(@RequestBody PrintTransferRequest request) {
         return transferService.findTransferByBillsName(request);
     }
 }

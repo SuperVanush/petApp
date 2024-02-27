@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
+import com.example.demo.model.dto.request.PrintTransferRequest;
 import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
@@ -83,8 +84,8 @@ public class TransferServiceTest extends TestCase {
         listTransferForCompare.add(firstTransfer);
         listTransferForCompare.add(thirdTransfer);
 
-        TransferRequest request = TransferRequest.builder()
-                .nameFromBill(firstBill.getBillName())
+        PrintTransferRequest request= PrintTransferRequest.builder()
+                .billName(firstBill.getBillName())
                 .build();
         when(billService.findBillByName(firstBill.getBillName())).thenReturn(firstBill);
         when(transferRepository.findAll()).thenReturn(listTransfer);
@@ -102,8 +103,8 @@ public class TransferServiceTest extends TestCase {
 
         List<Transfer> firstTransferList = new ArrayList<>();
         firstTransferList.add(firstTransfer);
-        TransferRequest request = TransferRequest.builder()
-                .nameFromBill(testBill.getBillName())
+       PrintTransferRequest request =PrintTransferRequest.builder()
+                .billName(testBill.getBillName())
                 .build();
 
         when(transferRepository.findAll()).thenReturn(firstTransferList);
@@ -162,5 +163,5 @@ public class TransferServiceTest extends TestCase {
         TransferResponse transferResponse = subj.transactionBetweenBill(transferRequest);
         assertEquals(transferResponse.getMessage(), message);
         assertEquals(transferResponse.getIdTransaction(), transfer.getId());
-                                   }
+    }
 }

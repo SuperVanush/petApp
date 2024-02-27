@@ -95,8 +95,6 @@ public class TestData {
                 .nameFromBill(nameFromBill)
                 .nameToBill(nameToBill)
                 .sumTransfer(sumTransfer)
-                .fromBillBalance(fromBillBalance)
-                .toBillBalance(BigDecimal.valueOf(randomInt()))
                 .build();
     }
 }

@@ -19,7 +19,5 @@ public class TransferRequest {
     private String loginToUser;
     private String nameToBill;
     private BigDecimal sumTransfer;
-    private BigDecimal fromBillBalance;
-    private BigDecimal toBillBalance;
     private RequestType requestType;
 }
