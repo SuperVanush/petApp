@@ -12,6 +12,7 @@ import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.TransferRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.BillType;
 import com.example.demo.service.RequestType;
 import com.example.demo.service.ServiceTransfer;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,14 @@ public class TransferService implements ServiceTransfer {
     public Transfer addTransfer(User lastUser, User toUser, String nameFromBill, String nameToBill, BigDecimal transactionSumma) {
         Bill fromBill = billService.findBillByName(nameFromBill);
         Bill toBill = billService.findBillByName(nameToBill);
-        Transfer transfer = Transfer.builder().fromUser(lastUser).toUser(toUser).fromBill(fromBill).toBill(toBill).sumTransaction(transactionSumma).timeDateTransaction(new Timestamp(System.currentTimeMillis())).build();
+        Transfer transfer = Transfer.builder()
+                .fromUser(lastUser)
+                .toUser(toUser)
+                .fromBill(fromBill)
+                .toBill(toBill)
+                .sumTransaction(transactionSumma)
+                .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
+                .build();
         transferRepository.save(transfer);
         return transfer;
     }
@@ -84,13 +92,31 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public PrintTransferResponse findTransferByBillsName(PrintTransferRequest request) {
-        try {
-            String billName = request.getBillName();
-            Bill bill = billService.findBillByName(billName);
-            List<Transfer> transferList = transferRepository.findTransferByFromBill(bill);
-            return getSuccessPrintTransferResponse(transferList);
-        } catch (UserNotFoundException e) {
-            return getErrorPrintTransferResponse(e.getMessage());
+        if ((BillType.FROM_BILL == request.getBillType())) {
+            try {
+                String userLogin = request.getUserLogin();
+                User fromUser = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
+                String billName = request.getBillName();
+                Bill fromBill = fromUser.getBills().stream().filter(bill -> bill.getBillName().equals(billName)).findFirst().get();
+                List<Transfer> transferList = transferRepository.findTransfersByFromUser_LoginAndFromBill_BillName(userLogin, billName);
+                return getSuccessPrintTransferResponse(transferList);
+            } catch (UserNotFoundException e) {
+                return getErrorPrintTransferResponse(e.getMessage());
+            }
+        }
+        if ((BillType.TO_BILL == request.getBillType())) {
+            try {
+                String userLogin = request.getUserLogin();
+                User toUser = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
+                String billName = request.getBillName();
+                Bill toBill = toUser.getBills().stream().filter(bill -> bill.getBillName().equals(billName)).findFirst().get();
+                List<Transfer> transferList = transferRepository.findTransfersByToUser_LoginAndToBill_BillName(userLogin, billName);
+                return getSuccessPrintTransferResponse(transferList);
+            } catch (UserNotFoundException e) {
+                return getErrorPrintTransferResponse(e.getMessage());
+            }
+        } else {
+            return PrintTransferResponse.builder().message("Wrong BillTYPE").build();
         }
     }
 

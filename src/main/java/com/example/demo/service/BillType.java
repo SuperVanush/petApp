@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 public enum BillType {
-    FROMBILL,
-    TOBILL,
-    BILL
+    FROM_BILL,
+    TO_BILL
 }

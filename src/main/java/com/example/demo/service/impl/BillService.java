@@ -32,7 +32,11 @@ public class BillService implements ServiceBill {
             BigDecimal billBalance = request.getBalance();
             User userOfBill = userRepository.findByLogin(userLogin)
                     .orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
-            Bill bill = Bill.builder().billName(billName).balance(billBalance).user(userOfBill).build();
+            Bill bill = Bill.builder()
+                    .billName(billName)
+                    .balance(billBalance)
+                    .user(userOfBill)
+                    .build();
             billRepository.save(bill);
             return getSuccessAddBillResponse(userOfBill);
         } catch (UserNotFoundException e) {
