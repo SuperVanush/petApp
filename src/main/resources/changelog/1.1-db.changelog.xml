@@ -12,7 +12,7 @@
             <column name="transaction_id" type="BIGINT" autoIncrement="true">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
-            <column name="user_from_id" type="varchar(200)">
+            <column name="user_from_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="bill_from_id" type="BIGINT">
@@ -21,10 +21,10 @@
             <column name="sum_transaction" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_to_id" type="varchar (200)">
+            <column name="user_to_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="bill_to_id" type="varchar (200)">
+            <column name="bill_to_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="time_date_transaction" type="TIMESTAMP">

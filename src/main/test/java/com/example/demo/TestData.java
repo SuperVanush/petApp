@@ -46,7 +46,6 @@ public class TestData {
         return BillRequest.builder()
                 .login(user.getLogin())
                 .billName("testBill" + randomInt())
-                .balance(BigDecimal.valueOf(randomInt()))
                 .build();
     }
 

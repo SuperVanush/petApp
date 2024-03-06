@@ -32,8 +32,8 @@ public class TransferService implements ServiceTransfer {
     private final BillService billService;
 
     public Transfer addTransfer(User lastUser, User toUser, String nameFromBill, String nameToBill, BigDecimal transactionSumma) {
-        Bill fromBill = billService.findBillByName(nameFromBill);
-        Bill toBill = billService.findBillByName(nameToBill);
+        Bill fromBill = lastUser.getBills().stream().filter(bill -> bill.getBillName().equals(nameFromBill)).findFirst().get();
+        Bill toBill = toUser.getBills().stream().filter(bill -> bill.getBillName().equals(nameToBill)).findFirst().get();
         Transfer transfer = Transfer.builder()
                 .fromUser(lastUser)
                 .toUser(toUser)
@@ -64,9 +64,11 @@ public class TransferService implements ServiceTransfer {
         try {
             String billName = request.getNameFromBill();
             BigDecimal reduceDigit = request.getSumTransfer();
-            String login = request.getLoginToUser();
+            String login = request.getLoginFromUser();
             User userByLogin = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
-            String nameFromBill = reduceBalance(billName, reduceDigit).getFromBill().getBillName();
+            Bill fromBill = userByLogin.getBills().stream().filter(bill -> bill.getBillName().equals(billName)).findFirst().get();
+            int idFromBill = fromBill.getId();
+            String nameFromBill = reduceBalance(idFromBill, reduceDigit).getFromBill().getBillName();
             Transfer transfer = addTransfer(userByLogin, userByLogin, nameFromBill, nameFromBill, reduceDigit);
             return getSuccessTransferResponse(transfer.getId());
         } catch (TransferException e) {
@@ -76,13 +78,13 @@ public class TransferService implements ServiceTransfer {
 
     public TransferResponse sumTransaction(TransferRequest request) {
         try {
-            String loginFromUser = request.getLoginFromUser();
-            User user = userRepository.findByLogin(loginFromUser).orElseThrow(() -> new UserNotFoundException("User not found by login = " + loginFromUser));
-
+            String loginToUser = request.getLoginToUser();
+            User user = userRepository.findByLogin(loginToUser).orElseThrow(() -> new UserNotFoundException("User not found by login = " + loginToUser));
             String nameToBillRequest = request.getNameToBill();
+            Bill toBill = user.getBills().stream().filter(bill -> bill.getBillName().equals(nameToBillRequest)).findFirst().get();
+            int idToBill = toBill.getId();
             BigDecimal sumTransfer = request.getSumTransfer();
-            Bill toBill = sumBalanceTransaction(nameToBillRequest, sumTransfer).getToBill();
-            String nameToBill = toBill.getBillName();
+            String nameToBill = sumBalanceTransaction(idToBill, sumTransfer).getToBill().getBillName();
             Transfer transfer = addTransfer(user, user, nameToBill, nameToBill, sumTransfer);
             return getSuccessAddTransferResponse(transfer.getId());
         } catch (TransferException e) {
@@ -98,7 +100,7 @@ public class TransferService implements ServiceTransfer {
                 User fromUser = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
                 String billName = request.getBillName();
                 Bill fromBill = fromUser.getBills().stream().filter(bill -> bill.getBillName().equals(billName)).findFirst().get();
-                List<Transfer> transferList = transferRepository.findTransfersByFromUser_LoginAndFromBill_BillName(userLogin, billName);
+                List<Transfer> transferList = transferRepository.findTransfersByToBill(fromBill);
                 return getSuccessPrintTransferResponse(transferList);
             } catch (UserNotFoundException e) {
                 return getErrorPrintTransferResponse(e.getMessage());
@@ -110,7 +112,7 @@ public class TransferService implements ServiceTransfer {
                 User toUser = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
                 String billName = request.getBillName();
                 Bill toBill = toUser.getBills().stream().filter(bill -> bill.getBillName().equals(billName)).findFirst().get();
-                List<Transfer> transferList = transferRepository.findTransfersByToUser_LoginAndToBill_BillName(userLogin, billName);
+                List<Transfer> transferList = transferRepository.findTransfersByToBill(toBill);
                 return getSuccessPrintTransferResponse(transferList);
             } catch (UserNotFoundException e) {
                 return getErrorPrintTransferResponse(e.getMessage());
@@ -121,8 +123,8 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public Transfer sumBalanceTransaction(String toBillName, BigDecimal sumDigit) {
-        Bill toBill = billRepository.findBillByBillName(toBillName).orElseThrow(() -> new UserNotFoundException("Bill not found"));
+    public Transfer sumBalanceTransaction(int idToBill, BigDecimal sumDigit) {
+        Bill toBill = billRepository.findBillById(idToBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
         BigDecimal billBalance = toBill.getBalance();
         BigDecimal sumBillBalance = billBalance.add(sumDigit);
         toBill.setBalance(sumBillBalance);
@@ -133,8 +135,8 @@ public class TransferService implements ServiceTransfer {
     }
 
     @Override
-    public Transfer reduceBalance(String nameFromBill, BigDecimal reduceDigit) {
-        Bill fromBill = billRepository.findBillByBillName(nameFromBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
+    public Transfer reduceBalance(int idFromBill, BigDecimal reduceDigit) {
+        Bill fromBill = billRepository.findBillById(idFromBill).orElseThrow(() -> new UserNotFoundException("Bill not found"));
         BigDecimal billBalance = fromBill.getBalance();
         BigDecimal reduceBillBalance = billBalance.subtract(reduceDigit);
         Transfer fromTransfer = new Transfer();
@@ -154,16 +156,21 @@ public class TransferService implements ServiceTransfer {
             String loginToUser = request.getLoginToUser();
             User fromUser = userRepository.findByLogin(loginFromUser).orElseThrow(() -> new UserNotFoundException("User not found by login = " + loginFromUser));
             User toUser = userRepository.findByLogin(loginToUser).orElseThrow(() -> new UserNotFoundException("User not found by login = " + loginToUser));
+
             String nameFromBill = request.getNameFromBill();
             String nameToBill = request.getNameToBill();
+            Bill findFromBill = fromUser.getBills().stream().filter(bill -> bill.getBillName().equals(nameFromBill)).findFirst().get();
+            Bill findToBill = toUser.getBills().stream().filter(bill -> bill.getBillName().equals(nameToBill)).findFirst().get();
+            int idFindFromBill = findFromBill.getId();
+            int idFindToBill = findToBill.getId();
             BigDecimal transactionSum = request.getSumTransfer();
-            Bill fromBill = reduceBalance(nameFromBill, transactionSum).getFromBill();
-            Bill toBill = sumBalanceTransaction(nameToBill, transactionSum).getToBill();
+            Bill fromBillAfterSave = reduceBalance(idFindFromBill, transactionSum).getFromBill();
+            Bill toBillAfterSave = sumBalanceTransaction(idFindToBill, transactionSum).getToBill();
             Transfer transfer = Transfer.builder()
                     .fromUser(fromUser)
                     .toUser(toUser)
-                    .fromBill(fromBill)
-                    .toBill(toBill)
+                    .fromBill(fromBillAfterSave)
+                    .toBill(toBillAfterSave)
                     .sumTransaction(transactionSum)
                     .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
                     .build();

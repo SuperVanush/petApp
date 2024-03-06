@@ -29,7 +29,7 @@ public class BillService implements ServiceBill {
         try {
             String userLogin = request.getLogin();
             String billName = request.getBillName();
-            BigDecimal billBalance = request.getBalance();
+            BigDecimal billBalance = BigDecimal.valueOf(0);
             User userOfBill = userRepository.findByLogin(userLogin)
                     .orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
             Bill bill = Bill.builder()

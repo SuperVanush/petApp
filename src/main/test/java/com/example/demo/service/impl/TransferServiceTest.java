@@ -119,9 +119,9 @@ public class TransferServiceTest extends TestCase {
         Bill bill = Bill.builder().balance(BigDecimal.valueOf(6)).id(2).build();
         BigDecimal sumDigit = BigDecimal.valueOf(3);
 
-        when(billRepository.findBillByBillName("ALFA")).thenReturn(Optional.of(bill));
+        when(billRepository.findBillById(2)).thenReturn(Optional.of(bill));
         when(billRepository.save(bill)).thenReturn(bill);
-        Transfer transfer = subj.sumBalanceTransaction("ALFA", sumDigit);
+        Transfer transfer = subj.sumBalanceTransaction(2, sumDigit);
         Bill returnBill = transfer.getToBill();
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }
@@ -133,7 +133,7 @@ public class TransferServiceTest extends TestCase {
 
         when(billRepository.save(bill)).thenReturn(bill);
         when(billRepository.findBillByBillName("VTB")).thenReturn(Optional.of(bill));
-        Transfer transfer = subj.reduceBalance("VTB", reduceBalance);
+        Transfer transfer = subj.reduceBalance(2, reduceBalance);
         Bill returnBill = transfer.getFromBill();
         assertEquals(bill.getBalance(), returnBill.getBalance());
     }

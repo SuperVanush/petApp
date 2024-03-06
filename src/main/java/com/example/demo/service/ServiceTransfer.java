@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 
 public interface ServiceTransfer {
 
-    Transfer reduceBalance(String nameFromBill, BigDecimal reduceDigit);
+    Transfer reduceBalance(int idBill, BigDecimal reduceDigit);
 
-    Transfer sumBalanceTransaction(String billName, BigDecimal sumDigit);
+    Transfer sumBalanceTransaction(int idBill, BigDecimal sumDigit);
 
     PrintTransferResponse findTransferByBillsName(PrintTransferRequest request);
 }
