@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Data
 @Builder
@@ -19,5 +19,5 @@ public class TransferListResponse {
     private int idToUser;
     private int idToBill;
     private BigDecimal sumTransaction;
-    private DateTimeFormat timeDateTransaction;
+    private Timestamp timeDateTransaction;
 }

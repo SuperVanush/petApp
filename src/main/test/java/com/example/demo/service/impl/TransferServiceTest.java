@@ -6,6 +6,7 @@ import com.example.demo.model.User;
 import com.example.demo.model.dto.request.PrintTransferRequest;
 import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
+import com.example.demo.model.dto.response.TransferListResponse;
 import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.repository.TransferRepository;
@@ -90,7 +91,7 @@ public class TransferServiceTest extends TestCase {
         when(billService.findBillByName(firstBill.getBillName())).thenReturn(firstBill);
         when(transferRepository.findAll()).thenReturn(listTransfer);
         PrintTransferResponse printTransferResponse = subj.findTransferByBillsName(request);
-        List<Transfer> transferList = printTransferResponse.getTransferList();
+        List<TransferListResponse> transferList = printTransferResponse.getTransferList();
         assertEquals(transferList, listTransferForCompare);
     }
 
@@ -110,7 +111,7 @@ public class TransferServiceTest extends TestCase {
         when(transferRepository.findAll()).thenReturn(firstTransferList);
         when(billService.findBillByName(testBill.getBillName())).thenReturn(testBill);
         PrintTransferResponse printTransferResponse = subj.findTransferByBillsName(request);
-        List<Transfer> transferList = printTransferResponse.getTransferList();
+        List<TransferListResponse> transferList = printTransferResponse.getTransferList();
         assertNotSame(firstTransferList, transferList);
     }
 

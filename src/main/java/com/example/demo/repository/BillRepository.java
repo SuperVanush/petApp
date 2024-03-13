@@ -10,5 +10,7 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
 
     Optional<Bill> findBillByBillName(String billName);
 
-    Optional <Bill> findBillById(int idBill);
+    Optional<Bill> findBillById(int idBill);
+
+    Optional<Bill> findBillByUser_LoginAndAndBillName(String login, String billName);
 }
