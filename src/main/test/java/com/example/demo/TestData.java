@@ -9,7 +9,7 @@ import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.BillDtoResponse;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class TestData {
 
@@ -64,7 +64,7 @@ public class TestData {
                 .toUser(toUser)
                 .toBill(toBill)
                 .sumTransaction(BigDecimal.valueOf(randomInt()))
-                .timeDateTransaction(new Timestamp(System.currentTimeMillis()))
+                .timeDateTransaction(LocalDateTime.now())
                 .build();
     }
 

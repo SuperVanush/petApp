@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Builder
@@ -44,7 +44,7 @@ public class Transfer {
 
     @Column(name = "time_date_transaction")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'   'HH:mm:ss")
-    private Timestamp timeDateTransaction;
+    private LocalDateTime timeDateTransaction;
 
     @Override
     public boolean equals(Object o) {

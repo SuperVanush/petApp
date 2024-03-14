@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -19,5 +19,5 @@ public class TransferListResponse {
     private int idToUser;
     private int idToBill;
     private BigDecimal sumTransaction;
-    private Timestamp timeDateTransaction;
+    private LocalDateTime timeDateTransaction;
 }
