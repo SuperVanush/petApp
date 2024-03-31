@@ -42,11 +42,7 @@ public class UserServiceTest {
 
     public void test_AddUser() {
         User userFromDatabase = createUser();
-        UserRequest request = UserRequest.builder()
-                .login(userFromDatabase.getLogin())
-                .name(userFromDatabase.getUsername())
-                .password(userFromDatabase.getPassword())
-                .build();
+        UserRequest request = UserRequest.builder().login(userFromDatabase.getLogin()).name(userFromDatabase.getUsername()).password(userFromDatabase.getPassword()).build();
 
         when(userRepository.findByLogin(userFromDatabase.getLogin())).thenReturn(Optional.empty());
         when(userRepository.save(any())).thenReturn(userFromDatabase);
@@ -74,6 +70,7 @@ public class UserServiceTest {
         LoginRequest loginRequest = createLoginRequest(userByLogin);
 
         when(userRepository.findByLogin(userByLogin.getLogin())).thenReturn(Optional.of(userByLogin));
+
         String loginResponse = subj.findUserByLogin(loginRequest).getLogin();
         assertEquals(loginResponse, userByLogin.getLogin());
     }
@@ -86,7 +83,7 @@ public class UserServiceTest {
 
         when(userRepository.findByLogin(user.getLogin())).thenReturn(Optional.of(user));
         LoginResponse loginResponse = subj.removeUser(request);
-        assertEquals(loginResponse.getLogin(),user.getLogin());
-        assertEquals(message,loginResponse.getMessage());
+        assertEquals(loginResponse.getLogin(), user.getLogin());
+        assertEquals(message, loginResponse.getMessage());
     }
 }

@@ -51,7 +51,7 @@ public class TestData {
 
     public static LoginRequest createLoginRequest(User user) {
         return LoginRequest.builder()
-                .login(user.getLogin())
+                .userLogin(user.getLogin())
                 .password(user.getPassword())
                 .build();
     }

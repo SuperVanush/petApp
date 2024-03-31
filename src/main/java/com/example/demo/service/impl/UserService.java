@@ -23,7 +23,7 @@ public class UserService implements ServiceUser {
             String name = request.getName();
             String login = request.getLogin();
             String password = request.getPassword();
-            if (userRepository.findByLogin(login).isPresent()){
+            if (userRepository.findByLogin(login).isPresent()) {
                 throw new UserNotFoundException("User with this login exist. Enter another login");
             }
             User user = User.builder().username(name).login(login).password(password).build();
@@ -35,28 +35,25 @@ public class UserService implements ServiceUser {
     }
 
     @Override
-    public LoginResponse findUserByLogin(LoginRequest request) {
-        try {
-            String login = request.getLogin();
-            User userByLogin = userRepository.findByLogin(login)
-                    .orElseThrow(() -> new UserNotFoundException("User by login = " + login +"  not found"));
-            return getSuccessLoginResponse(userByLogin);
-        } catch (UserNotFoundException e) {
-            return getErrorLoginResponse(e.getMessage());
+    public LoginResponse findUserByLogin(LoginRequest request) throws UserNotFoundException {
+        String login = request.getUserLogin();
+        if (userRepository.findByLogin(login).isEmpty()) {
+            throw new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ");
         }
+        User userByLogin = userRepository.findByLogin(login).get();
+        return getSuccessLoginResponse(userByLogin);
+
     }
 
-    public LoginResponse removeUser(LoginRequest request) {
-        try {
-            String login = request.getLogin();
-            User userByLogin = userRepository.findByLogin(login)
-                    .orElseThrow(() -> new UserNotFoundException("User not found by login = " + login));
-            int idRemoveUser = userByLogin.getId();
-            userRepository.deleteById(idRemoveUser);
-            return getSuccessUserRemoveResponse(login);
-        } catch (UserNotFoundException e) {
-            return getErrorUserRemoveResponse(e.getMessage());
+    public LoginResponse removeUser(LoginRequest request) throws UserNotFoundException {
+        String login = request.getUserLogin();
+        if (userRepository.findByLogin(login).isEmpty()) {
+            throw new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ");
         }
+        User userByLogin = userRepository.findByLogin(login).get();
+        int idRemoveUser = userByLogin.getId();
+        userRepository.deleteById(idRemoveUser);
+        return getSuccessUserRemoveResponse(login);
     }
 
     private UserResponse getSuccessUserResponse(User user) {

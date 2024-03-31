@@ -33,7 +33,6 @@ public class TransferService implements ServiceTransfer {
     private final BillRepository billRepository;
     private final UserRepository userRepository;
     private final Converter<Transfer, TransferListResponse> converter;
-    private final BillService billService;
 
     public Transfer addTransfer(User lastUser, User toUser, String nameFromBill, String nameToBill, BigDecimal transactionSumma) {
         Bill fromBill = billRepository.findBillByUser_LoginAndAndBillName(lastUser.getLogin(), nameFromBill).orElseThrow(() -> new UserNotFoundException("not found"));
@@ -98,12 +97,14 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public PrintTransferResponse findTransferByBillsName(PrintTransferRequest request) {
+        userRepository.findByLogin(request.getUserLogin()).orElseThrow(() ->
+                new UserNotFoundException("User not found by login = " + request.getUserLogin()));
+        billRepository.findBillByUser_LoginAndAndBillName(request.getUserLogin(), request.getBillName()).orElseThrow(()
+                -> new UserNotFoundException("Not found Bill"));
         if ((BillType.FROM_BILL == request.getBillType())) {
             try {
                 String userLogin = request.getUserLogin();
-                User fromUser = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
                 String billName = request.getBillName();
-
                 return getSuccessPrintTransferResponseFromBill(userLogin, billName);
             } catch (UserNotFoundException e) {
                 return getErrorPrintTransferResponse(e.getMessage());
@@ -112,9 +113,7 @@ public class TransferService implements ServiceTransfer {
         if ((BillType.TO_BILL == request.getBillType())) {
             try {
                 String userLogin = request.getUserLogin();
-                User toUser = userRepository.findByLogin(userLogin).orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
                 String billName = request.getBillName();
-                Bill toBill = billRepository.findBillByUser_LoginAndAndBillName(userLogin, billName).orElseThrow(() -> new UserNotFoundException("Not found"));
                 return getSuccessPrintTransferResponseToBill(userLogin, billName);
             } catch (UserNotFoundException e) {
                 return getErrorPrintTransferResponse(e.getMessage());

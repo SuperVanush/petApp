@@ -7,7 +7,7 @@ import com.example.demo.model.dto.response.UserResponse;
 
 public interface ServiceUser {
 
-    UserResponse addUser(UserRequest request);
+    UserResponse addUser(UserRequest request) ;
 
     LoginResponse findUserByLogin(LoginRequest request);
 }
