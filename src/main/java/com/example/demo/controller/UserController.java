@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.dto.request.LoginRequest;
 import com.example.demo.model.dto.request.UserRequest;
 import com.example.demo.model.dto.response.LoginResponse;
@@ -24,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public LoginResponse findUser(@RequestBody LoginRequest request) throws UserNotFoundException {
+    public LoginResponse findUser(@RequestBody LoginRequest request) {
         return userService.findUserByLogin(request);
     }
 

@@ -11,6 +11,8 @@ import com.example.demo.service.ServiceUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements ServiceUser {
@@ -35,25 +37,20 @@ public class UserService implements ServiceUser {
     }
 
     @Override
-    public LoginResponse findUserByLogin(LoginRequest request) throws UserNotFoundException {
-        String login = request.getUserLogin();
-        if (userRepository.findByLogin(login).isEmpty()) {
-            throw new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ");
-        }
-        User userByLogin = userRepository.findByLogin(login).get();
-        return getSuccessLoginResponse(userByLogin);
-
+    public LoginResponse findUserByLogin(LoginRequest request) {
+        return Optional.ofNullable(request)
+                .map(LoginRequest::getUserLogin)
+                .flatMap(userRepository::findByLogin)
+                .map(this::getSuccessLoginResponse)
+                .orElseThrow(() -> new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ"));
     }
 
-    public LoginResponse removeUser(LoginRequest request) throws UserNotFoundException {
-        String login = request.getUserLogin();
-        if (userRepository.findByLogin(login).isEmpty()) {
-            throw new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ");
-        }
-        User userByLogin = userRepository.findByLogin(login).get();
-        int idRemoveUser = userByLogin.getId();
-        userRepository.deleteById(idRemoveUser);
-        return getSuccessUserRemoveResponse(login);
+    public LoginResponse removeUser(LoginRequest request) {
+        return Optional.ofNullable(request)
+                .map(LoginRequest::getUserLogin)
+                .flatMap(userRepository::deleteUserByLogin)
+                .map(this::getSuccessUserRemoveResponse)
+                .orElseThrow(() -> new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ"));
     }
 
     private UserResponse getSuccessUserResponse(User user) {
@@ -76,22 +73,9 @@ public class UserService implements ServiceUser {
                 .build();
     }
 
-    private LoginResponse getErrorLoginResponse(String message) {
-        return LoginResponse.builder()
-                .message(message)
-                .build();
-    }
-
-    private LoginResponse getSuccessUserRemoveResponse(String login) {
+    private LoginResponse getSuccessUserRemoveResponse(User user) {
         return LoginResponse.builder()
                 .message("Success  remove")
-                .login(login)
-                .build();
-    }
-
-    private LoginResponse getErrorUserRemoveResponse(String message) {
-        return LoginResponse.builder()
-                .message(message)
                 .build();
     }
 }

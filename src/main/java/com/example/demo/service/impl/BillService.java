@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.BillNotFoundException;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,53 +28,43 @@ public class BillService implements ServiceBill {
     private final Converter<Bill, BillDtoResponse> converter;
 
     public BillResponse addBill(BillRequest request) {
-        try {
-            String userLogin = request.getLogin();
-            String billName = request.getBillName();
-            BigDecimal billBalance = BigDecimal.valueOf(0);
-            User userOfBill = userRepository.findByLogin(userLogin)
-                    .orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
-            Bill bill = Bill.builder()
-                    .billName(billName)
-                    .balance(billBalance)
-                    .user(userOfBill)
-                    .build();
-            billRepository.save(bill);
-            return getSuccessAddBillResponse(userOfBill);
-        } catch (UserNotFoundException e) {
-            return getErrorAddBillResponse(e.getMessage());
-        }
+        String billName = request.getBillName();
+        BigDecimal billBalance = BigDecimal.valueOf(0);
+        User userOfBill = Optional.of(request)
+                .map(BillRequest::getLogin)
+                .flatMap(userRepository::findByLogin)
+                .orElseThrow(() -> new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ"));
+        Bill bill = Bill.builder()
+                .billName(billName)
+                .balance(billBalance)
+                .user(userOfBill)
+                .build();
+        billRepository.save(bill);
+        return getSuccessAddBillResponse(userOfBill);
     }
 
     @Override
     public BillResponse findBillsByUser(BillRequest request) {
-        try {
-            String userLogin = request.getLogin();
-            User userByLogin = userRepository.findByLogin(userLogin)
-                    .orElseThrow(() -> new UserNotFoundException("User not found by login = " + userLogin));
-            return getSuccessFindBillResponse(userByLogin);
-        } catch (UserNotFoundException e) {
-            return getErrorFindBillResponse(e.getMessage());
-        }
+        return Optional.ofNullable(request)
+                .map(BillRequest::getLogin)
+                .flatMap(userRepository::findByLogin)
+                .map(this::getSuccessFindBillResponse)
+                .orElseThrow(() -> new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ"));
     }
 
     @Override
     public Bill findBillByName(String billName) {
-        return billRepository.findBillByBillName(billName)
-                .orElseThrow(() -> new UserNotFoundException("Bill not found"));
+        return Optional.ofNullable(billName)
+                .flatMap(billRepository::findBillByBillName)
+                .orElseThrow(() -> new BillNotFoundException("THIS IS EXCEPTION"));
     }
+
 
     private BillResponse getSuccessAddBillResponse(User user) {
         return BillResponse.builder()
                 .message("Success")
                 .login(user.getLogin())
                 .billList(getResponseBills(user))
-                .build();
-    }
-
-    private BillResponse getErrorAddBillResponse(String message) {
-        return BillResponse.builder()
-                .message(message)
                 .build();
     }
 
@@ -90,11 +82,5 @@ public class BillService implements ServiceBill {
                 .filter(bill -> user.equals(bill.getUser()))
                 .map(converter::convert)
                 .collect(Collectors.toList());
-    }
-
-    private BillResponse getErrorFindBillResponse(String message) {
-        return BillResponse.builder()
-                .message(message)
-                .build();
     }
 }
