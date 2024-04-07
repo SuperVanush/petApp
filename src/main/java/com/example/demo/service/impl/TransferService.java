@@ -45,7 +45,6 @@ public class TransferService implements ServiceTransfer {
                         .equals(request.getFromBillName()))
                 .findFirst()
                 .orElseThrow(() -> new BillException("Нет такого счета"));
-        BigDecimal fromBalance = fromBill.getBalance();
 
         User toUser = Optional.ofNullable(request)
                 .map(TransferRequest::getToUserLogin)
@@ -56,7 +55,6 @@ public class TransferService implements ServiceTransfer {
                         .equals(request.getToBillName()))
                 .findFirst()
                 .orElseThrow(() -> new BillException("Нет такого счета"));
-        BigDecimal toBalance = toBill.getBalance();
 
         BigDecimal sumTransfer = request.getSumTransfer();
 
