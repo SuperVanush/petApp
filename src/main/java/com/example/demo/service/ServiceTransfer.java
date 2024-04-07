@@ -1,17 +1,30 @@
 package com.example.demo.service;
 
+import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
+import com.example.demo.model.User;
 import com.example.demo.model.dto.request.PrintTransferRequest;
+import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
+import com.example.demo.model.dto.response.TransferResponse;
 
 import java.math.BigDecimal;
 
 public interface ServiceTransfer {
 
-    Transfer reduceBalance(int idBill, BigDecimal reduceDigit);
+    TransferResponse transferDistribution (TransferRequest request);
 
-    Transfer sumBalanceTransaction(int idBill, BigDecimal sumDigit);
+    Transfer addTransfer(User fromUser, Bill fromBill, User toUser, Bill toBill, BigDecimal sumTransfer);
 
-    PrintTransferResponse findTransferByBillsName(PrintTransferRequest request);
+    TransferResponse depositOnBill(User toUser,Bill toBill,BigDecimal sumTransfer);
+
+    TransferResponse withdrawFromBill(User fromUser, Bill fromBill, BigDecimal sumTransfer);
+
+    TransferResponse transferBetweenUsers(User fromUser, Bill fromBill, User toUser, Bill toBill, BigDecimal sumTransfer);
+
+    Bill sumToBillTransfer(Bill toBill, BigDecimal sumTransfer);
+
+    Bill reduceFromBillTransfer(Bill fromBill, BigDecimal sumTransfer);
+
+    PrintTransferResponse printTransfersByUser (PrintTransferRequest request);
 }
-

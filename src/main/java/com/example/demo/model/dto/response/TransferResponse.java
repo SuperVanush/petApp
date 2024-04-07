@@ -5,12 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class TransferResponse {
 
-    private String message;
-    private int idTransaction;
+    String message;
+    private String fromUserName;
+    private String fromBillName;
+    private String toUserName;
+    private String toBillName;
+    private BigDecimal FromUserBalance;
+    private BigDecimal ToUserBalance;
 }

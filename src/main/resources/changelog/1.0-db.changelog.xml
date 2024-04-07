@@ -1,39 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="Natalya">
+    <changeSet id="10" author="Natalya">
         <createTable tableName="users">
-            <column name="user_id" type="BIGINT" autoIncrement="true">
+            <column name="user_id" type="bigint" autoIncrement="true">       //создать таблицу, с id автогенерация, уникальный
+                                                                                             - верно, не null - верно, основной ключ таблицы
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
-            <column name="user_name" type="varchar(100)">
+            <column name="login" type="varchar (200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="login" type="varchar(200)">
+            <column name="user_name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(200)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
         <createTable tableName="bills">
-            <column name="bill_id" type="BIGINT" autoIncrement="true">
+            <column name="bill_id" type="bigint" autoIncrement="true">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
-            <column name="bill_name" type="varchar(100)">
+            <column name="bill_name" type="varchar(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="bill_balance" type="BIGINT">
+            <column name="balance" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="BIGINT">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="bills" baseColumnNames="user_id"
-                                 constraintName="user_id_from_users"
-                                 referencedTableName="users" referencedColumnNames="user_id"/>
+                                 constraintName="user_id_from_table_user"
+                                 referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
+        <createTable tableName="transfer">
+            <column name="transfer_id" type="bigint" autoIncrement="true">
+                <constraints unique="true" nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date_time_transfer" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_bill_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_bill_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sum_transfer" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 </databaseChangeLog>

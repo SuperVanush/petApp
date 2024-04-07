@@ -16,16 +16,4 @@
     <changeSet id="10" author="Natalya">
         <tagDatabase tag="v.1.0"/>
     </changeSet>
-
-    <include file="changelog/1.1-db.changelog.xml" relativeToChangelogFile="true"/>
-
-    <changeSet id="20" author="Natalya">
-        <tagDatabase tag="v.1.1"/>
-    </changeSet>
-
-    <changeSet id="30" author="Natalya">
-            <tagDatabase tag="v.1.2"/>
-        </changeSet>
-
-           <include file="changelog/1.2-db.changelog.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

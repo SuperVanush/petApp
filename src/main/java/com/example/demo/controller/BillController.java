@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.response.BillResponse;
+import com.example.demo.model.dto.response.PrintBillResponse;
 import com.example.demo.service.impl.BillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,13 @@ public class BillController {
         return billService.addBill(request);
     }
 
-    @GetMapping("/bills-by-user")
-    public BillResponse findBillsByUser(@RequestBody BillRequest request) {
+    @GetMapping("/print-bills")
+    public PrintBillResponse findBillsByUser(@RequestBody BillRequest request) {
         return billService.findBillsByUser(request);
+    }
+
+    @PostMapping("/delete-bill")
+    public BillResponse deleteBill(@RequestBody BillRequest request) {
+        return billService.deleteBill(request);
     }
 }

@@ -1,11 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.exception.UserException;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.LoginRequest;
-import com.example.demo.model.dto.request.UserRequest;
+import com.example.demo.model.dto.request.RegistrationUserRequest;
 import com.example.demo.model.dto.response.LoginResponse;
-import com.example.demo.model.dto.response.UserResponse;
+import com.example.demo.model.dto.response.RegistrationUserResponse;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceUser;
 import lombok.RequiredArgsConstructor;
@@ -20,62 +20,56 @@ public class UserService implements ServiceUser {
     private final UserRepository userRepository;
 
     @Override
-    public UserResponse addUser(UserRequest request) {
+    public RegistrationUserResponse addUser(RegistrationUserRequest request) {
+        String login = request.getLogin();
         try {
-            String name = request.getName();
-            String login = request.getLogin();
-            String password = request.getPassword();
             if (userRepository.findByLogin(login).isPresent()) {
-                throw new UserNotFoundException("User with this login exist. Enter another login");
+                throw new UserException("Пользователь с таким логином существует, выберите другой логин");
             }
-            User user = User.builder().username(name).login(login).password(password).build();
-            User addUser = userRepository.save(user);
-            return getSuccessUserResponse(addUser);
-        } catch (UserNotFoundException e) {
-            return getErrorUserResponse(e.getMessage());
+            User requestUser = User.builder()
+                    .userName(request.getUserName())
+                    .login(request.getLogin())
+                    .password(request.getPassword())
+                    .build();
+            User addUser = userRepository.save(requestUser);
+            return getSuccessAddUser(addUser);
+        } catch (UserException e) {
+            return getErrorAddUser(e.getMessage());
         }
     }
 
     @Override
-    public LoginResponse findUserByLogin(LoginRequest request) {
-        return Optional.ofNullable(request)
-                .map(LoginRequest::getUserLogin)
+    public User authorizationUser(LoginRequest request) {
+        User user = Optional.ofNullable(request)
+                .map(LoginRequest::getLogin)
                 .flatMap(userRepository::findByLogin)
-                .map(this::getSuccessLoginResponse)
-                .orElseThrow(() -> new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ"));
+                .orElseThrow(() -> new UserException("Пользователь не найден"));
+        return user;
     }
 
-    public LoginResponse removeUser(LoginRequest request) {
-        return Optional.ofNullable(request)
-                .map(LoginRequest::getUserLogin)
-                .flatMap(userRepository::deleteUserByLogin)
-                .map(this::getSuccessUserRemoveResponse)
-                .orElseThrow(() -> new UserNotFoundException("ЭТО ИСКЛЮЧЕНИЕ"));
+
+    public LoginResponse deleteUser(LoginRequest request) {
+        int userId = authorizationUser(request).getUserId();
+        userRepository.deleteById(userId);
+        return getSuccessDeleteUser();
     }
 
-    private UserResponse getSuccessUserResponse(User user) {
-        return UserResponse.builder()
+    public RegistrationUserResponse getSuccessAddUser(User user) {
+        return RegistrationUserResponse.builder()
                 .message("Success")
-                .name(user.getUsername())
+                .userName(user.getUserName())
                 .build();
     }
 
-    private UserResponse getErrorUserResponse(String message) {
-        return UserResponse.builder()
+    public RegistrationUserResponse getErrorAddUser(String message) {
+        return RegistrationUserResponse.builder()
                 .message(message)
                 .build();
     }
 
-    private LoginResponse getSuccessLoginResponse(User user) {
+    public LoginResponse getSuccessDeleteUser() {
         return LoginResponse.builder()
-                .message("Hello")
-                .login(user.getLogin())
-                .build();
-    }
-
-    private LoginResponse getSuccessUserRemoveResponse(User user) {
-        return LoginResponse.builder()
-                .message("Success  remove")
+                .message("Success")
                 .build();
     }
 }

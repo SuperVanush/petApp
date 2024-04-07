@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class TransferListResponse {
+@NoArgsConstructor
+public class PrintTransferDto {
 
-    private int idFromUser;
-    private int idFromBill;
-    private int idToUser;
-    private int idToBill;
-    private BigDecimal sumTransaction;
-    private LocalDateTime timeDateTransaction;
+    private String fromUserName;
+    private String fromBillName;
+    private String toUserName;
+    private String toBillName;
+    private BigDecimal sumTransfer;
+    private LocalDateTime localDateTime;
 }

@@ -17,13 +17,14 @@ public class TransferController {
 
     private final TransferService transferService;
 
-    @PostMapping("/transaction")
-    public TransferResponse transaction(@RequestBody TransferRequest request) {
-        return transferService.transfer(request);
+    @PostMapping("/transfer")
+    public TransferResponse transferDistribution(@RequestBody TransferRequest request) {
+        return transferService.transferDistribution(request);
     }
 
-    @GetMapping("/transactions-by-bill")
-    public PrintTransferResponse printTransferByBill(@RequestBody PrintTransferRequest request) {
-        return transferService.findTransferByBillsName(request);
+    @GetMapping("/print-transfers")
+    public PrintTransferResponse printTransfers(@RequestBody PrintTransferRequest request) {
+        return transferService.printTransfersByUser(request);
     }
 }
+

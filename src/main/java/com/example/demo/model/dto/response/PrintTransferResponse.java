@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PrintTransferResponse {
 
-    private String message;
-    private List<TransferListResponse> transferList;
+    String message;
+    String userName;
+    String billName;
+    List<PrintTransferDto> printTransferDtoList;
 }

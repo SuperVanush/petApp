@@ -5,15 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class BillResponse {
 
-    private String message;
-    private String login;
-    private List<BillDtoResponse> billList;
+    String message;
+    String userName;
+    String billName;
+    BigDecimal balance;
+
 }

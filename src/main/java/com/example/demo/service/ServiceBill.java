@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Bill;
 import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.response.BillResponse;
+import com.example.demo.model.dto.response.PrintBillResponse;
 
 public interface ServiceBill {
 
-    BillResponse findBillsByUser(BillRequest request);
+    BillResponse addBill(BillRequest request);
 
-    Bill findBillByName(String billName);
+    PrintBillResponse findBillsByUser(BillRequest request);
 }

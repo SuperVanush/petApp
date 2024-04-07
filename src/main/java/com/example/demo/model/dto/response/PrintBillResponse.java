@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
-    int userId;
-    String message;
+public class PrintBillResponse {
+
+    String userName;
+    List<PrintBillDto> printBillDtoList;
 }

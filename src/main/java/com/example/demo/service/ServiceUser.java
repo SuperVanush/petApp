@@ -1,13 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.model.User;
 import com.example.demo.model.dto.request.LoginRequest;
-import com.example.demo.model.dto.request.UserRequest;
-import com.example.demo.model.dto.response.LoginResponse;
-import com.example.demo.model.dto.response.UserResponse;
+import com.example.demo.model.dto.request.RegistrationUserRequest;
+import com.example.demo.model.dto.response.RegistrationUserResponse;
 
 public interface ServiceUser {
 
-    UserResponse addUser(UserRequest request) ;
+    RegistrationUserResponse addUser(RegistrationUserRequest request);
 
-    LoginResponse findUserByLogin(LoginRequest request);
+    User authorizationUser(LoginRequest request);
 }
