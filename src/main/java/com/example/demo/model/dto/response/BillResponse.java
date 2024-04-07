@@ -17,5 +17,4 @@ public class BillResponse {
     String userName;
     String billName;
     BigDecimal balance;
-
 }

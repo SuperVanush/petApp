@@ -11,5 +11,4 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
     List<Bill> findBillsByUser(User user);
 
     void deleteBillByUser_UserIdAndAndBillName ( Integer id, String name);
-
 }

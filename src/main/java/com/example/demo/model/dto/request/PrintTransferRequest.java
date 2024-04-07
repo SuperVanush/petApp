@@ -15,5 +15,4 @@ public class PrintTransferRequest {
     private String userLogin;
     private String billName;
     private TypeBill typeBill;
-
 }

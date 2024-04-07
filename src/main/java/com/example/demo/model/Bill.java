@@ -31,7 +31,6 @@ public class Bill {
     @JoinColumn(name = "user_id")               // столбец из др таблицы
     private User user;
 
-
     @Override                                           // метод сравнения объектов
     public boolean equals(Object o) {
         if (this == o) return true;

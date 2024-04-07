@@ -34,7 +34,6 @@ public class TransferService implements ServiceTransfer {
     private final TransferRepository transferRepository;
     private final Converter<Transfer, PrintTransferDto> converter;
 
-
     @Override
     public TransferResponse transferDistribution(TransferRequest request) {
         User fromUser = Optional.ofNullable(request)
@@ -170,7 +169,6 @@ public class TransferService implements ServiceTransfer {
             return getErrorPrintTransfer();
         }
     }
-
 
     public TransferResponse getSuccessTransferSimpleBill(User user, Bill bill, BigDecimal newBalance) {
         return TransferResponse.builder()

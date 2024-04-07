@@ -47,7 +47,6 @@ public class UserService implements ServiceUser {
         return user;
     }
 
-
     public LoginResponse deleteUser(LoginRequest request) {
         int userId = authorizationUser(request).getUserId();
         userRepository.deleteById(userId);

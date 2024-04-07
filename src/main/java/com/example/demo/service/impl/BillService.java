@@ -43,7 +43,6 @@ public class BillService implements ServiceBill {
         return getSuccessAddBill(addBill);
     }
 
-
     @Override
     public PrintBillResponse findBillsByUser(BillRequest request) {
         User user = Optional.ofNullable(request)

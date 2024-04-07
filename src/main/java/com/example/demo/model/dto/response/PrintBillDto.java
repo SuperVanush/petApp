@@ -16,5 +16,4 @@ public class PrintBillDto {
     int userId;
     String billName;
     BigDecimal balance;
-
 }
