@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PrintBillDto {
 
-    int userId;
-    String billName;
-    BigDecimal balance;
+    private int userId;
+    private String billName;
+    private BigDecimal balance;
 }

@@ -14,8 +14,8 @@ import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.repository.TransferRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceTransfer;
-import com.example.demo.service.TypeAction;
-import com.example.demo.service.TypeBill;
+import com.example.demo.service.emun.TypeAction;
+import com.example.demo.service.emun.TypeBill;
 import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -142,8 +143,9 @@ public class TransferService implements ServiceTransfer {
         return bill;
     }
 
-    public TransferResponse deleteTransfer(int idDeleteTransfer) {
-        transferRepository.deleteById(idDeleteTransfer);
+    public TransferResponse deleteTransfer(UUID idDeleteTransfer) {
+        String id = idDeleteTransfer.toString();
+        transferRepository.findBy // не доделала
         return getSuccessDeleteTransfer();
     }
 
@@ -159,10 +161,10 @@ public class TransferService implements ServiceTransfer {
                 .findFirst()
                 .orElseThrow(() -> new BillException("Нет такого счета"));
         if (request.getTypeBill() == TypeBill.FROM_BILL) {
-            return getSuccessPrintTransferFromBill(user, bill);
+            return getSuccessPrintTransferBill(user, bill);
         }
         if (request.getTypeBill() == TypeBill.TO_BILL) {
-            return null;
+            return getSuccessPrintTransferBill(user, bill);
         } else {
             return getErrorPrintTransfer();
         }
@@ -195,16 +197,16 @@ public class TransferService implements ServiceTransfer {
                 .build();
     }
 
-    public PrintTransferResponse getSuccessPrintTransferFromBill(User user, Bill bill) {
+    public PrintTransferResponse getSuccessPrintTransferBill(User user, Bill bill) {
         return PrintTransferResponse.builder()
                 .userName(user.getLogin())
                 .billName(bill.getBillName())
-                .printTransferDtoList(getListPrintFromTransfer(bill))
+                .printTransferDtoList(getListPrintTransfer(bill))
                 .build();
     }
 
-    public List<PrintTransferDto> getListPrintFromTransfer(Bill bill) {
-        return transferRepository.findTransfersByFromBill_BillId(bill.getBillId())
+    public List<PrintTransferDto> getListPrintTransfer(Bill bill) {
+        return transferRepository.findTransfersByFromBill_BillId(bill.getBillId().compareTo(bill.getBillId()))
                 .stream()
                 .map(converter::convert)
                 .collect(Collectors.toList());

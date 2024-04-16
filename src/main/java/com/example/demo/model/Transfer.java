@@ -6,22 +6,23 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.UUID;
 
-@Builder
 @Entity
-@NoArgsConstructor
 @Setter
 @Getter
-@AllArgsConstructor
+@Builder
 @JsonFormat
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "transfer")
 public class Transfer {
 
     @Id                                                 // создает уникальность
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // что бы id генерился автоматически на уровне БД
+    @GeneratedValue(strategy = GenerationType.UUID) // что бы id генерился автоматически на уровне БД
     @Column(name = "transfer_id")                            // описание имени столбца
-    private int transferId;
+    private UUID transferId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_user_id")
@@ -45,19 +46,4 @@ public class Transfer {
     @Column(name = "date_time_transfer")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'   'HH:mm:ss")
     private LocalDateTime localDateTime;
-
-    @Override                                           // метод сравнения объектов
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Transfer transfer = (Transfer) o;
-        return transferId == transfer.transferId && Objects.equals(fromUser, transfer.fromUser) && Objects.equals(toUser, transfer.toUser)
-                && Objects.equals(fromBill, transfer.fromBill) && Objects.equals(toBill, transfer.toBill)
-                && Objects.equals(sumTransfer, transfer.sumTransfer) && Objects.equals(localDateTime, transfer.localDateTime);
-    }
-
-    @Override                                            // метод сравнения объектов
-    public int hashCode() {
-        return Objects.hash(fromUser, toUser, fromBill, toUser, sumTransfer, localDateTime);
-    }
 }

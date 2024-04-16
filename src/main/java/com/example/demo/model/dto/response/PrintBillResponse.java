@@ -13,6 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class PrintBillResponse {
 
-    String userName;
-    List<PrintBillDto> printBillDtoList;
+    private String userName;
+    private List<PrintBillDto> printBillDtoList;
 }

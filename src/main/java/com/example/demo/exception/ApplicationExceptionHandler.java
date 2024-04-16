@@ -19,21 +19,21 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ResponseBody
     @ExceptionHandler (UserException.class)
-    protected ResponseEntity<Object> UserException (UserException e){
+    protected ResponseEntity<Object> userException (UserException e){
         ExceptionResponse exceptionResponse = new ExceptionResponse(USER_NOT_FOUND, e.getMessage());
     return buildErrorResponse(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ResponseBody
     @ExceptionHandler (BillException.class)
-    protected ResponseEntity<Object> BillException (UserException e){
+    protected ResponseEntity<Object> billException (UserException e){
         ExceptionResponse exceptionResponse = new ExceptionResponse(BILL_NOT_FOUND, e.getMessage());
         return buildErrorResponse(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ResponseBody
     @ExceptionHandler (BalanceException.class)
-    protected ResponseEntity<Object> BalanceException (BalanceException e){
+    protected ResponseEntity<Object> balanceException (BalanceException e){
         ExceptionResponse exceptionResponse = new ExceptionResponse(ERROR_BALANCE, e.getMessage());
         return buildErrorResponse(exceptionResponse, HttpStatus.BAD_REQUEST);
     }

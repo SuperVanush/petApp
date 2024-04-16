@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class BillResponse {
 
-    String message;
-    String userName;
-    String billName;
-    BigDecimal balance;
+    private String message;
+    private String userName;
+    private String billName;
+    private BigDecimal balance;
 }

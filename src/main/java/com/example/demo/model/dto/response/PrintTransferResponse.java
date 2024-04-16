@@ -13,8 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class PrintTransferResponse {
 
-    String message;
-    String userName;
-    String billName;
-    List<PrintTransferDto> printTransferDtoList;
+    private String message;
+    private String userName;
+    private String billName;
+    private List<PrintTransferDto> printTransferDtoList;
 }

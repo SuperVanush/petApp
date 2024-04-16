@@ -2,23 +2,25 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
-@Builder
 @Entity
-@NoArgsConstructor
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "bills")
 public class Bill {
 
     @Id                                                 // создает уникальность
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // что бы id генерился автоматически на уровне БД
-    @Column(name = "bill_id")                            // описание имени столбца
-    private int billId;
+    @GeneratedValue(strategy = GenerationType.UUID) // что бы id генерился автоматически на уровне БД
+    @Column(name = "bill_id")  // описание имени столбца
+    private UUID billId;
 
     @Column(name = "bill_name")
     private String billName;
@@ -33,15 +35,20 @@ public class Bill {
 
     @Override                                           // метод сравнения объектов
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Bill bill = (Bill) o;
-        return billId == bill.billId && Objects.equals(billName, bill.billName) && Objects.equals(balance, bill.balance)
-                && Objects.equals(user, bill.user);
+        boolean result;
+        if (this == o) {
+            result = true;
+        } else if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            result = false;
+        } else {
+            Bill bill = (Bill) o;
+            result = Objects.equals(billId, bill.billId);
+        }
+        return result;
     }
 
     @Override                                            // метод сравнения объектов
     public int hashCode() {
-        return Objects.hash(billId, billName, balance, user);
+        return getClass().hashCode();
     }
 }

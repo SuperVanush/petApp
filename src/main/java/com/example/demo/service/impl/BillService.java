@@ -30,10 +30,7 @@ public class BillService implements ServiceBill {
 
     @Override
     public BillResponse addBill(BillRequest request) {
-        User user = Optional.ofNullable(request)
-                .map(BillRequest::getUserId)
-                .flatMap(userRepository::findById)
-                .orElseThrow(() -> new UserException("Пользователь не найден"));
+        User user = findUser(request.getUserId());
         Bill addBill = Bill.builder()
                 .billName(request.getBillName())
                 .balance(BigDecimal.valueOf(0))
@@ -45,19 +42,12 @@ public class BillService implements ServiceBill {
 
     @Override
     public PrintBillResponse findBillsByUser(BillRequest request) {
-        User user = Optional.ofNullable(request)
-                .map(BillRequest::getUserId)
-                .flatMap(userRepository::findById)
-                .orElseThrow(() -> new UserException("Пользователь не найден"));
-
+        User user = findUser(request.getUserId());
         return getSuccessPrintBill(user);
     }
 
     public BillResponse deleteBill(BillRequest request) {
-        User user = Optional.ofNullable(request)
-                .map(BillRequest::getUserId)
-                .flatMap(userRepository::findById)
-                .orElseThrow(() -> new UserException("Пользователь не найден"));
+        User user = findUser(request.getUserId());
         Bill bill = user.getListBills()
                 .stream()
                 .filter(bill1 -> bill1.getBillName().equals(request.getBillName())).findFirst()
@@ -95,5 +85,11 @@ public class BillService implements ServiceBill {
                 .filter(bill -> user.equals(bill.getUser()))
                 .map(converter::convert)
                 .collect(Collectors.toList());
+    }
+
+    public User findUser(int userId) {
+        return Optional.of(userId)
+                .flatMap(userRepository::findById)
+                .orElseThrow(() -> new UserException("Пользователь не найден"));
     }
 }

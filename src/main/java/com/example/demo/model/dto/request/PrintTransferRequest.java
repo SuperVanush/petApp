@@ -1,15 +1,15 @@
 package com.example.demo.model.dto.request;
 
-import com.example.demo.service.TypeBill;
+import com.example.demo.service.emun.TypeBill;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class PrintTransferRequest {
 
     private String userLogin;

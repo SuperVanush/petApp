@@ -1,6 +1,6 @@
 package com.example.demo.model.dto.request;
 
-import com.example.demo.service.TypeAction;
+import com.example.demo.service.emun.TypeAction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class TransferRequest {
 
     private String fromUserLogin;
