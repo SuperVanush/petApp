@@ -13,15 +13,16 @@ import java.util.UUID;
 @Getter
 @Builder
 @JsonFormat
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "transfer")
 public class Transfer {
 
     @Id                                                 // создает уникальность
     @GeneratedValue(strategy = GenerationType.UUID) // что бы id генерился автоматически на уровне БД
-    @Column(name = "transfer_id")                            // описание имени столбца
+    @Column(name = "transfer_id")// описание имени столбца
+    @EqualsAndHashCode.Include
     private UUID transferId;
 
     @ManyToOne(fetch = FetchType.LAZY)

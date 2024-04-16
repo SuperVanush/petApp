@@ -7,8 +7,7 @@
 
     <changeSet id="10" author="Natalya">
         <createTable tableName="users">
-            <column name="user_id" type="bigint" autoIncrement="true">       //создать таблицу, с id автогенерация, уникальный
-                                                                                             - верно, не null - верно, основной ключ таблицы
+            <column name="user_id" type="uuid"  >//создать таблицу, с id автогенерация, уникальный  - верно, не null - верно, основной ключ таблицы
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="login" type="varchar (200)">
@@ -22,7 +21,7 @@
             </column>
         </createTable>
         <createTable tableName="bills">
-            <column name="bill_id" type="bigint" autoIncrement="true">
+            <column name="bill_id" type="uuid" >
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="bill_name" type="varchar(200)">
@@ -31,7 +30,7 @@
             <column name="balance" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
+            <column name="user_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -40,22 +39,22 @@
                                  referencedTableName="users"
                                  referencedColumnNames="user_id"/>
         <createTable tableName="transfer">
-            <column name="transfer_id" type="bigint" autoIncrement="true">
+            <column name="transfer_id" type="uuid">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="date_time_transfer" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="from_user_id" type="bigint">
+            <column name="from_user_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="to_user_id" type="bigint">
+            <column name="to_user_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="from_bill_id" type="bigint">
+            <column name="from_bill_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="to_bill_id" type="bigint">
+            <column name="to_bill_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
             <column name="sum_transfer" type="bigint">

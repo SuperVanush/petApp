@@ -1,4 +1,4 @@
-package com.example.demo.service.emun;
+package com.example.demo.model.types;
 
 public enum TypeAction {
 

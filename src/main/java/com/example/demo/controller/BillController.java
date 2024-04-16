@@ -7,6 +7,8 @@ import com.example.demo.service.impl.BillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 public class BillController {
@@ -18,13 +20,13 @@ public class BillController {
         return billService.addBill(request);
     }
 
-    @GetMapping("/bills-list")
-    public PrintBillResponse findBillsByUser(@RequestParam BillRequest request) {
-        return billService.findBillsByUser(request);
+    @GetMapping("/bills-list/{userId}")
+    public PrintBillResponse findBillsByUser(@PathVariable UUID userId) {
+        return billService.findBillsByUser(userId);
     }
 
     @PostMapping("/delete-bill")
-    public BillResponse deleteBill(@RequestBody BillRequest request) {
-        return billService.deleteBill(request);
+    public BillResponse deleteBill(@RequestBody UUID billId) {
+        return billService.deleteBill(billId);
     }
 }

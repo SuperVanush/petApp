@@ -1,6 +1,6 @@
 package com.example.demo.model.dto.request;
 
-import com.example.demo.service.emun.TypeBill;
+import com.example.demo.model.types.TypeBill;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

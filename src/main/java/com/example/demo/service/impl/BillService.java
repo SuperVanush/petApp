@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,26 +32,23 @@ public class BillService implements ServiceBill {
     @Override
     public BillResponse addBill(BillRequest request) {
         User user = findUser(request.getUserId());
-        Bill addBill = Bill.builder()
+        Bill bill = Bill.builder()
                 .billName(request.getBillName())
                 .balance(BigDecimal.valueOf(0))
                 .user(user)
                 .build();
-        billRepository.save(addBill);
-        return getSuccessAddBill(addBill);
+        Bill newBill = billRepository.save(bill);
+        return getSuccessAddBill(newBill);
     }
 
     @Override
-    public PrintBillResponse findBillsByUser(BillRequest request) {
-        User user = findUser(request.getUserId());
+    public PrintBillResponse findBillsByUser(UUID userId) {
+        User user = findUser(userId);
         return getSuccessPrintBill(user);
     }
 
-    public BillResponse deleteBill(BillRequest request) {
-        User user = findUser(request.getUserId());
-        Bill bill = user.getListBills()
-                .stream()
-                .filter(bill1 -> bill1.getBillName().equals(request.getBillName())).findFirst()
+    public BillResponse deleteBill(UUID billId) {
+        Bill bill = billRepository.findById(billId)
                 .orElseThrow(() -> new BillException("Нет такого счета"));
         billRepository.delete(bill);
         return getSuccessDeleteBill();
@@ -87,7 +85,7 @@ public class BillService implements ServiceBill {
                 .collect(Collectors.toList());
     }
 
-    public User findUser(int userId) {
+    public User findUser(UUID userId) {
         return Optional.of(userId)
                 .flatMap(userRepository::findById)
                 .orElseThrow(() -> new UserException("Пользователь не найден"));

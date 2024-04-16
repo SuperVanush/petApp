@@ -10,9 +10,9 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "userId")
 @Table(name = "users")
 public class User {
 

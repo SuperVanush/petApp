@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.request.PrintTransferRequest;
 import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
+import com.example.demo.model.types.TypeBill;
 import com.example.demo.service.impl.TransferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,9 +21,9 @@ public class TransferController {
         return transferService.transferDistribution(request);
     }
 
-    @GetMapping("/transfers-list")
-    public PrintTransferResponse printTransfers(@RequestParam PrintTransferRequest request) {
-        return transferService.printTransfersByUser(request);
+    @GetMapping("/transfers-list/{billId}/{typeBill}")
+    public PrintTransferResponse printTransfers(@PathVariable UUID billId, @PathVariable TypeBill typeBill) {
+        return transferService.printTransfersByUser(billId, typeBill);
     }
 }
 

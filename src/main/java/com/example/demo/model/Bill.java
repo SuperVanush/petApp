@@ -2,10 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -14,12 +12,14 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "bills")
 public class Bill {
 
     @Id                                                 // создает уникальность
     @GeneratedValue(strategy = GenerationType.UUID) // что бы id генерился автоматически на уровне БД
     @Column(name = "bill_id")  // описание имени столбца
+    @EqualsAndHashCode.Include
     private UUID billId;
 
     @Column(name = "bill_name")
@@ -32,23 +32,4 @@ public class Bill {
     // отношение к другой сущности, LAZY, потому, что не всегда мне нужно что бы при загрузке счета сразу грузился пользак. потом по запросу загружу
     @JoinColumn(name = "user_id")               // столбец из др таблицы
     private User user;
-
-    @Override                                           // метод сравнения объектов
-    public boolean equals(Object o) {
-        boolean result;
-        if (this == o) {
-            result = true;
-        } else if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
-            result = false;
-        } else {
-            Bill bill = (Bill) o;
-            result = Objects.equals(billId, bill.billId);
-        }
-        return result;
-    }
-
-    @Override                                            // метод сравнения объектов
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

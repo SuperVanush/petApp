@@ -1,14 +1,14 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.request.LoginRequest;
 import com.example.demo.model.dto.request.RegistrationUserRequest;
-import com.example.demo.model.dto.response.LoginResponse;
 import com.example.demo.model.dto.response.RegistrationUserResponse;
+import com.example.demo.model.dto.response.UserDeleteResponse;
+import com.example.demo.model.dto.response.UserResponse;
 import com.example.demo.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +21,13 @@ public class UserController {
         return userService.addUser(request);
     }
 
+    @GetMapping("/authorization_user/{login}")
+    public UserResponse authorizationUser(@PathVariable String login) {
+        return userService.authorizationUser(login);
+    }
+
     @PostMapping("/delete-user")
-    public LoginResponse deleteUser(@RequestBody LoginRequest request) {
-        return userService.deleteUser(request);
+    public UserDeleteResponse deleteUser(@RequestBody UUID userId) {
+        return userService.deleteUser(userId);
     }
 }
