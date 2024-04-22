@@ -27,7 +27,8 @@ public class BillService implements ServiceBill {
 
     private final UserRepository userRepository;
     private final BillRepository billRepository;
-    private final Converter<Bill, PrintBillDto> converter;
+    private final Converter<Bill, PrintBillDto> printDtoBillConverter;
+    private final Converter<Bill, BillResponse> billResponseConverter;
 
     @Override
     public BillResponse addBill(BillRequest request) {
@@ -38,7 +39,9 @@ public class BillService implements ServiceBill {
                 .user(user)
                 .build();
         Bill newBill = billRepository.save(bill);
-        return getSuccessAddBill(newBill);
+        return billRepository.findById(newBill.getId())
+                .map(billResponseConverter::convert)
+                .orElseThrow(() -> new BillException("Bill is not found"));
     }
 
     @Override
@@ -47,21 +50,12 @@ public class BillService implements ServiceBill {
         return getSuccessPrintBill(user);
     }
 
+    @Override
     public BillResponse deleteBill(UUID billId) {
         Bill bill = billRepository.findById(billId)
                 .orElseThrow(() -> new BillException("Нет такого счета"));
         billRepository.delete(bill);
         return getSuccessDeleteBill();
-    }
-
-    public BillResponse getSuccessAddBill(Bill bill) {
-        String userName = bill.getUser().getUserName();
-        return BillResponse.builder()
-                .message("Success")
-                .userName(userName)
-                .billName(bill.getBillName())
-                .balance(bill.getBalance())
-                .build();
     }
 
     public BillResponse getSuccessDeleteBill() {
@@ -81,7 +75,7 @@ public class BillService implements ServiceBill {
         return billRepository.findAll()
                 .stream()
                 .filter(bill -> user.equals(bill.getUser()))
-                .map(converter::convert)
+                .map(printDtoBillConverter::convert)
                 .collect(Collectors.toList());
     }
 

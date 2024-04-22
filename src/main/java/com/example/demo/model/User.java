@@ -19,7 +19,7 @@ public class User {
     @Id                                                 // создает уникальность
     @GeneratedValue(strategy = GenerationType.UUID) // что бы id генерился автоматически на уровне БД
     @Column(name = "user_id")                            // описание имени столбца
-    private UUID userId;
+    private UUID id;
 
     @Column(name = "login")
     private String login;

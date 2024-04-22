@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final String USER_NOT_FOUND = "USER NOT FOUND";
+    private static final String ERROR_USER = "THIS USER EXIST";
     private static final String BILL_NOT_FOUND = "BILL NOT FOUND";
     private static final String ERROR_BALANCE = "ERROR BALANCE";
 
@@ -26,7 +27,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ResponseBody
     @ExceptionHandler (BillException.class)
-    protected ResponseEntity<Object> billException (UserException e){
+    protected ResponseEntity<Object> billException (BillException e){
         ExceptionResponse exceptionResponse = new ExceptionResponse(BILL_NOT_FOUND, e.getMessage());
         return buildErrorResponse(exceptionResponse, HttpStatus.NOT_FOUND);
     }
@@ -35,6 +36,13 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler (BalanceException.class)
     protected ResponseEntity<Object> balanceException (BalanceException e){
         ExceptionResponse exceptionResponse = new ExceptionResponse(ERROR_BALANCE, e.getMessage());
+        return buildErrorResponse(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseBody
+    @ExceptionHandler (RegistrationException.class)
+    protected ResponseEntity<Object> balanceException (RegistrationException e){
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ERROR_USER, e.getMessage());
         return buildErrorResponse(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 

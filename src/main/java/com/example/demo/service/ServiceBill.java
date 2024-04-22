@@ -11,4 +11,6 @@ public interface ServiceBill {
     BillResponse addBill(BillRequest request);
 
     PrintBillResponse findBillsByUser(UUID userId);
+
+    BillResponse deleteBill(UUID billId);
 }

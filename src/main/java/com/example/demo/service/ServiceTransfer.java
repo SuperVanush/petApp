@@ -19,7 +19,7 @@ public interface ServiceTransfer {
 
     TransferResponse depositOnBill(Bill toBill, BigDecimal sumTransfer);
 
-    TransferResponse withdrawFromBill( Bill fromBill, BigDecimal sumTransfer);
+    TransferResponse withdrawFromBill(Bill fromBill, BigDecimal sumTransfer);
 
     TransferResponse transferBetweenUsers(Bill fromBill, Bill toBill, BigDecimal sumTransfer);
 

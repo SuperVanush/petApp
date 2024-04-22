@@ -34,6 +34,7 @@ public class TransferService implements ServiceTransfer {
     private final Converter<Transfer, PrintTransferDto> converter;
 
     @Override
+
     public TransferResponse transferDistribution(TransferRequest request) {
         Bill fromBill = billRepository.findById(request.getFromBillId())
                 .orElseThrow(() -> new BillException("Нет такого счета"));
@@ -52,7 +53,7 @@ public class TransferService implements ServiceTransfer {
             return transferBetweenUsers(fromBill, toBill, sumTransfer);
         }
         if (request.getTypeAction() == TypeAction.DELETE_BILL) {
-            return deleteTransfer(fromBill.getBillId());
+            return deleteTransfer(fromBill.getId());
         } else {
             return getErrorTransfer();
         }
@@ -75,14 +76,14 @@ public class TransferService implements ServiceTransfer {
     public TransferResponse depositOnBill(Bill toBill, BigDecimal sumTransfer) {
         Bill billNewBalance = sumToBillTransfer(toBill, sumTransfer);
         Transfer transfer = addTransfer(toBill.getUser(), toBill, billNewBalance.getUser(), billNewBalance, sumTransfer);
-        return getSuccessTransferSimpleBill(transfer);
+        return getSuccessTransferToBill(transfer);
     }
 
     @Override
     public TransferResponse withdrawFromBill(Bill fromBill, BigDecimal sumTransfer) {
         Bill billNewBalance = reduceFromBillTransfer(fromBill, sumTransfer);
         Transfer transfer = addTransfer(fromBill.getUser(), fromBill, billNewBalance.getUser(), billNewBalance, sumTransfer);
-        return getSuccessTransferSimpleBill(transfer);
+        return getSuccessTransferFromBill(transfer);
     }
 
     @Override
@@ -95,22 +96,20 @@ public class TransferService implements ServiceTransfer {
 
     @Override
     public Bill sumToBillTransfer(Bill toBill, BigDecimal sumTransfer) {
-        Bill bill = toBill;
         BigDecimal newBalance = toBill.getBalance().add(sumTransfer);
-        bill.setBalance(newBalance);
-        return bill;
+        toBill.setBalance(newBalance);
+        return toBill;
     }
 
     @Override
     public Bill reduceFromBillTransfer(Bill fromBill, BigDecimal sumTransfer) {
-        Bill bill = fromBill;
         BigDecimal newBalance = fromBill.getBalance().subtract(sumTransfer);
         if (newBalance.compareTo(BigDecimal.ZERO) > 0) {
-            bill.setBalance(newBalance);
+            fromBill.setBalance(newBalance);
         } else {
             throw new BalanceException("Баланс меньше ноля, попробуйте снова");
         }
-        return bill;
+        return fromBill;
     }
 
     public TransferResponse deleteTransfer(UUID idDeleteTransfer) {
@@ -123,21 +122,30 @@ public class TransferService implements ServiceTransfer {
         Bill bill = billRepository.findById(billId)
                 .orElseThrow(() -> new BillException("Нет такого счета"));
         if (typeBill == TypeBill.FROM_BILL) {
-            return getSuccessPrintTransferBill(bill);
+            return getSuccessPrintTransferFromBill(bill);
         }
         if (typeBill == TypeBill.TO_BILL) {
-            return getSuccessPrintTransferBill(bill);
+            return getSuccessPrintTransferToBill(bill);
         } else {
             return getErrorPrintTransfer();
         }
     }
 
-    public TransferResponse getSuccessTransferSimpleBill(Transfer transfer) {
+    public TransferResponse getSuccessTransferToBill(Transfer transfer) {
         return TransferResponse.builder()
                 .message("Success")
                 .toUserName(transfer.getToUser().getUserName())
                 .toBillName(transfer.getToBill().getBillName())
-                .ToUserBalance(transfer.getSumTransfer())
+                .ToUserBalance(transfer.getToBill().getBalance())
+                .build();
+    }
+
+    public TransferResponse getSuccessTransferFromBill(Transfer transfer) {
+        return TransferResponse.builder()
+                .message("Success")
+                .fromUserName(transfer.getFromUser().getUserName())
+                .fromBillName(transfer.getFromBill().getBillName())
+                .FromUserBalance(transfer.getFromBill().getBalance())
                 .build();
     }
 
@@ -159,16 +167,31 @@ public class TransferService implements ServiceTransfer {
                 .build();
     }
 
-    public PrintTransferResponse getSuccessPrintTransferBill(Bill bill) {
+    public PrintTransferResponse getSuccessPrintTransferFromBill(Bill bill) {
         return PrintTransferResponse.builder()
                 .userName(bill.getUser().getUserName())
                 .billName(bill.getBillName())
-                .printTransferDtoList(getListPrintTransfer(bill))
+                .printTransferDtoList(getListPrintTransferFromBill(bill))
                 .build();
     }
 
-    public List<PrintTransferDto> getListPrintTransfer(Bill bill) {
-        return transferRepository.findTransfersByFromBill_BillId(bill.getBillId())
+    public List<PrintTransferDto> getListPrintTransferFromBill(Bill bill) {
+        return transferRepository.findTransfersByFromBill_id(bill.getId())
+                .stream()
+                .map(converter::convert)
+                .collect(Collectors.toList());
+    }
+
+    public PrintTransferResponse getSuccessPrintTransferToBill(Bill bill) {
+        return PrintTransferResponse.builder()
+                .userName(bill.getUser().getUserName())
+                .billName(bill.getBillName())
+                .printTransferDtoList(getListPrintTransferToBill(bill))
+                .build();
+    }
+
+    public List<PrintTransferDto> getListPrintTransferToBill(Bill bill) {
+        return transferRepository.findTransfersByFromBill_id(bill.getId())
                 .stream()
                 .map(converter::convert)
                 .collect(Collectors.toList());

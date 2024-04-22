@@ -4,7 +4,7 @@ import com.example.demo.model.dto.request.TransferRequest;
 import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.model.types.TypeBill;
-import com.example.demo.service.impl.TransferService;
+import com.example.demo.service.ServiceTransfer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +14,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransferController {
 
-    private final TransferService transferService;
+    private final ServiceTransfer serviceTransfer;
 
     @PostMapping("/transfer")
     public TransferResponse transferDistribution(@RequestBody TransferRequest request) {
-        return transferService.transferDistribution(request);
+        return serviceTransfer.transferDistribution(request);
     }
 
-    @GetMapping("/transfers-list/{billId}/{typeBill}")
-    public PrintTransferResponse printTransfers(@PathVariable UUID billId, @PathVariable TypeBill typeBill) {
-        return transferService.printTransfersByUser(billId, typeBill);
+    @GetMapping("/transfers-list/{id}/{typeBill}")
+    public PrintTransferResponse printTransfers(@PathVariable UUID id, @PathVariable TypeBill typeBill) {
+        return serviceTransfer.printTransfersByUser(id, typeBill);
     }
 }
-

@@ -23,7 +23,7 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.UUID) // что бы id генерился автоматически на уровне БД
     @Column(name = "transfer_id")// описание имени столбца
     @EqualsAndHashCode.Include
-    private UUID transferId;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_user_id")

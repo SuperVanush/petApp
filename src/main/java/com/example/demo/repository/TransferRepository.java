@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, UUID> {
 
-    List<Transfer> findTransfersByFromBill_BillId(UUID idFromBill);
+    List<Transfer> findTransfersByFromBill_id(UUID idFromBill);
 }

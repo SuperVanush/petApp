@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.RegistrationException;
 import com.example.demo.exception.UserException;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.RegistrationUserRequest;
@@ -8,45 +9,45 @@ import com.example.demo.model.dto.response.UserDeleteResponse;
 import com.example.demo.model.dto.response.UserResponse;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceUser;
+import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class UserService implements ServiceUser {
 
     private final UserRepository userRepository;
+    private final Converter<User, RegistrationUserResponse> registrationUserResponseConverter;
+    private final Converter<User, UserResponse> userResponseConverter;
 
     @Override
     public RegistrationUserResponse addUser(RegistrationUserRequest request) {
         String login = request.getLogin();
-        try {
-            if (userRepository.findByLogin(login).isPresent()) {
-                throw new UserException("Пользователь с таким логином существует, выберите другой логин");
-            }
-            User requestUser = User.builder()
-                    .userName(request.getUserName())
-                    .login(request.getLogin())
-                    .password(request.getPassword())
-                    .build();
-            User addUser = userRepository.save(requestUser);
-            return getSuccessAddUser(addUser);
-        } catch (UserException e) {
-            return getErrorAddUser(e.getMessage());
+        if (userRepository.findByLogin(login).isPresent()) {
+            throw new RegistrationException("Пользователь с таким логином существует, выберите другой логин");
         }
+        User requestUser = User.builder()
+                .userName(request.getUserName())
+                .login(request.getLogin())
+                .password(request.getPassword())
+                .build();
+        User addUser = userRepository.save(requestUser);
+        return userRepository.findById(addUser.getId())
+                .map(registrationUserResponseConverter::convert)
+                .orElseThrow(() -> new UserException("User not found"));
     }
 
     @Override
     public UserResponse authorizationUser(String login) {
         User findUser = findUserByLogin(login);
-        return getUser(findUser);
+        return userResponseConverter.convert(findUser);
     }
 
-
+    @Override
     public UserDeleteResponse deleteUser(UUID userId) {
         userRepository.deleteById(userId);
         return getSuccessDeleteUser();
@@ -58,28 +59,8 @@ public class UserService implements ServiceUser {
                 .orElseThrow(() -> new UserException("Пользователь не найден"));
     }
 
-    public RegistrationUserResponse getSuccessAddUser(User user) {
-        return RegistrationUserResponse.builder()
-                .message("Success")
-                .userName(user.getUserName())
-                .build();
-    }
-
-    public RegistrationUserResponse getErrorAddUser(String message) {
-        return RegistrationUserResponse.builder()
-                .message(message)
-                .build();
-    }
-
     public UserDeleteResponse getSuccessDeleteUser() {
         return UserDeleteResponse.builder()
-                .status(String.valueOf(HttpStatus.OK))
-                .build();
-    }
-
-    public UserResponse getUser(User user) {
-        return UserResponse.builder()
-                .userId(user.getUserId())
                 .status(String.valueOf(HttpStatus.OK))
                 .build();
     }

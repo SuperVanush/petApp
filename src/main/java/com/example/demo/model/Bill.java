@@ -20,7 +20,7 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.UUID) // что бы id генерился автоматически на уровне БД
     @Column(name = "bill_id")  // описание имени столбца
     @EqualsAndHashCode.Include
-    private UUID billId;
+    private UUID id;
 
     @Column(name = "bill_name")
     private String billName;
