@@ -6,7 +6,7 @@ import com.example.demo.service.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PrintTransferDtoConverter implements Converter <Transfer, PrintTransferDto> {
+public class PrintTransferDtoConverter implements Converter<Transfer, PrintTransferDto> {
 
     @Override
     public PrintTransferDto convert(Transfer source) {

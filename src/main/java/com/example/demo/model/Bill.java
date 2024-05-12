@@ -28,8 +28,7 @@ public class Bill {
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    // отношение к другой сущности, LAZY, потому, что не всегда мне нужно что бы при загрузке счета сразу грузился пользак. потом по запросу загружу
+    @ManyToOne(fetch = FetchType.LAZY) // отношение к другой сущности, LAZY, потому, что не всегда мне нужно что бы при загрузке счета сразу грузился пользак. потом по запросу загружу
     @JoinColumn(name = "user_id")               // столбец из др таблицы
     private User user;
 }

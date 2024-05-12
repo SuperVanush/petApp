@@ -6,9 +6,9 @@ import com.example.demo.service.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TransferBetweenResponseConverter implements Converter<Transfer, TransferResponse> {
+public class TransferActionResponseConverter implements Converter<Transfer, TransferResponse> {
 
-    @Override
+  @Override
     public TransferResponse convert(Transfer source) {
         return TransferResponse.builder()
                 .message("Success")

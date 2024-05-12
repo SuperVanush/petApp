@@ -26,6 +26,7 @@ public class BillController {
     }
 
     @PostMapping("/delete-bill")
-    public BillResponse deleteBill(@RequestBody UUID billId) {return serviceBill.deleteBill(billId);
+    public void deleteBill(@RequestBody UUID billId) {
+        serviceBill.deleteBill(billId);
     }
 }

@@ -12,5 +12,5 @@ public interface ServiceBill {
 
     PrintBillResponse findBillsByUser(UUID userId);
 
-    BillResponse deleteBill(UUID billId);
+    void deleteBill(UUID billId);
 }

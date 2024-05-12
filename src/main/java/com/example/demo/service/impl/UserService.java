@@ -5,13 +5,11 @@ import com.example.demo.exception.UserException;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.RegistrationUserRequest;
 import com.example.demo.model.dto.response.RegistrationUserResponse;
-import com.example.demo.model.dto.response.UserDeleteResponse;
 import com.example.demo.model.dto.response.UserResponse;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceUser;
 import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -36,9 +34,7 @@ public class UserService implements ServiceUser {
                 .password(request.getPassword())
                 .build();
         User addUser = userRepository.save(requestUser);
-        return userRepository.findById(addUser.getId())
-                .map(registrationUserResponseConverter::convert)
-                .orElseThrow(() -> new UserException("User not found"));
+        return registrationUserResponseConverter.convert(addUser);
     }
 
     @Override
@@ -48,9 +44,8 @@ public class UserService implements ServiceUser {
     }
 
     @Override
-    public UserDeleteResponse deleteUser(UUID userId) {
+    public void deleteUser(UUID userId) {
         userRepository.deleteById(userId);
-        return getSuccessDeleteUser();
     }
 
     public User findUserByLogin(String login) {
@@ -59,9 +54,9 @@ public class UserService implements ServiceUser {
                 .orElseThrow(() -> new UserException("Пользователь не найден"));
     }
 
-    public UserDeleteResponse getSuccessDeleteUser() {
-        return UserDeleteResponse.builder()
-                .status(String.valueOf(HttpStatus.OK))
-                .build();
+    public User findUserById(UUID userId) {
+        return Optional.of(userId)
+                .flatMap(userRepository::findById)
+                .orElseThrow(() -> new UserException("Пользователь не найден"));
     }
 }

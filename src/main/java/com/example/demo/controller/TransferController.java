@@ -22,7 +22,7 @@ public class TransferController {
     }
 
     @GetMapping("/transfers-list/{id}/{typeBill}")
-    public PrintTransferResponse printTransfers(@PathVariable UUID id, @PathVariable TypeBill typeBill) {
+    public PrintTransferResponse printTransfers(@PathVariable("id") UUID id, @PathVariable("typeBill") TypeBill typeBill) {
         return serviceTransfer.printTransfersByUser(id, typeBill);
     }
 }

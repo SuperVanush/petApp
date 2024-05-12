@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDeleteResponse {
+public class TypeResponse {
 
-    private String status;
+    private String message;
 }

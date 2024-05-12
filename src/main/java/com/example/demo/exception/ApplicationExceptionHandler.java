@@ -19,29 +19,29 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     private static final String ERROR_BALANCE = "ERROR BALANCE";
 
     @ResponseBody
-    @ExceptionHandler (UserException.class)
-    protected ResponseEntity<Object> userException (UserException e){
+    @ExceptionHandler(UserException.class)
+    protected ResponseEntity<Object> userException(UserException e) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(USER_NOT_FOUND, e.getMessage());
-    return buildErrorResponse(exceptionResponse, HttpStatus.NOT_FOUND);
+        return buildErrorResponse(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ResponseBody
-    @ExceptionHandler (BillException.class)
-    protected ResponseEntity<Object> billException (BillException e){
+    @ExceptionHandler(BillException.class)
+    protected ResponseEntity<Object> billException(BillException e) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(BILL_NOT_FOUND, e.getMessage());
         return buildErrorResponse(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ResponseBody
-    @ExceptionHandler (BalanceException.class)
-    protected ResponseEntity<Object> balanceException (BalanceException e){
+    @ExceptionHandler(BalanceException.class)
+    protected ResponseEntity<Object> balanceException(BalanceException e) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ERROR_BALANCE, e.getMessage());
         return buildErrorResponse(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ResponseBody
-    @ExceptionHandler (RegistrationException.class)
-    protected ResponseEntity<Object> balanceException (RegistrationException e){
+    @ExceptionHandler(RegistrationException.class)
+    protected ResponseEntity<Object> registrationException(RegistrationException e) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ERROR_USER, e.getMessage());
         return buildErrorResponse(exceptionResponse, HttpStatus.BAD_REQUEST);
     }

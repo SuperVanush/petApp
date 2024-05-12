@@ -1,87 +1,73 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.BalanceException;
 import com.example.demo.exception.BillException;
-import com.example.demo.exception.UserException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.request.BillRequest;
 import com.example.demo.model.dto.response.BillResponse;
-import com.example.demo.model.dto.response.PrintBillDto;
 import com.example.demo.model.dto.response.PrintBillResponse;
 import com.example.demo.repository.BillRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceBill;
 import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BillService implements ServiceBill {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final BillRepository billRepository;
-    private final Converter<Bill, PrintBillDto> printDtoBillConverter;
     private final Converter<Bill, BillResponse> billResponseConverter;
+    private final Converter<User, PrintBillResponse> printBillResponseConverter;
 
     @Override
     public BillResponse addBill(BillRequest request) {
-        User user = findUser(request.getUserId());
+        User user = userService.findUserById(request.getUserId());
         Bill bill = Bill.builder()
                 .billName(request.getBillName())
                 .balance(BigDecimal.valueOf(0))
                 .user(user)
                 .build();
         Bill newBill = billRepository.save(bill);
-        return billRepository.findById(newBill.getId())
-                .map(billResponseConverter::convert)
-                .orElseThrow(() -> new BillException("Bill is not found"));
+        return billResponseConverter.convert(newBill);
     }
 
     @Override
     public PrintBillResponse findBillsByUser(UUID userId) {
-        User user = findUser(userId);
-        return getSuccessPrintBill(user);
+        User user = userService.findUserById(userId);
+        return printBillResponseConverter.convert(user);
     }
 
     @Override
-    public BillResponse deleteBill(UUID billId) {
+    public void deleteBill(UUID billId) {
         Bill bill = billRepository.findById(billId)
                 .orElseThrow(() -> new BillException("Нет такого счета"));
         billRepository.delete(bill);
-        return getSuccessDeleteBill();
     }
 
-    public BillResponse getSuccessDeleteBill() {
-        return BillResponse.builder()
-                .message("Success")
-                .build();
+    public Bill sumToBillTransfer(Bill toBill, BigDecimal sumTransfer) {
+        BigDecimal newBalance = toBill.getBalance().add(sumTransfer);
+        toBill.setBalance(newBalance);
+        return toBill;
     }
 
-    public PrintBillResponse getSuccessPrintBill(User user) {
-        return PrintBillResponse.builder()
-                .userName(user.getUserName())
-                .printBillDtoList(getListPrintBill(user))
-                .build();
+    public Bill reduceFromBillTransfer(Bill fromBill, BigDecimal sumTransfer) {
+        BigDecimal newBalance = fromBill.getBalance().subtract(sumTransfer);
+        if (newBalance.compareTo(BigDecimal.ZERO) > 0) {
+            fromBill.setBalance(newBalance);
+        } else {
+            throw new BalanceException("Баланс меньше ноля, попробуйте снова");
+        }
+        return fromBill;
     }
 
-    public List<PrintBillDto> getListPrintBill(User user) {
-        return billRepository.findAll()
-                .stream()
-                .filter(bill -> user.equals(bill.getUser()))
-                .map(printDtoBillConverter::convert)
-                .collect(Collectors.toList());
-    }
-
-    public User findUser(UUID userId) {
-        return Optional.of(userId)
-                .flatMap(userRepository::findById)
-                .orElseThrow(() -> new UserException("Пользователь не найден"));
+    public Bill findBillById(UUID id) {
+        return billRepository.findById(id)
+                .orElseThrow(() -> new BillException("Нет такого счета"));
     }
 }
