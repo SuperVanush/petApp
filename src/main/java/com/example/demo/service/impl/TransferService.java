@@ -2,8 +2,8 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
-import com.example.demo.model.User;
 import com.example.demo.model.dto.request.TransferRequest;
+import com.example.demo.model.dto.response.PrintTransferDto;
 import com.example.demo.model.dto.response.PrintTransferResponse;
 import com.example.demo.model.dto.response.TransferResponse;
 import com.example.demo.model.types.TypeAction;
@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class TransferService implements ServiceTransfer {
     private final Converter<TransferRequest, TransferResponse> errorActionConverter;
     private final Converter<TypeBill, PrintTransferResponse> typeErrorConverter;
     private final Converter<Bill, PrintTransferResponse> printTransferConverter;
+    private final Converter<Transfer, PrintTransferDto> printConverter;
 
     @Override
     public TransferResponse transferDistribution(TransferRequest request) {
@@ -52,11 +55,11 @@ public class TransferService implements ServiceTransfer {
         return errorActionConverter.convert(request);
     }
 
-    public Transfer addTransfer(User fromUser, Bill fromBill, User toUser, Bill toBill, BigDecimal sumTransfer) {
+    public Transfer addTransfer(Bill fromBill, Bill toBill, BigDecimal sumTransfer) {
         Transfer transfer = Transfer.builder()
-                .fromUser(fromUser)
+                .fromUser(fromBill.getUser())
                 .fromBill(fromBill)
-                .toUser(toUser)
+                .toUser(toBill.getUser())
                 .toBill(toBill)
                 .sumTransfer(sumTransfer)
                 .localDateTime(LocalDateTime.now())
@@ -66,18 +69,18 @@ public class TransferService implements ServiceTransfer {
 
     public Transfer depositOnBill(Bill toBill, BigDecimal sumTransfer) {
         Bill billNewBalance = billService.sumToBillTransfer(toBill, sumTransfer);
-        return addTransfer(toBill.getUser(), toBill, billNewBalance.getUser(), billNewBalance, sumTransfer);
+        return addTransfer(toBill, billNewBalance, sumTransfer);
     }
 
     public Transfer withdrawFromBill(Bill fromBill, BigDecimal sumTransfer) {
         Bill billNewBalance = billService.reduceFromBillTransfer(fromBill, sumTransfer);
-        return addTransfer(fromBill.getUser(), fromBill, billNewBalance.getUser(), billNewBalance, sumTransfer);
+        return addTransfer(fromBill, billNewBalance, sumTransfer);
     }
 
     public Transfer transferBetweenUsers(Bill fromBill, Bill toBill, BigDecimal sumTransfer) {
         Bill billDepositNewBalance = billService.sumToBillTransfer(toBill, sumTransfer);
         Bill billReduceNewBalance = billService.reduceFromBillTransfer(fromBill, sumTransfer);
-        return addTransfer(billReduceNewBalance.getUser(), billReduceNewBalance, billDepositNewBalance.getUser(), billDepositNewBalance, sumTransfer);
+        return addTransfer(billReduceNewBalance, billDepositNewBalance, sumTransfer);
     }
 
     public void deleteTransfer(UUID idDeleteTransfer) {
@@ -98,7 +101,16 @@ public class TransferService implements ServiceTransfer {
     }
 
     public PrintTransferResponse getSuccessPrintTransferFromBill(Bill bill) {
-        return printTransferConverter.convert(bill);
+        List<PrintTransferDto> transferList = transferRepository
+                .findTransfersByFromBill_id(bill.getId())
+                .stream()
+                .map(printConverter::convert)
+                .collect(Collectors.toList());
+        return PrintTransferResponse.builder()
+                .userName(bill.getUser().getUserName())
+                .billName(bill.getBillName())
+                .printTransferDtoList(transferList)
+                .build();
     }
 
     public PrintTransferResponse getSuccessPrintTransferToBill(Bill bill) {

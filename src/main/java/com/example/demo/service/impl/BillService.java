@@ -18,7 +18,8 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class BillService implements ServiceBill {
+public class
+BillService implements ServiceBill {
 
     private final UserService userService;
     private final BillRepository billRepository;
@@ -53,6 +54,7 @@ public class BillService implements ServiceBill {
     public Bill sumToBillTransfer(Bill toBill, BigDecimal sumTransfer) {
         BigDecimal newBalance = toBill.getBalance().add(sumTransfer);
         toBill.setBalance(newBalance);
+        billRepository.save(toBill);
         return toBill;
     }
 
@@ -60,6 +62,7 @@ public class BillService implements ServiceBill {
         BigDecimal newBalance = fromBill.getBalance().subtract(sumTransfer);
         if (newBalance.compareTo(BigDecimal.ZERO) > 0) {
             fromBill.setBalance(newBalance);
+            billRepository.save(fromBill);
         } else {
             throw new BalanceException("Баланс меньше ноля, попробуйте снова");
         }
