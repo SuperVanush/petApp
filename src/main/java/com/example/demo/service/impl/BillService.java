@@ -10,16 +10,18 @@ import com.example.demo.model.dto.response.PrintBillResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.service.ServiceBill;
 import com.example.demo.service.converter.Converter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+
 @Service
 @RequiredArgsConstructor
-public class
-BillService implements ServiceBill {
+@Data
+public class BillService implements ServiceBill {
 
     private final UserService userService;
     private final BillRepository billRepository;

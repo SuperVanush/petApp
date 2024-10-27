@@ -19,5 +19,10 @@
       "name": "datasource.driverClassName",
       "type": "java.lang.String",
       "description": "Description for datasource.driverClassName."
+    },
+    {
+      "name": "spring.datasource.password.url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.password.url."
     }
   ] }

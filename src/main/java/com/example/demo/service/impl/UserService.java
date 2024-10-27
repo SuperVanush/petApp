@@ -10,11 +10,12 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceUser;
 import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@org.springframework.stereotype.Service
+@Service
 @RequiredArgsConstructor
 public class UserService implements ServiceUser {
 

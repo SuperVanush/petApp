@@ -27,9 +27,6 @@ public class TransferService implements ServiceTransfer {
     private final TransferRepository transferRepository;
     private final BillService billService;
     private final Converter<Transfer, TransferResponse> actionConverter;
-    private final Converter<TransferRequest, TransferResponse> errorActionConverter;
-    private final Converter<TypeBill, PrintTransferResponse> typeErrorConverter;
-    private final Converter<Bill, PrintTransferResponse> printTransferConverter;
     private final Converter<Transfer, PrintTransferDto> printConverter;
 
     @Override
@@ -52,7 +49,7 @@ public class TransferService implements ServiceTransfer {
         if (request.getTypeAction() == TypeAction.DELETE_BILL) {
             deleteTransfer(fromBill.getId());
         }
-        return errorActionConverter.convert(request);
+        return getErrorTransfer();
     }
 
     public Transfer addTransfer(Bill fromBill, Bill toBill, BigDecimal sumTransfer) {
@@ -96,7 +93,7 @@ public class TransferService implements ServiceTransfer {
         if (typeBill == TypeBill.TO_BILL) {
             return getSuccessPrintTransferToBill(bill);
         } else {
-            return typeErrorConverter.convert(typeBill);
+            return getErrorPrintTransfer();
         }
     }
 
@@ -114,6 +111,27 @@ public class TransferService implements ServiceTransfer {
     }
 
     public PrintTransferResponse getSuccessPrintTransferToBill(Bill bill) {
-        return printTransferConverter.convert(bill);
+        List<PrintTransferDto> transferList = transferRepository
+                .findTransfersByToBill_Id(bill.getId())
+                .stream()
+                .map(printConverter::convert)
+                .collect(Collectors.toList());
+        return PrintTransferResponse.builder()
+                .userName(bill.getUser().getUserName())
+                .billName(bill.getBillName())
+                .printTransferDtoList(transferList)
+                .build();
+    }
+
+    public PrintTransferResponse getErrorPrintTransfer() {
+        return PrintTransferResponse.builder()
+                .message("Неверный тип счета")
+                .build();
+    }
+
+    public TransferResponse getErrorTransfer() {
+        return TransferResponse.builder()
+                .message("Неверный тип действия")
+                .build();
     }
 }
