@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "spring.liquibase.h2.console.enabled",
+      "type": "java.lang.String",
+      "description": "Description for spring.liquibase.h2.console.enabled."
+    },
+    {
+      "name": "spring.datasource.driver-class-name.url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.driver-class-name.url."
+    },
+    {
+      "name": "spring.datasource.driver-class-name.username.password",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.driver-class-name.username.password."
+    },
+    {
+      "name": "datasource.driverClassName",
+      "type": "java.lang.String",
+      "description": "Description for datasource.driverClassName."
+    },
+    {
+      "name": "spring.datasource.password.url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.password.url."
+    }
+  ] }

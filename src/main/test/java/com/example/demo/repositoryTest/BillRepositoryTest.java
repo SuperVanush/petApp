@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.example.demo.serviceTest.TestData.createBillWithoutId;
@@ -18,7 +17,6 @@ import static com.example.demo.serviceTest.TestData.createUserWithoutId;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@ActiveProfiles("test")
 public class BillRepositoryTest extends TestCase {
 
     @Autowired

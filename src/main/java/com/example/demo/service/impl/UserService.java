@@ -26,6 +26,8 @@ public class UserService implements ServiceUser {
     @Override
     public RegistrationUserResponse addUser(RegistrationUserRequest request) {
         String login = request.getLogin();
+
+
         if (userRepository.findByLogin(login).isPresent()) {
             throw new RegistrationException("Пользователь с таким логином существует, выберите другой логин");
         }
