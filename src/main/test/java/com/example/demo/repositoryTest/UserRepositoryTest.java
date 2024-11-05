@@ -14,7 +14,6 @@ import static com.example.demo.serviceTest.TestData.createUserWithoutId;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-//@ActiveProfiles("test")
 public class UserRepositoryTest extends TestCase {
 
     @Autowired
