@@ -2,10 +2,10 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
-import com.example.demo.model.dto.request.TransferRequest;
-import com.example.demo.model.dto.response.PrintTransferDto;
-import com.example.demo.model.dto.response.PrintTransferResponse;
-import com.example.demo.model.dto.response.TransferResponse;
+import com.example.demo.dto.request.TransferRequest;
+import com.example.demo.dto.response.PrintTransferDto;
+import com.example.demo.dto.response.PrintTransferResponse;
+import com.example.demo.dto.response.TransferResponse;
 import com.example.demo.model.types.TypeAction;
 import com.example.demo.model.types.TypeBill;
 import com.example.demo.repository.TransferRepository;
@@ -52,6 +52,7 @@ public class TransferService implements ServiceTransfer {
         return getErrorTransfer();
     }
 
+    @Override
     public Transfer addTransfer(Bill fromBill, Bill toBill, BigDecimal sumTransfer) {
         Transfer transfer = Transfer.builder()
                 .fromUser(fromBill.getUser())
@@ -64,23 +65,23 @@ public class TransferService implements ServiceTransfer {
         return transferRepository.save(transfer);
     }
 
-    public Transfer depositOnBill(Bill toBill, BigDecimal sumTransfer) {
+    private Transfer depositOnBill(Bill toBill, BigDecimal sumTransfer) {
         Bill billNewBalance = billService.sumToBillTransfer(toBill, sumTransfer);
         return addTransfer(toBill, billNewBalance, sumTransfer);
     }
 
-    public Transfer withdrawFromBill(Bill fromBill, BigDecimal sumTransfer) {
+    private Transfer withdrawFromBill(Bill fromBill, BigDecimal sumTransfer) {
         Bill billNewBalance = billService.reduceFromBillTransfer(fromBill, sumTransfer);
         return addTransfer(fromBill, billNewBalance, sumTransfer);
     }
 
-    public Transfer transferBetweenUsers(Bill fromBill, Bill toBill, BigDecimal sumTransfer) {
+    private Transfer transferBetweenUsers(Bill fromBill, Bill toBill, BigDecimal sumTransfer) {
         Bill billDepositNewBalance = billService.sumToBillTransfer(toBill, sumTransfer);
         Bill billReduceNewBalance = billService.reduceFromBillTransfer(fromBill, sumTransfer);
         return addTransfer(billReduceNewBalance, billDepositNewBalance, sumTransfer);
     }
 
-    public void deleteTransfer(UUID idDeleteTransfer) {
+    private void deleteTransfer(UUID idDeleteTransfer) {
         transferRepository.deleteById(idDeleteTransfer);
     }
 
@@ -97,7 +98,7 @@ public class TransferService implements ServiceTransfer {
         }
     }
 
-    public PrintTransferResponse getSuccessPrintTransferFromBill(Bill bill) {
+    private PrintTransferResponse getSuccessPrintTransferFromBill(Bill bill) {
         List<PrintTransferDto> transferList = transferRepository
                 .findTransfersByFromBill_id(bill.getId())
                 .stream()
@@ -110,7 +111,7 @@ public class TransferService implements ServiceTransfer {
                 .build();
     }
 
-    public PrintTransferResponse getSuccessPrintTransferToBill(Bill bill) {
+    private PrintTransferResponse getSuccessPrintTransferToBill(Bill bill) {
         List<PrintTransferDto> transferList = transferRepository
                 .findTransfersByToBill_Id(bill.getId())
                 .stream()
@@ -123,13 +124,13 @@ public class TransferService implements ServiceTransfer {
                 .build();
     }
 
-    public PrintTransferResponse getErrorPrintTransfer() {
+    private PrintTransferResponse getErrorPrintTransfer() {
         return PrintTransferResponse.builder()
                 .message("Неверный тип счета")
                 .build();
     }
 
-    public TransferResponse getErrorTransfer() {
+    private TransferResponse getErrorTransfer() {
         return TransferResponse.builder()
                 .message("Неверный тип действия")
                 .build();

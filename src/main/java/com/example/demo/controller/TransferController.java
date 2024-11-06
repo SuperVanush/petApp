@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.request.TransferRequest;
-import com.example.demo.model.dto.response.PrintTransferResponse;
-import com.example.demo.model.dto.response.TransferResponse;
+import com.example.demo.dto.request.TransferRequest;
+import com.example.demo.dto.response.PrintTransferResponse;
+import com.example.demo.dto.response.TransferResponse;
 import com.example.demo.model.types.TypeBill;
 import com.example.demo.service.ServiceTransfer;
 import lombok.RequiredArgsConstructor;

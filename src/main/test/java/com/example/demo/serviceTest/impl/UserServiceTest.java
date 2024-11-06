@@ -1,8 +1,9 @@
 package com.example.demo.serviceTest.impl;
 
+import com.example.demo.dto.response.UserResponse;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.RegistrationUserRequest;
-import com.example.demo.model.dto.response.RegistrationUserResponse;
+import com.example.demo.dto.request.RegistrationUserRequest;
+import com.example.demo.dto.response.RegistrationUserResponse;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.converter.Converter;
 import com.example.demo.service.impl.UserService;
@@ -54,6 +55,18 @@ public class UserServiceTest extends TestCase {
         RegistrationUserResponse testResponse = subj.addUser(registrationUserRequest);
         assertEquals(testResponse.getMessage(), registrationUserResponse.getMessage());
         assertEquals(testResponse.getUserName(), registrationUserResponse.getUserName());
+    }
+
+    @Test
+    public void authorizationUser_Ok() {
+        User user = TestData.createUser();
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUserId(user.getId());
+
+        when(userRepository.findByLogin(user.getLogin())).thenReturn(Optional.of(user));
+        UserResponse userResponseReturn = subj.authorizationUser(user.getLogin());
+        assertEquals(userResponse.getUserId(), userResponseReturn.getUserId());
     }
 
     @Test

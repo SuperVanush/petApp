@@ -4,9 +4,9 @@ import com.example.demo.exception.BalanceException;
 import com.example.demo.exception.BillException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.BillRequest;
-import com.example.demo.model.dto.response.BillResponse;
-import com.example.demo.model.dto.response.PrintBillResponse;
+import com.example.demo.dto.request.BillRequest;
+import com.example.demo.dto.response.BillResponse;
+import com.example.demo.dto.response.PrintBillResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.service.ServiceBill;
 import com.example.demo.service.converter.Converter;
@@ -51,6 +51,7 @@ public class BillService implements ServiceBill {
         billRepository.delete(bill);
     }
 
+    @Override
     public Bill sumToBillTransfer(Bill toBill, BigDecimal sumTransfer) {
         BigDecimal newBalance = toBill.getBalance().add(sumTransfer);
         toBill.setBalance(newBalance);
@@ -58,6 +59,7 @@ public class BillService implements ServiceBill {
         return toBill;
     }
 
+    @Override
     public Bill reduceFromBillTransfer(Bill fromBill, BigDecimal sumTransfer) {
         BigDecimal newBalance = fromBill.getBalance().subtract(sumTransfer);
         if (newBalance.compareTo(BigDecimal.ZERO) > 0) {
@@ -69,6 +71,7 @@ public class BillService implements ServiceBill {
         return fromBill;
     }
 
+    @Override
     public Bill findBillById(UUID id) {
         return billRepository.findById(id)
                 .orElseThrow(() -> new BillException("Нет такого счета"));

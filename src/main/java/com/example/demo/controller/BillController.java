@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.request.BillRequest;
-import com.example.demo.model.dto.response.BillResponse;
-import com.example.demo.model.dto.response.PrintBillResponse;
+import com.example.demo.dto.request.BillRequest;
+import com.example.demo.dto.response.BillResponse;
+import com.example.demo.dto.response.PrintBillResponse;
 import com.example.demo.service.ServiceBill;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

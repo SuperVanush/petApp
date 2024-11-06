@@ -48,4 +48,24 @@ public class TransferRepositoryTest extends TestCase {
 
         assertEquals(transferList.size(), 2);
     }
+
+    @Test
+    public void findTransfersByToBill_id() {
+        User user = createUserWithoutId();
+        User returnUser = userRepository.save(user);
+
+        Bill testBill = createBillWithoutId(user);
+        Bill returnBill = billRepository.save(testBill);
+
+        BigDecimal sumTransfer1 = BigDecimal.valueOf(createIntRandom());
+        Transfer transfer1 = createTransferBetweenBills(returnBill, returnUser, sumTransfer1);
+        Transfer transfer2 = createTransferBetweenBills(returnBill, returnUser, sumTransfer1);
+
+        subj.save(transfer1);
+        subj.save(transfer2);
+
+        List<Transfer> transferList = subj.findTransfersByToBill_Id(testBill.getId());
+
+        assertEquals(transferList.size(), 2);
+    }
 }

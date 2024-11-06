@@ -2,8 +2,8 @@ package com.example.demo.service.converter.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.response.PrintBillDto;
-import com.example.demo.model.dto.response.PrintBillResponse;
+import com.example.demo.dto.response.PrintBillDto;
+import com.example.demo.dto.response.PrintBillResponse;
 import com.example.demo.service.converter.Converter;
 import lombok.Data;
 import org.springframework.stereotype.Component;

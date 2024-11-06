@@ -2,10 +2,10 @@ package com.example.demo.serviceTest.impl;
 
 import com.example.demo.model.Bill;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.BillRequest;
-import com.example.demo.model.dto.response.BillResponse;
-import com.example.demo.model.dto.response.PrintBillDto;
-import com.example.demo.model.dto.response.PrintBillResponse;
+import com.example.demo.dto.request.BillRequest;
+import com.example.demo.dto.response.BillResponse;
+import com.example.demo.dto.response.PrintBillDto;
+import com.example.demo.dto.response.PrintBillResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.service.converter.Converter;
 import com.example.demo.service.impl.BillService;

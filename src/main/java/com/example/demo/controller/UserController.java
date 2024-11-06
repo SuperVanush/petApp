@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.request.RegistrationUserRequest;
-import com.example.demo.model.dto.response.RegistrationUserResponse;
-import com.example.demo.model.dto.response.UserResponse;
+import com.example.demo.dto.request.RegistrationUserRequest;
+import com.example.demo.dto.response.RegistrationUserResponse;
+import com.example.demo.dto.response.UserResponse;
 import com.example.demo.service.ServiceUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

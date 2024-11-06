@@ -3,9 +3,9 @@ package com.example.demo.service.impl;
 import com.example.demo.exception.RegistrationException;
 import com.example.demo.exception.UserException;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.request.RegistrationUserRequest;
-import com.example.demo.model.dto.response.RegistrationUserResponse;
-import com.example.demo.model.dto.response.UserResponse;
+import com.example.demo.dto.request.RegistrationUserRequest;
+import com.example.demo.dto.response.RegistrationUserResponse;
+import com.example.demo.dto.response.UserResponse;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ServiceUser;
 import com.example.demo.service.converter.Converter;
@@ -26,8 +26,6 @@ public class UserService implements ServiceUser {
     @Override
     public RegistrationUserResponse addUser(RegistrationUserRequest request) {
         String login = request.getLogin();
-
-
         if (userRepository.findByLogin(login).isPresent()) {
             throw new RegistrationException("Пользователь с таким логином существует, выберите другой логин");
         }
@@ -48,15 +46,15 @@ public class UserService implements ServiceUser {
 
     @Override
     public void deleteUser(UUID userId) {
-        userRepository.deleteById(userId);
-    }
+        userRepository.deleteById(userId);}
 
+    @Override
     public User findUserByLogin(String login) {
         return Optional.ofNullable(login)
                 .flatMap(userRepository::findByLogin)
-                .orElseThrow(() -> new UserException("Пользователь не найден"));
-    }
+                .orElseThrow(() -> new UserException("Пользователь не найден"));}
 
+    @Override
     public User findUserById(UUID userId) {
         return Optional.of(userId)
                 .flatMap(userRepository::findById)

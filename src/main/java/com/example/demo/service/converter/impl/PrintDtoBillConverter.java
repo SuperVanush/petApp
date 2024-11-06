@@ -1,7 +1,7 @@
 package com.example.demo.service.converter.impl;
 
 import com.example.demo.model.Bill;
-import com.example.demo.model.dto.response.PrintBillDto;
+import com.example.demo.dto.response.PrintBillDto;
 import com.example.demo.service.converter.Converter;
 import org.springframework.stereotype.Component;
 
