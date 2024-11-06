@@ -9,6 +9,7 @@ import com.example.demo.dto.response.BillResponse;
 import com.example.demo.dto.response.PrintBillResponse;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.service.ServiceBill;
+import com.example.demo.service.ServiceUser;
 import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BillService implements ServiceBill {
 
-    private final UserService userService;
+    private final ServiceUser userService;
     private final BillRepository billRepository;
     private final Converter<Bill, BillResponse> billResponseConverter;
     private final Converter<User, PrintBillResponse> printBillResponseConverter;

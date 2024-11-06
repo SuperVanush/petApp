@@ -9,6 +9,7 @@ import com.example.demo.dto.response.TransferResponse;
 import com.example.demo.model.types.TypeAction;
 import com.example.demo.model.types.TypeBill;
 import com.example.demo.repository.TransferRepository;
+import com.example.demo.service.ServiceBill;
 import com.example.demo.service.ServiceTransfer;
 import com.example.demo.service.converter.Converter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class TransferService implements ServiceTransfer {
 
     private final TransferRepository transferRepository;
-    private final BillService billService;
+    private final ServiceBill billService;
     private final Converter<Transfer, TransferResponse> actionConverter;
     private final Converter<Transfer, PrintTransferDto> printConverter;
 
