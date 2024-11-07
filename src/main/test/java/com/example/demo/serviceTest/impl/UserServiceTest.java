@@ -1,9 +1,11 @@
 package com.example.demo.serviceTest.impl;
 
-import com.example.demo.dto.response.UserResponse;
-import com.example.demo.model.User;
 import com.example.demo.dto.request.RegistrationUserRequest;
 import com.example.demo.dto.response.RegistrationUserResponse;
+import com.example.demo.dto.response.UserResponse;
+import com.example.demo.exception.RegistrationException;
+import com.example.demo.exception.UserException;
+import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.converter.Converter;
 import com.example.demo.service.impl.UserService;
@@ -23,7 +25,6 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-
 public class UserServiceTest extends TestCase {
 
     @Autowired
@@ -35,8 +36,7 @@ public class UserServiceTest extends TestCase {
     Converter<Object, Object> converter;
 
     @Before
-    public void setUp() {
-    }
+    public void setUp() {                }
 
     @Test
     public void addUser_OK() {
@@ -57,6 +57,22 @@ public class UserServiceTest extends TestCase {
         assertEquals(testResponse.getUserName(), registrationUserResponse.getUserName());
     }
 
+    @Test(expected = RegistrationException.class)
+    public void addUser_fail() {
+        User user = TestData.createUser();
+
+        RegistrationUserRequest request = new RegistrationUserRequest();
+        request.setUserName(user.getUserName());
+        request.setLogin(user.getLogin());
+        request.setPassword(user.getPassword());
+
+        doReturn(Optional.of(user))
+                .when(userRepository)
+                .findByLogin(request.getLogin());
+
+        subj.addUser(request);
+    }
+
     @Test
     public void authorizationUser_Ok() {
         User user = TestData.createUser();
@@ -67,6 +83,17 @@ public class UserServiceTest extends TestCase {
         when(userRepository.findByLogin(user.getLogin())).thenReturn(Optional.of(user));
         UserResponse userResponseReturn = subj.authorizationUser(user.getLogin());
         assertEquals(userResponse.getUserId(), userResponseReturn.getUserId());
+    }
+
+    @Test(expected = UserException.class)
+    public void authorizationUser_fail() {
+        User user = TestData.createUser();
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUserId(user.getId());
+
+        doNothing().when(userRepository.findByLogin(user.getLogin()));
+        subj.authorizationUser(user.getLogin());
     }
 
     @Test
@@ -86,6 +113,14 @@ public class UserServiceTest extends TestCase {
         assertEquals(user, returnUser);
     }
 
+    @Test(expected = UserException.class)
+    public void findUserByLogin_fail() {
+        User user = TestData.createUser();
+
+        when(userRepository.findByLogin(user.getLogin())).thenThrow(new UserException("Пользователь не найден"));
+        subj.findUserByLogin(user.getLogin());
+    }
+
     @Test
     public void findUserById_ok() {
         User user = TestData.createUser();
@@ -96,4 +131,11 @@ public class UserServiceTest extends TestCase {
         assertEquals(user, returnUser);
     }
 
+    @Test(expected = UserException.class)
+    public void findUserById_fail() {
+        User user = TestData.createUser();
+
+        when(userRepository.findById(user.getId())).thenThrow(new UserException("Пользователь не найден"));
+        subj.findUserById(user.getId());
+    }
 }

@@ -2,6 +2,7 @@ package com.example.demo.serviceTest.impl;
 
 import com.example.demo.dto.response.PrintTransferDto;
 import com.example.demo.dto.response.PrintTransferResponse;
+import com.example.demo.exception.BillException;
 import com.example.demo.model.Bill;
 import com.example.demo.model.Transfer;
 import com.example.demo.model.User;
@@ -191,6 +192,16 @@ public class TransferServiceTest extends TestCase {
         assertEquals(printTransferResponseReturn, printTransferResponseReturn);
     }
 
+    @Test(expected = BillException.class)
+    public void printTransfersByUser_FromBill_fail() {
+        User user = TestData.createUser();
+        Bill bill = TestData.createBill(user);
+        TypeBill typeFromBill = TypeBill.FROM_BILL;
+
+        when(billService.findBillById(bill.getId())).thenThrow(new BillException("Нет такого счета"));
+        subj.printTransfersByUser(bill.getId(), typeFromBill);
+    }
+
     @Test
     public void printTransfersByUser_ToBill_Ok() {
         User user = TestData.createUser();
@@ -240,4 +251,27 @@ public class TransferServiceTest extends TestCase {
 
         assertEquals(printTransferResponseReturn, printTransferResponseReturn);
     }
+
+    @Test(expected = BillException.class)
+    public void printTransfersByUser_ToBill_fail() {
+        User user = TestData.createUser();
+        Bill bill = TestData.createBill(user);
+        TypeBill typeFromBill = TypeBill.FROM_BILL;
+
+        when(billService.findBillById(bill.getId())).thenThrow(new BillException("Нет такого счета"));
+        subj.printTransfersByUser(bill.getId(), typeFromBill);
+    }
+
+    @Test(expected = Exception.class)
+    public void printTransfersByUser_ToBill_wrongType() {
+        User user = TestData.createUser();
+        Bill bill = TestData.createBill(user);
+
+        when(billService.findBillById(bill.getId())).thenReturn(bill);
+
+        TypeBill typeFromBill = TypeBill.valueOf("Error");
+
+        subj.printTransfersByUser(bill.getId(), typeFromBill);
+    }
 }
+

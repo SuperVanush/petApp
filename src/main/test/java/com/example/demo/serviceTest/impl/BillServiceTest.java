@@ -1,11 +1,14 @@
 package com.example.demo.serviceTest.impl;
 
-import com.example.demo.model.Bill;
-import com.example.demo.model.User;
 import com.example.demo.dto.request.BillRequest;
 import com.example.demo.dto.response.BillResponse;
 import com.example.demo.dto.response.PrintBillDto;
 import com.example.demo.dto.response.PrintBillResponse;
+import com.example.demo.exception.BalanceException;
+import com.example.demo.exception.BillException;
+import com.example.demo.exception.UserException;
+import com.example.demo.model.Bill;
+import com.example.demo.model.User;
 import com.example.demo.repository.BillRepository;
 import com.example.demo.service.converter.Converter;
 import com.example.demo.service.impl.BillService;
@@ -63,6 +66,16 @@ public class BillServiceTest extends TestCase {
         assertEquals(billResponseTest.getBalance(), bill.getBalance());
     }
 
+    @Test(expected = UserException.class)
+    public void addBill_fail() {
+        User user = createUser();
+        Bill bill = createBill(user);
+        BillRequest billRequest = new BillRequest(user.getId(), bill.getBillName());
+
+        when(userService.findUserById(user.getId())).thenThrow(new UserException("Пользователь не найден"));
+        subj.addBill(billRequest);
+    }
+
     @Test
     public void findBillsByUser_Ok() {
         User user = createUser();
@@ -88,6 +101,14 @@ public class BillServiceTest extends TestCase {
         assertEquals(printBillResponse1.getUserName(), printBillResponse.getUserName());
         assertEquals(printBillResponse1.getPrintBillDtoList(), printBillResponse.getPrintBillDtoList());
 
+    }
+
+    @Test(expected = UserException.class)
+    public void findBillsByUser_fail() {
+        User user = createUser();
+
+        when(userService.findUserById(user.getId())).thenThrow(new UserException("Пользователь не найден"));
+        subj.findBillsByUser(user.getId());
     }
 
     @Test
@@ -121,6 +142,15 @@ public class BillServiceTest extends TestCase {
         assertEquals(returnTestBill.getBalance(), billNewBalance.getBalance());
     }
 
+    @Test(expected = BalanceException.class)
+    public void reduceFromBillTransfer_fail() {
+        Bill billOldBalance = createBillWithoutUser();
+        billOldBalance.setBalance(BigDecimal.valueOf(50));
+        BigDecimal sumTransfer = BigDecimal.valueOf(100);
+
+        subj.reduceFromBillTransfer(billOldBalance, sumTransfer);
+    }
+
     @Test
     public void findBillById_Ok() {
         Bill bill = createBillWithoutUser();
@@ -128,5 +158,13 @@ public class BillServiceTest extends TestCase {
         when(billRepository.findById(bill.getId())).thenReturn(Optional.of(bill));
         Bill returnBill = subj.findBillById(bill.getId());
         assertEquals(bill, returnBill);
+    }
+
+    @Test(expected = BillException.class)
+    public void findBillById_fail() {
+        Bill bill = createBillWithoutUser();
+
+        when(billRepository.findById(bill.getId())).thenThrow(new BillException("Нет такого счета"));
+        subj.findBillById(bill.getId());
     }
 }

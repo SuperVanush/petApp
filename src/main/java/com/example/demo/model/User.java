@@ -12,7 +12,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "userId")
+@EqualsAndHashCode(of = "user_id")
 @Table(name = "users")
 public class User {
 

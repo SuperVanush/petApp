@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-@Component
 @Data
+@Component
 public class PrintBillResponseConverter implements Converter<User, PrintBillResponse> {
     private final Converter<Bill, PrintBillDto> printDtoBillConverter;
 

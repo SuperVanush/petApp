@@ -31,12 +31,38 @@ public class UserRepositoryTest extends TestCase {
         assertEquals(returnUser.getLogin(), returnUser.getLogin());
     }
 
+    @Test (expected = Exception.class)
+    public void findByLogin_fail() {
+        User user = createUserWithoutId();
+        User user1= createUserWithoutId();
+
+        User returnUser = subj.save(user);
+        User findUser = subj.findByLogin(user1.getLogin()).get();
+
+        assertEquals(returnUser.getId(), findUser.getId());
+        assertEquals(returnUser.getUserName(), findUser.getUserName());
+        assertEquals(returnUser.getLogin(), returnUser.getLogin());
+    }
+
     @Test
     public void findById_Ok() {
         User user = createUserWithoutId();
 
         User returnUser = subj.save(user);
         User findUser = subj.findById(returnUser.getId()).get();
+
+        assertEquals(returnUser.getId(), findUser.getId());
+        assertEquals(returnUser.getUserName(), findUser.getUserName());
+        assertEquals(returnUser.getLogin(), returnUser.getLogin());
+    }
+
+    @Test(expected = Exception.class)
+    public void findById_fail() {
+        User user = createUserWithoutId();
+        User user1= createUserWithoutId();
+
+        User returnUser = subj.save(user);
+        User findUser = subj.findById(user1.getId()).get();
 
         assertEquals(returnUser.getId(), findUser.getId());
         assertEquals(returnUser.getUserName(), findUser.getUserName());

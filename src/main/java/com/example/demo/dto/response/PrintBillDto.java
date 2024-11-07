@@ -10,8 +10,8 @@ import java.util.UUID;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class PrintBillDto {
 
     private UUID userId;

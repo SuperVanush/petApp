@@ -25,7 +25,7 @@ public class BillRepositoryTest extends TestCase {
     UserRepository userRepository;
 
     @Test
-    public void findById() {
+    public void findById_Ok() {
         User user1 = createUserWithoutId();
         User returnUser1 = userRepository.save(user1);
 
@@ -41,5 +41,24 @@ public class BillRepositoryTest extends TestCase {
         Bill findBill = subj.findById(returnBill1.getId()).get();
 
         assertEquals(returnBill1, findBill);
+    }
+
+    @Test(expected = Exception.class)
+    public void findById_fail() {
+        User user1 = createUserWithoutId();
+        User returnUser1 = userRepository.save(user1);
+
+        Bill bill1 = createBillWithoutId(returnUser1);
+
+
+        User user2 = createUserWithoutId();
+        User returnUser2 = userRepository.save(user2);
+
+        Bill bill2 = createBillWithoutId(user2);
+        Bill returnBill2 = subj.save(bill2);
+
+        Bill findBill = subj.findById(bill1.getId()).get();
+
+        assertEquals(bill1, findBill);
     }
 }

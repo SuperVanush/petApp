@@ -66,7 +66,7 @@ public class BillService implements ServiceBill {
             fromBill.setBalance(newBalance);
             billRepository.save(fromBill);
         } else {
-            throw new BalanceException("Баланс меньше ноля, попробуйте снова");
+            throw new BalanceException("Баланс меньше нуля, попробуйте снова");
         }
         return fromBill;
     }
